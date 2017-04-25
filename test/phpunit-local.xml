@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<phpunit bootstrap="localbootstrap.php"
+         colors="true"
+         printerClass="\QCubed\Test\HtmlReporter">
+	<testsuites>
+		<testsuite name="QCubed Common Unit Tests">
+			<directory>./unit</directory>
+		</testsuite>
+	</testsuites>
+</phpunit>

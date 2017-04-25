@@ -1,0 +1,12 @@
+<phpunit bootstrap="./travis-config.inc.php"
+         colors="true"
+        processIsolation="false">
+    <testsuites>
+        <testsuite name="QCubed Common Unit Test">
+            <directory>unit</directory>
+        </testsuite>
+    </testsuites>
+    <logging>
+        <log type="coverage-clover" target="build/logs/clover.xml"/>
+    </logging>
+</phpunit>

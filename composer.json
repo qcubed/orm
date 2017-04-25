@@ -1,0 +1,25 @@
+{
+  "name": "qcubed/orm",
+  "description": "Database drivers, query support, and code generator for the object relational model for QCubed",
+  "keywords": ["php", "database", "orm"],
+  "homepage": "http://qcu.be/",
+  "type": "qcubed-library",
+  "license": "MIT",
+  "support": {
+      "issues": "https://github.com/qcubed/qcubed/issues",
+      "wiki": "https://github.com/qcubed/qcubed/wiki",
+      "source": "https://github.com/qcubed/common"
+  },
+  "require": {
+      "php": ">=5.5.0",
+      "qcubed/common": "^4.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "QCubed\\Database": "src/Database",
+      "QCubed\\Query": "src/Query",
+      "QCubed\\Codegen": "src/Codegen"
+
+    }
+  }
+}
