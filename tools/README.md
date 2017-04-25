@@ -7,8 +7,8 @@ and plugins. You should not include this directory in your deployment.
 * `codegen.cli` - for Unix/Linux/Mac OS X command lines
 * `codegen.phpexe` - for Windows command line
 
-Both use the QCodeGen and related QCubed codegen libraries to do the bulk
-  of the work. They simply instantiate a QCodeGen object, execute various
+Both use the CodeGen and related QCubed codegen libraries to do the bulk
+  of the work. They simply instantiate a CodeGen object, execute various
   public methods on it to do the code generation, and create a text-based
   report of its activities, outputting it to STDOUT.
 

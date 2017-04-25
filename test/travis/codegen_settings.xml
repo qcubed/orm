@@ -36,22 +36,11 @@
 
 			<!-- Other -->
 			<stripFromTableName prefix=""/>
+            
+            <!-- Whether to automatically initialize new objects with default values from database definition -->
+            <createOptions autoInitialize="true" />
 
-            <!--
-            autoInitialize: Whether to automatically initialize new objects with default values from database definition
-            privateLocals: Whether to make the local variables that correspond to table columns private or
-                            protected. This is primarily a compatibility feature when migrating from pre-3.1.
-                            Set to false for compatibility. Setting to true will prevent you from directly accessing the
-                            variables generated in the ModelGen classes from the Model classes. The new way to access those
-                            variables is through the public get.. and set.. functions that are generated. These functions
-                            add additional checks to make sure the data from the column is valid when reading, and also will
-                            generate code that only updates the columns that have changed.
-            -->
-            <createOptions
-                    autoInitialize="true"
-            />
-
-            <!-- Specific Tables to Exclude or Include in the CodeGen process -->
+			<!-- Specific Tables to Exclude or Include in the CodeGen process -->
 			<!--
 					* "include" is used to override any "exclude" patterns or lists
 					* "list" should be a  comma-separated list of table names
@@ -60,8 +49,11 @@
 				you should set an excludeTables pattern to exclude all, or "[0-9a-zA-Z_]*".
 				And then you should set an includeTables pattern of "^qc_[0-9a-zA-Z_]*".
 			-->
-			<excludeTables pattern="" list=""/>
+			<excludeTables pattern="" list="qc_watchers"/>
 			<includeTables pattern="" list=""/>
+
+			<!-- Support for "Beta 2" version of Manual Queries and Hard Coded Column Names -->
+			<manualQuery support="false"/>
 
 			<!--
 				This feature allows you to use the comments made on the column of database table to be used as
@@ -73,7 +65,7 @@
 					   e.g. a comment like "The weight of the object" will not make use of this feature and your column property name will be used as the model connector label.
 					2. In case you HAVE TO use the delimiter in the column comment, please prepend the comment with the delimiter. eg. a
 					   comment like "The ratio (::) of weight to cost" will put the string "The ratio (" as the model connector label. To prevent this, write the same comment as ":: The ratio (::) of weight to cost".
-					3. If the delimiter occurs multiple times in the comment on the column, only the part before the first occurrence is taken as the label for model conenctor (this also explains the behavior of the above point).
+					3. If the delimiter occurs multiple times in the comment on the column, only the part before the first occurrence is taken as the label for model connector (this also explains the behavior of the above point).
 			-->
 			<columnCommentForModelConnector delimiter="" />
 			<!-- Virtual Foreign Key Relationships -->

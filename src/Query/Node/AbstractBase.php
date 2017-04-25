@@ -71,7 +71,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	abstract public function Join(Builder $objBuilder, $blnExpandSelection = false, iCondition $objJoinCondition = null, Select $objSelect = null);
 
 	/**
-	 * Return the variable type. Should be a QDatabaseFieldType enum.
+	 * Return the variable type. Should be a FieldType enum.
 	 * @return string
 	 */
 	public function GetType() {

@@ -1,4 +1,8 @@
-<?php 
+<?php
+
+This needs to be fixed!
+
+
 	// First, let's make sure that path_to_prepend.txt exists
 	$strPathToPrependTextFile = dirname(__FILE__) . '/path_to_prepend.txt';
 	if (!is_file($strPathToPrependTextFile))
@@ -27,3 +31,6 @@
 
 	// Finally, turn off output buffering
 	ob_end_flush();
+
+// Include the CodeGen class library
+require(__INCLUDES__ . '/codegen/Codegen.php');

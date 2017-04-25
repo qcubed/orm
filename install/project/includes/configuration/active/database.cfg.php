@@ -55,7 +55,7 @@ switch (SERVER_INSTANCE) {
 	case 'dev':
 		// change the info below for your database
 		define('DB_CONNECTION_1', serialize(array(
-			'adapter' => 'MySqli5',
+			'adapter' => 'Mysqli5',
 			'server' => 'db',
 			'port' => null,
 			'database' => 'qcubed',

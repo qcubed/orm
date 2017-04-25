@@ -199,17 +199,19 @@ class ExpandAsArrayTests extends \QCubed\Test\UnitTestCaseBase {
 			)
 		);
 
-		foreach ($objPersonArray as $objPerson) {
-			$this->expectException('\\QCubed\\Exception\\Caller');
-			$objPerson->FirstName; // FirstName should throw exception, since it was not selected
-			$this->expectException(null);
+		if (PHP_VERSION_ID > 50600) { // PHP unit keeps making backwards incompatible changes
+			foreach ($objPersonArray as $objPerson) {
+				$this->expectException('\\QCubed\\Exception\\Caller');
+				$objPerson->FirstName; // FirstName should throw exception, since it was not selected
+				$this->expectException(null);
 
-			$this->assertNotNull($objPerson->Id, "Id should not be null since it's always added to the select list");
-			$this->assertNotNull($objPerson->_ProjectAsManager->Id, "ProjectAsManager->Id should not be null since id's are always added to the select list");
+				$this->assertNotNull($objPerson->Id, "Id should not be null since it's always added to the select list");
+				$this->assertNotNull($objPerson->_ProjectAsManager->Id, "ProjectAsManager->Id should not be null since id's are always added to the select list");
 
-			$this->expectException('\\QCubed\\Exception\\Caller');
-			$objPerson->_ProjectAsManager->Name; // not selected
-			$this->expectException(null);
+				$this->expectException('\\QCubed\\Exception\\Caller');
+				$objPerson->_ProjectAsManager->Name; // not selected
+				$this->expectException(null);
+			}
 		}
 	}
 
@@ -223,36 +225,38 @@ class ExpandAsArrayTests extends \QCubed\Test\UnitTestCaseBase {
 			)
 		);
 
-		foreach ($objPersonArray as $objPerson) {
-			$this->expectException('\\QCubed\\Exception\\Caller');
-			$objPerson->LastName; // Should throw exception, since it was not selected
-			$this->expectException(null);
+		if (PHP_VERSION_ID > 50600) { // PHP unit keeps making backwards incompatible changes
+			foreach ($objPersonArray as $objPerson) {
+				$this->expectException('\\QCubed\\Exception\\Caller');
+				$objPerson->LastName; // Should throw exception, since it was not selected
+				$this->expectException(null);
 
-			$this->assertNotNull($objPerson->Id, "Id should not be null since it's always added to the select list");
-			if (sizeof($objPerson->_AddressArray) > 0) {
-				foreach ($objPerson->_AddressArray as $objAddress) {
-					$this->assertNotNull($objAddress->Id, "Address->Id should not be null since it's always added to the select list");
+				$this->assertNotNull($objPerson->Id, "Id should not be null since it's always added to the select list");
+				if (sizeof($objPerson->_AddressArray) > 0) {
+					foreach ($objPerson->_AddressArray as $objAddress) {
+						$this->assertNotNull($objAddress->Id, "Address->Id should not be null since it's always added to the select list");
 
-					$this->expectException('\\QCubed\\Exception\\Caller');
-					$objAddress->PersonId; // Should throw exception, since it was not selected
-					$this->expectException(null);
+						$this->expectException('\\QCubed\\Exception\\Caller');
+						$objAddress->PersonId; // Should throw exception, since it was not selected
+						$this->expectException(null);
+					}
 				}
-			}
-			if (sizeof($objPerson->_ProjectAsManagerArray) > 0) {
-				foreach($objPerson->_ProjectAsManagerArray as $objProject) {
-					$this->assertNotNull($objProject->Id, "Project->Id should not be null since it's always added to the select list");
+				if (sizeof($objPerson->_ProjectAsManagerArray) > 0) {
+					foreach ($objPerson->_ProjectAsManagerArray as $objProject) {
+						$this->assertNotNull($objProject->Id, "Project->Id should not be null since it's always added to the select list");
 
-					$this->expectException('\\QCubed\\Exception\\Caller');
-					$objProject->Name; // Should throw exception, since it was not selected
-					$this->expectException(null);
+						$this->expectException('\\QCubed\\Exception\\Caller');
+						$objProject->Name; // Should throw exception, since it was not selected
+						$this->expectException(null);
 
-					if (sizeof($objProject->_MilestoneArray) > 0) {
-						foreach ($objProject->_MilestoneArray as $objMilestone) {
-							$this->assertNotNull($objMilestone->Id, "Milestone->Id should not be null since it's always added to the select list");
+						if (sizeof($objProject->_MilestoneArray) > 0) {
+							foreach ($objProject->_MilestoneArray as $objMilestone) {
+								$this->assertNotNull($objMilestone->Id, "Milestone->Id should not be null since it's always added to the select list");
 
-							$this->expectException('\\QCubed\\Exception\\Caller');
-							$objMilestone->ProjectId; // Should throw exception, since it was not selected
-							$this->expectException(null);
+								$this->expectException('\\QCubed\\Exception\\Caller');
+								$objMilestone->ProjectId; // Should throw exception, since it was not selected
+								$this->expectException(null);
+							}
 						}
 					}
 				}

@@ -81,11 +81,7 @@ abstract class <?= $objTable->ClassName ?>Gen extends \QCubed\AbstractBase imple
     //////////////////////////
     // SAVE, DELETE AND RELOAD
     //////////////////////////
-<?php if ($objCodeGen->PrivateColumnVars) { ?>
     <?php include("object_save.tpl.php"); ?>
-<?php } else { ?>
-    <?php include("object_save.30.tpl.php"); ?>
-<?php } ?>
 
     <?php include("object_delete.tpl.php"); ?>
 

@@ -13,5 +13,8 @@
 	// Running as a Windows Command Name
 	$strCommandName = 'c:\\php\\php.exe codegen.phpexe';
 
+// Call the CLI prepend.inc.php
+require('cli_prepend.inc.php');
+
 	// Include the rest of the OS-agnostic script
-	require('codegen.inc.php');
+	require('codegen.cli.php');

@@ -1,4 +1,11 @@
 {
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/qcubed/common"
+    }
+  ],
+
   "name": "qcubed/orm",
   "description": "Database drivers, query support, and code generator for the object relational model for QCubed",
   "keywords": ["php", "database", "orm"],
@@ -12,14 +19,14 @@
   },
   "require": {
       "php": ">=5.5.0",
-      "qcubed/common": "^4.0"
+      "qcubed/common": "dev-master"
+  },
+  "require-dev" : {
+    "phpunit/phpunit": "~4.8|~5.0"
   },
   "autoload": {
     "psr-4": {
-      "QCubed\\Database": "src/Database",
-      "QCubed\\Query": "src/Query",
-      "QCubed\\Codegen": "src/Codegen"
-
+      "QCubed\\": "src/"
     }
   }
 }

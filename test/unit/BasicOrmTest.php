@@ -213,10 +213,12 @@ class BasicOrmTests extends \QCubed\Test\UnitTestCaseBase {
 	public function testQuerySelectSubset() {
 		$objPersonArray = Person::LoadAll(QQ::Select(QQN::Person()->FirstName));
 		foreach ($objPersonArray as $objPerson) {
-			$this->expectException('\\QCubed\\Exception\\Caller');
-			$this->expectExceptionMessageRegExp('/LastName .* is not valid./');
-			$objPerson->LastName;
-			$this->expectException(null);
+			if (PHP_VERSION_ID > 50600) { // PHP unit keeps making backwards incompatible changes
+				$this->expectException('\\QCubed\\Exception\\Caller');
+				$this->expectExceptionMessageRegExp('/LastName .* is not valid./');
+				$objPerson->LastName;
+				$this->expectException(null);
+			}
 
 			// If we now set the last name, we should be able to get it
 			$objPerson->LastName = "Test";
@@ -237,12 +239,14 @@ class BasicOrmTests extends \QCubed\Test\UnitTestCaseBase {
 		$objSelect = QQ::Select(QQN::Person()->FirstName);
 		$objSelect->SetSkipPrimaryKey(true);
 		$objPersonArray = Person::LoadAll($objSelect);
-		foreach ($objPersonArray as $objPerson) {
-			$this->expectException('\\QCubed\\Exception\\Caller');
-			$this->expectExceptionMessageRegExp('/LastName .* is not valid./');
-			$objPerson->LastName;
-			$this->expectException(null);
-			$this->assertNull($objPerson->Id, "Id should be null since SkipPrimaryKey is set on the Select object");
+		if (PHP_VERSION_ID > 50600) { // PHP unit keeps making backwards incompatible changes
+			foreach ($objPersonArray as $objPerson) {
+				$this->expectException('\\QCubed\\Exception\\Caller');
+				$this->expectExceptionMessageRegExp('/LastName .* is not valid./');
+				$objPerson->LastName;
+				$this->expectException(null);
+				$this->assertNull($objPerson->Id, "Id should be null since SkipPrimaryKey is set on the Select object");
+			}
 		}
 	}
 
