@@ -34,7 +34,7 @@ class GroupBy extends AbstractBase implements ClauseInterface {
 	 * @throws Caller
 	 * @throws InvalidCast
 	 */
-	protected function CollapseNodes($mixParameterArray) {
+	protected function collapseNodes($mixParameterArray) {
 		$objNodeArray = array();
 		foreach ($mixParameterArray as $mixParameter) {
 			if (is_array($mixParameter)) {
@@ -67,12 +67,12 @@ class GroupBy extends AbstractBase implements ClauseInterface {
 			throw new Caller('No parameters passed in to Expand clause', 3);
 	}
 	public function __construct($mixParameterArray) {
-		$this->objNodeArray = $this->CollapseNodes($mixParameterArray);
+		$this->objNodeArray = $this->collapseNodes($mixParameterArray);
 	}
-	public function UpdateQueryBuilder(Builder $objBuilder) {
+	public function updateQueryBuilder(Builder $objBuilder) {
 		$intLength = count($this->objNodeArray);
 		for ($intIndex = 0; $intIndex < $intLength; $intIndex++)
-			$objBuilder->AddGroupByItem($this->objNodeArray[$intIndex]->GetColumnAlias($objBuilder));
+			$objBuilder->addGroupByItem($this->objNodeArray[$intIndex]->getColumnAlias($objBuilder));
 	}
 	public function __toString() {
 		return 'GroupBy Clause';

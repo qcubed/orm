@@ -24,7 +24,7 @@ if (!defined('MYSQLI_ON_UPDATE_NOW_FLAG')) {
  * @was QMySqliDatabase
  */
 class MysqliDatabase extends AbstractBase {
-	const Adapter = 'MySql Improved Database Adapter for MySQL 4';
+	const ADAPTER = 'MySql Improved Database Adapter for MySQL 4';
 
 	/** @var  \MySqli */
 	protected $objMySqli;
@@ -32,7 +32,7 @@ class MysqliDatabase extends AbstractBase {
 	protected $strEscapeIdentifierBegin = '`';
 	protected $strEscapeIdentifierEnd = '`';
 
-	public function SqlLimitVariablePrefix($strLimitInfo) {
+	public function sqlLimitVariablePrefix($strLimitInfo) {
 		// MySQL uses Limit by Suffixes (via a LIMIT clause)
 
 		// If requested, use SQL_CALC_FOUND_ROWS directive to utilize GetFoundRows() method
@@ -42,7 +42,7 @@ class MysqliDatabase extends AbstractBase {
 		return null;
 	}
 
-	public function SqlLimitVariableSuffix($strLimitInfo) {
+	public function sqlLimitVariableSuffix($strLimitInfo) {
 		// Setup limit suffix (if applicable) via a LIMIT clause
 		if (strlen($strLimitInfo)) {
 			if (strpos($strLimitInfo, ';') !== false)
@@ -55,7 +55,7 @@ class MysqliDatabase extends AbstractBase {
 		return null;
 	}
 
-	public function SqlSortByVariable($strSortByInfo) {
+	public function sqlSortByVariable($strSortByInfo) {
 		// Setup sorting information (if applicable) via a ORDER BY clause
 		if (strlen($strSortByInfo)) {
 			if (strpos($strSortByInfo, ';') !== false)
@@ -69,8 +69,8 @@ class MysqliDatabase extends AbstractBase {
 		return null;
 	}
 
-	public function InsertOrUpdate($strTable, $mixColumnsAndValuesArray, $strPKNames = null) {
-		$strEscapedArray = $this->EscapeIdentifiersAndValues($mixColumnsAndValuesArray);
+	public function insertOrUpdate($strTable, $mixColumnsAndValuesArray, $strPKNames = null) {
+		$strEscapedArray = $this->escapeIdentifiersAndValues($mixColumnsAndValuesArray);
 		$strUpdateStatement = '';
 		foreach ($strEscapedArray as $strColumn => $strValue) {
 			if ($strUpdateStatement) $strUpdateStatement .= ', ';
@@ -82,10 +82,10 @@ class MysqliDatabase extends AbstractBase {
 			implode(', ', array_values($strEscapedArray)),
 			$strUpdateStatement
 		);
-		$this->ExecuteNonQuery($strSql);
+		$this->executeNonQuery($strSql);
 	}
 
-	public function Connect() {
+	public function connect() {
 		// Connect to the Database Server
 		$this->objMySqli = new \MySqli($this->Server, $this->Username, $this->Password, $this->Database, $this->Port);
 
@@ -99,11 +99,11 @@ class MysqliDatabase extends AbstractBase {
 		$this->blnConnectedFlag = true;
 
 		// Set to AutoCommit
-		$this->NonQuery('SET AUTOCOMMIT=1;');
+		$this->nonQuery('SET AUTOCOMMIT=1;');
 
 		// Set NAMES (if applicable)
 		if (array_key_exists('encoding', $this->objConfigArray))
-			$this->NonQuery('SET NAMES ' . $this->objConfigArray['encoding'] . ';');
+			$this->nonQuery('SET NAMES ' . $this->objConfigArray['encoding'] . ';');
 	}
 
 	public function __get($strName) {
@@ -114,7 +114,7 @@ class MysqliDatabase extends AbstractBase {
 				try {
 					return parent::__get($strName);
 				} catch (Caller $objExc) {
-					$objExc->IncrementOffset();
+					$objExc->incrementOffset();
 					throw $objExc;
 				}
 		}
@@ -125,7 +125,7 @@ class MysqliDatabase extends AbstractBase {
 	 * @return MysqliResult
 	 * @throws MysqliException
 	 */
-	protected function ExecuteQuery($strQuery) {
+	protected function executeQuery($strQuery) {
 		// Perform the Query
 		$objResult = $this->objMySqli->query($strQuery);
 		if ($this->objMySqli->error)
@@ -136,89 +136,89 @@ class MysqliDatabase extends AbstractBase {
 		return $objMySqliDatabaseResult;
 	}
 
-	protected function ExecuteNonQuery($strNonQuery) {
+	protected function executeNonQuery($strNonQuery) {
 		// Perform the Query
 		$this->objMySqli->query($strNonQuery);
 		if ($this->objMySqli->error)
 			throw new MysqliException($this->objMySqli->error, $this->objMySqli->errno, $strNonQuery);
 	}
 
-	public function GetTables() {
+	public function getTables() {
 		// Use the MySQL "SHOW TABLES" functionality to get a list of all the tables in this database
-		$objResult = $this->Query("SHOW TABLES");
+		$objResult = $this->query("SHOW TABLES");
 		$strToReturn = array();
-		while ($strRowArray = $objResult->FetchRow())
+		while ($strRowArray = $objResult->fetchRow())
 			array_push($strToReturn, $strRowArray[0]);
 		return $strToReturn;
 	}
 
-	public function GetFieldsForTable($strTableName) {
-		$objResult = $this->Query(sprintf('SELECT * FROM %s%s%s LIMIT 1', $this->strEscapeIdentifierBegin, $strTableName, $this->strEscapeIdentifierEnd));
-		return $objResult->FetchFields();
+	public function getFieldsForTable($strTableName) {
+		$objResult = $this->query(sprintf('SELECT * FROM %s%s%s LIMIT 1', $this->strEscapeIdentifierBegin, $strTableName, $this->strEscapeIdentifierEnd));
+		return $objResult->fetchFields();
 	}
 
-	public function InsertId($strTableName = null, $strColumnName = null) {
+	public function insertId($strTableName = null, $strColumnName = null) {
 		return $this->objMySqli->insert_id;
 	}
 
-	public function Close() {
+	public function close() {
 		$this->objMySqli->close();
 
 		// Update Connected Flag
 		$this->blnConnectedFlag = false;
 	}
 
-	protected function ExecuteTransactionBegin() {
+	protected function executeTransactionBegin() {
 		// Set to AutoCommit
-		$this->NonQuery('SET AUTOCOMMIT=0;');
+		$this->nonQuery('SET AUTOCOMMIT=0;');
 	}
 
-	protected function ExecuteTransactionCommit() {
-		$this->NonQuery('COMMIT;');
+	protected function executeTransactionCommit() {
+		$this->nonQuery('COMMIT;');
 		// Set to AutoCommit
-		$this->NonQuery('SET AUTOCOMMIT=1;');
+		$this->nonQuery('SET AUTOCOMMIT=1;');
 	}
 
-	protected function ExecuteTransactionRollBack() {
-		$this->NonQuery('ROLLBACK;');
+	protected function executeTransactionRollBack() {
+		$this->nonQuery('ROLLBACK;');
 		// Set to AutoCommit
-		$this->NonQuery('SET AUTOCOMMIT=1;');
+		$this->nonQuery('SET AUTOCOMMIT=1;');
 	}
 
-	public function GetFoundRows() {
+	public function getFoundRows() {
 		if (array_key_exists('usefoundrows', $this->objConfigArray) && $this->objConfigArray['usefoundrows']) {
-			$objResult = $this->Query('SELECT FOUND_ROWS();');
-			$strRow = $objResult->FetchArray();
+			$objResult = $this->query('SELECT FOUND_ROWS();');
+			$strRow = $objResult->fetchArray();
 			return $strRow[0];
 		} else
 			throw new Caller('Cannot call GetFoundRows() on the database when "usefoundrows" configuration was not set to true.');
 	}
 
-	public function GetIndexesForTable($strTableName) {
+	public function getIndexesForTable($strTableName) {
 		// Figure out the Table Type (InnoDB, MyISAM, etc.) by parsing the Create Table description
-		$strCreateStatement = $this->GetCreateStatementForTable($strTableName);
-		$strTableType = $this->GetTableTypeForCreateStatement($strCreateStatement);
+		$strCreateStatement = $this->getCreateStatementForTable($strTableName);
+		$strTableType = $this->getTableTypeForCreateStatement($strCreateStatement);
 
 		switch (true) {
 			case substr($strTableType, 0, 6) == 'MYISAM':
-				return $this->ParseForIndexes($strCreateStatement);
+				return $this->parseForIndexes($strCreateStatement);
 
 			case substr($strTableType, 0, 6) == 'INNODB':
-				return $this->ParseForIndexes($strCreateStatement);
+				return $this->parseForIndexes($strCreateStatement);
 
 			case substr($strTableType, 0, 6) == 'MEMORY':
 			case substr($strTableType, 0, 4) == 'HEAP':
-				return $this->ParseForIndexes($strCreateStatement);
+				return $this->parseForIndexes($strCreateStatement);
 
 			default:
 				throw new \Exception("Table Type is not supported: $strTableType");
 		}
 	}
 
-	public function GetForeignKeysForTable($strTableName) {
+	public function getForeignKeysForTable($strTableName) {
 		// Figure out the Table Type (InnoDB, MyISAM, etc.) by parsing the Create Table description
-		$strCreateStatement = $this->GetCreateStatementForTable($strTableName);
-		$strTableType = $this->GetTableTypeForCreateStatement($strCreateStatement);
+		$strCreateStatement = $this->getCreateStatementForTable($strTableName);
+		$strTableType = $this->getTableTypeForCreateStatement($strCreateStatement);
 
 		switch (true) {
 			case substr($strTableType, 0, 6) == 'MYISAM':
@@ -231,7 +231,7 @@ class MysqliDatabase extends AbstractBase {
 				break;
 
 			case substr($strTableType, 0, 6) == 'INNODB':
-				$objForeignKeyArray = $this->ParseForInnoDbForeignKeys($strCreateStatement);
+				$objForeignKeyArray = $this->parseForInnoDbForeignKeys($strCreateStatement);
 				break;
 
 			default:
@@ -243,7 +243,7 @@ class MysqliDatabase extends AbstractBase {
 
 	// MySql defines KeyDefinition to be [OPTIONAL_NAME] ([COL], ...)
 	// If the key name exists, this will parse it out and return it
-	private function ParseNameFromKeyDefinition($strKeyDefinition) {
+	private function parseNameFromKeyDefinition($strKeyDefinition) {
 		$strKeyDefinition = trim($strKeyDefinition);
 
 		$intPosition = strpos($strKeyDefinition, '(');
@@ -266,7 +266,7 @@ class MysqliDatabase extends AbstractBase {
 
 	// MySql defines KeyDefinition to be [OPTIONAL_NAME] ([COL], ...)
 	// This will return an array of strings that are the names [COL], etc.
-	private function ParseColumnNameArrayFromKeyDefinition($strKeyDefinition) {
+	private function parseColumnNameArrayFromKeyDefinition($strKeyDefinition) {
 		$strKeyDefinition = trim($strKeyDefinition);
 
 		// Get rid of the opening "(" and the closing ")"
@@ -297,7 +297,7 @@ class MysqliDatabase extends AbstractBase {
 		return $strToReturn;
 	}
 
-	private function ParseForIndexes($strCreateStatement) {
+	private function parseForIndexes($strCreateStatement) {
 		// MySql nicely splits each object in a table into it's own line
 		// Split the create statement into lines, and then pull out anything
 		// that says "PRIMARY KEY", "UNIQUE KEY", or just plain ol' "KEY"
@@ -315,8 +315,8 @@ class MysqliDatabase extends AbstractBase {
 				case (strpos($strLine, 'PRIMARY KEY')):
 					$strKeyDefinition = substr($strLine, strlen('  PRIMARY KEY '));
 
-					$strKeyName = $this->ParseNameFromKeyDefinition($strKeyDefinition);
-					$strColumnNameArray = $this->ParseColumnNameArrayFromKeyDefinition($strKeyDefinition);
+					$strKeyName = $this->parseNameFromKeyDefinition($strKeyDefinition);
+					$strColumnNameArray = $this->parseColumnNameArrayFromKeyDefinition($strKeyDefinition);
 
 					$objIndex = new Index($strKeyName, $blnPrimaryKey = true, $blnUnique = true, $strColumnNameArray);
 					array_push($objIndexArray, $objIndex);
@@ -325,8 +325,8 @@ class MysqliDatabase extends AbstractBase {
 				case (strpos($strLine, 'UNIQUE KEY')):
 					$strKeyDefinition = substr($strLine, strlen('  UNIQUE KEY '));
 
-					$strKeyName = $this->ParseNameFromKeyDefinition($strKeyDefinition);
-					$strColumnNameArray = $this->ParseColumnNameArrayFromKeyDefinition($strKeyDefinition);
+					$strKeyName = $this->parseNameFromKeyDefinition($strKeyDefinition);
+					$strColumnNameArray = $this->parseColumnNameArrayFromKeyDefinition($strKeyDefinition);
 
 					$objIndex = new Index($strKeyName, $blnPrimaryKey = false, $blnUnique = true, $strColumnNameArray);
 					array_push($objIndexArray, $objIndex);
@@ -335,8 +335,8 @@ class MysqliDatabase extends AbstractBase {
 				case (strpos($strLine, 'KEY')):
 					$strKeyDefinition = substr($strLine, strlen('  KEY '));
 
-					$strKeyName = $this->ParseNameFromKeyDefinition($strKeyDefinition);
-					$strColumnNameArray = $this->ParseColumnNameArrayFromKeyDefinition($strKeyDefinition);
+					$strKeyName = $this->parseNameFromKeyDefinition($strKeyDefinition);
+					$strColumnNameArray = $this->parseColumnNameArrayFromKeyDefinition($strKeyDefinition);
 
 					$objIndex = new Index($strKeyName, $blnPrimaryKey = false, $blnUnique = false, $strColumnNameArray);
 					array_push($objIndexArray, $objIndex);
@@ -347,7 +347,7 @@ class MysqliDatabase extends AbstractBase {
 		return $objIndexArray;
 	}
 
-	private function ParseForInnoDbForeignKeys($strCreateStatement) {
+	private function parseForInnoDbForeignKeys($strCreateStatement) {
 		// MySql nicely splits each object in a table into it's own line
 		// Split the create statement into lines, and then pull out anything
 		// that starts with "CONSTRAINT" and contains "FOREIGN KEY"
@@ -383,10 +383,10 @@ class MysqliDatabase extends AbstractBase {
 				// parsed column name list
 				if (substr($strTokenArray[0], 0, 1) == '`')
 					$strTokenArray[0] = substr($strTokenArray[0], 1, strlen($strTokenArray[0]) - 2);
-				$strTokenArray[1] = $this->ParseColumnNameArrayFromKeyDefinition($strTokenArray[1]);
+				$strTokenArray[1] = $this->parseColumnNameArrayFromKeyDefinition($strTokenArray[1]);
 				if (substr($strTokenArray[2], 0, 1) == '`')
 					$strTokenArray[2] = substr($strTokenArray[2], 1, strlen($strTokenArray[2]) - 2);
-				$strTokenArray[3] = $this->ParseColumnNameArrayFromKeyDefinition($strTokenArray[3]);
+				$strTokenArray[3] = $this->parseColumnNameArrayFromKeyDefinition($strTokenArray[3]);
 
 				// Create the FK object and add it to the return array
 				$objForeignKey = new ForeignKey($strTokenArray[0], $strTokenArray[1], $strTokenArray[2], $strTokenArray[3]);
@@ -401,16 +401,16 @@ class MysqliDatabase extends AbstractBase {
 		return $objForeignKeyArray;
 	}
 
-	private function GetCreateStatementForTable($strTableName) {
+	private function getCreateStatementForTable($strTableName) {
 		// Use the MySQL "SHOW CREATE TABLE" functionality to get the table's Create statement
-		$objResult = $this->Query(sprintf('SHOW CREATE TABLE `%s`', $strTableName));
-		$objRow = $objResult->FetchRow();
+		$objResult = $this->query(sprintf('SHOW CREATE TABLE `%s`', $strTableName));
+		$objRow = $objResult->fetchRow();
 		$strCreateTable = $objRow[1];
 		$strCreateTable = str_replace("\r", "", $strCreateTable);
 		return $strCreateTable;
 	}
 
-	private function GetTableTypeForCreateStatement($strCreateStatement) {
+	private function getTableTypeForCreateStatement($strCreateStatement) {
 		// Table Type is in the last line of the Create Statement, "TYPE=DbTableType"
 		$strLineArray = explode("\n", $strCreateStatement);
 		$strFinalLine = strtoupper($strLineArray[count($strLineArray) - 1]);
@@ -428,14 +428,14 @@ class MysqliDatabase extends AbstractBase {
 	 * @param string $sql
 	 * @return MysqliResult
 	 */
-	public function ExplainStatement($sql) {
+	public function explainStatement($sql) {
 		// As of MySQL 5.6.3, EXPLAIN provides information about
 		// SELECT, DELETE, INSERT, REPLACE, and UPDATE statements.
 		// Before MySQL 5.6.3, EXPLAIN provides information only about SELECT statements.
 
-		$objDbResult = $this->Query("select version()");
-		$strDbRow = $objDbResult->FetchRow();
-		$strVersion = Type::Cast($strDbRow[0], Type::String);
+		$objDbResult = $this->query("select version()");
+		$strDbRow = $objDbResult->fetchRow();
+		$strVersion = Type::cast($strDbRow[0], Type::String);
 		$strVersionArray = explode('.', $strVersion);
 		$strMajorVersion = null;
 		if (count($strVersionArray) > 0) {
@@ -445,7 +445,7 @@ class MysqliDatabase extends AbstractBase {
 			return null;
 		}
 		if (intval($strMajorVersion) > 5) {
-			return $this->Query("EXPLAIN " . $sql);
+			return $this->query("EXPLAIN " . $sql);
 		} else if (5 == intval($strMajorVersion)) {
 			$strMinorVersion = null;
 			if (count($strVersionArray) > 1) {
@@ -455,7 +455,7 @@ class MysqliDatabase extends AbstractBase {
 				return null;
 			}
 			if (intval($strMinorVersion) > 6) {
-				return $this->Query("EXPLAIN " . $sql);
+				return $this->query("EXPLAIN " . $sql);
 			} else if (6 == intval($strMinorVersion)) {
 				$strSubMinorVersion = null;
 				if (count($strVersionArray) > 2) {
@@ -478,7 +478,7 @@ class MysqliDatabase extends AbstractBase {
 					}
 				}
 				if (intval($strSubMinorVersion) > 2) {
-					return $this->Query("EXPLAIN " . $sql);
+					return $this->query("EXPLAIN " . $sql);
 				} else {
 					// We have the version before 5.6.3
 					// let's check if it is SELECT-only request
@@ -487,7 +487,7 @@ class MysqliDatabase extends AbstractBase {
 						0 == substr_count($sql, "REPLACE") &&
 						0 == substr_count($sql, "UPDATE")
 					) {
-						return $this->Query("EXPLAIN " . $sql);
+						return $this->query("EXPLAIN " . $sql);
 					}
 				}
 			}

@@ -56,7 +56,7 @@ abstract class Table extends AbstractBase {
 	 * @param Clause\Select|null $objSelect
 	 * @throws Caller
 	 */
-	public function Join(Builder $objBuilder, $blnExpandSelection = false, iCondition $objJoinCondition = null, Clause\Select $objSelect = null) {
+	public function join(Builder $objBuilder, $blnExpandSelection = false, iCondition $objJoinCondition = null, Clause\Select $objSelect = null) {
 		$objParentNode = $this->objParentNode;
 		if (!$objParentNode) {
 			if ($this->strTableName != $objBuilder->RootTableName) {
@@ -68,29 +68,29 @@ abstract class Table extends AbstractBase {
 			// The condition must be testing against the primary key of the joined table.
 			if ($objJoinCondition &&
 				$this->objParentNode instanceof Association &&
-				$objJoinCondition->EqualTables($this->objParentNode->FullAlias())) {
+				$objJoinCondition->equalTables($this->objParentNode->fullAlias())) {
 
-				$objParentNode->Join($objBuilder, $blnExpandSelection, $objJoinCondition, $objSelect);
+				$objParentNode->join($objBuilder, $blnExpandSelection, $objJoinCondition, $objSelect);
 				$objJoinCondition = null; // prevent passing join condition to this level
 			} else {
-				$objParentNode->Join($objBuilder, $blnExpandSelection, null, $objSelect);
-				if ($objJoinCondition && !$objJoinCondition->EqualTables($this->FullAlias())) {
+				$objParentNode->join($objBuilder, $blnExpandSelection, null, $objSelect);
+				if ($objJoinCondition && !$objJoinCondition->equalTables($this->fullAlias())) {
 					throw new Caller("The join condition on the \"" . $this->strTableName . "\" table must only contain conditions for that table.");
 				}
 			}
 
 			try {
-				$strParentAlias = $objParentNode->FullAlias();
-				$strAlias = $this->FullAlias();
+				$strParentAlias = $objParentNode->fullAlias();
+				$strAlias = $this->fullAlias();
 				//$strJoinTableAlias = $strParentAlias . '__' . ($this->strAlias ? $this->strAlias : $this->strName);
-				$objBuilder->AddJoinItem($this->strTableName, $strAlias,
+				$objBuilder->addJoinItem($this->strTableName, $strAlias,
 					$strParentAlias, $this->strName, $this->strPrimaryKey, $objJoinCondition);
 
 				if ($blnExpandSelection) {
-					$this->PutSelectFields($objBuilder, $strAlias, $objSelect);
+					$this->putSelectFields($objBuilder, $strAlias, $objSelect);
 				}
 			} catch (Caller $objExc) {
-				$objExc->IncrementOffset();
+				$objExc->incrementOffset();
 				throw $objExc;
 			}
 		}

@@ -222,7 +222,7 @@ class ManyToManyReference extends \QCubed\AbstractBase {
 				try {
 					return parent::__get($strName);
 				} catch (Caller $objExc) {
-					$objExc->IncrementOffset();
+					$objExc->incrementOffset();
 					throw $objExc;
 				}
 		}
@@ -241,46 +241,46 @@ class ManyToManyReference extends \QCubed\AbstractBase {
 		try {
 			switch ($strName) {
 				case 'KeyName':
-					return $this->strKeyName = Type::Cast($mixValue, Type::String);
+					return $this->strKeyName = Type::cast($mixValue, Type::String);
 				case 'Table':
-					return $this->strTable = Type::Cast($mixValue, Type::String);
+					return $this->strTable = Type::cast($mixValue, Type::String);
 				case 'Column':
-					return $this->strColumn = Type::Cast($mixValue, Type::String);
+					return $this->strColumn = Type::cast($mixValue, Type::String);
 				case 'PropertyName':
-					return $this->strPropertyName = Type::Cast($mixValue, Type::String);
+					return $this->strPropertyName = Type::cast($mixValue, Type::String);
 				case 'OppositeColumn':
-					return $this->strOppositeColumn = Type::Cast($mixValue, Type::String);
+					return $this->strOppositeColumn = Type::cast($mixValue, Type::String);
 				case 'OppositeVariableType':
-					return $this->strOppositeVariableType = Type::Cast($mixValue, Type::String);
+					return $this->strOppositeVariableType = Type::cast($mixValue, Type::String);
 				case 'OppositeDbType':
-					return $this->strOppositeDbType = Type::Cast($mixValue, Type::String);
+					return $this->strOppositeDbType = Type::cast($mixValue, Type::String);
 				case 'OppositeVariableName':
-					return $this->strOppositeVariableName = Type::Cast($mixValue, Type::String);
+					return $this->strOppositeVariableName = Type::cast($mixValue, Type::String);
 				case 'OppositePropertyName':
-					return $this->strOppositePropertyName = Type::Cast($mixValue, Type::String);
+					return $this->strOppositePropertyName = Type::cast($mixValue, Type::String);
 				case 'OppositeObjectDescription':
-					return $this->strOppositeObjectDescription = Type::Cast($mixValue, Type::String);
+					return $this->strOppositeObjectDescription = Type::cast($mixValue, Type::String);
 				case 'AssociatedTable':
-					return $this->strAssociatedTable = Type::Cast($mixValue, Type::String);
+					return $this->strAssociatedTable = Type::cast($mixValue, Type::String);
 				case 'VariableName':
-					return $this->strVariableName = Type::Cast($mixValue, Type::String);
+					return $this->strVariableName = Type::cast($mixValue, Type::String);
 				case 'VariableType':
-					return $this->strVariableType = Type::Cast($mixValue, Type::String);
+					return $this->strVariableType = Type::cast($mixValue, Type::String);
 				case 'ObjectDescription':
-					return $this->strObjectDescription = Type::Cast($mixValue, Type::String);
+					return $this->strObjectDescription = Type::cast($mixValue, Type::String);
 				case 'ObjectDescriptionPlural':
-					return $this->strObjectDescriptionPlural = Type::Cast($mixValue, Type::String);
+					return $this->strObjectDescriptionPlural = Type::cast($mixValue, Type::String);
 				case 'ColumnArray':
-					return $this->objColumnArray = Type::Cast($mixValue, Type::ArrayType);
+					return $this->objColumnArray = Type::cast($mixValue, Type::ArrayType);
 				case 'IsTypeAssociation':
-					return $this->blnIsTypeAssociation = Type::Cast($mixValue, Type::Boolean);
+					return $this->blnIsTypeAssociation = Type::cast($mixValue, Type::Boolean);
 				case 'Options':
-					return $this->options = Type::Cast($mixValue, Type::ArrayType);
+					return $this->options = Type::cast($mixValue, Type::ArrayType);
 				default:
 					return parent::__set($strName, $mixValue);
 			}
 		} catch (Caller $objExc) {
-			$objExc->IncrementOffset();
+			$objExc->incrementOffset();
 			throw $objExc;
 		}
 	}

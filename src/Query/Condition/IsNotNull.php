@@ -26,7 +26,7 @@ class IsNotNull extends AbstractComparison {
 	/**
 	 * @param Builder $objBuilder
 	 */
-	public function UpdateQueryBuilder(Builder $objBuilder) {
-		$objBuilder->AddWhereItem($this->objQueryNode->GetColumnAlias($objBuilder) . ' IS NOT NULL');
+	public function updateQueryBuilder(Builder $objBuilder) {
+		$objBuilder->addWhereItem($this->objQueryNode->getColumnAlias($objBuilder) . ' IS NOT NULL');
 	}
 }

@@ -25,20 +25,20 @@ class Field extends AbstractField {
 	 * @param null $objDb
 	 */
 	public function __construct(Row $mixFieldData, $objDb = null) {
-		$this->strName = $mixFieldData->GetColumn('column_name');
+		$this->strName = $mixFieldData->getColumn('column_name');
 		$this->strOriginalName = $this->strName;
-		$this->strTable = $mixFieldData->GetColumn('table_name');
+		$this->strTable = $mixFieldData->getColumn('table_name');
 		$this->strOriginalTable = $this->strTable;
-		$this->strDefault = $mixFieldData->GetColumn('column_default');
-		$this->intMaxLength = $mixFieldData->GetColumn('character_maximum_length', FieldType::Integer);
-		$this->blnNotNull = ($mixFieldData->GetColumn('is_nullable') == "NO") ? true : false;
+		$this->strDefault = $mixFieldData->getColumn('column_default');
+		$this->intMaxLength = $mixFieldData->getColumn('character_maximum_length', FieldType::Integer);
+		$this->blnNotNull = ($mixFieldData->getColumn('is_nullable') == "NO") ? true : false;
 
 		// If this column was created as SERIAL and is a simple (non-composite) primary key
 		// then we assume it's the identity field.
 		// Otherwise, no identity field will be set for this table.
 		$this->blnIdentity = false;
-		if ($mixFieldData->GetColumn('is_serial') == 't') {
-			$objIndexes = $objDb->GetIndexesForTable($this->strTable);
+		if ($mixFieldData->getColumn('is_serial') == 't') {
+			$objIndexes = $objDb->getIndexesForTable($this->strTable);
 			foreach ($objIndexes as $objIndex) {
 				if ($objIndex->PrimaryKey) {
 					$columns = $objIndex->ColumnNameArray;
@@ -49,7 +49,7 @@ class Field extends AbstractField {
 		}
 
 		// Determine Primary Key
-		$objResult = $objDb->Query(sprintf('
+		$objResult = $objDb->query(sprintf('
 				SELECT 
 					kcu.column_name 
 				FROM 
@@ -67,10 +67,10 @@ class Field extends AbstractField {
 					kcu.table_schema = tc.table_schema 
 				AND 
 					kcu.constraint_name = tc.constraint_name
-			', $objDb->SqlVariable($this->strTable)));
+			', $objDb->sqlVariable($this->strTable)));
 
-		while ($objRow = $objResult->GetNextRow()) {
-			if ($objRow->GetColumn('column_name') == $this->strName)
+		while ($objRow = $objResult->getNextRow()) {
+			if ($objRow->getColumn('column_name') == $this->strName)
 				$this->blnPrimaryKey = true;
 		}
 
@@ -78,7 +78,7 @@ class Field extends AbstractField {
 			$this->blnPrimaryKey = false;
 
 		// UNIQUE
-		$objResult = $objDb->Query(sprintf('
+		$objResult = $objDb->query(sprintf('
 				SELECT 
 					kcu.column_name, (SELECT COUNT(*) FROM information_schema.key_column_usage kcu2 WHERE kcu2.constraint_name=kcu.constraint_name ) as unique_fields 
 				FROM 
@@ -98,16 +98,16 @@ class Field extends AbstractField {
 					kcu.constraint_name = tc.constraint_name
 				GROUP BY 
 					kcu.constraint_name, kcu.column_name
-			', $objDb->SqlVariable($this->strTable)));
-		while ($objRow = $objResult->GetNextRow()) {
-			if ($objRow->GetColumn('column_name') == $this->strName && $objRow->GetColumn('unique_fields') == '1' )
+			', $objDb->sqlVariable($this->strTable)));
+		while ($objRow = $objResult->getNextRow()) {
+			if ($objRow->getColumn('column_name') == $this->strName && $objRow->getColumn('unique_fields') == '1' )
 				$this->blnUnique = true;
 		}
 		if (!$this->blnUnique)
 			$this->blnUnique = false;
 
 		// Determine Type
-		$this->strType = $mixFieldData->GetColumn('data_type');
+		$this->strType = $mixFieldData->getColumn('data_type');
 
 		switch ($this->strType) {
 			case 'integer':
@@ -194,6 +194,6 @@ class Field extends AbstractField {
 		}
 
 		// Retrieve comment
-		$this->strComment = $mixFieldData->GetColumn('comment');
+		$this->strComment = $mixFieldData->getColumn('comment');
 	}
 }

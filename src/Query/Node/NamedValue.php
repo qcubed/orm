@@ -21,7 +21,7 @@ use QCubed\Query\Condition\ConditionInterface as iCondition;
  */
 class NamedValue extends AbstractBase
 {
-	const DelimiterCode = 3;
+	const DELIMITER_CODE = 3;
 
 	/**
 	 * @param $strName
@@ -34,14 +34,14 @@ class NamedValue extends AbstractBase
 	 * @param null $blnEqualityType
 	 * @return string
 	 */
-	public function Parameter($blnEqualityType = null)
+	public function parameter($blnEqualityType = null)
 	{
 		if (is_null($blnEqualityType))
-			return chr(NamedValue::DelimiterCode) . '{' . $this->strName . '}';
+			return chr(NamedValue::DELIMITER_CODE) . '{' . $this->strName . '}';
 		else if ($blnEqualityType)
-			return chr(NamedValue::DelimiterCode) . '{=' . $this->strName . '=}';
+			return chr(NamedValue::DELIMITER_CODE) . '{=' . $this->strName . '=}';
 		else
-			return chr(NamedValue::DelimiterCode) . '{!' . $this->strName . '!}';
+			return chr(NamedValue::DELIMITER_CODE) . '{!' . $this->strName . '!}';
 	}
 
 	/**
@@ -50,7 +50,7 @@ class NamedValue extends AbstractBase
 	 * @param iCondition|null $objJoinCondition
 	 * @param Clause\Select|null $objSelect
 	 */
-	public function Join(Builder $objBuilder, $blnExpandSelection = false, iCondition $objJoinCondition = null, Clause\Select $objSelect = null) {
+	public function join(Builder $objBuilder, $blnExpandSelection = false, iCondition $objJoinCondition = null, Clause\Select $objSelect = null) {
 		assert(0);    // This kind of node is never a parent.
 	}
 }

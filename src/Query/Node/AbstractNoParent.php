@@ -22,8 +22,8 @@ abstract class AbstractNoParent extends AbstractSubQuery {
 	/**
 	 * @return string
 	 */
-	public function GetTable() {
-		return $this->FullAlias();
+	public function getTable() {
+		return $this->fullAlias();
 	}
 	/**
 	 * Change the alias of the node, primarily for joining the same table more than once.
@@ -32,16 +32,16 @@ abstract class AbstractNoParent extends AbstractSubQuery {
 	 * @throws Caller
 	 * @throws \Exception
 	 */
-	public function SetAlias($strAlias) {
+	public function setAlias($strAlias) {
 		if ($this->strFullAlias) {
 			throw new \Exception ("You cannot set an alias on a node after you have used it in a query. See the examples doc. You must set the alias while creating the node.");
 		}
 		try {
 			// Changing the alias of the node. Must change pointers to the node too.
-			$strNewAlias = Type::Cast($strAlias, Type::String);
+			$strNewAlias = Type::cast($strAlias, Type::String);
 			$this->strAlias = $strNewAlias;
 		} catch (Caller $objExc) {
-			$objExc->IncrementOffset();
+			$objExc->incrementOffset();
 			throw $objExc;
 		}
 	}
@@ -50,7 +50,7 @@ abstract class AbstractNoParent extends AbstractSubQuery {
 	 * an alias for itself.
 	 * @return string
 	 */
-	public function FullAlias() {
+	public function fullAlias() {
 		if ($this->strFullAlias) {
 			return $this->strFullAlias;
 		} else {

@@ -133,7 +133,7 @@ class Reference extends \QCubed\AbstractBase {
 				try {
 					return parent::__get($strName);
 				} catch (Caller $objExc) {
-					$objExc->IncrementOffset();
+					$objExc->incrementOffset();
 					throw $objExc;
 				}
 		}
@@ -152,28 +152,28 @@ class Reference extends \QCubed\AbstractBase {
 		try {
 			switch ($strName) {
 				case 'KeyName':
-					return $this->strKeyName = Type::Cast($mixValue, Type::String);
+					return $this->strKeyName = Type::cast($mixValue, Type::String);
 				case 'Table':
-					return $this->strTable = Type::Cast($mixValue, Type::String);
+					return $this->strTable = Type::cast($mixValue, Type::String);
 				case 'Column':
-					return $this->strColumn = Type::Cast($mixValue, Type::String);
+					return $this->strColumn = Type::cast($mixValue, Type::String);
 				case 'PropertyName':
-					return $this->strPropertyName = Type::Cast($mixValue, Type::String);
+					return $this->strPropertyName = Type::cast($mixValue, Type::String);
 				case 'VariableName':
-					return $this->strVariableName = Type::Cast($mixValue, Type::String);
+					return $this->strVariableName = Type::cast($mixValue, Type::String);
 				case 'VariableType':
-					return $this->strVariableType = Type::Cast($mixValue, Type::String);
+					return $this->strVariableType = Type::cast($mixValue, Type::String);
 				case 'IsType':
-					return $this->blnIsType = Type::Cast($mixValue, Type::Boolean);
+					return $this->blnIsType = Type::cast($mixValue, Type::Boolean);
 				case 'ReverseReference':
 					return $this->objReverseReference = $mixValue;
 				case 'Name':
-					return $this->strName = Type::Cast($mixValue, Type::String);
+					return $this->strName = Type::cast($mixValue, Type::String);
 				default:
 					return parent::__set($strName, $mixValue);
 			}
 		} catch (Caller $objExc) {
-			$objExc->IncrementOffset();
+			$objExc->incrementOffset();
 			throw $objExc;
 		}
 	}

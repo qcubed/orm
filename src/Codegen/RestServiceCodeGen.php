@@ -25,25 +25,25 @@ class RestServiceCodeGen extends \Project\CodeGen {
 	public function __construct($objSettingsXml) {
 		parent::__construct($objSettingsXml);
 		// Lookup Instance-Specific Configuration from the SettingsXml Node
-		$this->strServiceUrl = self::LookupSetting($objSettingsXml, null, 'serviceUrl');
+		$this->strServiceUrl = self::lookupSetting($objSettingsXml, null, 'serviceUrl');
 	}
 
-	public function GetTitle() {
+	public function getTitle() {
 		return sprintf('REST Service (%s)', $this->strServiceUrl);
 	}
 
-	public function GetConfigXml() {
+	public function getConfigXml() {
 		$strCrLf = "\r\n";
 		$strToReturn = sprintf('		<restService url="%s">%s', $this->strServiceUrl, $strCrLf);
 		$strToReturn .= sprintf('		</restService>%s', $strCrLf);
 		return $strToReturn;
 	}
 
-	public function GetReportLabel() {
+	public function getReportLabel() {
 		return 'There were 2 REST Services available to attempt code generation:';
 	}
 
-	public function GenerateAll() {
+	public function generateAll() {
 		$strReport = '';
 		$strReport .= "Successfully generated REST Service Class:   TestBlahservice\r\n";
 		return $strReport;
@@ -69,7 +69,7 @@ class RestServiceCodeGen extends \Project\CodeGen {
 				try {
 					return parent::__get($strName);
 				} catch (Caller $objExc) {
-					$objExc->IncrementOffset();
+					$objExc->incrementOffset();
 					throw $objExc;
 				}
 		}
@@ -82,7 +82,7 @@ class RestServiceCodeGen extends \Project\CodeGen {
 					return parent::__set($strName, $mixValue);
 			}
 		} catch (Caller $objExc) {
-			$objExc->IncrementOffset();
+			$objExc->incrementOffset();
 		}
 	}
 }

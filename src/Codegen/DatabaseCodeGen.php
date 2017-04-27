@@ -84,7 +84,7 @@ class DatabaseCodeGen extends Codegen {
 	 * @return SqlTable|TypeTable
 	 * @throws Caller
 	 */
-	public function GetTable($strTableName) {
+	public function getTable($strTableName) {
 		$strTableName = strtolower($strTableName);
 		if (array_key_exists($strTableName, $this->objTableArray))
 			return $this->objTableArray[$strTableName];
@@ -93,11 +93,11 @@ class DatabaseCodeGen extends Codegen {
 		throw new Caller(sprintf('Table does not exist or could not be processed: %s. %s', $strTableName, $this->strErrors));
 	}
 
-	public function GetColumn($strTableName, $strColumnName) {
+	public function getColumn($strTableName, $strColumnName) {
 		try {
-			$objTable = $this->GetTable($strTableName);
+			$objTable = $this->getTable($strTableName);
 		} catch (Caller $objExc) {
-			$objExc->IncrementOffset();
+			$objExc->incrementOffset();
 			throw $objExc;
 		}
 		$strColumnName = strtolower($strColumnName);
@@ -114,7 +114,7 @@ class DatabaseCodeGen extends Codegen {
 	 * @param string $strColumnName
 	 * @return boolean true if it is found/validated
 	 */
-	public function ValidateTableColumn($strTableName, $strColumnName) {
+	public function validateTableColumn($strTableName, $strColumnName) {
 		$strTableName = trim(strtolower($strTableName));
 		$strColumnName = trim(strtolower($strColumnName));
 
@@ -127,7 +127,7 @@ class DatabaseCodeGen extends Codegen {
 		else
 			return false;
 
-		$objFieldArray = $this->objDb->GetFieldsForTable($strTableName);
+		$objFieldArray = $this->objDb->getFieldsForTable($strTableName);
 
 		foreach ($objFieldArray as $objField) {
 			if (trim(strtolower($objField->Name)) == $strColumnName)
@@ -137,7 +137,7 @@ class DatabaseCodeGen extends Codegen {
 		return false;
 	}
 
-	public function GetTitle() {
+	public function getTitle() {
 		if (!Database\Service::isInitialized()) {
 			return '';
 		}
@@ -150,7 +150,7 @@ class DatabaseCodeGen extends Codegen {
 			return sprintf('Database Index #%s (N/A)', $this->intDatabaseIndex);
 	}
 
-	public function GetConfigXml() {
+	public function getConfigXml() {
 		$strCrLf = "\r\n";
 		$strToReturn = sprintf('		<database index="%s">%s', $this->intDatabaseIndex, $strCrLf);
 		$strToReturn .= sprintf('			<className prefix="%s" suffix="%s"/>%s', $this->strClassPrefix, $this->strClassSuffix, $strCrLf);
@@ -169,7 +169,7 @@ class DatabaseCodeGen extends Codegen {
 		return $strToReturn;
 	}
 
-	public function GetReportLabel() {
+	public function getReportLabel() {
 		// Setup Report Label
 		$intTotalTableCount = count($this->objTableArray) + count($this->objTypeTableArray);
 		if ($intTotalTableCount == 0)
@@ -182,14 +182,14 @@ class DatabaseCodeGen extends Codegen {
 		return $strReportLabel;
 	}
 
-	public function GenerateAll() {
+	public function generateAll() {
 		$strReport = '';
 
 		include_once ('template_utils.php');
 
 		// Iterate through all the tables, generating one class at a time
 		if ($this->objTableArray) foreach ($this->objTableArray as $objTable) {
-			if ($this->GenerateTable($objTable)) {
+			if ($this->generateTable($objTable)) {
 				$intCount = $objTable->ReferenceCount;
 				if ($intCount == 0)
 					$strCount = '(with no relationships)';
@@ -204,7 +204,7 @@ class DatabaseCodeGen extends Codegen {
 
 		// Iterate through all the TYPE tables, generating one TYPE class at a time
 		if ($this->objTypeTableArray) foreach ($this->objTypeTableArray as $objTypeTable) {
-			if ($this->GenerateTypeTable($objTypeTable))
+			if ($this->generateTypeTable($objTypeTable))
 				$strReport .= sprintf("Successfully generated DB Type Class:  %s\n", $objTypeTable->ClassName);
 			else
 				$strReport .= sprintf("FAILED to generate DB Type class:      %s\n", $objTypeTable->ClassName);
@@ -217,7 +217,7 @@ class DatabaseCodeGen extends Codegen {
 	 * @param DatabaseCodeGen[] $objCodeGenArray
 	 * @return array
 	 */
-	public static function GenerateAggregateHelper(array $objCodeGenArray) {
+	public static function generateAggregateHelper(array $objCodeGenArray) {
 		$strToReturn = array();
 
 		if (count($objCodeGenArray)) {
@@ -230,7 +230,7 @@ class DatabaseCodeGen extends Codegen {
 			}
 
 			$mixArgumentArray = array('objTableArray' => $objTableArray);
-			if ($objCodeGenArray[0]->GenerateFiles('aggregate_db_orm', $mixArgumentArray))
+			if ($objCodeGenArray[0]->generateFiles('aggregate_db_orm', $mixArgumentArray))
 				$strToReturn[] = 'Successfully generated Aggregate DB ORM file(s)';
 			else
 				$strToReturn[] = 'FAILED to generate Aggregate DB ORM file(s)';
@@ -244,7 +244,7 @@ class DatabaseCodeGen extends Codegen {
 			}
 
 			$mixArgumentArray = array('objTableArray' => $objTableArray);
-			if ($objCodeGenArray[0]->GenerateFiles('aggregate_db_type', $mixArgumentArray))
+			if ($objCodeGenArray[0]->generateFiles('aggregate_db_type', $mixArgumentArray))
 				$strToReturn[] = 'Successfully generated Aggregate DB Type file(s)';
 			else
 				$strToReturn[] = 'FAILED to generate Aggregate DB Type file(s)';
@@ -265,47 +265,47 @@ class DatabaseCodeGen extends Codegen {
 		$this->strExcludedTableArray = array();
 
 		// Set the DatabaseIndex
-		$this->intDatabaseIndex = Codegen::LookupSetting($objSettingsXml, null, 'index', Type::Integer);
+		$this->intDatabaseIndex = Codegen::lookupSetting($objSettingsXml, null, 'index', Type::Integer);
 
 		// Append Suffix/Prefixes
-		$this->strClassPrefix = Codegen::LookupSetting($objSettingsXml, 'className', 'prefix');
-		$this->strClassSuffix = Codegen::LookupSetting($objSettingsXml, 'className', 'suffix');
-		$this->strAssociatedObjectPrefix = Codegen::LookupSetting($objSettingsXml, 'associatedObjectName', 'prefix');
-		$this->strAssociatedObjectSuffix = Codegen::LookupSetting($objSettingsXml, 'associatedObjectName', 'suffix');
+		$this->strClassPrefix = Codegen::lookupSetting($objSettingsXml, 'className', 'prefix');
+		$this->strClassSuffix = Codegen::lookupSetting($objSettingsXml, 'className', 'suffix');
+		$this->strAssociatedObjectPrefix = Codegen::lookupSetting($objSettingsXml, 'associatedObjectName', 'prefix');
+		$this->strAssociatedObjectSuffix = Codegen::lookupSetting($objSettingsXml, 'associatedObjectName', 'suffix');
 
 		// Table Type Identifiers
-		$strTypeTableSuffixList = Codegen::LookupSetting($objSettingsXml, 'typeTableIdentifier', 'suffix');
+		$strTypeTableSuffixList = Codegen::lookupSetting($objSettingsXml, 'typeTableIdentifier', 'suffix');
 		$strTypeTableSuffixArray = explode(',', $strTypeTableSuffixList);
 		foreach ($strTypeTableSuffixArray as $strTypeTableSuffix) {
 			$this->strTypeTableSuffixArray[] = trim($strTypeTableSuffix);
 			$this->intTypeTableSuffixLengthArray[] = strlen(trim($strTypeTableSuffix));
 		}
-		$this->strAssociationTableSuffix = Codegen::LookupSetting($objSettingsXml, 'associationTableIdentifier', 'suffix');
+		$this->strAssociationTableSuffix = Codegen::lookupSetting($objSettingsXml, 'associationTableIdentifier', 'suffix');
 		$this->intAssociationTableSuffixLength = strlen($this->strAssociationTableSuffix);
 
 		// Stripping TablePrefixes
-		$this->strStripTablePrefix = Codegen::LookupSetting($objSettingsXml, 'stripFromTableName', 'prefix');
+		$this->strStripTablePrefix = Codegen::lookupSetting($objSettingsXml, 'stripFromTableName', 'prefix');
 		$this->intStripTablePrefixLength = strlen($this->strStripTablePrefix);
 
 		// Exclude/Include Tables
-		$this->strExcludePattern = Codegen::LookupSetting($objSettingsXml, 'excludeTables', 'pattern');
-		$strExcludeList = Codegen::LookupSetting($objSettingsXml, 'excludeTables', 'list');
+		$this->strExcludePattern = Codegen::lookupSetting($objSettingsXml, 'excludeTables', 'pattern');
+		$strExcludeList = Codegen::lookupSetting($objSettingsXml, 'excludeTables', 'list');
 		$this->strExcludeListArray = explode(',',$strExcludeList);
 		array_walk($this->strExcludeListArray, 'QCubed\Codegen\array_trim');
 
 		// Include Patterns
-		$this->strIncludePattern = Codegen::LookupSetting($objSettingsXml, 'includeTables', 'pattern');
-		$strIncludeList = Codegen::LookupSetting($objSettingsXml, 'includeTables', 'list');
+		$this->strIncludePattern = Codegen::lookupSetting($objSettingsXml, 'includeTables', 'pattern');
+		$strIncludeList = Codegen::lookupSetting($objSettingsXml, 'includeTables', 'list');
 		$this->strIncludeListArray = explode(',',$strIncludeList);
 		array_walk($this->strIncludeListArray, 'QCubed\Codegen\array_trim');
 
 		// Relationship Scripts
-		$this->strRelationships = Codegen::LookupSetting($objSettingsXml, 'relationships');
-		$this->strRelationshipsScriptPath = Codegen::LookupSetting($objSettingsXml, 'relationshipsScript', 'filepath');
-		$this->strRelationshipsScriptFormat = Codegen::LookupSetting($objSettingsXml, 'relationshipsScript', 'format');
+		$this->strRelationships = Codegen::lookupSetting($objSettingsXml, 'relationships');
+		$this->strRelationshipsScriptPath = Codegen::lookupSetting($objSettingsXml, 'relationshipsScript', 'filepath');
+		$this->strRelationshipsScriptFormat = Codegen::lookupSetting($objSettingsXml, 'relationshipsScript', 'format');
 
 		// Column Comment for ModelConnectorLabel setting.
-		$this->strCommentConnectorLabelDelimiter = Codegen::LookupSetting($objSettingsXml, 'columnCommentForModelConnector', 'delimiter');
+		$this->strCommentConnectorLabelDelimiter = Codegen::lookupSetting($objSettingsXml, 'columnCommentForModelConnector', 'delimiter');
 
 		// Check to make sure things that are required are there
 		if (!$this->intDatabaseIndex)
@@ -396,19 +396,19 @@ class DatabaseCodeGen extends Codegen {
 			}
 		}
 
-		$this->blnGenerateControlId = Codegen::LookupSetting($objSettingsXml, 'generateControlId', 'support', Type::Boolean);
+		$this->blnGenerateControlId = Codegen::lookupSetting($objSettingsXml, 'generateControlId', 'support', Type::Boolean);
 		$this->objModelConnectorOptions = new OptionFile();
 
-		$this->blnAutoInitialize = Codegen::LookupSetting($objSettingsXml, 'createOptions', 'autoInitialize', Type::Boolean);
-		$this->blnPrivateColumnVars = Codegen::LookupSetting($objSettingsXml, 'createOptions', 'privateColumnVars', Type::Boolean);
+		$this->blnAutoInitialize = Codegen::lookupSetting($objSettingsXml, 'createOptions', 'autoInitialize', Type::Boolean);
+		$this->blnPrivateColumnVars = Codegen::lookupSetting($objSettingsXml, 'createOptions', 'privateColumnVars', Type::Boolean);
 
 		if ($this->strErrors)
 			return;
 
-		$this->AnalyzeDatabase();
+		$this->analyzeDatabase();
 	}
 
-	protected function AnalyzeDatabase() {
+	protected function analyzeDatabase() {
 		if (!Database\Service::count()) {
 			$this->strErrors = 'FATAL ERROR: No databases are listed in the configuration file.';
 			return;
@@ -430,7 +430,7 @@ class DatabaseCodeGen extends Codegen {
 		}
 
 		// Get the list of Tables as a string[]
-		$strTableArray = $this->objDb->GetTables();
+		$strTableArray = $this->objDb->getTables();
 
 
 		// ITERATION 1: Simply create the Table and TypeTable Arrays
@@ -511,20 +511,20 @@ class DatabaseCodeGen extends Codegen {
 		// Analyze All the Type Tables
 		if ($this->objTypeTableArray) {
 			foreach ($this->objTypeTableArray as $objTypeTable) {
-				$this->AnalyzeTypeTable($objTypeTable);
+				$this->analyzeTypeTable($objTypeTable);
 			}
 		}
 
 		// Analyze All the Regular Tables
 		if ($this->objTableArray) {
 			foreach ($this->objTableArray as $objTable) {
-				$this->AnalyzeTable($objTable);
+				$this->analyzeTable($objTable);
 			}
 		}
 
 		// Analyze All the Association Tables
 		if ($this->strAssociationTableNameArray) foreach ($this->strAssociationTableNameArray as $strAssociationTableName) {
-			$this->AnalyzeAssociationTable($strAssociationTableName);
+			$this->analyzeAssociationTable($strAssociationTableName);
 		}
 
 		// Finally, for each Relationship in all Tables, Warn on Non Single Column PK based FK:
@@ -535,7 +535,7 @@ class DatabaseCodeGen extends Codegen {
 						if ($objColumn->Reference && !$objColumn->Reference->IsType) {
 							$objReference = $objColumn->Reference;
 //							$objReferencedTable = $this->objTableArray[strtolower($objReference->Table)];
-							$objReferencedTable = $this->GetTable($objReference->Table);
+							$objReferencedTable = $this->getTable($objReference->Table);
 							$objReferencedColumn = $objReferencedTable->ColumnArray[strtolower($objReference->Column)];
 
 
@@ -553,7 +553,7 @@ class DatabaseCodeGen extends Codegen {
 		}
 	}
 
-	protected function ListOfColumnsFromTable(SqlTable $objTable) {
+	protected function listOfColumnsFromTable(SqlTable $objTable) {
 		$strArray = array();
 		$objColumnArray = $objTable->ColumnArray;
 		if ($objColumnArray) foreach ($objColumnArray as $objColumn)
@@ -561,7 +561,7 @@ class DatabaseCodeGen extends Codegen {
 		return implode(', ', $strArray);
 	}
 
-	protected function GetColumnArray(SqlTable $objTable, $strColumnNameArray) {
+	protected function getColumnArray(SqlTable $objTable, $strColumnNameArray) {
 		$objToReturn = array();
 
 		if ($strColumnNameArray) foreach ($strColumnNameArray as $strColumnName) {
@@ -571,20 +571,20 @@ class DatabaseCodeGen extends Codegen {
 		return $objToReturn;
 	}
 
-	public function GenerateTable(SqlTable $objTable) {
+	public function generateTable(SqlTable $objTable) {
 		// Create Argument Array
 		$mixArgumentArray = array('objTable' => $objTable);
-		return $this->GenerateFiles('db_orm', $mixArgumentArray);
+		return $this->generateFiles('db_orm', $mixArgumentArray);
 	}
 
-	public function GenerateTypeTable(TypeTable $objTypeTable) {
+	public function generateTypeTable(TypeTable $objTypeTable) {
 		// Create Argument Array
 		$mixArgumentArray = array('objTypeTable' => $objTypeTable);
-		return $this->GenerateFiles('db_type', $mixArgumentArray);
+		return $this->generateFiles('db_type', $mixArgumentArray);
 	}
 
-	protected function AnalyzeAssociationTable($strTableName) {
-		$objFieldArray = $this->objDb->GetFieldsForTable($strTableName);
+	protected function analyzeAssociationTable($strTableName) {
+		$objFieldArray = $this->objDb->getFieldsForTable($strTableName);
 
 		// Association tables must have 2 fields
 		if (count($objFieldArray) != 2) {
@@ -609,10 +609,10 @@ class DatabaseCodeGen extends Codegen {
 			return;
 		}
 
-		$objForeignKeyArray = $this->objDb->GetForeignKeysForTable($strTableName);
+		$objForeignKeyArray = $this->objDb->getForeignKeysForTable($strTableName);
 
 		// Add to it, the list of Foreign Keys from any Relationships Script
-		$objForeignKeyArray = $this->GetForeignKeysFromRelationshipsScript($strTableName, $objForeignKeyArray);
+		$objForeignKeyArray = $this->getForeignKeysFromRelationshipsScript($strTableName, $objForeignKeyArray);
 
 		if (count($objForeignKeyArray) != 2) {
 			$this->strErrors .= sprintf("AssociationTable %s does not have exactly 2 foreign keys.  Code Gen analysis found %s.\n",
@@ -632,7 +632,7 @@ class DatabaseCodeGen extends Codegen {
 		// Setup GraphPrefixArray (if applicable)
 		if ($objForeignKeyArray[0]->ReferenceTableName == $objForeignKeyArray[1]->ReferenceTableName) {
 			// We are analyzing a graph association
-			$strGraphPrefixArray = $this->CalculateGraphPrefixArray($objForeignKeyArray);
+			$strGraphPrefixArray = $this->calculateGraphPrefixArray($objForeignKeyArray);
 		} else {
 			$strGraphPrefixArray = array('', '');
 		}
@@ -654,7 +654,7 @@ class DatabaseCodeGen extends Codegen {
 			$objManyToManyReference->KeyName = $objForeignKey->KeyName;
 			$objManyToManyReference->Table = $strTableName;
 			$objManyToManyReference->Column = $objForeignKey->ColumnNameArray[0];
-			$objManyToManyReference->PropertyName = $this->ModelColumnPropertyName($objManyToManyReference->Column);
+			$objManyToManyReference->PropertyName = $this->modelColumnPropertyName($objManyToManyReference->Column);
 			$objManyToManyReference->OppositeColumn = $objOppositeForeignKey->ColumnNameArray[0];
 			$objManyToManyReference->AssociatedTable = $objOppositeForeignKey->ReferenceTableName;
 
@@ -663,23 +663,23 @@ class DatabaseCodeGen extends Codegen {
 			// but who's column name is ManyToManyReference->Column
 //				$objOppositeColumn = clone($this->objTableArray[strtolower($objManyToManyReference->AssociatedTable)]->PrimaryKeyColumnArray[0]);
 
-			$objTable = $this->GetTable($objManyToManyReference->AssociatedTable);
+			$objTable = $this->getTable($objManyToManyReference->AssociatedTable);
 			$objOppositeColumn = clone($objTable->PrimaryKeyColumnArray[0]);
 			$objOppositeColumn->Name = $objManyToManyReference->OppositeColumn;
-			$objManyToManyReference->OppositeVariableName = $this->ModelColumnVariableName($objOppositeColumn);
-			$objManyToManyReference->OppositePropertyName = $this->ModelColumnPropertyName($objOppositeColumn->Name);
+			$objManyToManyReference->OppositeVariableName = $this->modelColumnVariableName($objOppositeColumn);
+			$objManyToManyReference->OppositePropertyName = $this->modelColumnPropertyName($objOppositeColumn->Name);
 			$objManyToManyReference->OppositeVariableType = $objOppositeColumn->VariableType;
 			$objManyToManyReference->OppositeDbType = $objOppositeColumn->DbType;
 
-			$objManyToManyReference->VariableName = $this->ModelReverseReferenceVariableName($objOppositeForeignKey->ReferenceTableName);
-			$objManyToManyReference->VariableType = $this->ModelReverseReferenceVariableType($objOppositeForeignKey->ReferenceTableName);
+			$objManyToManyReference->VariableName = $this->modelReverseReferenceVariableName($objOppositeForeignKey->ReferenceTableName);
+			$objManyToManyReference->VariableType = $this->modelReverseReferenceVariableType($objOppositeForeignKey->ReferenceTableName);
 
-			$objManyToManyReference->ObjectDescription = $strGraphPrefixArray[$intIndex] . $this->CalculateObjectDescriptionForAssociation($strTableName, $objForeignKey->ReferenceTableName, $objOppositeForeignKey->ReferenceTableName, false);
-			$objManyToManyReference->ObjectDescriptionPlural = $strGraphPrefixArray[$intIndex] . $this->CalculateObjectDescriptionForAssociation($strTableName, $objForeignKey->ReferenceTableName, $objOppositeForeignKey->ReferenceTableName, true);
+			$objManyToManyReference->ObjectDescription = $strGraphPrefixArray[$intIndex] . $this->calculateObjectDescriptionForAssociation($strTableName, $objForeignKey->ReferenceTableName, $objOppositeForeignKey->ReferenceTableName, false);
+			$objManyToManyReference->ObjectDescriptionPlural = $strGraphPrefixArray[$intIndex] . $this->calculateObjectDescriptionForAssociation($strTableName, $objForeignKey->ReferenceTableName, $objOppositeForeignKey->ReferenceTableName, true);
 
-			$objManyToManyReference->OppositeObjectDescription = $strGraphPrefixArray[($intIndex == 0) ? 1 : 0] . $this->CalculateObjectDescriptionForAssociation($strTableName, $objOppositeForeignKey->ReferenceTableName, $objForeignKey->ReferenceTableName, false);
+			$objManyToManyReference->OppositeObjectDescription = $strGraphPrefixArray[($intIndex == 0) ? 1 : 0] . $this->calculateObjectDescriptionForAssociation($strTableName, $objOppositeForeignKey->ReferenceTableName, $objForeignKey->ReferenceTableName, false);
 			$objManyToManyReference->IsTypeAssociation = ($objTable instanceof TypeTable);
-			$objManyToManyReference->Options = $this->objModelConnectorOptions->GetOptions($this->ModelClassName($objForeignKey->ReferenceTableName), $objManyToManyReference->ObjectDescription);
+			$objManyToManyReference->Options = $this->objModelConnectorOptions->getOptions($this->modelClassName($objForeignKey->ReferenceTableName), $objManyToManyReference->ObjectDescription);
 
 		}
 
@@ -689,7 +689,7 @@ class DatabaseCodeGen extends Codegen {
 		foreach ($objFieldArray as $objField) {
 			if (($objField->Name != $objManyToManyReferenceArray[0]->Column) &&
 				($objField->Name != $objManyToManyReferenceArray[1]->Column)) {
-				$objColumn = $this->AnalyzeTableColumn($objField, null);
+				$objColumn = $this->analyzeTableColumn($objField, null);
 				if ($objColumn) {
 					$objColumnArray[strtolower($objColumn->Name)] = $objColumn;
 				}
@@ -720,7 +720,7 @@ class DatabaseCodeGen extends Codegen {
 			$objManyToManyReference = $objManyToManyReferenceArray[$intIndex];
 			$strTableWithReference = $objManyToManyReferenceArray[($intIndex == 0) ? 1 : 0]->AssociatedTable;
 
-			$objTable = $this->GetTable($strTableWithReference);
+			$objTable = $this->getTable($strTableWithReference);
 			$objArray = $objTable->ManyToManyReferenceArray;
 			array_push($objArray, $objManyToManyReference);
 			$objTable->ManyToManyReferenceArray = $objArray;
@@ -728,7 +728,7 @@ class DatabaseCodeGen extends Codegen {
 
 	}
 
-	protected function AnalyzeTypeTable(TypeTable $objTypeTable) {
+	protected function analyzeTypeTable(TypeTable $objTypeTable) {
 		// Setup the Array of Reserved Words
 		$strReservedWords = explode(',', Codegen::PhpReservedWords);
 		for ($intIndex = 0; $intIndex < count($strReservedWords); $intIndex++)
@@ -736,10 +736,10 @@ class DatabaseCodeGen extends Codegen {
 
 		// Setup the Type Table Object
 		$strTableName = $objTypeTable->Name;
-		$objTypeTable->ClassName = $this->ModelClassName($strTableName);
+		$objTypeTable->ClassName = $this->modelClassName($strTableName);
 
 		// Ensure that there are only 2 fields, an integer PK field (can be named anything) and a unique varchar field
-		$objFieldArray = $this->objDb->GetFieldsForTable($strTableName);
+		$objFieldArray = $this->objDb->getFieldsForTable($strTableName);
 
 		if (($objFieldArray[0]->Type != Database\FieldType::Integer) ||
 			(!$objFieldArray[0]->PrimaryKey)) {
@@ -756,29 +756,29 @@ class DatabaseCodeGen extends Codegen {
 		}
 
 		// Get the rows
-		$objResult = $this->objDb->Query(sprintf('SELECT * FROM %s', $strTableName));
+		$objResult = $this->objDb->query(sprintf('SELECT * FROM %s', $strTableName));
 		$strNameArray = array();
 		$strTokenArray = array();
 		$strExtraPropertyArray = array();
 		$extraFields = array();
 		$intRowWidth = count($objFieldArray);
-		while ($objDbRow = $objResult->GetNextRow()) {
-			$strRowArray = $objDbRow->GetColumnNameArray();
+		while ($objDbRow = $objResult->getNextRow()) {
+			$strRowArray = $objDbRow->getColumnNameArray();
 			$id = $strRowArray[0];
 			$name = $strRowArray[1];
 
 			$strNameArray[$id] = str_replace("'", "\\'", str_replace('\\', '\\\\', $name));
-			$strTokenArray[$id] = $this->TypeTokenFromTypeName($name);
+			$strTokenArray[$id] = $this->typeTokenFromTypeName($name);
 			if ($intRowWidth > 2) { // there are extra columns to process
 				$strExtraPropertyArray[$id] = array();
 				for ($i = 2; $i < $intRowWidth; $i++) {
-					$strFieldName = Codegen::TypeColumnPropertyName($objFieldArray[$i]->Name);
+					$strFieldName = Codegen::typeColumnPropertyName($objFieldArray[$i]->Name);
 					$extraFields[$i - 2]['name'] = $strFieldName;
-					$extraFields[$i - 2]['type'] = $this->VariableTypeFromDbType($objFieldArray[$i]->Type);
+					$extraFields[$i - 2]['type'] = $this->variableTypeFromDbType($objFieldArray[$i]->Type);
 					$extraFields[$i - 2]['nullAllowed'] = !$objFieldArray[$i]->NotNull;
 
 					// Get and resolve type based value
-					$value = $objDbRow->GetColumn($objFieldArray[$i]->Name, $objFieldArray[$i]->Type);
+					$value = $objDbRow->getColumn($objFieldArray[$i]->Name, $objFieldArray[$i]->Type);
 					$strExtraPropertyArray[$id][$strFieldName] = $value;
 				}
 			}
@@ -803,27 +803,27 @@ class DatabaseCodeGen extends Codegen {
 		$objTypeTable->TokenArray = $strTokenArray;
 		$objTypeTable->ExtraFieldsArray = $extraFields;
 		$objTypeTable->ExtraPropertyArray = $strExtraPropertyArray;
-		$objColumn = $this->AnalyzeTableColumn ($objFieldArray[0], $objTypeTable);
+		$objColumn = $this->analyzeTableColumn($objFieldArray[0], $objTypeTable);
 		$objColumn->Unique = true;
 		$objTypeTable->KeyColumn = $objColumn;
 	}
 
-	protected function AnalyzeTable(SqlTable $objTable) {
+	protected function analyzeTable(SqlTable $objTable) {
 		// Setup the Table Object
 		$objTable->OwnerDbIndex = $this->intDatabaseIndex;
 		$strTableName = $objTable->Name;
-		$objTable->ClassName = $this->ModelClassName($strTableName);
-		$objTable->ClassNamePlural = $this->Pluralize($objTable->ClassName);
+		$objTable->ClassName = $this->modelClassName($strTableName);
+		$objTable->ClassNamePlural = $this->pluralize($objTable->ClassName);
 
-		$objTable->Options = $this->objModelConnectorOptions->GetOptions($objTable->ClassName, OptionFile::TableOptionsFieldName);
+		$objTable->Options = $this->objModelConnectorOptions->getOptions($objTable->ClassName, OptionFile::TableOptionsFieldName);
 
 		// Get the List of Columns
-		$objFieldArray = $this->objDb->GetFieldsForTable($strTableName);
+		$objFieldArray = $this->objDb->getFieldsForTable($strTableName);
 
 		// Iterate through the list of Columns to create objColumnArray
 		$objColumnArray = array();
 		if ($objFieldArray) foreach ($objFieldArray as $objField) {
-			$objColumn = $this->AnalyzeTableColumn($objField, $objTable);
+			$objColumn = $this->analyzeTableColumn($objField, $objTable);
 			if ($objColumn) {
 				$objColumnArray[strtolower($objColumn->Name)] = $objColumn;
 			}
@@ -850,7 +850,7 @@ class DatabaseCodeGen extends Codegen {
 
 
 		// Get the List of Indexes
-		$objTable->IndexArray = $this->objDb->GetIndexesForTable($objTable->Name);
+		$objTable->IndexArray = $this->objDb->getIndexesForTable($objTable->Name);
 
 		// Create an Index array
 		$objIndexArray = array();
@@ -939,10 +939,10 @@ class DatabaseCodeGen extends Codegen {
 
 
 		// Get the List of Foreign Keys from the database
-		$objForeignKeys = $this->objDb->GetForeignKeysForTable($objTable->Name);
+		$objForeignKeys = $this->objDb->getForeignKeysForTable($objTable->Name);
 
 		// Add to it, the list of Foreign Keys from any Relationships Script
-		$objForeignKeys = $this->GetForeignKeysFromRelationshipsScript($strTableName, $objForeignKeys);
+		$objForeignKeys = $this->getForeignKeysFromRelationshipsScript($strTableName, $objForeignKeys);
 
 		// Iterate through each foreign key that exists in this table
 		if ($objForeignKeys) foreach ($objForeignKeys as $objForeignKey) {
@@ -1012,18 +1012,18 @@ class DatabaseCodeGen extends Codegen {
 						$objReference->Column = $objForeignKey->ReferenceColumnNameArray[0];
 
 						// Setup VariableType
-						$objReference->VariableType = $this->ModelClassName($strReferencedTableName);
+						$objReference->VariableType = $this->modelClassName($strReferencedTableName);
 
 						// Setup PropertyName and VariableName
-						$objReference->PropertyName = $this->ModelReferencePropertyName($objColumn->Name);
-						$objReference->VariableName = $this->ModelReferenceVariableName($objColumn->Name);
-						$objReference->Name = $this->ModelReferenceColumnName($objColumn->Name);
+						$objReference->PropertyName = $this->modelReferencePropertyName($objColumn->Name);
+						$objReference->VariableName = $this->modelReferenceVariableName($objColumn->Name);
+						$objReference->Name = $this->modelReferenceColumnName($objColumn->Name);
 
 						// Add this reference to the column
 						$objColumn->Reference = $objReference;
 
 						// References will not have been correctly read earlier, so try again with the reference name
-						$objColumn->Options = $this->objModelConnectorOptions->GetOptions($objTable->ClassName, $objReference->PropertyName) + $objColumn->Options;
+						$objColumn->Options = $this->objModelConnectorOptions->getOptions($objTable->ClassName, $objReference->PropertyName) + $objColumn->Options;
 
 
 
@@ -1031,7 +1031,7 @@ class DatabaseCodeGen extends Codegen {
 						if (!$objReference->IsType) {
 							// Retrieve the ReferencedTable object
 //								$objReferencedTable = $this->objTableArray[strtolower($objReference->Table)];
-							$objReferencedTable = $this->GetTable($objReference->Table);
+							$objReferencedTable = $this->getTable($objReference->Table);
 							$objReverseReference = new ReverseReference();
 							$objReverseReference->Reference = $objReference;
 							$objReverseReference->KeyName = $objReference->KeyName;
@@ -1039,28 +1039,28 @@ class DatabaseCodeGen extends Codegen {
 							$objReverseReference->Column = $strColumnName;
 							$objReverseReference->NotNull = $objColumn->NotNull;
 							$objReverseReference->Unique = $objColumn->Unique;
-							$objReverseReference->PropertyName = $this->ModelColumnPropertyName($strColumnName);
+							$objReverseReference->PropertyName = $this->modelColumnPropertyName($strColumnName);
 
-							$objReverseReference->ObjectDescription = $this->CalculateObjectDescription($strTableName, $strColumnName, $strReferencedTableName, false);
-							$objReverseReference->ObjectDescriptionPlural = $this->CalculateObjectDescription($strTableName, $strColumnName, $strReferencedTableName, true);
-							$objReverseReference->VariableName = $this->ModelReverseReferenceVariableName($objTable->Name);
-							$objReverseReference->VariableType = $this->ModelReverseReferenceVariableType($objTable->Name);
+							$objReverseReference->ObjectDescription = $this->calculateObjectDescription($strTableName, $strColumnName, $strReferencedTableName, false);
+							$objReverseReference->ObjectDescriptionPlural = $this->calculateObjectDescription($strTableName, $strColumnName, $strReferencedTableName, true);
+							$objReverseReference->VariableName = $this->modelReverseReferenceVariableName($objTable->Name);
+							$objReverseReference->VariableType = $this->modelReverseReferenceVariableType($objTable->Name);
 
 							// For Special Case ReverseReferences, calculate Associated MemberVariableName and PropertyName...
 
 							// See if ReverseReference is due to an ORM-based Class Inheritence Chain
 							if ((count($objTable->PrimaryKeyColumnArray) == 1) && ($objColumn->PrimaryKey)) {
-								$objReverseReference->ObjectMemberVariable = Codegen::PrefixFromType(Type::Object) . $objReverseReference->VariableType;
+								$objReverseReference->ObjectMemberVariable = Codegen::prefixFromType(Type::Object) . $objReverseReference->VariableType;
 								$objReverseReference->ObjectPropertyName = $objReverseReference->VariableType;
 								$objReverseReference->ObjectDescription = $objReverseReference->VariableType;
-								$objReverseReference->ObjectDescriptionPlural = $this->Pluralize($objReverseReference->VariableType);
+								$objReverseReference->ObjectDescriptionPlural = $this->pluralize($objReverseReference->VariableType);
 
 							// Otherwise, see if it's just plain ol' unique
 							} else if ($objColumn->Unique) {
-								$objReverseReference->ObjectMemberVariable = $this->CalculateObjectMemberVariable($strTableName, $strColumnName, $strReferencedTableName);
-								$objReverseReference->ObjectPropertyName = $this->CalculateObjectPropertyName($strTableName, $strColumnName, $strReferencedTableName);
+								$objReverseReference->ObjectMemberVariable = $this->calculateObjectMemberVariable($strTableName, $strColumnName, $strReferencedTableName);
+								$objReverseReference->ObjectPropertyName = $this->calculateObjectPropertyName($strTableName, $strColumnName, $strReferencedTableName);
 								// get override options for codegen
-								$objReverseReference->Options = $this->objModelConnectorOptions->GetOptions($objReference->VariableType, $objReverseReference->ObjectDescription);
+								$objReverseReference->Options = $this->objModelConnectorOptions->getOptions($objReference->VariableType, $objReverseReference->ObjectDescription);
 							}
 
 							$objReference->ReverseReference = $objReverseReference;	 // Let forward reference also see things from the other side looking back
@@ -1132,7 +1132,7 @@ class DatabaseCodeGen extends Codegen {
 		}
 	}
 
-	protected function AnalyzeTableColumn(Database\AbstractField $objField, $objTable) {
+	protected function analyzeTableColumn(Database\AbstractField $objField, $objTable) {
 		$objColumn = new SqlColumn();
 		$objColumn->Name = $objField->Name;
 		$objColumn->OwnerTable = $objTable;
@@ -1144,8 +1144,8 @@ class DatabaseCodeGen extends Codegen {
 
 		$objColumn->DbType = $objField->Type;
 
-		$objColumn->VariableType = $this->VariableTypeFromDbType($objColumn->DbType);
-		$objColumn->VariableTypeAsConstant = Type::Constant($objColumn->VariableType);
+		$objColumn->VariableType = $this->variableTypeFromDbType($objColumn->DbType);
+		$objColumn->VariableTypeAsConstant = Type::constant($objColumn->VariableType);
 
 		$objColumn->Length = $objField->MaxLength;
 		$objColumn->Default = $objField->Default;
@@ -1158,8 +1158,8 @@ class DatabaseCodeGen extends Codegen {
 
 		$objColumn->Timestamp = $objField->Timestamp;
 
-		$objColumn->VariableName = $this->ModelColumnVariableName($objColumn);
-		$objColumn->PropertyName = $this->ModelColumnPropertyName($objColumn->Name);
+		$objColumn->VariableName = $this->modelColumnVariableName($objColumn);
+		$objColumn->PropertyName = $this->modelColumnPropertyName($objColumn->Name);
 
 		// separate overrides embedded in the comment
 
@@ -1186,12 +1186,12 @@ class DatabaseCodeGen extends Codegen {
 		}
 
 		// merge with options found in the design editor, letting editor take precedence
-		$objColumn->Options = $this->objModelConnectorOptions->GetOptions($objTable->ClassName, $objColumn->PropertyName) + $objColumn->Options;
+		$objColumn->Options = $this->objModelConnectorOptions->getOptions($objTable->ClassName, $objColumn->PropertyName) + $objColumn->Options;
 
 		return $objColumn;
 	}
 
-	protected function StripPrefixFromTable($strTableName) {
+	protected function stripPrefixFromTable($strTableName) {
 		// If applicable, strip any StripTablePrefix from the table name
 		if ($this->intStripTablePrefixLength &&
 			(strlen($strTableName) > $this->intStripTablePrefixLength) &&
@@ -1201,7 +1201,7 @@ class DatabaseCodeGen extends Codegen {
 		return $strTableName;
 	}
 
-	protected function GetForeignKeyForQcubedRelationshipDefinition($strTableName, $strLine) {
+	protected function getForeignKeyForQcubedRelationshipDefinition($strTableName, $strLine) {
 		$strTokens = explode('=>', $strLine);
 		if (count($strTokens) != 2) {
 			$this->strErrors .= sprintf("Could not parse Relationships Script reference: %s (Incorrect Format)\r\n", $strLine);
@@ -1226,13 +1226,13 @@ class DatabaseCodeGen extends Codegen {
 
 		if (strtolower($strTableName) == trim($strSourceTokens[0])) {
 			$this->strRelationshipLinesQcubed[$strLine] = null;
-			return $this->GetForeignKeyHelper($strLine, $strFkName, $strTableName, $strColumnName, $strReferenceTableName, $strReferenceColumnName);
+			return $this->getForeignKeyHelper($strLine, $strFkName, $strTableName, $strColumnName, $strReferenceTableName, $strReferenceColumnName);
 		}
 
 		return null;
 	}
 
-	protected function GetForeignKeyForSqlRelationshipDefinition($strTableName, $strLine) {
+	protected function getForeignKeyForSqlRelationshipDefinition($strTableName, $strLine) {
 		$strMatches = array();
 
 		// Start
@@ -1293,7 +1293,7 @@ class DatabaseCodeGen extends Codegen {
 
 			if (strtolower($strTableName) == trim($strMatches[1])) {
 				$this->strRelationshipLinesSql[$strLine] = null;
-				return $this->GetForeignKeyHelper($strLine, $strFkName, $strTableName, $strColumnName, $strReferenceTableName, $strReferenceColumnName);
+				return $this->getForeignKeyHelper($strLine, $strFkName, $strTableName, $strColumnName, $strReferenceTableName, $strReferenceColumnName);
 			}
 
 			return null;
@@ -1304,15 +1304,15 @@ class DatabaseCodeGen extends Codegen {
 		}
 	}
 
-	protected function GetForeignKeyHelper($strLine, $strFkName, $strTableName, $strColumnName, $strReferencedTable, $strReferencedColumn) {
+	protected function getForeignKeyHelper($strLine, $strFkName, $strTableName, $strColumnName, $strReferencedTable, $strReferencedColumn) {
 		// Make Sure Tables/Columns Exist, or display error otherwise
-		if (!$this->ValidateTableColumn($strTableName, $strColumnName)) {
+		if (!$this->validateTableColumn($strTableName, $strColumnName)) {
 			$this->strErrors .= sprintf("Could not parse Relationships Script reference: \"%s\" (\"%s.%s\" does not exist)\r\n",
 				$strLine, $strTableName, $strColumnName);
 			return null;
 		}
 
-		if (!$this->ValidateTableColumn($strReferencedTable, $strReferencedColumn)) {
+		if (!$this->validateTableColumn($strReferencedTable, $strReferencedColumn)) {
 			$this->strErrors .= sprintf("Could not parse Relationships Script reference: \"%s\" (\"%s.%s\" does not exist)\r\n",
 				$strLine, $strReferencedTable, $strReferencedColumn);
 			return null;
@@ -1332,10 +1332,10 @@ class DatabaseCodeGen extends Codegen {
 	 * @param Database\ForeignKey[] Array of currently found DB FK objects which will be appended to
 	 * @return Database\ForeignKey[] Array of DB FK objects that were parsed out
 	 */
-	protected function GetForeignKeysFromRelationshipsScript($strTableName, $objForeignKeyArray) {
+	protected function getForeignKeysFromRelationshipsScript($strTableName, $objForeignKeyArray) {
 		foreach ($this->strRelationshipLinesQcubed as $strLine) {
 			if ($strLine) {
-				$objForeignKey = $this->GetForeignKeyForQcubedRelationshipDefinition($strTableName, $strLine);
+				$objForeignKey = $this->getForeignKeyForQcubedRelationshipDefinition($strTableName, $strLine);
 
 				if ($objForeignKey) {
 					array_push($objForeignKeyArray, $objForeignKey);
@@ -1346,7 +1346,7 @@ class DatabaseCodeGen extends Codegen {
 
 		foreach ($this->strRelationshipLinesSql as $strLine) {
 			if ($strLine) {
-				$objForeignKey = $this->GetForeignKeyForSqlRelationshipDefinition($strTableName, $strLine);
+				$objForeignKey = $this->getForeignKeyForSqlRelationshipDefinition($strTableName, $strLine);
 
 				if ($objForeignKey) {
 					array_push($objForeignKeyArray, $objForeignKey);
@@ -1358,15 +1358,15 @@ class DatabaseCodeGen extends Codegen {
 		return $objForeignKeyArray;
 	}
 
-	public function GenerateControlId($objTable, $objColumn) {
+	public function generateControlId($objTable, $objColumn) {
 		$strControlId = null;
 		if (isset($objColumn->Options['ControlId'])) {
 			$strControlId = $objColumn->Options['ControlId'];
 		} elseif ($this->blnGenerateControlId) {
-			//$strObjectName = $this->ModelVariableName($objTable->Name);
+			//$strObjectName = $this->modelVariableName($objTable->Name);
 			$strClassName = $objTable->ClassName;
-			$strControlVarName = $this->ModelConnectorVariableName($objColumn);
-			//$strLabelName = Codegen::ModelConnectorControlName($objColumn);
+			$strControlVarName = $this->modelConnectorVariableName($objColumn);
+			//$strLabelName = Codegen::modelConnectorControlName($objColumn);
 
 			$strControlId = $strControlVarName . $strClassName;
 
@@ -1379,12 +1379,12 @@ class DatabaseCodeGen extends Codegen {
 
 	/**
 	 * Returns a string that will cast a variable coming from the database into a php type.
-	 * Doing this in the template saves significant amounts of time over using Type::Cast() or GetColumn.
+	 * Doing this in the template saves significant amounts of time over using Type::cast() or GetColumn.
 	 * @param SqlColumn $objColumn
 	 * @return string
 	 * @throws \Exception
 	 */
-	public function GetCastString (SqlColumn $objColumn) {
+	public function getCastString(SqlColumn $objColumn) {
 		switch ($objColumn->DbType) {
 			case Database\FieldType::Bit:
 				return ('$mixVal = (bool)$mixVal;');
@@ -1447,7 +1447,7 @@ class DatabaseCodeGen extends Codegen {
 				try {
 					return parent::__get($strName);
 				} catch (Caller $objExc) {
-					$objExc->IncrementOffset();
+					$objExc->incrementOffset();
 					throw $objExc;
 				}
 		}
@@ -1465,7 +1465,7 @@ class DatabaseCodeGen extends Codegen {
 					parent::__set($strName, $mixValue);
 			}
 		} catch (Caller $objExc) {
-			$objExc->IncrementOffset();
+			$objExc->incrementOffset();
 		}
 	}
 }

@@ -30,7 +30,7 @@ class All extends AbstractBase implements ConditionInterface {
 	/**
 	 * @param Builder $objBuilder
 	 */
-	public function UpdateQueryBuilder(Builder $objBuilder) {
-		$objBuilder->AddWhereItem('1=1');
+	public function updateQueryBuilder(Builder $objBuilder) {
+		$objBuilder->addWhereItem('1=1');
 	}
 }

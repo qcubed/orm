@@ -17,7 +17,7 @@ use QCubed\Type;
 use QCubed\Database;
 use \Codegen;
 
-function QcubedHandleCodeGenParseError($__exc_errno, $__exc_errstr, $__exc_errfile, $__exc_errline) {
+function qcubedHandleCodeGenParseError($__exc_errno, $__exc_errstr, $__exc_errfile, $__exc_errline) {
 	$strErrorString = str_replace("SimpleXMLElement::__construct() [<a href='function.SimpleXMLElement---construct'>function.SimpleXMLElement---construct</a>]: ", '', $__exc_errstr);
 	Codegen::$RootErrors .= sprintf("%s\r\n", $strErrorString);
 }
@@ -78,7 +78,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 * Invalid Table names -- these are reserved words which cannot be used as any table name
 	 * Please refer to : http://php.net/manual/en/reserved.php
 	 */
-	const PhpReservedWords = 'new, null, break, return, switch, self, case, const, clone, continue, declare, default, echo, else, elseif, empty, exit, eval, if, try, throw, catch, public, private, protected, function, extends, foreach, for, while, do, var, class, static, abstract, isset, unset, implements, interface, instanceof, include, include_once, require, require_once, abstract, and, or, xor, array, list, false, true, global, parent, print, exception, namespace, goto, final, endif, endswitch, enddeclare, endwhile, use, as, endfor, endforeach, this';
+	const PHP_RESERVED_WORDS = 'new, null, break, return, switch, self, case, const, clone, continue, declare, default, echo, else, elseif, empty, exit, eval, if, try, throw, catch, public, private, protected, function, extends, foreach, for, while, do, var, class, static, abstract, isset, unset, implements, interface, instanceof, include, include_once, require, require_once, abstract, and, or, xor, array, list, false, true, global, parent, print, exception, namespace, goto, final, endif, endswitch, enddeclare, endwhile, use, as, endfor, endforeach, this';
 
 	/**
 	 * @var array The list of template base paths to search, in order, when looking for a particular template. Set this
@@ -92,7 +92,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 * On "eval" errors, you can click on the "View Rendered Page" to see what currently
 	 * is being evaluated, which should hopefully aid in template debugging.
 	 */
-	const DebugMode = false;
+	const DEBUG_MODE = false;
 
 	/**
 	 * This static array contains an array of active and executed codegen objects, based
@@ -164,7 +164,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 *
 	 * @was QString::PrefixFromType
 	 */
-	public static function PrefixFromType($strType) {
+	public static function prefixFromType($strType) {
 		switch ($strType) {
 			case Type::ArrayType:
 				return "obj";
@@ -191,7 +191,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 * Gets the settings in codegen_settings.xml file and returns its text without comments
 	 * @return string
 	 */
-	public static function GetSettingsXml() {
+	public static function getSettingsXml() {
 		$strCrLf = "\r\n";
 
 		$strToReturn = sprintf('<codegen>%s', $strCrLf);
@@ -199,7 +199,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 		$strToReturn .= sprintf('	<render preferredRenderMethod="%s"/>%s', Codegen::$PreferredRenderMethod, $strCrLf);
 		$strToReturn .= sprintf('	<dataSources>%s', $strCrLf);
 		foreach (Codegen::$CodeGenArray as $objCodeGen)
-			$strToReturn .= $strCrLf . $objCodeGen->GetConfigXml();
+			$strToReturn .= $strCrLf . $objCodeGen->getConfigXml();
 		$strToReturn .= sprintf('%s	</dataSources>%s', $strCrLf, $strCrLf);
 		$strToReturn .= '</codegen>';
 
@@ -211,7 +211,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 * Code generation begins here.
 	 * @param string $strSettingsXmlFilePath Path to the settings file
 	 */
-	public static function Run($strSettingsXmlFilePath) {
+	public static function run($strSettingsXmlFilePath) {
 		define ('__CODE_GENERATING__', true);
 		Codegen::$CodeGenArray = array();
 		Codegen::$SettingsFilePath = $strSettingsXmlFilePath;
@@ -228,9 +228,9 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 
 		// Try Parsing the Xml Settings File
 		try {
-			ErrorHandler::Set('\\QCubed\\Codegen\\QcubedHandleCodeGenParseError', E_ALL);
+			ErrorHandler::set('\\QCubed\\Codegen\\QcubedHandleCodeGenParseError', E_ALL);
 			Codegen::$SettingsXml = new \SimpleXMLElement(file_get_contents($strSettingsXmlFilePath));
-			ErrorHandler::Restore();
+			ErrorHandler::restore();
 		} catch (\Exception $objExc) {
 			Codegen::$RootErrors .= 'FATAL ERROR: Unable to parse CodeGenSettings XML File: ' . $strSettingsXmlFilePath;
 			Codegen::$RootErrors .= "\r\n";
@@ -239,12 +239,12 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 		}
 
 		// Application Name
-		Codegen::$ApplicationName = Codegen::LookupSetting(Codegen::$SettingsXml, 'name', 'application');
+		Codegen::$ApplicationName = Codegen::lookupSetting(Codegen::$SettingsXml, 'name', 'application');
 
 		// Codegen Defaults
-		Codegen::$PreferredRenderMethod = Codegen::LookupSetting(Codegen::$SettingsXml, 'formgen', 'preferredRenderMethod');
-		Codegen::$CreateMethod = Codegen::LookupSetting(Codegen::$SettingsXml, 'formgen', 'createMethod');
-		Codegen::$DefaultButtonClass = Codegen::LookupSetting(Codegen::$SettingsXml, 'formgen', 'buttonClass');
+		Codegen::$PreferredRenderMethod = Codegen::lookupSetting(Codegen::$SettingsXml, 'formgen', 'preferredRenderMethod');
+		Codegen::$CreateMethod = Codegen::lookupSetting(Codegen::$SettingsXml, 'formgen', 'createMethod');
+		Codegen::$DefaultButtonClass = Codegen::lookupSetting(Codegen::$SettingsXml, 'formgen', 'buttonClass');
 
 		if (!Codegen::$DefaultButtonClass) {
 			Codegen::$RootErrors .= "CodeGen Settings XML Fatal Error: buttonClass was not defined\r\n";
@@ -282,7 +282,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 * @param string $strType
 	 * @return mixed the return type depends on the Type you pass in to $strType
 	 */
-	static public function LookupSetting($objNode, $strTagName, $strAttributeName = null, $strType = Type::String) {
+	static public function lookupSetting($objNode, $strTagName, $strAttributeName = null, $strType = Type::String) {
 		if ($strTagName)
 			$objNode = $objNode->$strTagName;
 
@@ -290,24 +290,24 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 			switch ($strType) {
 				case Type::Integer:
 					try {
-						$intToReturn = Type::Cast($objNode[$strAttributeName], Type::Integer);
+						$intToReturn = Type::cast($objNode[$strAttributeName], Type::Integer);
 						return $intToReturn;
 					} catch (\Exception $objExc) {
 						return null;
 					}
 				case Type::Boolean:
 					try {
-						$blnToReturn = Type::Cast($objNode[$strAttributeName], Type::Boolean);
+						$blnToReturn = Type::cast($objNode[$strAttributeName], Type::Boolean);
 						return $blnToReturn;
 					} catch (\Exception $objExc) {
 						return null;
 					}
 				default:
-					$strToReturn = trim(Type::Cast($objNode[$strAttributeName], Type::String));
+					$strToReturn = trim(Type::cast($objNode[$strAttributeName], Type::String));
 					return $strToReturn;
 			}
 		} else {
-			$strToReturn = trim(Type::Cast($objNode, Type::String));
+			$strToReturn = trim(Type::cast($objNode, Type::String));
 			return $strToReturn;
 		}
 	}
@@ -316,7 +316,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 *
 	 * @return array
 	 */
-	public static function GenerateAggregate() {
+	public static function generateAggregate() {
 		$objDbOrmCodeGen = array();
 		$objRestServiceCodeGen = array();
 
@@ -328,8 +328,8 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 		}
 
 		$strToReturn = array();
-		array_merge($strToReturn, DatabaseCodeGen::GenerateAggregateHelper($objDbOrmCodeGen));
-//			array_push($strToReturn, QRestServiceCodeGen::GenerateAggregateHelper($objRestServiceCodeGen));
+		array_merge($strToReturn, DatabaseCodeGen::generateAggregateHelper($objDbOrmCodeGen));
+//			array_push($strToReturn, QRestServiceCodeGen::generateAggregateHelper($objRestServiceCodeGen));
 
 		return $strToReturn;
 	}
@@ -349,9 +349,9 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 * @throws Caller
 	 * @return boolean success/failure on whether or not all the files generated successfully
 	 */
-	public function GenerateFiles($strTemplatePrefix, $mixArgumentArray) {
+	public function generateFiles($strTemplatePrefix, $mixArgumentArray) {
 		// If you are editing core templates, and getting EOF errors only on the travis build, this may be your problem. Scan your files and remove short tags.
-		if (Codegen::DebugMode && ini_get ('short_open_tag')) _p("Warning: PHP directive short_open_tag is on. Using short tags will cause unexpected EOF on travis build.\n", false);
+		if (Codegen::DEBUG_MODE && ini_get ('short_open_tag')) _p("Warning: PHP directive short_open_tag is on. Using short tags will cause unexpected EOF on travis build.\n", false);
 
 		// validate the template paths
 		foreach (static::$TemplatePaths as $strPath) {
@@ -376,7 +376,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 		$blnSuccess = true;
 		foreach ($strTemplateArray as $strModuleName => $strFileArray) {
 			foreach ($strFileArray as $strFilename => $strPath) {
-				if (!$this->GenerateFile($strTemplatePrefix . '/' . $strModuleName, $strPath, $mixArgumentArray)) {
+				if (!$this->generateFile($strTemplatePrefix . '/' . $strModuleName, $strPath, $mixArgumentArray)) {
 					$blnSuccess = false;
 				}
 			}
@@ -397,7 +397,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 						is_dir($strTemplateFilePath . $strModuleName)) {
 					$objModuleDirectory = opendir($strTemplateFilePath . $strModuleName);
 					while ($strFilename = readdir($objModuleDirectory)) {
-						if ((QString::FirstCharacter($strFilename) == '_') &&
+						if ((QString::firstCharacter($strFilename) == '_') &&
 							(substr($strFilename, strlen($strFilename) - 8) == '.tpl.php')
 						) {
 							$strTemplateArray[$strModuleName][$strFilename] = $strTemplateFilePath . $strModuleName . '/' . $strFilename;
@@ -454,9 +454,9 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 * @throws \Exception
 	 * @return mixed returns the evaluated template or boolean save success.
 	 */
-	public function GenerateFile($strModuleSubPath, $strTemplateFilePath, $mixArgumentArray, $blnSave = true) {
+	public function generateFile($strModuleSubPath, $strTemplateFilePath, $mixArgumentArray, $blnSave = true) {
 		// Setup Debug/Exception Message
-		if (Codegen::DebugMode) echo("Evaluating $strTemplateFilePath<br/>");
+		if (Codegen::DEBUG_MODE) echo("Evaluating $strTemplateFilePath<br/>");
 
 		// Check to see if the template file exists, and if it does, Load It
 		if (!file_exists($strTemplateFilePath))
@@ -475,14 +475,14 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 			throw new Caller ('Can\'t override include path. Make sure your apache or server settings allow include paths to be overridden. ' );
 		}
 
-		$strTemplate = $this->EvaluatePHP($strTemplateFilePath, $mixArgumentArray, $templateSettings);
+		$strTemplate = $this->evaluatePHP($strTemplateFilePath, $mixArgumentArray, $templateSettings);
 		set_include_path($strOldIncludePath);
 
-		$blnOverwriteFlag = Type::Cast($templateSettings['OverwriteFlag'], Type::Boolean);
-		$blnDocrootFlag = Type::Cast($templateSettings['DocrootFlag'], Type::Boolean);
-		$strTargetDirectory = Type::Cast($templateSettings['TargetDirectory'], Type::String);
-		$strDirectorySuffix = Type::Cast($templateSettings['DirectorySuffix'], Type::String);
-		$strTargetFileName = Type::Cast($templateSettings['TargetFileName'], Type::String);
+		$blnOverwriteFlag = Type::cast($templateSettings['OverwriteFlag'], Type::Boolean);
+		$blnDocrootFlag = Type::cast($templateSettings['DocrootFlag'], Type::Boolean);
+		$strTargetDirectory = Type::cast($templateSettings['TargetDirectory'], Type::String);
+		$strDirectorySuffix = Type::cast($templateSettings['DirectorySuffix'], Type::String);
+		$strTargetFileName = Type::cast($templateSettings['TargetFileName'], Type::String);
 
 		if (is_null($blnOverwriteFlag) || is_null($strTargetFileName) || is_null($strTargetDirectory) || is_null($strDirectorySuffix) || is_null($blnDocrootFlag))  {
 			throw new \Exception('the template settings cannot be null');
@@ -497,7 +497,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 
 			// Create Directory (if needed)
 			if (!is_dir($strTargetDirectory))
-				if (!Folder::MakeDirectory($strTargetDirectory, 0777))
+				if (!Folder::makeDirectory($strTargetDirectory, 0777))
 					throw new \Exception('Unable to mkdir ' . $strTargetDirectory);
 
 			// Save to Disk
@@ -532,9 +532,9 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 		// CHMOD to full read/write permissions (applicable only to nonwindows)
 		// Need to ignore error handling for this call just in case
 		if (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN') {
-			ErrorHandler::Set(null);
+			ErrorHandler::set(null);
 			chmod($strFilePath, 0666);
-			ErrorHandler::Restore();
+			ErrorHandler::restore();
 		}
 	}
 
@@ -546,7 +546,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 * @param null $templateSettings
 	 * @return mixed|string
 	 */
-	protected function EvaluatePHP($strFilename, $mixArgumentArray, &$templateSettings = null)  {
+	protected function evaluatePHP($strFilename, $mixArgumentArray, &$templateSettings = null)  {
 		// Get all the arguments and set them locally
 		if ($mixArgumentArray) foreach ($mixArgumentArray as $strName=>$mixValue) {
 			$$strName = $mixValue;
@@ -586,7 +586,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	// COMMONLY OVERRIDDEN CONVERSION FUNCTIONS
 	///////////////////////
 	
-	protected function StripPrefixFromTable($strTableName){}
+	protected function stripPrefixFromTable($strTableName){}
 
 	/**
 	 * Given a table name, returns the name of the class for the corresponding model object.
@@ -594,11 +594,11 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 * @param string $strTableName
 	 * @return string
 	 */
-	protected function ModelClassName($strTableName) {
-		$strTableName = $this->StripPrefixFromTable($strTableName);
+	protected function modelClassName($strTableName) {
+		$strTableName = $this->stripPrefixFromTable($strTableName);
 		return sprintf('%s%s%s',
 			$this->strClassPrefix,
-			QString::CamelCaseFromUnderscore($strTableName),
+			QString::camelCaseFromUnderscore($strTableName),
 			$this->strClassSuffix);
 	}
 
@@ -607,10 +607,10 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 * @param string $strTableName
 	 * @return string
 	 */
-	public function ModelVariableName($strTableName) {
-		$strTableName = $this->StripPrefixFromTable($strTableName);
-		return Codegen::PrefixFromType(Type::Object) .
-		QString::CamelCaseFromUnderscore($strTableName);
+	public function modelVariableName($strTableName) {
+		$strTableName = $this->stripPrefixFromTable($strTableName);
+		return Codegen::prefixFromType(Type::Object) .
+		QString::camelCaseFromUnderscore($strTableName);
 	}
 
 	/**
@@ -619,9 +619,9 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 * @param string $strTableName
 	 * @return string
 	 */
-	protected function ModelReverseReferenceVariableName($strTableName) {
-		$strTableName = $this->StripPrefixFromTable($strTableName);
-		return $this->ModelVariableName($strTableName);
+	protected function modelReverseReferenceVariableName($strTableName) {
+		$strTableName = $this->stripPrefixFromTable($strTableName);
+		return $this->modelVariableName($strTableName);
 	}
 
 	/**
@@ -630,9 +630,9 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 * @param $strTableName
 	 * @return string
 	 */
-	protected function ModelReverseReferenceVariableType($strTableName) {
-		$strTableName = $this->StripPrefixFromTable($strTableName);
-		return $this->ModelClassName($strTableName);
+	protected function modelReverseReferenceVariableType($strTableName) {
+		$strTableName = $this->stripPrefixFromTable($strTableName);
+		return $this->modelClassName($strTableName);
 	}
 
 
@@ -643,9 +643,9 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 * @param SqlColumn $objColumn
 	 * @return string
 	 */
-	protected function ModelColumnVariableName(SqlColumn $objColumn) {
-		return Codegen::PrefixFromType($objColumn->VariableType) .
-			QString::CamelCaseFromUnderscore($objColumn->Name);
+	protected function modelColumnVariableName(SqlColumn $objColumn) {
+		return Codegen::prefixFromType($objColumn->VariableType) .
+			QString::camelCaseFromUnderscore($objColumn->Name);
 	}
 
 	/**
@@ -654,8 +654,8 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 * @param string $strColumnName
 	 * @return string
 	 */
-	protected function ModelColumnPropertyName($strColumnName) {
-		return QString::CamelCaseFromUnderscore($strColumnName);
+	protected function modelColumnPropertyName($strColumnName) {
+		return QString::camelCaseFromUnderscore($strColumnName);
 	}
 
 	/**
@@ -664,8 +664,8 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 * @param string $strColumnName Column name
 	 * @return string
 	 */
-	protected function TypeColumnPropertyName($strColumnName) {
-		return QString::CamelCaseFromUnderscore($strColumnName);
+	protected function typeColumnPropertyName($strColumnName) {
+		return QString::camelCaseFromUnderscore($strColumnName);
 	}
 
 	/**
@@ -678,7 +678,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 * @param string $strColumnName
 	 * @return string
 	 */
-	protected function ModelReferenceColumnName($strColumnName) {
+	protected function modelReferenceColumnName($strColumnName) {
 		$intNameLength = strlen($strColumnName);
 
 		// Does the column name for this reference column end in "_id"?
@@ -706,10 +706,10 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 * @param string $strColumnName
 	 * @return string
 	 */
-	protected function ModelReferenceVariableName($strColumnName) {
-		$strColumnName = $this->ModelReferenceColumnName($strColumnName);
-		return Codegen::PrefixFromType(Type::Object) .
-			QString::CamelCaseFromUnderscore($strColumnName);
+	protected function modelReferenceVariableName($strColumnName) {
+		$strColumnName = $this->modelReferenceColumnName($strColumnName);
+		return Codegen::prefixFromType(Type::Object) .
+			QString::camelCaseFromUnderscore($strColumnName);
 	}
 
 	/**
@@ -719,26 +719,26 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 * @param string $strColumnName
 	 * @return string
 	 */
-	protected function ModelReferencePropertyName($strColumnName) {
-		$strColumnName = $this->ModelReferenceColumnName($strColumnName);
-		return QString::CamelCaseFromUnderscore($strColumnName);
+	protected function modelReferencePropertyName($strColumnName) {
+		$strColumnName = $this->modelReferenceColumnName($strColumnName);
+		return QString::camelCaseFromUnderscore($strColumnName);
 	}
 
-	protected function ParameterCleanupFromColumn(SqlColumn $objColumn, $blnIncludeEquality = false) {
+	protected function parameterCleanupFromColumn(SqlColumn $objColumn, $blnIncludeEquality = false) {
 		if ($blnIncludeEquality)
-			return sprintf('$%s = $objDatabase->SqlVariable($%s, true);',
+			return sprintf('$%s = $objDatabase->sqlVariable($%s, true);',
 				$objColumn->VariableName, $objColumn->VariableName);
 		else
-			return sprintf('$%s = $objDatabase->SqlVariable($%s);',
+			return sprintf('$%s = $objDatabase->sqlVariable($%s);',
 				$objColumn->VariableName, $objColumn->VariableName);
 	}
 
 	// To be used to list the columns as input parameters, or as parameters for sprintf
-	protected function ParameterListFromColumnArray($objColumnArray) {
-		return $this->ImplodeObjectArray(', ', '$', '', 'VariableName', $objColumnArray);
+	protected function parameterListFromColumnArray($objColumnArray) {
+		return $this->implodeObjectArray(', ', '$', '', 'VariableName', $objColumnArray);
 	}
 
-	protected function ImplodeObjectArray($strGlue, $strPrefix, $strSuffix, $strProperty, $objArrayToImplode) {
+	protected function implodeObjectArray($strGlue, $strPrefix, $strSuffix, $strProperty, $objArrayToImplode) {
 		$strArrayToReturn = array();
 		if ($objArrayToImplode) foreach ($objArrayToImplode as $objObject) {
 			array_push($strArrayToReturn, sprintf('%s%s%s', $strPrefix, $objObject->__get($strProperty), $strSuffix));
@@ -747,7 +747,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 		return implode($strGlue, $strArrayToReturn);
 	}
 
-	protected function TypeTokenFromTypeName($strName) {
+	protected function typeTokenFromTypeName($strName) {
 		$strToReturn = '';
 		for($intIndex = 0; $intIndex < strlen($strName); $intIndex++)
 			if (((ord($strName[$intIndex]) >= ord('a')) &&
@@ -759,7 +759,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 				($strName[$intIndex] == '_'))
 				$strToReturn .= $strName[$intIndex];
 
-		if (is_numeric(QString::FirstCharacter($strToReturn)))
+		if (is_numeric(QString::firstCharacter($strToReturn)))
 			$strToReturn = '_' . $strToReturn;
 		return $strToReturn;
 	}
@@ -771,11 +771,11 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 *
 	 * @return string
 	 */
-	public static function ModelConnectorControlName ($objColumn) {
+	public static function modelConnectorControlName($objColumn) {
 		if (($o = $objColumn->Options) && isset ($o['Name'])) { // Did developer default?
 			return $o['Name'];
 		}
-		return QString::WordsFromCamelCase(Codegen::ModelConnectorPropertyName($objColumn));
+		return QString::wordsFromCamelCase(Codegen::modelConnectorPropertyName($objColumn));
 	}
 
 	/**
@@ -786,7 +786,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 * @return string
 	 * @throws \Exception
 	 */
-	public static function ModelConnectorPropertyName ($objColumn) {
+	public static function modelConnectorPropertyName($objColumn) {
 		if ($objColumn instanceof SqlColumn) {
 			if ($objColumn->Reference) {
 				return $objColumn->Reference->PropertyName;
@@ -816,10 +816,10 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 * @param SqlColumn|ReverseReference|ManyToManyReference $objColumn
 	 * @return string
 	 */
-	public function ModelConnectorVariableName($objColumn) {
-		$strPropName = static::ModelConnectorPropertyName($objColumn);
-		$objControlHelper = $this->GetControlCodeGenerator($objColumn);
-		return $objControlHelper->VarName ($strPropName);
+	public function modelConnectorVariableName($objColumn) {
+		$strPropName = static::modelConnectorPropertyName($objColumn);
+		$objControlHelper = $this->getControlCodeGenerator($objColumn);
+		return $objControlHelper->varName($strPropName);
 	}
 
 	/**
@@ -828,9 +828,9 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 * @param SqlColumn|ReverseReference|ManyToManyReference $objColumn
 	 * @return string
 	 */
-	public function ModelConnectorLabelVariableName($objColumn) {
-		$strPropName = static::ModelConnectorPropertyName($objColumn);
-		return QLabel_CodeGenerator::Instance()->VarName($strPropName);
+	public function modelConnectorLabelVariableName($objColumn) {
+		$strPropName = static::modelConnectorPropertyName($objColumn);
+		return QLabel_CodeGenerator::instance()->varName($strPropName);
 	}
 
 	/**
@@ -842,7 +842,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 * @return string Class name of control which can handle this column's data
 	 * @throws \Exception
 	 */
-	protected function ModelConnectorControlClass($objColumn) {
+	protected function modelConnectorControlClass($objColumn) {
 
 		// Is the class specified by the developer?
 		if ($o = $objColumn->Options) {
@@ -892,7 +892,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	}
 
 
-	public function DataListControlClass (SqlTable $objTable) {
+	public function dataListControlClass(SqlTable $objTable) {
 		// Is the class specified by the developer?
 		if ($o = $objTable->Options) {
 			if (isset($o['ControlClass'])) {
@@ -911,11 +911,11 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 *
 	 * @return string
 	 */
-	public static function DataListControlName (SqlTable $objTable) {
+	public static function dataListControlName(SqlTable $objTable) {
 		if (($o = $objTable->Options) && isset ($o['Name'])) { // Did developer default?
 			return $o['Name'];
 		}
-		return QString::WordsFromCamelCase($objTable->ClassNamePlural);
+		return QString::wordsFromCamelCase($objTable->ClassNamePlural);
 	}
 
 	/**
@@ -925,24 +925,24 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 *
 	 * @return string
 	 */
-	public static function DataListItemName (SqlTable $objTable) {
+	public static function dataListItemName(SqlTable $objTable) {
 		if (($o = $objTable->Options) && isset ($o['ItemName'])) { // Did developer override?
 			return $o['ItemName'];
 		}
-		return QString::WordsFromCamelCase($objTable->ClassName);
+		return QString::wordsFromCamelCase($objTable->ClassName);
 	}
 
-	public function DataListVarName (SqlTable $objTable) {
-		$strPropName = self::DataListPropertyNamePlural($objTable);
-		$objControlHelper = $this->GetDataListCodeGenerator($objTable);
-		return $objControlHelper->VarName($strPropName);
+	public function dataListVarName(SqlTable $objTable) {
+		$strPropName = self::dataListPropertyNamePlural($objTable);
+		$objControlHelper = $this->getDataListCodeGenerator($objTable);
+		return $objControlHelper->varName($strPropName);
 	}
 
-	public static function DataListPropertyName (SqlTable $objTable) {
+	public static function dataListPropertyName(SqlTable $objTable) {
 		return $objTable->ClassName;
 	}
 
-	public static function DataListPropertyNamePlural (SqlTable $objTable) {
+	public static function dataListPropertyNamePlural(SqlTable $objTable) {
 		return $objTable->ClassNamePlural;
 	}
 
@@ -956,15 +956,15 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 * @return AbstractControl_CodeGenerator helper object
 	 * @throws \Exception
 	 */
-	public function GetControlCodeGenerator($objColumn) {
-		$strControlClass = $this->ModelConnectorControlClass($objColumn);
+	public function getControlCodeGenerator($objColumn) {
+		$strControlClass = $this->modelConnectorControlClass($objColumn);
 
 		if (method_exists($strControlClass, 'GetCodeGenerator')) {
 			return call_user_func($strControlClass.'::GetCodeGenerator');
 		}
 
 		switch ($strControlClass) {
-			case 'QLabel': return QLabel_CodeGenerator::Instance();
+			case 'QLabel': return QLabel_CodeGenerator::instance();
 			case 'QListBox': return new QListBox_CodeGenerator();
 			case 'QCheckBox': return new QCheckBox_CodeGenerator();
 			case 'QDateTimePicker': return new QDateTimePicker_CodeGenerator();
@@ -987,8 +987,8 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 		return new $strControlCodeGeneratorClass($strOrigControlClass);
 	}
 
-	public function GetDataListCodeGenerator($objTable) {
-		$strControlClass = $this->DataListControlClass($objTable);
+	public function getDataListCodeGenerator($objTable) {
+		$strControlClass = $this->dataListControlClass($objTable);
 
 		if (method_exists($strControlClass, 'GetCodeGenerator')) {
 			return call_user_func($strControlClass.'::GetCodeGenerator');
@@ -998,32 +998,32 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	}
 
 
-	protected function CalculateObjectMemberVariable($strTableName, $strColumnName, $strReferencedTableName) {
+	protected function calculateObjectMemberVariable($strTableName, $strColumnName, $strReferencedTableName) {
 		return sprintf('%s%s%s%s',
-			Codegen::PrefixFromType(Type::Object),
+			Codegen::prefixFromType(Type::Object),
 			$this->strAssociatedObjectPrefix,
-			$this->CalculateObjectDescription($strTableName, $strColumnName, $strReferencedTableName, false),
+			$this->calculateObjectDescription($strTableName, $strColumnName, $strReferencedTableName, false),
 			$this->strAssociatedObjectSuffix);
 	}
 
-	protected function CalculateObjectPropertyName($strTableName, $strColumnName, $strReferencedTableName) {
+	protected function calculateObjectPropertyName($strTableName, $strColumnName, $strReferencedTableName) {
 		return sprintf('%s%s%s',
 			$this->strAssociatedObjectPrefix,
-			$this->CalculateObjectDescription($strTableName, $strColumnName, $strReferencedTableName, false),
+			$this->calculateObjectDescription($strTableName, $strColumnName, $strReferencedTableName, false),
 			$this->strAssociatedObjectSuffix);
 	}
 
 	// TODO: These functions need to be documented heavily with information from "lexical analysis on fk names.txt"
-	protected function CalculateObjectDescription($strTableName, $strColumnName, $strReferencedTableName, $blnPluralize) {
+	protected function calculateObjectDescription($strTableName, $strColumnName, $strReferencedTableName, $blnPluralize) {
 		// Strip Prefixes (if applicable)
-		$strTableName = $this->StripPrefixFromTable($strTableName);
-		$strReferencedTableName = $this->StripPrefixFromTable($strReferencedTableName);
+		$strTableName = $this->stripPrefixFromTable($strTableName);
+		$strReferencedTableName = $this->stripPrefixFromTable($strReferencedTableName);
 
 		// Starting Point
-		$strToReturn = QString::CamelCaseFromUnderscore($strTableName);
+		$strToReturn = QString::camelCaseFromUnderscore($strTableName);
 
 		if ($blnPluralize)
-			$strToReturn = $this->Pluralize($strToReturn);
+			$strToReturn = $this->pluralize($strToReturn);
 
 		if ($strTableName == $strReferencedTableName) {
 			// Self-referencing Reference to Describe
@@ -1046,7 +1046,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 			$strColumnName = str_replace("__", "_", $strColumnName);
 			$strColumnName = str_replace("__", "_", $strColumnName);
 
-			$strColumnName = QString::CamelCaseFromUnderscore($strColumnName);
+			$strColumnName = QString::camelCaseFromUnderscore($strColumnName);
 
 			// Special case for Parent/Child
 			if ($strColumnName == 'Parent')
@@ -1076,22 +1076,22 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 
 			return sprintf("%sAs%s",
 				$strToReturn,
-				QString::CamelCaseFromUnderscore($strColumnName));
+				QString::camelCaseFromUnderscore($strColumnName));
 		}
 	}
 
 	// this is called for ReverseReference Object Descriptions for association tables (many-to-many)
-	protected function CalculateObjectDescriptionForAssociation($strAssociationTableName, $strTableName, $strReferencedTableName, $blnPluralize) {
+	protected function calculateObjectDescriptionForAssociation($strAssociationTableName, $strTableName, $strReferencedTableName, $blnPluralize) {
 		// Strip Prefixes (if applicable)
-		$strTableName = $this->StripPrefixFromTable($strTableName);
-		$strAssociationTableName = $this->StripPrefixFromTable($strAssociationTableName);
-		$strReferencedTableName = $this->StripPrefixFromTable($strReferencedTableName);
+		$strTableName = $this->stripPrefixFromTable($strTableName);
+		$strAssociationTableName = $this->stripPrefixFromTable($strAssociationTableName);
+		$strReferencedTableName = $this->stripPrefixFromTable($strReferencedTableName);
 
 		// Starting Point
-		$strToReturn = QString::CamelCaseFromUnderscore($strReferencedTableName);
+		$strToReturn = QString::camelCaseFromUnderscore($strReferencedTableName);
 
 		if ($blnPluralize)
-			$strToReturn = $this->Pluralize($strToReturn);
+			$strToReturn = $this->pluralize($strToReturn);
 
 		// Let's start with strAssociationTableName
 
@@ -1148,12 +1148,12 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 		return sprintf("%s%sAs%s%s",
 			$this->strAssociatedObjectPrefix,
 			$strToReturn,
-			QString::CamelCaseFromUnderscore($strAssociationTableName),
+			QString::camelCaseFromUnderscore($strAssociationTableName),
 			$this->strAssociatedObjectSuffix);
 	}
 
 	// This is called by AnalyzeAssociationTable to calculate the GraphPrefixArray for a self-referencing association table (e.g. directed graph)
-	protected function CalculateGraphPrefixArray($objForeignKeyArray) {
+	protected function calculateGraphPrefixArray($objForeignKeyArray) {
 		// Analyze Column Names to determine GraphPrefixArray
 		if ((strpos(strtolower($objForeignKeyArray[0]->ColumnNameArray[0]), 'parent') !== false) ||
 			(strpos(strtolower($objForeignKeyArray[1]->ColumnNameArray[0]), 'child') !== false)) {
@@ -1178,7 +1178,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 * @return string
 	 * @throws \Exception
 	 */
-	protected function VariableTypeFromDbType($strDbType) {
+	protected function variableTypeFromDbType($strDbType) {
 		switch ($strDbType) {
 			case Database\FieldType::Bit:
 				return Type::Boolean;
@@ -1212,7 +1212,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 * @param string $strName
 	 * @return string
 	 */
-	protected function Pluralize($strName) {
+	protected function pluralize($strName) {
 		// Special Rules go Here
 		switch (true) {
 			case (strtolower($strName) == 'play'):
@@ -1236,7 +1236,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 		return $strName . "s";
 	}
 
-	public function ReportError ($strError) {
+	public function reportError($strError) {
 		$this->strErrors .= $strError . "\r\n";
 	}
 
@@ -1263,7 +1263,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 				try {
 					return parent::__get($strName);
 				} catch (Caller $objExc) {
-					$objExc->IncrementOffset();
+					$objExc->incrementOffset();
 					throw $objExc;
 				}
 		}
@@ -1280,18 +1280,18 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 		try {
 			switch($strName) {
 				case 'Errors':
-					 ($this->strErrors = Type::Cast($mixValue, Type::String));
+					 ($this->strErrors = Type::cast($mixValue, Type::String));
 					 break;
 
 				case 'Warnings':
-					 ($this->strWarnings = Type::Cast($mixValue, Type::String));
+					 ($this->strWarnings = Type::cast($mixValue, Type::String));
 					 break;
 
 				default:
 					parent::__set($strName, $mixValue);
 			}
 		} catch (Caller $objExc) {
-			$objExc->IncrementOffset();
+			$objExc->incrementOffset();
 		}
 	}
 }

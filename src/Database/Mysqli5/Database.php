@@ -26,17 +26,17 @@ if (!defined('MYSQLI_TYPE_BIT'))
  * @was QMySqli5Database
  */
 class Database extends MysqliDatabase {
-	const Adapter = 'MySql Improved Database Adapter for MySQL 5';
+	const ADAPTER = 'MySql Improved Database Adapter for MySQL 5';
 
-	public function GetTables() {
+	public function getTables() {
 		// Connect if Applicable
-		if (!$this->blnConnectedFlag) $this->Connect();
+		if (!$this->blnConnectedFlag) $this->connect();
 
 		// Use the MySQL5 Information Schema to get a list of all the tables in this database
 		// (excluding views, etc.)
 		$strDatabaseName = $this->Database;
 
-		$objResult = $this->Query("
+		$objResult = $this->query("
 			SELECT
 				table_name
 			FROM
@@ -47,7 +47,7 @@ class Database extends MysqliDatabase {
 		");
 
 		$strToReturn = array();
-		while ($strRowArray = $objResult->FetchRow())
+		while ($strRowArray = $objResult->fetchRow())
 			array_push($strToReturn, $strRowArray[0]);
 		return $strToReturn;
 	}
@@ -58,7 +58,7 @@ class Database extends MysqliDatabase {
 	 * @throws Caller
 	 * @throws MysqliException
 	 */
-	protected function ExecuteQuery($strQuery) {
+	protected function executeQuery($strQuery) {
 		// Perform the Query
 		$objResult = $this->objMySqli->query($strQuery);
 		if ($this->objMySqli->error)
@@ -78,9 +78,9 @@ class Database extends MysqliDatabase {
 	 * @return Result[] array of results
 	 * @throws MysqliException
 	 */
-	public function MultiQuery($strQuery) {
+	public function multiQuery($strQuery) {
 		// Connect if Applicable
-		if (!$this->blnConnectedFlag) $this->Connect();
+		if (!$this->blnConnectedFlag) $this->connect();
 
 		// Perform the Query
 		$this->objMySqli->multi_query($strQuery);
@@ -106,16 +106,16 @@ class Database extends MysqliDatabase {
 	 * @return Result[]
 	 * @throws MysqliException
 	 */
-	public function ExecuteProcedure($strProcName, $params = null) {
+	public function executeProcedure($strProcName, $params = null) {
 		$strParams = '';
 		if ($params) {
 			$a = array_map(function ($val) {
-				return $this->SqlVariable($val);
+				return $this->sqlVariable($val);
 			}, $params);
 			$strParams = implode(',', $a);
 		}
 		$strSql = "call {$strProcName}({$strParams})";
-		return $this->MultiQuery($strSql);
+		return $this->multiQuery($strSql);
 	}
 
 }

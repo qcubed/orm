@@ -17,27 +17,27 @@ use \QCubed\Database;
 
 abstract class ControlCategoryType {
 	/** Large binary object or large text data */
-	const Blob = Database\FieldType::Blob;
+	const BLOB = Database\FieldType::BLOB;
 	/** Character sequence - variable length */
-	const Text = Database\FieldType::VarChar;
+	const TEXT = Database\FieldType::VarChar;
 	/** Character sequence - fixed length */
-	const Char = Database\FieldType::Char;
+	const CHAR = Database\FieldType::CHAR;
 	/** Integers */
-	const Integer = Database\FieldType::Integer;
+	const INTEGER = Database\FieldType::INTEGER;
 	/** Date and Time together */
-	const DateTime = Database\FieldType::DateTime;
+	const DATE_TIME = Database\FieldType::DATE_TIME;
 	/** Date only */
-	const Date = Database\FieldType::Date;
+	const DATE = Database\FieldType::DATE;
 	/** Time only */
-	const Time = Database\FieldType::Time;
+	const TIME = Database\FieldType::TIME;
 	/** Float, Double and real (postgresql) */
-	const Float = Database\FieldType::Float;
+	const FLOAT = Database\FieldType::FLOAT;
 	/** Boolean */
-	const Boolean = Database\FieldType::Bit;
+	const BOOLEAN = Database\FieldType::BIT;
 	/** Select one item from a list of items. A foreign key or a unique reverse relationship. */
-	const SingleSelect = 'single';
+	const SINGLE_SELECT = 'single';
 	/** Select multiple items from a list of items. A non-unique reverse relationship or association table. */
-	const MultiSelect = 'multi';
+	const MULTI_SELECT = 'multi';
 	/** Display a representation of an entire database table. Click actions would typically be done on this list. */
-	const Table = 'table';
+	const TABLE = 'table';
 }

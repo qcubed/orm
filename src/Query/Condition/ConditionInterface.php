@@ -19,8 +19,8 @@ use QCubed\Query\Builder;
  * instead of a Condition\AbstractBase class, which is just ugly.
  */
 interface ConditionInterface {
-	public function UpdateQueryBuilder(Builder $objBuilder);
+	public function updateQueryBuilder(Builder $objBuilder);
 	public function __toString();
-	public function GetWhereClause(Builder $objBuilder, $blnProcessOnce = false);
-	public function EqualTables($strTableName);
+	public function getWhereClause(Builder $objBuilder, $blnProcessOnce = false);
+	public function equalTables($strTableName);
 }

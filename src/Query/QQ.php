@@ -30,14 +30,14 @@ class QQ {
 	/**
 	 * @return Cond\All
 	 */
-	static public function All() {
+	static public function all() {
 		return new Cond\All(func_get_args());
 	}
 
 	/**
 	 * @return Cond\None
 	 */
-	static public function None() {
+	static public function none() {
 		return new Cond\None(func_get_args());
 	}
 
@@ -45,7 +45,7 @@ class QQ {
 	 * @param mixed [$arg1, $arg2, ...]
 	 * @return Cond\OrCondition
 	 */
-	static public function OrCondition(/* array and/or parameterized list of objects*/) {
+	static public function orCondition(/* array and/or parameterized list of objects*/) {
 		return new Cond\OrCondition(func_get_args());
 	}
 
@@ -53,7 +53,7 @@ class QQ {
 	 * @param mixed [$arg1, $arg2, ...]
 	 * @return Cond\AndCondition
 	 */
-	static public function AndCondition(/* array and/or parameterized list of objects*/) {
+	static public function andCondition(/* array and/or parameterized list of objects*/) {
 		return new Cond\AndCondition(func_get_args());
 	}
 
@@ -61,7 +61,7 @@ class QQ {
 	 * @param iCondition $objCondition
 	 * @return Cond\Not
 	 */
-	static public function Not(iCondition $objCondition) {
+	static public function not(iCondition $objCondition) {
 		return new Cond\Not($objCondition);
 	}
 
@@ -70,7 +70,7 @@ class QQ {
 	 * @param $mixValue
 	 * @return Cond\Equal
 	 */
-	static public function Equal(Node\Column $objQueryNode, $mixValue) {
+	static public function equal(Node\Column $objQueryNode, $mixValue) {
 		return new Cond\Equal($objQueryNode, $mixValue);
 	}
 
@@ -79,7 +79,7 @@ class QQ {
 	 * @param $mixValue
 	 * @return Cond\Equal
 	 */
-	static public function NotEqual(Node\Column $objQueryNode, $mixValue) {
+	static public function notEqual(Node\Column $objQueryNode, $mixValue) {
 		return new Cond\NotEqual($objQueryNode, $mixValue);
 	}
 
@@ -88,7 +88,7 @@ class QQ {
 	 * @param $mixValue
 	 * @return Cond\GreaterThan
 	 */
-	static public function GreaterThan(Node\Column $objQueryNode, $mixValue) {
+	static public function greaterThan(Node\Column $objQueryNode, $mixValue) {
 		return new Cond\GreaterThan($objQueryNode, $mixValue);
 	}
 
@@ -97,7 +97,7 @@ class QQ {
 	 * @param $mixValue
 	 * @return Cond\GreaterOrEqual
 	 */
-	static public function GreaterOrEqual(Node\Column $objQueryNode, $mixValue) {
+	static public function greaterOrEqual(Node\Column $objQueryNode, $mixValue) {
 		return new Cond\GreaterOrEqual($objQueryNode, $mixValue);
 	}
 
@@ -106,7 +106,7 @@ class QQ {
 	 * @param $mixValue
 	 * @return Cond\LessThan
 	 */
-	static public function LessThan(Node\Column $objQueryNode, $mixValue) {
+	static public function lessThan(Node\Column $objQueryNode, $mixValue) {
 		return new Cond\LessThan($objQueryNode, $mixValue);
 	}
 
@@ -115,7 +115,7 @@ class QQ {
 	 * @param $mixValue
 	 * @return Cond\LessOrEqual
 	 */
-	static public function LessOrEqual(Node\Column $objQueryNode, $mixValue) {
+	static public function lessOrEqual(Node\Column $objQueryNode, $mixValue) {
 		return new Cond\LessOrEqual($objQueryNode, $mixValue);
 	}
 
@@ -123,7 +123,7 @@ class QQ {
 	 * @param Node\Column $objQueryNode
 	 * @return Cond\IsNull
 	 */
-	static public function IsNull(Node\Column $objQueryNode) {
+	static public function isNull(Node\Column $objQueryNode) {
 		return new Cond\IsNull($objQueryNode);
 	}
 
@@ -131,7 +131,7 @@ class QQ {
 	 * @param Node\Column $objQueryNode
 	 * @return Cond\IsNotNull
 	 */
-	static public function IsNotNull(Node\Column $objQueryNode) {
+	static public function isNotNull(Node\Column $objQueryNode) {
 		return new Cond\IsNotNull($objQueryNode);
 	}
 
@@ -140,7 +140,7 @@ class QQ {
 	 * @param $mixValuesArray
 	 * @return Cond\In
 	 */
-	static public function In(Node\Column $objQueryNode, $mixValuesArray) {
+	static public function in(Node\Column $objQueryNode, $mixValuesArray) {
 		return new Cond\In($objQueryNode, $mixValuesArray);
 	}
 
@@ -149,7 +149,7 @@ class QQ {
 	 * @param $mixValuesArray
 	 * @return Cond\NotIn
 	 */
-	static public function NotIn(Node\Column $objQueryNode, $mixValuesArray) {
+	static public function notIn(Node\Column $objQueryNode, $mixValuesArray) {
 		return new Cond\NotIn($objQueryNode, $mixValuesArray);
 	}
 
@@ -158,7 +158,7 @@ class QQ {
 	 * @param $strValue
 	 * @return Cond\Like
 	 */
-	static public function Like(Node\Column $objQueryNode, $strValue) {
+	static public function like(Node\Column $objQueryNode, $strValue) {
 		return new Cond\Like($objQueryNode, $strValue);
 	}
 
@@ -167,7 +167,7 @@ class QQ {
 	 * @param $strValue
 	 * @return Cond\NotLike
 	 */
-	static public function NotLike(Node\Column $objQueryNode, $strValue) {
+	static public function notLike(Node\Column $objQueryNode, $strValue) {
 		return new Cond\NotLike($objQueryNode, $strValue);
 	}
 
@@ -177,7 +177,7 @@ class QQ {
 	 * @param $mixMaxValue
 	 * @return Cond\Between
 	 */
-	static public function Between(Node\Column $objQueryNode, $mixMinValue, $mixMaxValue) {
+	static public function between(Node\Column $objQueryNode, $mixMinValue, $mixMaxValue) {
 		return new Cond\Between($objQueryNode, $mixMinValue, $mixMaxValue);
 	}
 
@@ -187,7 +187,7 @@ class QQ {
 	 * @param string $strMaxValue
 	 * @return Cond\NotBetween
 	 */
-	static public function NotBetween(Node\Column $objQueryNode, $strMinValue, $strMaxValue) {
+	static public function notBetween(Node\Column $objQueryNode, $strMinValue, $strMaxValue) {
 		return new Cond\NotBetween($objQueryNode, $strMinValue, $strMaxValue);
 	}
 
@@ -195,7 +195,7 @@ class QQ {
 	 * @param Node\SubQuerySql $objQueryNode
 	 * @return Cond\Exists
 	 */
-	static public function Exists(Node\SubQuerySql $objQueryNode) {
+	static public function exists(Node\SubQuerySql $objQueryNode) {
 		return new Cond\Exists($objQueryNode);
 	}
 
@@ -203,7 +203,7 @@ class QQ {
 	 * @param Node\SubQuerySql $objQueryNode
 	 * @return Cond\NotExists
 	 */
-	static public function NotExists(Node\SubQuerySql $objQueryNode) {
+	static public function notExists(Node\SubQuerySql $objQueryNode) {
 		return new Cond\NotExists($objQueryNode);
 	}
 	
@@ -216,12 +216,12 @@ class QQ {
 	 * @param null|Node\AbstractBase[] $objParentQueryNodes	Array of nodes to specify replacement value in the sql.
 	 * @return Node\SubQuerySql
 	 */
-	static public function SubSql($strSql, $objParentQueryNodes = null) {
+	static public function subSql($strSql, $objParentQueryNodes = null) {
 		$objParentQueryNodeArray = func_get_args();
 		return new Node\SubQuerySql($strSql, $objParentQueryNodeArray);
 	}
 
-	static public function Virtual($strName, Node\AbstractSubQuery $objSubQueryDefinition = null) {
+	static public function virtual($strName, Node\AbstractSubQuery $objSubQueryDefinition = null) {
 		return new Node\Virtual($strName, $objSubQueryDefinition);
 	}
 
@@ -233,7 +233,7 @@ class QQ {
 	 * @param $strName
 	 * @return mixed|string
 	 */
-	static public function GetVirtualAlias($strName) {
+	static public function getVirtualAlias($strName) {
 		$strName = trim($strName);
 		$strName = str_replace(" ", "_", $strName);
 		$strName = strtolower($strName);
@@ -244,7 +244,7 @@ class QQ {
 	// Clause\AbstractBase Factories
 	/////////////////////////
 
-	static public function Clause(/* parameterized list of Clause\AbstractBase objects */) {
+	static public function clause(/* parameterized list of Clause\AbstractBase objects */) {
 		$objClauseArray = array();
 
 		foreach (func_get_args() as $objClause)
@@ -258,39 +258,39 @@ class QQ {
 		return $objClauseArray;
 	}
 
-	static public function OrderBy(/* array and/or parameterized list of Node\AbstractBase objects*/) {
+	static public function orderBy(/* array and/or parameterized list of Node\AbstractBase objects*/) {
 		return new Clause\OrderBy(func_get_args());
 	}
 
-	static public function GroupBy(/* array and/or parameterized list of Node\AbstractBase objects*/) {
+	static public function groupBy(/* array and/or parameterized list of Node\AbstractBase objects*/) {
 		return new Clause\GroupBy(func_get_args());
 	}
 
-	static public function Having(Node\SubQuerySql $objNode) {
+	static public function having(Node\SubQuerySql $objNode) {
 		return new Clause\Having($objNode);
 	}
 
-	static public function Count(Node\Column $objNode, $strAttributeName) {
+	static public function count(Node\Column $objNode, $strAttributeName) {
 		return new Clause\Count($objNode, $strAttributeName);
 	}
 
-	static public function Sum(Node\Column $objNode, $strAttributeName) {
+	static public function sum(Node\Column $objNode, $strAttributeName) {
 		return new Clause\Sum($objNode, $strAttributeName);
 	}
 
-	static public function Minimum(Node\Column $objNode, $strAttributeName) {
+	static public function minimum(Node\Column $objNode, $strAttributeName) {
 		return new Clause\Minimum($objNode, $strAttributeName);
 	}
 
-	static public function Maximum(Node\Column $objNode, $strAttributeName) {
+	static public function maximum(Node\Column $objNode, $strAttributeName) {
 		return new Clause\Maximum($objNode, $strAttributeName);
 	}
 
-	static public function Average(Node\Column $objNode, $strAttributeName) {
+	static public function average(Node\Column $objNode, $strAttributeName) {
 		return new Clause\Average($objNode, $strAttributeName);
 	}
 
-	static public function Expand(Node\AbstractBase $objNode, iCondition $objJoinCondition = null, Clause\Select $objSelect = null) {
+	static public function expand(Node\AbstractBase $objNode, iCondition $objJoinCondition = null, Clause\Select $objSelect = null) {
 //			if (gettype($objNode) == 'string')
 //				return new Clause\ExpandVirtualNode(new Node\Virtual($objNode));
 
@@ -300,11 +300,11 @@ class QQ {
 			return new Clause\Expand($objNode, $objJoinCondition, $objSelect);
 	}
 
-	static public function ExpandAsArray(Node\AbstractBase $objNode, $objCondition = null, Clause\Select $objSelect = null) {
+	static public function expandAsArray(Node\AbstractBase $objNode, $objCondition = null, Clause\Select $objSelect = null) {
 		return new Clause\ExpandAsArray($objNode, $objCondition, $objSelect);
 	}
 
-	static public function Select(/* array and/or parameterized list of Node\AbstractBase objects*/) {
+	static public function select(/* array and/or parameterized list of Node\AbstractBase objects*/) {
 		if (func_num_args() == 1 && is_array($a = func_get_arg(0))) {
 			return new Clause\Select($a);
 		} else {
@@ -312,11 +312,11 @@ class QQ {
 		}
 	}
 
-	static public function LimitInfo($intMaxRowCount, $intOffset = 0) {
+	static public function limitInfo($intMaxRowCount, $intOffset = 0) {
 		return new Clause\Limit($intMaxRowCount, $intOffset);
 	}
 
-	static public function Distinct() {
+	static public function distinct() {
 		return new Clause\Distinct();
 	}
 
@@ -328,17 +328,17 @@ class QQ {
 	 * @return Clause\Select Clause\Select clause containing all the nodes from all the Clause\Select clauses from $objClauses,
 	 * or null if $objClauses contains no Clause\Select clauses
 	 */
-	public static function ExtractSelectClause($objClauses) {
+	public static function extractSelectClause($objClauses) {
 		if ($objClauses instanceof Clause\Select)
 			return $objClauses;
 
 		if (is_array($objClauses)) {
 			$hasSelects = false;
-			$objSelect = QQ::Select();
+			$objSelect = QQ::select();
 			foreach ($objClauses as $objClause) {
 				if ($objClause instanceof Clause\Select) {
 					$hasSelects = true;
-					$objSelect->Merge($objClause);
+					$objSelect->merge($objClause);
 				}
 			}
 			if (!$hasSelects)
@@ -359,16 +359,16 @@ class QQ {
 	 * @return mixed The same node that was passed in, but with the alias set
 	 *
 	 */
-	static public function Alias(Node\AbstractBase $objNode, $strAlias)
+	static public function alias(Node\AbstractBase $objNode, $strAlias)
 	{
-		$objNode->SetAlias($strAlias);
+		$objNode->setAlias($strAlias);
 		return $objNode;
 	}
 
 	/////////////////////////
 	// NamedValue QQ Node
 	/////////////////////////
-	static public function NamedValue($strName) {
+	static public function namedValue($strName) {
 		return new Node\NamedValue($strName);
 	}
 
@@ -382,7 +382,7 @@ class QQ {
 	 * @param Node\AbstractBase|mixed $param1 The function parameter. Can be a qq node or a number.
 	 * @return Node\FunctionNode The resulting wrapper node
 	 */
-	static public function Func($strName, $param1 /** ... */) {
+	static public function func($strName, $param1 /** ... */) {
 		$args = func_get_args();
 		$strFunc = array_shift($args);
 		return new Node\FunctionNode($strFunc, $args);
@@ -398,8 +398,8 @@ class QQ {
 	 * @param Node\AbstractBase $param The qq node to apply the function to.
 	 * @return Node\FunctionNode The resulting wrapper node
 	 */
-	static public function Abs($param) {
-		return QQ::Func('ABS', $param);
+	static public function abs($param) {
+		return QQ::func('ABS', $param);
 	}
 	/**
 	 * Return the smallest integer value not less than the argument
@@ -407,8 +407,8 @@ class QQ {
 	 * @param Node\AbstractBase $param The qq node to apply the function to.
 	 * @return Node\FunctionNode The resulting wrapper node
 	 */
-	static public function Ceil($param) {
-		return QQ::Func('CEIL', $param);
+	static public function ceil($param) {
+		return QQ::func('CEIL', $param);
 	}
 	/**
 	 * Return the largest integer value not greater than the argument
@@ -416,8 +416,8 @@ class QQ {
 	 * @param Node\AbstractBase $param The qq node to apply the function to.
 	 * @return Node\FunctionNode The resulting wrapper node
 	 */
-	static public function Floor($param) {
-		return QQ::Func('FLOOR', $param);
+	static public function floor($param) {
+		return QQ::func('FLOOR', $param);
 	}
 	/**
 	 * Return the remainder
@@ -426,8 +426,8 @@ class QQ {
 	 * @param mixed $divider
 	 * @return Node\FunctionNode
 	 */
-	static public function Mod($dividend, $divider) {
-		return QQ::Func('MOD', $dividend, $divider);
+	static public function mod($dividend, $divider) {
+		return QQ::func('MOD', $dividend, $divider);
 	}
 	/**
 	 * Return the argument raised to the specified power
@@ -436,8 +436,8 @@ class QQ {
 	 * @param mixed $exponent
 	 * @return Node\FunctionNode
 	 */
-	static public function Power($base, $exponent) {
-		return QQ::Func('POWER', $base, $exponent);
+	static public function power($base, $exponent) {
+		return QQ::func('POWER', $base, $exponent);
 	}
 	/**
 	 * 	Return the square root of the argument
@@ -445,8 +445,8 @@ class QQ {
 	 * @param Node\AbstractBase $param The qq node to apply the function to.
 	 * @return Node\FunctionNode The resulting wrapper node
 	 */
-	static public function Sqrt($param) {
-		return QQ::Func('SQRT', $param);
+	static public function sqrt($param) {
+		return QQ::func('SQRT', $param);
 	}
 
 	/**
@@ -456,7 +456,7 @@ class QQ {
 	 * @param Node\AbstractBase|mixed $param1 The first parameter
 	 * @return Node\Math The resulting wrapper node
 	 */
-	static public function MathOp($strOperation, $param1 /** ... */) {
+	static public function mathOp($strOperation, $param1 /** ... */) {
 		$args = func_get_args();
 		$strFunc = array_shift($args);
 		return new Node\Math($strFunc, $args);
@@ -469,7 +469,7 @@ class QQ {
 	 * @param Node\AbstractBase|mixed $op2 The second operand
 	 * @return Node\Math The resulting wrapper node
 	 */
-	static public function Mul($op1, $op2 /** ... */) {
+	static public function mul($op1, $op2 /** ... */) {
 		return new Node\Math('*', func_get_args());
 	}
 	/**
@@ -479,7 +479,7 @@ class QQ {
 	 * @param Node\AbstractBase|mixed $op2 The second operand
 	 * @return Node\Math The resulting wrapper node
 	 */
-	static public function Div($op1, $op2 /** ... */) {
+	static public function div($op1, $op2 /** ... */) {
 		return new Node\Math('/', func_get_args());
 	}
 	/**
@@ -489,7 +489,7 @@ class QQ {
 	 * @param Node\AbstractBase|mixed $op2 The second operand
 	 * @return Node\Math The resulting wrapper node
 	 */
-	static public function Sub($op1, $op2 /** ... */) {
+	static public function sub($op1, $op2 /** ... */) {
 		return new Node\Math('-', func_get_args());
 	}
 	/**
@@ -499,7 +499,7 @@ class QQ {
 	 * @param Node\AbstractBase|mixed $op2 The second operand
 	 * @return Node\Math The resulting wrapper node
 	 */
-	static public function Add($op1, $op2 /** ... */) {
+	static public function add($op1, $op2 /** ... */) {
 		return new Node\Math('+', func_get_args());
 	}
 	/**
@@ -508,7 +508,7 @@ class QQ {
 	 * @param Node\AbstractBase|mixed $op1 The first operand
 	 * @return Node\Math The resulting wrapper node
 	 */
-	static public function Neg($op1) {
+	static public function neg($op1) {
 		return new Node\Math('-', [$op1]);
 	}
 

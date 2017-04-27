@@ -34,7 +34,7 @@ class MysqliRow extends AbstractRow {
 	 *
 	 * @return mixed
 	 */
-	public function GetColumn($strColumnName, $strColumnType = null) {
+	public function getColumn($strColumnName, $strColumnType = null) {
 		if (!isset($this->strColumnArray[$strColumnName])) {
 			return null;
 		}
@@ -53,7 +53,7 @@ class MysqliRow extends AbstractRow {
 			case FieldType::Blob:
 			case FieldType::Char:
 			case FieldType::VarChar:
-				return Type::Cast($strColumnValue, Type::String);
+				return Type::cast($strColumnValue, Type::String);
 
 			case FieldType::Date:
 				return new QDateTime($strColumnValue, null, QDateTime::DateOnlyType);
@@ -63,10 +63,10 @@ class MysqliRow extends AbstractRow {
 				return new QDateTime($strColumnValue, null, QDateTime::TimeOnlyType);
 
 			case FieldType::Float:
-				return Type::Cast($strColumnValue, Type::Float);
+				return Type::cast($strColumnValue, Type::Float);
 
 			case FieldType::Integer:
-				return Type::Cast($strColumnValue, Type::Integer);
+				return Type::cast($strColumnValue, Type::Integer);
 
 			default:
 				return $strColumnValue;
@@ -80,11 +80,11 @@ class MysqliRow extends AbstractRow {
 	 *
 	 * @return bool
 	 */
-	public function ColumnExists($strColumnName) {
+	public function columnExists($strColumnName) {
 		return array_key_exists($strColumnName, $this->strColumnArray);
 	}
 
-	public function GetColumnNameArray() {
+	public function getColumnNameArray() {
 		return $this->strColumnArray;
 	}
 }

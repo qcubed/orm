@@ -27,11 +27,11 @@ abstract class AbstractAggregation extends AbstractBase implements ClauseInterfa
 	protected $strAttributeName;
 	protected $strFunctionName;
 	public function __construct(Node\Column $objNode, $strAttributeName) {
-		$this->objNode = QQ::Func($this->strFunctionName, $objNode);
-		$this->strAttributeName = QQ::GetVirtualAlias($strAttributeName); // virtual attributes are queried lower case
+		$this->objNode = QQ::func($this->strFunctionName, $objNode);
+		$this->strAttributeName = QQ::getVirtualAlias($strAttributeName); // virtual attributes are queried lower case
 	}
-	public function UpdateQueryBuilder(Builder $objBuilder) {
-		$objBuilder->SetVirtualNode($this->strAttributeName, $this->objNode);
-		$objBuilder->AddSelectFunction(null, $this->objNode->GetColumnAlias($objBuilder), $this->strAttributeName);
+	public function updateQueryBuilder(Builder $objBuilder) {
+		$objBuilder->setVirtualNode($this->strAttributeName, $this->objNode);
+		$objBuilder->addSelectFunction(null, $this->objNode->getColumnAlias($objBuilder), $this->strAttributeName);
 	}
 }

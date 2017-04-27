@@ -40,7 +40,7 @@ class Row extends AbstractRow {
 	 *
 	 * @return mixed
 	 */
-	public function GetColumn($strColumnName, $strColumnType = null) {
+	public function getColumn($strColumnName, $strColumnType = null) {
 		if (!isset($this->strColumnArray[$strColumnName])) {
 			return null;
 		}
@@ -58,17 +58,17 @@ class Row extends AbstractRow {
 			case FieldType::Char:
 			case FieldType::VarChar:
 			case FieldType::Json: // JSON is basically String
-				return Type::Cast($strColumnValue, Type::String);
+				return Type::cast($strColumnValue, Type::String);
 			case FieldType::Date:
 			case FieldType::DateTime:
 			case FieldType::Time:
 				return new QDateTime($strColumnValue);
 
 			case FieldType::Float:
-				return Type::Cast($strColumnValue, Type::Float);
+				return Type::cast($strColumnValue, Type::Float);
 
 			case FieldType::Integer:
-				return Type::Cast($strColumnValue, Type::Integer);
+				return Type::cast($strColumnValue, Type::Integer);
 
 			default:
 				return $strColumnValue;
@@ -82,14 +82,14 @@ class Row extends AbstractRow {
 	 *
 	 * @return bool
 	 */
-	public function ColumnExists($strColumnName) {
+	public function columnExists($strColumnName) {
 		return array_key_exists($strColumnName, $this->strColumnArray);
 	}
 
 	/**
 	 * @return string|string[]
 	 */
-	public function GetColumnNameArray() {
+	public function getColumnNameArray() {
 		return $this->strColumnArray;
 	}
 
@@ -99,7 +99,7 @@ class Row extends AbstractRow {
 	 * @param bool|null $mixValue Value of the BIT column
 	 * @return bool
 	 */
-	public function ResolveBooleanValue ($mixValue) {
+	public function resolveBooleanValue($mixValue) {
 		if ($mixValue == 'f') {
 			return false;
 		} elseif ($mixValue == 't') {

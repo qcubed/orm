@@ -36,8 +36,8 @@ class Between extends AbstractComparison {
 			$this->mixOperand = $mixMinValue;
 			$this->mixOperandTwo = $mixMaxValue;
 		} catch (Caller $objExc) {
-			$objExc->IncrementOffset();
-			$objExc->IncrementOffset();
+			$objExc->incrementOffset();
+			$objExc->incrementOffset();
 			throw $objExc;
 		}
 	}
@@ -45,15 +45,15 @@ class Between extends AbstractComparison {
 	/**
 	 * @param Builder $objBuilder
 	 */
-	public function UpdateQueryBuilder(Builder $objBuilder) {
+	public function updateQueryBuilder(Builder $objBuilder) {
 		$mixOperand = $this->mixOperand;
 		$mixOperandTwo = $this->mixOperandTwo;
 		if ($mixOperand instanceof Node\NamedValue) {
 			/** @var Node\NamedValue $mixOperand */
 			/** @var Node\NamedValue $mixOperandTwo */
-			$objBuilder->AddWhereItem($this->objQueryNode->GetColumnAlias($objBuilder) . ' BETWEEN ' . $mixOperand->Parameter() . ' AND ' . $mixOperandTwo->Parameter());
+			$objBuilder->addWhereItem($this->objQueryNode->getColumnAlias($objBuilder) . ' BETWEEN ' . $mixOperand->parameter() . ' AND ' . $mixOperandTwo->parameter());
 		} else {
-			$objBuilder->AddWhereItem($this->objQueryNode->GetColumnAlias($objBuilder) . ' BETWEEN ' . $objBuilder->Database->SqlVariable($mixOperand) . ' AND ' . $objBuilder->Database->SqlVariable($mixOperandTwo));
+			$objBuilder->addWhereItem($this->objQueryNode->getColumnAlias($objBuilder) . ' BETWEEN ' . $objBuilder->Database->sqlVariable($mixOperand) . ' AND ' . $objBuilder->Database->sqlVariable($mixOperandTwo));
 		}
 	}
 }

@@ -33,27 +33,27 @@ abstract class AbstractResult extends \QCubed\AbstractBase {
 	 * @abstract
 	 * @return mixed
 	 */
-	abstract public function FetchArray();
+	abstract public function fetchArray();
 
 	/**
 	 * Fetches one row as enumerated (with numerical indexes) array from the result set
 	 * @abstract
 	 * @return mixed
 	 */
-	abstract public function FetchRow();
+	abstract public function fetchRow();
 
-	abstract public function FetchField();
-	abstract public function FetchFields();
-	abstract public function CountRows();
-	abstract public function CountFields();
+	abstract public function fetchField();
+	abstract public function fetchFields();
+	abstract public function countRows();
+	abstract public function countFields();
 
 	/**
 	 * @return AbstractRow
 	 */
-	abstract public function GetNextRow();
-	abstract public function GetRows();
+	abstract public function getNextRow();
+	abstract public function getRows();
 
-	abstract public function Close();
+	abstract public function close();
 
 	/**
 	 * PHP magic method
@@ -71,7 +71,7 @@ abstract class AbstractResult extends \QCubed\AbstractBase {
 				try {
 					return parent::__get($strName);
 				} catch (Caller $objExc) {
-					$objExc->IncrementOffset();
+					$objExc->incrementOffset();
 					throw $objExc;
 				}
 		}
@@ -81,16 +81,16 @@ abstract class AbstractResult extends \QCubed\AbstractBase {
 		switch ($strName) {
 			case 'ColumnAliasArray':
 				try {
-					return ($this->strColumnAliasArray = Type::Cast($mixValue, Type::ArrayType));
+					return ($this->strColumnAliasArray = Type::cast($mixValue, Type::ArrayType));
 				} catch (InvalidCast $objExc) {
-					$objExc->IncrementOffset();
+					$objExc->incrementOffset();
 					throw $objExc;
 				}
 			default:
 				try {
 					return parent::__set($strName, $mixValue);
 				} catch (Caller $objExc) {
-					$objExc->IncrementOffset();
+					$objExc->incrementOffset();
 					throw $objExc;
 				}
 		}

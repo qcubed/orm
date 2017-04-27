@@ -30,7 +30,7 @@ class Virtual extends AbstractNoParent {
 	public function __construct($strName, AbstractSubQuery $objSubQueryDefinition = null) {
 		parent::__construct('', '', '');
 		$this->objParentNode = true;
-		$this->strName = QQ::GetVirtualAlias($strName);
+		$this->strName = QQ::getVirtualAlias($strName);
 		$this->strAlias = $this->strName;
 		$this->objSubQueryDefinition = $objSubQueryDefinition;
 	}
@@ -40,26 +40,26 @@ class Virtual extends AbstractNoParent {
 	 * @return string
 	 * @throws Caller
 	 */
-	public function GetColumnAlias(Builder $objBuilder) {
+	public function getColumnAlias(Builder $objBuilder) {
 		if ($this->objSubQueryDefinition) {
-			$objBuilder->SetVirtualNode($this->strName, $this->objSubQueryDefinition);
-			return $this->objSubQueryDefinition->GetColumnAlias($objBuilder);
+			$objBuilder->setVirtualNode($this->strName, $this->objSubQueryDefinition);
+			return $this->objSubQueryDefinition->getColumnAlias($objBuilder);
 		} else {
 			try {
-				$objNode = $objBuilder->GetVirtualNode($this->strName);
-				return $objNode->GetColumnAlias($objBuilder);
+				$objNode = $objBuilder->getVirtualNode($this->strName);
+				return $objNode->getColumnAlias($objBuilder);
 			} catch (Caller $objExc) {
-				$objExc->IncrementOffset();
-				$objExc->IncrementOffset();
+				$objExc->incrementOffset();
+				$objExc->incrementOffset();
 				throw $objExc;
 			}
 		}
 	}
-	public function GetAttributeName() {
+	public function getAttributeName() {
 		return $this->strName;
 	}
 
-	public function HasSubquery() {
+	public function hasSubquery() {
 		return $this->objSubQueryDefinition != null;
 	}
 }

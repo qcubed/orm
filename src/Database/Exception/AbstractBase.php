@@ -7,7 +7,7 @@
  *
  */
 
-namespace QCubed\Database;
+namespace QCubed\Database\Exception;
 
 use QCubed\Exception\Caller;
 
@@ -19,7 +19,7 @@ use QCubed\Exception\Caller;
  * @package DatabaseAdapters
  * @was QDatabaseException
  */
-abstract class AbstractException extends Caller {
+abstract class AbstractBase extends Caller {
 	/** @var int Error number */
 	protected $intErrorNumber;
 	/** @var string Query which produced the error */

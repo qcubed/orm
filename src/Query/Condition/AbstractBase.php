@@ -23,7 +23,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	protected $strOperator;
 	protected $blnProcessed;
 
-	abstract public function UpdateQueryBuilder(Builder $objBuilder);
+	abstract public function updateQueryBuilder(Builder $objBuilder);
 
 	public function __toString() {
 		return 'QQCondition Object';
@@ -40,7 +40,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 * @throws \Exception
 	 * @throws Caller
 	 */
-	public function GetWhereClause(Builder $objBuilder, $blnProcessOnce = false) {
+	public function getWhereClause(Builder $objBuilder, $blnProcessOnce = false) {
 		if ($blnProcessOnce && $this->blnProcessed)
 			return null;
 
@@ -48,11 +48,11 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 
 		try {
 			$objConditionBuilder = new PartialBuilder($objBuilder);
-			$this->UpdateQueryBuilder($objConditionBuilder);
-			return $objConditionBuilder->GetWhereStatement();
+			$this->updateQueryBuilder($objConditionBuilder);
+			return $objConditionBuilder->getWhereStatement();
 		} catch (Caller $objExc) {
-			$objExc->IncrementOffset();
-			$objExc->IncrementOffset();
+			$objExc->incrementOffset();
+			$objExc->incrementOffset();
 			throw $objExc;
 		}
 	}
@@ -62,7 +62,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 * @param string $strTableName
 	 * @return bool
 	 */
-	public function EqualTables($strTableName) {
+	public function equalTables($strTableName) {
 		return true;
 	}
 }

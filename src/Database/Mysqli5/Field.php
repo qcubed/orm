@@ -17,7 +17,7 @@ use QCubed\Database\FieldType;
  * @was QMySqli5DatabaseField
  */
 class Field extends MysqliField {
-	protected function SetFieldType($intMySqlFieldType, $intFlags) {
+	protected function setFieldType($intMySqlFieldType, $intFlags) {
 		switch ($intMySqlFieldType) {
 			case MYSQLI_TYPE_NEWDECIMAL:
 				$this->strType = FieldType::VarChar;
@@ -28,7 +28,7 @@ class Field extends MysqliField {
 				break;
 
 			default:
-				parent::SetFieldType($intMySqlFieldType, $intFlags);
+				parent::setFieldType($intMySqlFieldType, $intFlags);
 		}
 	}
 }

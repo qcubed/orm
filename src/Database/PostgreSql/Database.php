@@ -40,13 +40,13 @@ use QCubed\Exception\Caller;
  */
 class Database extends AbstractBase {
 	/** Adapter name */
-	const Adapter = 'PostgreSQL Database Adapter';
+	const ADAPTER = 'PostgreSQL Database Adapter';
 
 	protected $objPgSql;
 	protected $objMostRecentResult;
 	protected $blnOnlyFullGroupBy = true;
 
-	public function SqlVariable($mixData, $blnIncludeEquality = false, $blnReverseEquality = false) {
+	public function sqlVariable($mixData, $blnIncludeEquality = false, $blnReverseEquality = false) {
 		// Are we SqlVariabling a BOOLEAN value?
 		if (is_bool($mixData)) {
 			// Yes
@@ -109,12 +109,12 @@ class Database extends AbstractBase {
 
 		// Check for DATE Value
 		if ($mixData instanceof QDateTime) {
-			if ($mixData->IsTimeNull()) {
-				if ($mixData->IsDateNull()) {
+			if ($mixData->isTimeNull()) {
+				if ($mixData->isDateNull()) {
 					return $strToReturn . 'NULL'; // null date and time is a null value
 				}
 				return  $strToReturn . sprintf("'%s'", $mixData->qFormat('YYYY-MM-DD'));
-			} elseif ($mixData->IsDateNull()) {
+			} elseif ($mixData->isDateNull()) {
 				return  $strToReturn . sprintf("'%s'", $mixData->qFormat('hhhh:mm:ss'));
 			} else {
 				return  $strToReturn . sprintf("'%s'", $mixData->qFormat(QDateTime::FormatIso));
@@ -125,13 +125,13 @@ class Database extends AbstractBase {
 		return $strToReturn . sprintf("'%s'", pg_escape_string($mixData));
 	}
 
-	public function SqlLimitVariablePrefix($strLimitInfo) {
+	public function sqlLimitVariablePrefix($strLimitInfo) {
 		// PostgreSQL uses Limit by Suffixes (via a LIMIT clause)
 		// Prefix is not used, therefore, return null
 		return null;
 	}
 
-	public function SqlLimitVariableSuffix($strLimitInfo) {
+	public function sqlLimitVariableSuffix($strLimitInfo) {
 		// Setup limit suffix (if applicable) via a LIMIT clause
 		if (strlen($strLimitInfo)) {
 			if (strpos($strLimitInfo, ';') !== false)
@@ -155,7 +155,7 @@ class Database extends AbstractBase {
 		return null;
 	}
 
-	public function SqlSortByVariable($strSortByInfo) {
+	public function sqlSortByVariable($strSortByInfo) {
 		// Setup sorting information (if applicable) via a ORDER BY clause
 		if (strlen($strSortByInfo)) {
 			if (strpos($strSortByInfo, ';') !== false)
@@ -169,8 +169,8 @@ class Database extends AbstractBase {
 		return null;
 	}
 
-	public function InsertOrUpdate($strTable, $mixColumnsAndValuesArray, $strPKNames = null) {
-		$strEscapedArray = $this->EscapeIdentifiersAndValues($mixColumnsAndValuesArray);
+	public function insertOrUpdate($strTable, $mixColumnsAndValuesArray, $strPKNames = null) {
+		$strEscapedArray = $this->escapeIdentifiersAndValues($mixColumnsAndValuesArray);
 		$strColumns = array_keys($strEscapedArray);
 		$strUpdateStatement = '';
 		foreach ($strEscapedArray as $strColumn => $strValue) {
@@ -180,9 +180,9 @@ class Database extends AbstractBase {
 		if (is_null($strPKNames)) {
 			$strPKNames = array($strColumns[0]);
 		} else if (is_array($strPKNames)) {
-			$strPKNames = $this->EscapeIdentifiers($strPKNames);
+			$strPKNames = $this->escapeIdentifiers($strPKNames);
 		} else {
-			$strPKNames = array($this->EscapeIdentifier($strPKNames));
+			$strPKNames = array($this->escapeIdentifier($strPKNames));
 		}
 		$strMatchCondition = '';
 		foreach ($strPKNames as $strPKName) {
@@ -197,13 +197,13 @@ class Database extends AbstractBase {
 			implode(', ', $strColumns),
 			implode(', ', array_values($strEscapedArray)),
 			$strTable, $strMatchCondition);
-		$this->TransactionBegin();
+		$this->transactionBegin();
 		try {
-			$this->ExecuteNonQuery($strUpdateSql);
-			$this->ExecuteNonQuery($strInsertSql);
-			$this->TransactionCommit();
+			$this->executeNonQuery($strUpdateSql);
+			$this->executeNonQuery($strInsertSql);
+			$this->transactionCommit();
 		} catch (Exception $ex) {
-			$this->TransactionRollback();
+			$this->transactionRollback();
 			throw $ex;
 		}
 	}
@@ -213,7 +213,7 @@ class Database extends AbstractBase {
 	 *
 	 * @throws Exception
 	 */
-	public function Connect() {
+	public function connect() {
 		// Lookup Adapter-Specific Connection Properties
 		$strServer = $this->Server;
 		$strName = $this->Database;
@@ -239,7 +239,7 @@ class Database extends AbstractBase {
 				try {
 					return parent::__get($strName);
 				} catch (Caller $objExc) {
-					$objExc->IncrementOffset();
+					$objExc->incrementOffset();
 					throw $objExc;
 				}
 		}
@@ -250,7 +250,7 @@ class Database extends AbstractBase {
 	 * @return Result
 	 * @throws Exception
 	 */
-	protected function ExecuteQuery($strQuery) {
+	protected function executeQuery($strQuery) {
 		// Perform the Query
 		$objResult = pg_query($this->objPgSql, $strQuery);
 		if (!$objResult)
@@ -266,7 +266,7 @@ class Database extends AbstractBase {
 	 * @param string $strNonQuery
 	 * @throws Exception
 	 */
-	protected function ExecuteNonQuery($strNonQuery) {
+	protected function executeNonQuery($strNonQuery) {
 		// Perform the Query
 		$objResult = pg_query($this->objPgSql, $strNonQuery);
 		if (!$objResult)
@@ -279,16 +279,16 @@ class Database extends AbstractBase {
 	 *
 	 * @return array List of tables in the database as string
 	 */
-	public function GetTables() {
-		$objResult = $this->Query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = current_schema() AND TABLE_TYPE = 'BASE TABLE' ORDER BY TABLE_NAME ASC");
+	public function getTables() {
+		$objResult = $this->query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = current_schema() AND TABLE_TYPE = 'BASE TABLE' ORDER BY TABLE_NAME ASC");
 		$strToReturn = array();
-		while ($strRowArray = $objResult->FetchRow())
+		while ($strRowArray = $objResult->fetchRow())
 			array_push($strToReturn, $strRowArray[0]);
 		return $strToReturn;
 	}
 
-	public function GetFieldsForTable($strTableName) {
-		$strTableName = $this->SqlVariable($strTableName);
+	public function getFieldsForTable($strTableName) {
+		$strTableName = $this->sqlVariable($strTableName);
 		$strQuery = sprintf('
 			SELECT 
 				columns.table_name,
@@ -312,28 +312,28 @@ class Database extends AbstractBase {
 				ordinal_position
 		', $strTableName);
 
-		$objResult = $this->Query($strQuery);
+		$objResult = $this->query($strQuery);
 
 		$objFields = array();
 
-		while ($objRow = $objResult->GetNextRow()) {
+		while ($objRow = $objResult->getNextRow()) {
 			array_push($objFields, new Field($objRow, $this));
 		}
 
 		return $objFields;
 	}
 
-	public function InsertId($strTableName = null, $strColumnName = null) {
+	public function insertId($strTableName = null, $strColumnName = null) {
 		$strQuery = sprintf('
 			SELECT currval(pg_get_serial_sequence(%s, %s))
-		', $this->SqlVariable($strTableName), $this->SqlVariable($strColumnName));
+		', $this->sqlVariable($strTableName), $this->sqlVariable($strColumnName));
 
-		$objResult = $this->Query($strQuery);
-		$objRow = $objResult->FetchRow();
+		$objResult = $this->query($strQuery);
+		$objRow = $objResult->fetchRow();
 		return $objRow[0];
 	}
 
-	public function Close() {
+	public function close() {
 		pg_close($this->objPgSql);
 
 		// Update Connected Flag
@@ -343,25 +343,25 @@ class Database extends AbstractBase {
 	/**
 	 * Sends the 'BEGIN' command to the PostgreSQL server to start a transaction
 	 */
-	protected function ExecuteTransactionBegin() {
-		$this->NonQuery('BEGIN;');
+	protected function executeTransactionBegin() {
+		$this->nonQuery('BEGIN;');
 	}
 
 	/**
 	 * Sends the 'COMMIT' command to the PostgreSQL server to commit/end a transaction
 	 */
-	protected function ExecuteTransactionCommit() {
-		$this->NonQuery('COMMIT;');
+	protected function executeTransactionCommit() {
+		$this->nonQuery('COMMIT;');
 	}
 
 	/**
 	 * Sends the 'ROLLBACK' command to the PostgreSQL server to revert a transaction
 	 */
-	protected function ExecuteTransactionRollBack() {
-		$this->NonQuery('ROLLBACK;');
+	protected function executeTransactionRollBack() {
+		$this->nonQuery('ROLLBACK;');
 	}
 
-	private function ParseColumnNameArrayFromKeyDefinition($strKeyDefinition) {
+	private function parseColumnNameArrayFromKeyDefinition($strKeyDefinition) {
 		$strKeyDefinition = trim($strKeyDefinition);
 
 		// Get rid of the opening "(" and the closing ")"
@@ -393,10 +393,10 @@ class Database extends AbstractBase {
 		return $strToReturn;
 	}
 
-	public function GetIndexesForTable($strTableName) {
+	public function getIndexesForTable($strTableName) {
 		$objIndexArray = array();
 
-		$objResult = $this->Query(sprintf('
+		$objResult = $this->query(sprintf('
 			SELECT 
 				c2.relname AS indname, 
 				i.indisprimary, 
@@ -416,14 +416,14 @@ class Database extends AbstractBase {
 				i.indexrelid = c2.oid
 			ORDER BY 
 				c2.relname
-		', $this->SqlVariable($strTableName)));
+		', $this->sqlVariable($strTableName)));
 
-		while ($objRow = $objResult->GetNextRow()) {
-			$strIndexDefinition = $objRow->GetColumn('inddef');
-			$strKeyName = $objRow->GetColumn('indname');
-			$blnPrimaryKey = ($objRow->GetColumn('indisprimary') === "t");
-			$blnUnique = ($objRow->GetColumn('indisunique') === "t");
-			$strColumnNameArray = $this->ParseColumnNameArrayFromKeyDefinition($strIndexDefinition);
+		while ($objRow = $objResult->getNextRow()) {
+			$strIndexDefinition = $objRow->getColumn('inddef');
+			$strKeyName = $objRow->getColumn('indname');
+			$blnPrimaryKey = ($objRow->getColumn('indisprimary') === "t");
+			$blnUnique = ($objRow->getColumn('indisunique') === "t");
+			$strColumnNameArray = $this->parseColumnNameArrayFromKeyDefinition($strIndexDefinition);
 
 			$objIndex = new Index($strKeyName, $blnPrimaryKey, $blnUnique, $strColumnNameArray);
 			array_push($objIndexArray, $objIndex);
@@ -436,7 +436,7 @@ class Database extends AbstractBase {
 	 * @param string $strTableName
 	 * @return ForeignKey[]
 	 */
-	public function GetForeignKeysForTable($strTableName) {
+	public function getForeignKeysForTable($strTableName) {
 		$objForeignKeyArray = array();
 
 		// Use Query to pull the FKs
@@ -468,12 +468,12 @@ class Database extends AbstractBase {
 				)
 			AND 
 				pc.contype = \'f\'
-		', $this->SqlVariable($strTableName));
+		', $this->sqlVariable($strTableName));
 
-		$objResult = $this->Query($strQuery);
+		$objResult = $this->query($strQuery);
 
-		while ($objRow = $objResult->GetNextRow()) {
-			$strKeyName = $objRow->GetColumn('conname');
+		while ($objRow = $objResult->getNextRow()) {
+			$strKeyName = $objRow->getColumn('conname');
 
 			// Remove leading and trailing '"' characters (if applicable)
 			if (substr($strKeyName, 0, 1) == '"')
@@ -483,7 +483,7 @@ class Database extends AbstractBase {
 			// Index 1: the list of columns that are the foreign key
 			// Index 2: the table which this FK references
 			// Index 3: the list of columns which this FK references
-			$strTokenArray = explode('FOREIGN KEY ', $objRow->GetColumn('consrc'));
+			$strTokenArray = explode('FOREIGN KEY ', $objRow->getColumn('consrc'));
 			$strTokenArray[1] = explode(' REFERENCES ', $strTokenArray[1]);
 			$strTokenArray[2] = $strTokenArray[1][1];
 			$strTokenArray[1] = $strTokenArray[1][0];
@@ -495,9 +495,9 @@ class Database extends AbstractBase {
 			if (substr($strTokenArray[2], 0, 1) == '"')
 				$strTokenArray[2] = substr($strTokenArray[2], 1, strlen($strTokenArray[2]) - 2);
 
-			$strColumnNameArray = $this->ParseColumnNameArrayFromKeyDefinition($strTokenArray[1]);
+			$strColumnNameArray = $this->parseColumnNameArrayFromKeyDefinition($strTokenArray[1]);
 			$strReferenceTableName = $strTokenArray[2];
-			$strReferenceColumnNameArray = $this->ParseColumnNameArrayFromKeyDefinition($strTokenArray[3]);
+			$strReferenceColumnNameArray = $this->parseColumnNameArrayFromKeyDefinition($strTokenArray[3]);
 
 			$objForeignKey = new ForeignKey(
 				$strKeyName,
@@ -515,8 +515,8 @@ class Database extends AbstractBase {
 	 * @param $sql
 	 * @return mixed
 	 */
-	public function ExplainStatement($sql) {
-		return $this->Query("EXPLAIN " . $sql);
+	public function explainStatement($sql) {
+		return $this->query("EXPLAIN " . $sql);
 	}
 }
 

@@ -36,10 +36,10 @@ class NotIn extends AbstractComparison {
 			$this->mixOperand = $mixValuesArray;
 		else {
 			try {
-				$this->mixOperand = Type::Cast($mixValuesArray, Type::ArrayType);
+				$this->mixOperand = Type::cast($mixValuesArray, Type::ArrayType);
 			} catch (Caller $objExc) {
-				$objExc->IncrementOffset();
-				$objExc->IncrementOffset();
+				$objExc->incrementOffset();
+				$objExc->incrementOffset();
 				throw $objExc;
 			}
 		}
@@ -48,23 +48,23 @@ class NotIn extends AbstractComparison {
 	/**
 	 * @param Builder $objBuilder
 	 */
-	public function UpdateQueryBuilder(Builder $objBuilder) {
+	public function updateQueryBuilder(Builder $objBuilder) {
 		$mixOperand = $this->mixOperand;
 		if ($mixOperand instanceof Node\NamedValue) {
 			/** @var Node\NamedValue $mixOperand */
-			$objBuilder->AddWhereItem($this->objQueryNode->GetColumnAlias($objBuilder) . ' NOT IN (' . $mixOperand->Parameter() . ')');
+			$objBuilder->addWhereItem($this->objQueryNode->getColumnAlias($objBuilder) . ' NOT IN (' . $mixOperand->parameter() . ')');
 		} else if ($mixOperand instanceof Node\AbstractSubQuery) {
 			/** @var Node\AbstractSubQuery $mixOperand */
-			$objBuilder->AddWhereItem($this->objQueryNode->GetColumnAlias($objBuilder) . ' NOT IN ' . $mixOperand->GetColumnAlias($objBuilder));
+			$objBuilder->addWhereItem($this->objQueryNode->getColumnAlias($objBuilder) . ' NOT IN ' . $mixOperand->getColumnAlias($objBuilder));
 		} else {
 			$strParameters = array();
 			foreach ($mixOperand as $mixParameter) {
-				array_push($strParameters, $objBuilder->Database->SqlVariable($mixParameter));
+				array_push($strParameters, $objBuilder->Database->sqlVariable($mixParameter));
 			}
 			if (count($strParameters))
-				$objBuilder->AddWhereItem($this->objQueryNode->GetColumnAlias($objBuilder) . ' NOT IN (' . implode(',', $strParameters) . ')');
+				$objBuilder->addWhereItem($this->objQueryNode->getColumnAlias($objBuilder) . ' NOT IN (' . implode(',', $strParameters) . ')');
 			else
-				$objBuilder->AddWhereItem('1=1');
+				$objBuilder->addWhereItem('1=1');
 		}
 	}
 }

@@ -182,7 +182,7 @@ class ReverseReference extends \QCubed\AbstractBase {
 				try {
 					return parent::__get($strName);
 				} catch (Caller $objExc) {
-					$objExc->IncrementOffset();
+					$objExc->incrementOffset();
 					throw $objExc;
 				}
 		}
@@ -201,38 +201,38 @@ class ReverseReference extends \QCubed\AbstractBase {
 		try {
 			switch ($strName) {
 				case 'Reference':
-					return $this->objReference = Type::Cast($mixValue, Reference::class);
+					return $this->objReference = Type::cast($mixValue, Reference::class);
 				case 'KeyName':
-					return $this->strKeyName = Type::Cast($mixValue, Type::String);
+					return $this->strKeyName = Type::cast($mixValue, Type::String);
 				case 'Table':
-					return $this->strTable = Type::Cast($mixValue, Type::String);
+					return $this->strTable = Type::cast($mixValue, Type::String);
 				case 'Column':
-					return $this->strColumn = Type::Cast($mixValue, Type::String);
+					return $this->strColumn = Type::cast($mixValue, Type::String);
 				case 'NotNull':
-					return $this->blnNotNull = Type::Cast($mixValue, Type::Boolean);
+					return $this->blnNotNull = Type::cast($mixValue, Type::Boolean);
 				case 'Unique':
-					return $this->blnUnique = Type::Cast($mixValue, Type::Boolean);
+					return $this->blnUnique = Type::cast($mixValue, Type::Boolean);
 				case 'VariableName':
-					return $this->strVariableName = Type::Cast($mixValue, Type::String);
+					return $this->strVariableName = Type::cast($mixValue, Type::String);
 				case 'VariableType':
-					return $this->strVariableType = Type::Cast($mixValue, Type::String);
+					return $this->strVariableType = Type::cast($mixValue, Type::String);
 				case 'PropertyName':
-					return $this->strPropertyName = Type::Cast($mixValue, Type::String);
+					return $this->strPropertyName = Type::cast($mixValue, Type::String);
 				case 'ObjectDescription':
-					return $this->strObjectDescription = Type::Cast($mixValue, Type::String);
+					return $this->strObjectDescription = Type::cast($mixValue, Type::String);
 				case 'ObjectDescriptionPlural':
-					return $this->strObjectDescriptionPlural = Type::Cast($mixValue, Type::String);
+					return $this->strObjectDescriptionPlural = Type::cast($mixValue, Type::String);
 				case 'ObjectMemberVariable':
-					return $this->strObjectMemberVariable = Type::Cast($mixValue, Type::String);
+					return $this->strObjectMemberVariable = Type::cast($mixValue, Type::String);
 				case 'ObjectPropertyName':
-					return $this->strObjectPropertyName = Type::Cast($mixValue, Type::String);
+					return $this->strObjectPropertyName = Type::cast($mixValue, Type::String);
 				case 'Options':
-					return $this->options = Type::Cast($mixValue, Type::ArrayType);
+					return $this->options = Type::cast($mixValue, Type::ArrayType);
 				default:
 					return parent::__set($strName, $mixValue);
 			}
 		} catch (Caller $objExc) {
-			$objExc->IncrementOffset();
+			$objExc->incrementOffset();
 			throw $objExc;
 		}
 	}

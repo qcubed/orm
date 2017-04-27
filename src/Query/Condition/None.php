@@ -26,7 +26,7 @@ class None extends AbstractBase implements ConditionInterface {
 		if (count($mixParameterArray))
 			throw new Caller('None clause takes in no parameters', 3);
 	}
-	public function UpdateQueryBuilder(Builder $objBuilder) {
-		$objBuilder->AddWhereItem('1=0');
+	public function updateQueryBuilder(Builder $objBuilder) {
+		$objBuilder->addWhereItem('1=0');
 	}
 }

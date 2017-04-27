@@ -49,8 +49,8 @@ abstract class AbstractComparison extends AbstractBase implements ConditionInter
 			$this->mixOperand = $mixOperand;
 		}
 	}
-	public function UpdateQueryBuilder(Builder $objBuilder) {
-		$objBuilder->AddWhereItem($this->objQueryNode->GetColumnAlias($objBuilder) . $this->strOperator . Node\AbstractBase::GetValue($this->mixOperand, $objBuilder));
+	public function updateQueryBuilder(Builder $objBuilder) {
+		$objBuilder->addWhereItem($this->objQueryNode->getColumnAlias($objBuilder) . $this->strOperator . Node\AbstractBase::getValue($this->mixOperand, $objBuilder));
 	}
 
 	/**
@@ -58,7 +58,7 @@ abstract class AbstractComparison extends AbstractBase implements ConditionInter
 	 * @param $strTableName
 	 * @returns bool
 	 */
-	public function EqualTables($strTableName) {
-		return $this->objQueryNode->GetTable() == $strTableName;
+	public function equalTables($strTableName) {
+		return $this->objQueryNode->getTable() == $strTableName;
 	}
 }

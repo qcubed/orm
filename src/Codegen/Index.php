@@ -80,7 +80,7 @@ class Index extends \QCubed\AbstractBase {
 				try {
 					return parent::__get($strName);
 				} catch (Caller $objExc) {
-					$objExc->IncrementOffset();
+					$objExc->incrementOffset();
 					throw $objExc;
 				}
 		}
@@ -99,18 +99,18 @@ class Index extends \QCubed\AbstractBase {
 		try {
 			switch ($strName) {
 				case 'KeyName':
-					return $this->strKeyName = Type::Cast($mixValue, Type::String);
+					return $this->strKeyName = Type::cast($mixValue, Type::String);
 				case 'Unique':
-					return $this->blnUnique = Type::Cast($mixValue, Type::Boolean);
+					return $this->blnUnique = Type::cast($mixValue, Type::Boolean);
 				case 'PrimaryKey':
-					return $this->blnPrimaryKey = Type::Cast($mixValue, Type::Boolean);
+					return $this->blnPrimaryKey = Type::cast($mixValue, Type::Boolean);
 				case 'ColumnNameArray':
-					return $this->strColumnNameArray = Type::Cast($mixValue, Type::ArrayType);
+					return $this->strColumnNameArray = Type::cast($mixValue, Type::ArrayType);
 				default:
 					return parent::__set($strName, $mixValue);
 			}
 		} catch (Caller $objExc) {
-			$objExc->IncrementOffset();
+			$objExc->incrementOffset();
 			throw $objExc;
 		}
 	}

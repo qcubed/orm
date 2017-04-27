@@ -37,19 +37,19 @@ class Select extends AbstractBase implements ClauseInterface {
 		}
 	}
 
-	public function UpdateQueryBuilder(Builder $objBuilder) {
+	public function updateQueryBuilder(Builder $objBuilder) {
 	}
 
-	public function AddSelectItems(Builder $objBuilder, $strTableName, $strAliasPrefix) {
+	public function addSelectItems(Builder $objBuilder, $strTableName, $strAliasPrefix) {
 		foreach ($this->arrNodeObj as $objNode) {
-			$strNodeTable = $objNode->GetTable();
+			$strNodeTable = $objNode->getTable();
 			if ($strNodeTable == $strTableName) {
-				$objBuilder->AddSelectItem($strTableName, $objNode->_Name, $strAliasPrefix . $objNode->_Name);
+				$objBuilder->addSelectItem($strTableName, $objNode->_Name, $strAliasPrefix . $objNode->_Name);
 			}
 		}
 	}
 
-	public function Merge(Select $objSelect = null) {
+	public function merge(Select $objSelect = null) {
 		if ($objSelect) {
 			foreach ($objSelect->arrNodeObj as $objNode) {
 				array_push($this->arrNodeObj, $objNode);
@@ -63,14 +63,14 @@ class Select extends AbstractBase implements ClauseInterface {
 	/**
 	 * @return boolean
 	 */
-	public function SkipPrimaryKey() {
+	public function skipPrimaryKey() {
 		return $this->blnSkipPrimaryKey;
 	}
 
 	/**
 	 * @param boolean $blnSkipPrimaryKey
 	 */
-	public function SetSkipPrimaryKey($blnSkipPrimaryKey) {
+	public function setSkipPrimaryKey($blnSkipPrimaryKey) {
 		$this->blnSkipPrimaryKey = $blnSkipPrimaryKey;
 	}
 

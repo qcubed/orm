@@ -24,18 +24,18 @@ class Limit extends AbstractBase implements ClauseInterface {
 	protected $intOffset;
 	public function __construct($intMaxRowCount, $intOffset = 0) {
 		try {
-			$this->intMaxRowCount = Type::Cast($intMaxRowCount, Type::Integer);
-			$this->intOffset = Type::Cast($intOffset, Type::Integer);
+			$this->intMaxRowCount = Type::cast($intMaxRowCount, Type::Integer);
+			$this->intOffset = Type::cast($intOffset, Type::Integer);
 		} catch (Caller $objExc) {
-			$objExc->IncrementOffset();
+			$objExc->incrementOffset();
 			throw $objExc;
 		}
 	}
-	public function UpdateQueryBuilder(Builder $objBuilder) {
+	public function updateQueryBuilder(Builder $objBuilder) {
 		if ($this->intOffset)
-			$objBuilder->SetLimitInfo($this->intOffset . ',' . $this->intMaxRowCount);
+			$objBuilder->setLimitInfo($this->intOffset . ',' . $this->intMaxRowCount);
 		else
-			$objBuilder->SetLimitInfo($this->intMaxRowCount);
+			$objBuilder->setLimitInfo($this->intMaxRowCount);
 	}
 	public function __toString() {
 		return 'QQLimitInfo Clause';
@@ -51,7 +51,7 @@ class Limit extends AbstractBase implements ClauseInterface {
 				try {
 					return parent::__get($strName);
 				} catch (Caller $objExc) {
-					$objExc->IncrementOffset();
+					$objExc->incrementOffset();
 					throw $objExc;
 				}
 		}

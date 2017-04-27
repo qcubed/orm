@@ -55,7 +55,7 @@ use QCubed\Type;
 abstract class AbstractBase extends \QCubed\AbstractBase {
 	// Must be updated for all Adapters
 	/** Adapter name */
-	const Adapter = 'Generic Database Adapter (Abstract)';
+	const ADAPTER = 'Generic Database Adapter (Abstract)';
 
 	// Protected Member Variables for ALL Database Adapters
 	/** @var int Database Index according to the configuration file */
@@ -85,7 +85,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	/**
 	 * Connects to the database
 	 */
-	abstract public function Connect();
+	abstract public function connect();
 	// these are protected - externally, the "Query/NonQuery" wrappers are meant to be called
 	/**
 	 * Sends a SQL query for execution to the database
@@ -95,7 +95,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 *
 	 * @return mixed Result that the database returns after running the query.
 	 */
-	abstract protected function ExecuteQuery($strQuery);
+	abstract protected function executeQuery($strQuery);
 
 	/**
 	 * Sends a non-SELECT query (such as INSERT, UPDATE, DELETE, TRUNCATE) to DB server.
@@ -108,14 +108,14 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 *
 	 * @return mixed Result that the database returns after running the query
 	 */
-	abstract protected function ExecuteNonQuery($strNonQuery);
+	abstract protected function executeNonQuery($strNonQuery);
 
 	/**
 	 * Returns the list of tables in the database (as string)
 	 *
 	 * @return mixed|string[] List of tables
 	 */
-	abstract public function GetTables();
+	abstract public function getTables();
 
 	/**
 	 * Returns the ID to be inserted in a table column (normally it an autoincrement column)
@@ -125,7 +125,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 *
 	 * @return mixed
 	 */
-	abstract public function InsertId($strTableName = null, $strColumnName = null);
+	abstract public function insertId($strTableName = null, $strColumnName = null);
 
 	/**
 	 * Get the list of columns/fields for a given table
@@ -134,7 +134,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 *
 	 * @return mixed
 	 */
-	abstract public function GetFieldsForTable($strTableName);
+	abstract public function getFieldsForTable($strTableName);
 
 	/**
 	 * Get list of indexes for a table
@@ -143,7 +143,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 *
 	 * @return mixed
 	 */
-	abstract public function GetIndexesForTable($strTableName);
+	abstract public function getIndexesForTable($strTableName);
 
 	/**
 	 * Get list of foreign keys for a table
@@ -152,7 +152,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 *
 	 * @return mixed
 	 */
-	abstract public function GetForeignKeysForTable($strTableName);
+	abstract public function getForeignKeysForTable($strTableName);
 
 	/**
 	 * This function actually begins the database transaction.
@@ -161,7 +161,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 *
 	 * @return void Nothing
 	 */
-	abstract protected function ExecuteTransactionBegin();
+	abstract protected function executeTransactionBegin();
 
 	/**
 	 * This function actually commits the database transaction.
@@ -169,7 +169,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 * The "TransactionCommit" wrapper are meant to be called by end-user code
 	 * @return void Nothing
 	 */
-	abstract protected function ExecuteTransactionCommit();
+	abstract protected function executeTransactionCommit();
 
 	/**
 	 * This function actually rolls back the database transaction.
@@ -178,7 +178,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 *
 	 * @return void Nothing
 	 */
-	abstract protected function ExecuteTransactionRollBack();
+	abstract protected function executeTransactionRollBack();
 
 	/**
 	 * Template for executing stored procedures. Optional, for those database drivers that support it.
@@ -186,7 +186,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 * @param null $params
 	 * @return mixed
 	 */
-	public function ExecuteProcedure($strProcName, $params = null) {
+	public function executeProcedure($strProcName, $params = null) {
 		return null;
 	}
 
@@ -195,9 +195,9 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 *
 	 * @return void Nothing
 	 */
-	public final function TransactionBegin() {
+	public final function transactionBegin() {
 		if (0 == $this->intTransactionDepth) {
-			$this->ExecuteTransactionBegin();
+			$this->executeTransactionBegin();
 		}
 		$this->intTransactionDepth++;
 	}
@@ -208,9 +208,9 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 * @throws Caller
 	 * @return void Nothing
 	 */
-	public final function TransactionCommit() {
+	public final function transactionCommit() {
 		if (1 == $this->intTransactionDepth) {
-			$this->ExecuteTransactionCommit();
+			$this->executeTransactionCommit();
 		}
 		if ($this->intTransactionDepth <= 0) {
 			throw new Caller("The transaction commit call is called before the transaction begin was called.");
@@ -223,21 +223,21 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 *
 	 * @return void Nothing
 	 */
-	public final function TransactionRollBack() {
-		$this->ExecuteTransactionRollBack();
+	public final function transactionRollBack() {
+		$this->executeTransactionRollBack();
 		$this->intTransactionDepth = 0;
 	}
 
-	abstract public function SqlLimitVariablePrefix($strLimitInfo);
-	abstract public function SqlLimitVariableSuffix($strLimitInfo);
-	abstract public function SqlSortByVariable($strSortByInfo);
+	abstract public function sqlLimitVariablePrefix($strLimitInfo);
+	abstract public function sqlLimitVariableSuffix($strLimitInfo);
+	abstract public function sqlSortByVariable($strSortByInfo);
 
 	/**
 	 * Closes the database connection
 	 *
 	 * @return mixed
 	 */
-	abstract public function Close();
+	abstract public function close();
 
 	/**
 	 * Given an identifier for a SQL query, this method returns the escaped identifier
@@ -246,7 +246,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 *
 	 * @return string Escaped identifier string
 	 */
-	public function EscapeIdentifier($strIdentifier) {
+	public function escapeIdentifier($strIdentifier) {
 		return $this->strEscapeIdentifierBegin . $strIdentifier . $this->strEscapeIdentifierEnd;
 	}
 
@@ -258,11 +258,11 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 *
 	 * @return array|string Array of escaped identifiers (array) or one escaped identifier (string)
 	 */
-	public function EscapeIdentifiers($mixIdentifiers) {
+	public function escapeIdentifiers($mixIdentifiers) {
 		if (is_array($mixIdentifiers)) {
 			return array_map(array($this, 'EscapeIdentifier'), $mixIdentifiers);
 		} else {
-			return $this->EscapeIdentifier($mixIdentifiers);
+			return $this->escapeIdentifier($mixIdentifiers);
 		}
 	}
 
@@ -273,11 +273,11 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 *
 	 * @return array|string Array of (or a single) escaped value(s)
 	 */
-	public function EscapeValues($mixValues) {
+	public function escapeValues($mixValues) {
 		if (is_array($mixValues)) {
 			return array_map(array($this, 'SqlVariable'), $mixValues);
 		} else {
-			return $this->SqlVariable($mixValues);
+			return $this->sqlVariable($mixValues);
 		}
 	}
 
@@ -288,10 +288,10 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 *
 	 * @return array Array with column=>value format data with both column and value escaped
 	 */
-	public function EscapeIdentifiersAndValues($mixColumnsAndValuesArray) {
+	public function escapeIdentifiersAndValues($mixColumnsAndValuesArray) {
 		$result = array();
 		foreach ($mixColumnsAndValuesArray as $strColumn => $mixValue) {
-			$result[$this->EscapeIdentifier($strColumn)] = $this->SqlVariable($mixValue);
+			$result[$this->escapeIdentifier($strColumn)] = $this->sqlVariable($mixValue);
 		}
 		return $result;
 	}
@@ -304,8 +304,8 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 *                                                    (they are given to 'EscapeIdentifiersAndValues' method)
 	 * @param null|string|array $strPKNames               Name(s) of primary key column(s) (expressed as string or array)
 	 */
-	public function InsertOrUpdate($strTable, $mixColumnsAndValuesArray, $strPKNames = null) {
-		$strEscapedArray = $this->EscapeIdentifiersAndValues($mixColumnsAndValuesArray);
+	public function insertOrUpdate($strTable, $mixColumnsAndValuesArray, $strPKNames = null) {
+		$strEscapedArray = $this->escapeIdentifiersAndValues($mixColumnsAndValuesArray);
 		$strColumns = array_keys($strEscapedArray);
 		$strUpdateStatement = '';
 		foreach ($strEscapedArray as $strColumn => $strValue) {
@@ -318,10 +318,10 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 			$strMatchCondition = '';
 			foreach ($strPKNames as $strPKName) {
 				if ($strMatchCondition) $strMatchCondition .= ' AND ';
-				$strMatchCondition .= 'target_.'.$this->EscapeIdentifier($strPKName).' = source_.'.$this->EscapeIdentifier($strPKName);
+				$strMatchCondition .= 'target_.'.$this->escapeIdentifier($strPKName).' = source_.'.$this->escapeIdentifier($strPKName);
 			}
 		} else {
-			$strMatchCondition = 'target_.'.$this->EscapeIdentifier($strPKNames).' = source_.'.$this->EscapeIdentifier($strPKNames);
+			$strMatchCondition = 'target_.'.$this->escapeIdentifier($strPKNames).' = source_.'.$this->escapeIdentifier($strPKNames);
 		}
 		$strTable = $this->EscapeIdentifierBegin . $strTable . $this->EscapeIdentifierEnd;
 		$strSql = sprintf('MERGE INTO %s AS target_ USING %s AS source_ ON %s WHEN MATCHED THEN UPDATE SET %s WHEN NOT MATCHED THEN INSERT (%s) VALUES (%s)',
@@ -330,7 +330,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 			implode(', ', $strColumns),
 			implode(', ', array_values($strEscapedArray))
 		);
-		$this->ExecuteNonQuery($strSql);
+		$this->executeNonQuery($strSql);
 	}
 
 	/**
@@ -340,26 +340,26 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 *
 	 * @return AbstractResult
 	 */
-	public final function Query($strQuery) {
+	public final function query($strQuery) {
 		$timerName = null;
 		if (!$this->blnConnectedFlag) {
-			$this->Connect();
+			$this->connect();
 		}
 
 
 		if ($this->blnEnableProfiling) {
 			$timerName = 'queryExec' . mt_rand() ;
-			Timer::Start($timerName);
+			Timer::start($timerName);
 		}
 
-		$result = $this->ExecuteQuery($strQuery);
+		$result = $this->executeQuery($strQuery);
 
 		if ($this->blnEnableProfiling) {
-			$dblQueryTime = Timer::Stop($timerName);
-			Timer::Reset($timerName);
+			$dblQueryTime = Timer::stop($timerName);
+			Timer::reset($timerName);
 
 			// Log Query (for Profiling, if applicable)
-			$this->LogQuery($strQuery, $dblQueryTime);
+			$this->logQuery($strQuery, $dblQueryTime);
 		}
 
 		return $result;
@@ -372,24 +372,24 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 * @return mixed
 	 * @throws Caller
 	 */
-	public final function NonQuery($strNonQuery) {
+	public final function nonQuery($strNonQuery) {
 		if (!$this->blnConnectedFlag) {
-			$this->Connect();
+			$this->connect();
 		}
 		$timerName = '';
 		if ($this->blnEnableProfiling) {
 			$timerName = 'queryExec' . mt_rand() ;
-			Timer::Start($timerName);
+			Timer::start($timerName);
 		}
 
-		$result = $this->ExecuteNonQuery($strNonQuery);
+		$result = $this->executeNonQuery($strNonQuery);
 
 		if ($this->blnEnableProfiling) {
-			$dblQueryTime = Timer::Stop($timerName);
-			Timer::Reset($timerName);
+			$dblQueryTime = Timer::stop($timerName);
+			Timer::reset($timerName);
 
 			// Log Query (for Profiling, if applicable)
-			$this->LogQuery($strNonQuery, $dblQueryTime);
+			$this->logQuery($strNonQuery, $dblQueryTime);
 		}
 
 		return $result;
@@ -417,7 +417,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 			case 'DatabaseIndex':
 				return $this->intDatabaseIndex;
 			case 'Adapter':
-				$strConstantName = get_class($this) . '::Adapter';
+				$strConstantName = get_class($this) . '::ADAPTER';
 				return constant($strConstantName) . ' (' . $this->objConfigArray['adapter'] . ')';
 			case 'Server':
 			case 'Port':
@@ -440,7 +440,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 				try {
 					return parent::__get($strName);
 				} catch (Caller $objExc) {
-					$objExc->IncrementOffset();
+					$objExc->incrementOffset();
 					throw $objExc;
 				}
 		}
@@ -464,7 +464,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 				try {
 					parent::__set($strName, $mixValue);
 				} catch (Caller $objExc) {
-					$objExc->IncrementOffset();
+					$objExc->incrementOffset();
 					throw $objExc;
 				}
 		}
@@ -477,7 +477,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 *
 	 * @param integer  $intDatabaseIndex
 	 * @param string[] $objConfigArray configuration array as passed in to the constructor
-	 *                                 by QApplicationBase::InitializeDatabaseConnections();
+	 *                                 by QApplicationBase::initializeDatabaseConnections();
 	 *
 	 * @throws \Exception|Caller|InvalidCast
 	 */
@@ -489,7 +489,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 		$this->objConfigArray = $objConfigArray;
 
 		// Setup Profiling Array (if applicable)
-		$this->blnEnableProfiling = Type::Cast($objConfigArray['profiling'], Type::Boolean);
+		$this->blnEnableProfiling = Type::cast($objConfigArray['profiling'], Type::Boolean);
 		if ($this->blnEnableProfiling)
 			$this->strProfileArray = array();
 	}
@@ -499,7 +499,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 *
 	 * @return void
 	 */
-	public function EnableProfiling() {
+	public function enableProfiling() {
 		// Only perform profiling initialization if profiling is not yet enabled
 		if (!$this->blnEnableProfiling) {
 			$this->blnEnableProfiling = true;
@@ -514,7 +514,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 * @param double $dblQueryTime query execution time in milliseconds
 	 * @return void
 	 */
-	private function LogQuery($strQuery, $dblQueryTime) {
+	private function logQuery($strQuery, $dblQueryTime) {
 		if ($this->blnEnableProfiling) {
 			// Dereference-ize Backtrace Information
 			$objDebugBacktrace = debug_backtrace();
@@ -579,7 +579,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 * @param boolean $blnReverseEquality whether the included equality operator should be a "NOT EQUAL", e.g. "!="
 	 * @return string the properly formatted SQL variable
 	 */
-	public function SqlVariable($mixData, $blnIncludeEquality = false, $blnReverseEquality = false) {
+	public function sqlVariable($mixData, $blnIncludeEquality = false, $blnReverseEquality = false) {
 		// Are we SqlVariabling a BOOLEAN value?
 		if (is_bool($mixData)) {
 			// Yes
@@ -643,13 +643,13 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 		// Check for DATE Value
 		if ($mixData instanceof QDateTime) {
 			/** @var QDateTime $mixData */
-			if ($mixData->IsTimeNull()) {
-				if ($mixData->IsDateNull()) {
+			if ($mixData->isTimeNull()) {
+				if ($mixData->isDateNull()) {
 					return $strToReturn . 'NULL'; // null date and time is a null value
 				}
 				return $strToReturn . sprintf("'%s'", $mixData->qFormat('YYYY-MM-DD'));
 			}
-			elseif ($mixData->IsDateNull()) {
+			elseif ($mixData->isDateNull()) {
 				return  $strToReturn . sprintf("'%s'", $mixData->qFormat('hhhh:mm:ss'));
 			}
 			return $strToReturn . sprintf("'%s'", $mixData->qFormat(QDateTime::FormatIso));
@@ -659,7 +659,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 		if (is_array($mixData)) {
 			$items = [];
 			foreach ($mixData as $item) {
-				$items[] = $this->SqlVariable($item);	// recurse
+				$items[] = $this->sqlVariable($item);	// recurse
 			}
 			return '(' . implode(',', $items) . ')';
 		}
@@ -668,17 +668,17 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 		return $strToReturn . sprintf("'%s'", addslashes($mixData));
 	}
 
-	public function PrepareStatement($strQuery, $mixParameterArray) {
+	public function prepareStatement($strQuery, $mixParameterArray) {
 		foreach ($mixParameterArray as $strKey => $mixValue) {
 			if (is_array($mixValue)) {
 				$strParameters = array();
 				foreach ($mixValue as $mixParameter)
-					array_push($strParameters, $this->SqlVariable($mixParameter));
+					array_push($strParameters, $this->sqlVariable($mixParameter));
 				$strQuery = str_replace(chr(QCubed::NAMED_VALUE_DELIMITER) . '{' . $strKey . '}', implode(',', $strParameters) . ')', $strQuery);
 			} else {
-				$strQuery = str_replace(chr(QCubed::NAMED_VALUE_DELIMITER) . '{=' . $strKey . '=}', $this->SqlVariable($mixValue, true, false), $strQuery);
-				$strQuery = str_replace(chr(QCubed::NAMED_VALUE_DELIMITER) . '{!' . $strKey . '!}', $this->SqlVariable($mixValue, true, true), $strQuery);
-				$strQuery = str_replace(chr(QCubed::NAMED_VALUE_DELIMITER) . '{' . $strKey . '}', $this->SqlVariable($mixValue), $strQuery);
+				$strQuery = str_replace(chr(QCubed::NAMED_VALUE_DELIMITER) . '{=' . $strKey . '=}', $this->sqlVariable($mixValue, true, false), $strQuery);
+				$strQuery = str_replace(chr(QCubed::NAMED_VALUE_DELIMITER) . '{!' . $strKey . '!}', $this->sqlVariable($mixValue, true, true), $strQuery);
+				$strQuery = str_replace(chr(QCubed::NAMED_VALUE_DELIMITER) . '{' . $strKey . '}', $this->sqlVariable($mixValue), $strQuery);
 			}
 		}
 
@@ -691,7 +691,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 * @param bool $blnPrintOutput
 	 * @return null|string
 	 */
-	public function OutputProfiling($blnPrintOutput = true) {
+	public function outputProfiling($blnPrintOutput = true) {
 
 		$strOut = '<div class="qDbProfile">';
 		if ($this->blnEnableProfiling) {
@@ -700,7 +700,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 			$strOut.= sprintf('<input type="hidden" name="strProfileData" value="%s" />',
 				base64_encode(serialize($this->strProfileArray)));
 			$strOut .= sprintf('<input type="hidden" name="intDatabaseIndex" value="%s" />', $this->intDatabaseIndex);
-			$strOut .= sprintf('<input type="hidden" name="strReferrer" value="%s" /></div></form>', \QApplication::HtmlEntities(\QApplication::$RequestUri));
+			$strOut .= sprintf('<input type="hidden" name="strReferrer" value="%s" /></div></form>', \QApplication::htmlEntities(\QApplication::$RequestUri));
 
 			$intCount = round(count($this->strProfileArray));
 			if ($intCount == 0)
@@ -736,7 +736,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 *
 	 * @return null
 	 */
-	public function ExplainStatement($strSql) {
+	public function explainStatement($strSql) {
 		return null;
 	}
 
@@ -746,14 +746,14 @@ abstract class AbstractBase extends \QCubed\AbstractBase {
 	 *
 	 * Usage:
 	 * <code>
-	 * 	list($strComment, $options) = AbstractBase::ExtractCommentOptions($strComment);
+	 * 	list($strComment, $options) = AbstractBase::extractCommentOptions($strComment);
 	 * </code>
 	 *
 	 * @param string $strComment	The comment to analyze
 	 * @return array A two item array, with first item the comment with the options removed, and 2nd item the options array.
 	 *
 	 */
-	public static function ExtractCommentOptions($strComment) {
+	public static function extractCommentOptions($strComment) {
 		$ret[0] = null; // comment string without options
 		$ret[1] = null; // the options array
 		if (($strComment) &&

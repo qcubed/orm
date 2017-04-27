@@ -33,10 +33,10 @@ class NotLike extends AbstractComparison {
 			$this->mixOperand = $strValue;
 		else {
 			try {
-				$this->mixOperand = Type::Cast($strValue, Type::String);
+				$this->mixOperand = Type::cast($strValue, Type::String);
 			} catch (Caller $objExc) {
-				$objExc->IncrementOffset();
-				$objExc->IncrementOffset();
+				$objExc->incrementOffset();
+				$objExc->incrementOffset();
 				throw $objExc;
 			}
 		}
@@ -45,13 +45,13 @@ class NotLike extends AbstractComparison {
 	/**
 	 * @param Builder $objBuilder
 	 */
-	public function UpdateQueryBuilder(Builder $objBuilder) {
+	public function updateQueryBuilder(Builder $objBuilder) {
 		$mixOperand = $this->mixOperand;
 		if ($mixOperand instanceof Node\NamedValue) {
 			/** @var Node\NamedValue $mixOperand */
-			$objBuilder->AddWhereItem($this->objQueryNode->GetColumnAlias($objBuilder) . ' NOT LIKE ' . $mixOperand->Parameter());
+			$objBuilder->addWhereItem($this->objQueryNode->getColumnAlias($objBuilder) . ' NOT LIKE ' . $mixOperand->parameter());
 		} else {
-			$objBuilder->AddWhereItem($this->objQueryNode->GetColumnAlias($objBuilder) . ' NOT LIKE ' . $objBuilder->Database->SqlVariable($mixOperand));
+			$objBuilder->addWhereItem($this->objQueryNode->getColumnAlias($objBuilder) . ' NOT LIKE ' . $objBuilder->Database->sqlVariable($mixOperand));
 		}
 	}
 }

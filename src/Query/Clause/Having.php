@@ -25,12 +25,12 @@ class Having extends AbstractBase implements ClauseInterface {
 	public function __construct(AbstractSubQuery $objSubQueryDefinition) {
 		$this->objNode = $objSubQueryDefinition;
 	}
-	public function UpdateQueryBuilder(Builder $objBuilder) {
-		$objBuilder->AddHavingItem (
-			$this->objNode->GetColumnAlias($objBuilder)
+	public function updateQueryBuilder(Builder $objBuilder) {
+		$objBuilder->addHavingItem(
+			$this->objNode->getColumnAlias($objBuilder)
 		);
 	}
-	public function GetAttributeName() {
+	public function getAttributeName() {
 		return $this->objNode->_Name;
 	}
 	public function __toString() {

@@ -24,7 +24,7 @@ class Equal extends AbstractComparison {
 	/**
 	 * @param Builder $objBuilder
 	 */
-	public function UpdateQueryBuilder(Builder $objBuilder) {
-		$objBuilder->AddWhereItem($this->objQueryNode->GetColumnAlias($objBuilder) . ' ' . Node\AbstractBase::GetValue($this->mixOperand, $objBuilder, true));
+	public function updateQueryBuilder(Builder $objBuilder) {
+		$objBuilder->addWhereItem($this->objQueryNode->getColumnAlias($objBuilder) . ' ' . Node\AbstractBase::getValue($this->mixOperand, $objBuilder, true));
 	}
 }

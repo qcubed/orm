@@ -39,11 +39,11 @@ class FunctionNode extends AbstractSubQuery {
 	 * @param Builder $objBuilder
 	 * @return string
 	 */
-	public function GetColumnAlias(Builder $objBuilder) {
+	public function getColumnAlias(Builder $objBuilder) {
 		$strSql = $this->strFunctionName . '(';
 		foreach ($this->params as $param) {
 			if ($param instanceof Column) {
-				$strSql .= $param->GetColumnAlias($objBuilder);
+				$strSql .= $param->getColumnAlias($objBuilder);
 			}
 			else {
 				// just a basic value

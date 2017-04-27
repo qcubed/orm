@@ -36,7 +36,7 @@ class Result extends AbstractResult {
 	 *
 	 * @return array
 	 */
-	public function FetchArray() {
+	public function fetchArray() {
 		return pg_fetch_array($this->objPgSqlResult);
 	}
 
@@ -45,7 +45,7 @@ class Result extends AbstractResult {
 	 *
 	 * @return null
 	 */
-	public function FetchFields() {
+	public function fetchFields() {
 		return null;  // Not implemented
 	}
 
@@ -54,7 +54,7 @@ class Result extends AbstractResult {
 	 *
 	 * @return null
 	 */
-	public function FetchField() {
+	public function fetchField() {
 		return null;  // Not implemented
 	}
 
@@ -63,7 +63,7 @@ class Result extends AbstractResult {
 	 *
 	 * @return array
 	 */
-	public function FetchRow() {
+	public function fetchRow() {
 		return pg_fetch_row($this->objPgSqlResult);
 	}
 
@@ -72,7 +72,7 @@ class Result extends AbstractResult {
 	 *
 	 * @return int
 	 */
-	public function CountRows() {
+	public function countRows() {
 		return pg_num_rows($this->objPgSqlResult);
 	}
 
@@ -81,22 +81,22 @@ class Result extends AbstractResult {
 	 *
 	 * @return int
 	 */
-	public function CountFields() {
+	public function countFields() {
 		return pg_num_fields($this->objPgSqlResult);
 	}
 
 	/**
 	 * Free the memory. Connection closes when script ends
 	 */
-	public function Close() {
+	public function close() {
 		pg_free_result($this->objPgSqlResult);
 	}
 
 	/**
 	 * @return null|Row
 	 */
-	public function GetNextRow() {
-		$strColumnArray = $this->FetchArray();
+	public function getNextRow() {
+		$strColumnArray = $this->fetchArray();
 
 		if ($strColumnArray)
 			return new Row($strColumnArray);
@@ -109,9 +109,9 @@ class Result extends AbstractResult {
 	 *
 	 * @return array
 	 */
-	public function GetRows() {
+	public function getRows() {
 		$objDbRowArray = array();
-		while ($objDbRow = $this->GetNextRow())
+		while ($objDbRow = $this->getNextRow())
 			array_push($objDbRowArray, $objDbRow);
 		return $objDbRowArray;
 	}

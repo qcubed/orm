@@ -35,14 +35,14 @@ class PartialBuilder extends Builder {
 	/**
 	 * @return string
 	 */
-	public function GetWhereStatement() {
+	public function getWhereStatement() {
 		return implode(' ', $this->strWhereArray);
 	}
 
 	/**
 	 * @return string
 	 */
-	public function GetFromStatement() {
+	public function getFromStatement() {
 		return implode(' ', $this->strFromArray) . ' ' . implode(' ', $this->strJoinArray);
 	}
 }

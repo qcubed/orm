@@ -32,7 +32,7 @@ class Exists extends AbstractBase implements ConditionInterface {
 	/**
 	 * @param Builder $objBuilder
 	 */
-	public function UpdateQueryBuilder(Builder $objBuilder) {
-		$objBuilder->AddWhereItem('EXISTS ' . $this->objNode->GetColumnAlias($objBuilder));
+	public function updateQueryBuilder(Builder $objBuilder) {
+		$objBuilder->addWhereItem('EXISTS ' . $this->objNode->getColumnAlias($objBuilder));
 	}
 }

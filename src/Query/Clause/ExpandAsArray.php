@@ -58,16 +58,16 @@ class ExpandAsArray extends AbstractBase implements ClauseInterface {
 		}
 
 	}
-	public function UpdateQueryBuilder(Builder $objBuilder) {
+	public function updateQueryBuilder(Builder $objBuilder) {
 		if ($this->objNode instanceof Node\Association) {
 			// The below works because all code generated association nodes will have a _ChildTableNode parameter.
 			// TODO: Make this an interface
-			$this->objNode->_ChildTableNode->Join($objBuilder, true, $this->objCondition, $this->objSelect);
+			$this->objNode->_ChildTableNode->join($objBuilder, true, $this->objCondition, $this->objSelect);
 		}
 		else {
-			$this->objNode->Join($objBuilder, true, $this->objCondition, $this->objSelect);
+			$this->objNode->join($objBuilder, true, $this->objCondition, $this->objSelect);
 		}
-		$objBuilder->AddExpandAsArrayNode($this->objNode);
+		$objBuilder->addExpandAsArrayNode($this->objNode);
 	}
 	public function __toString() {
 		return 'ExpandAsArray Clause';

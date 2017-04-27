@@ -23,7 +23,7 @@ namespace QCubed\Database;
 class Service extends \QCubed\AbstractBase {
 
 	/**
-	 * An array of Database objects, as initialized by Service::InitializeDatabaseConnections()
+	 * An array of Database objects, as initialized by Service::initializeDatabaseConnections()
 	 *
 	 * @var AbstractBase[]
 	 */
@@ -37,7 +37,7 @@ class Service extends \QCubed\AbstractBase {
 	 * @throws \Exception
 	 * @return void
 	 */
-	public static function InitializeDatabaseConnections() {
+	public static function initializeDatabaseConnections() {
 		// for backward compatibility, don't use MAX_DB_CONNECTION_INDEX directly,
 		// but check if MAX_DB_CONNECTION_INDEX is defined
 		$intMaxIndex = defined('MAX_DB_CONNECTION_INDEX') ? constant('MAX_DB_CONNECTION_INDEX') : 9;

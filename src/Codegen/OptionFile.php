@@ -41,7 +41,7 @@ class OptionFile extends \QCubed\AbstractBase {
 	protected $options = array();
 	protected $blnChanged = false;
 
-	const TableOptionsFieldName = '*';
+	const TABLE_OPTIONS_FIELD_NAME = '*';
 
 	public function __construct() {
 		if (file_exists(__CODEGEN_OPTION_FILE__)) {
@@ -58,7 +58,7 @@ class OptionFile extends \QCubed\AbstractBase {
 	/**
 	 * Save the current configuration into the options file.
 	 */
-	function Save() {
+	function save() {
 		if (!$this->blnChanged) {
 			return;
 		}
@@ -73,7 +73,7 @@ class OptionFile extends \QCubed\AbstractBase {
 	 * Makes sure save is the final step.
 	 */
 	function __destruct() {
-		$this->Save();
+		$this->save();
 	}
 
 
@@ -85,7 +85,7 @@ class OptionFile extends \QCubed\AbstractBase {
 	 * @param $strOptionName
 	 * @param $mixValue
 	 */
-	public function SetOption ($strTableName, $strFieldName, $strOptionName, $mixValue) {
+	public function setOption($strTableName, $strFieldName, $strOptionName, $mixValue) {
 		$this->options[$strTableName][$strFieldName][$strOptionName] = $mixValue;
 		$this->blnChanged = true;
 	}
@@ -97,7 +97,7 @@ class OptionFile extends \QCubed\AbstractBase {
 	 * @param $strFieldName
 	 * @param $mixValue
 	 */
-	public function SetOptions ($strClassName, $strFieldName, $mixValue) {
+	public function setOptions($strClassName, $strFieldName, $mixValue) {
 		if (empty ($mixValue)) {
 			unset($this->options[$strClassName][$strFieldName]);
 		}
@@ -114,7 +114,7 @@ class OptionFile extends \QCubed\AbstractBase {
 	 * @param $strFieldName
 	 * @param $strOptionName
 	 */
-	public function UnsetOption ($strClassName, $strFieldName, $strOptionName) {
+	public function unsetOption($strClassName, $strFieldName, $strOptionName) {
 		unset ($this->options[$strClassName][$strFieldName][$strOptionName]);
 		$this->blnChanged = true;
 	}
@@ -127,7 +127,7 @@ class OptionFile extends \QCubed\AbstractBase {
 	 * @param $strOptionName
 	 * @return mixed
 	 */
-	public function GetOption ($strClassName, $strFieldName, $strOptionName) {
+	public function getOption($strClassName, $strFieldName, $strOptionName) {
 		if (isset ($this->options[$strClassName][$strFieldName][$strOptionName])) {
 			return $this->options[$strClassName][$strFieldName][$strOptionName];
 		} else {
@@ -141,7 +141,7 @@ class OptionFile extends \QCubed\AbstractBase {
 	 * @param $strFieldName
 	 * @return mixed
 	 */
-	public function GetOptions ($strClassName, $strFieldName) {
+	public function getOptions($strClassName, $strFieldName) {
 		if (isset($this->options[$strClassName][$strFieldName])) {
 			return $this->options[$strClassName][$strFieldName];
 		} else {

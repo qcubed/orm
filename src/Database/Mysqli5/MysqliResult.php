@@ -24,46 +24,46 @@ class MysqliResult extends AbstractResult {
 		$this->objDb = $objDb;
 	}
 
-	public function FetchArray() {
+	public function fetchArray() {
 		return $this->objMySqliResult->fetch_array();
 	}
 
-	public function FetchFields() {
+	public function fetchFields() {
 		$objArrayToReturn = array();
 		while ($objField = $this->objMySqliResult->fetch_field())
 			array_push($objArrayToReturn, new MysqliField($objField, $this->objDb));
 		return $objArrayToReturn;
 	}
 
-	public function FetchField() {
+	public function fetchField() {
 		if ($objField = $this->objMySqliResult->fetch_field()) {
 			return new MysqliField($objField, $this->objDb);
 		}
 		return null;
 	}
 
-	public function FetchRow() {
+	public function fetchRow() {
 		return $this->objMySqliResult->fetch_row();
 	}
 
-	public function MySqlFetchField() {
+	public function mySqlFetchField() {
 		return $this->objMySqliResult->fetch_field();
 	}
 
-	public function CountRows() {
+	public function countRows() {
 		return $this->objMySqliResult->num_rows;
 	}
 
-	public function CountFields() {
+	public function countFields() {
 		return $this->objMySqliResult->field_count;
 	}
 
-	public function Close() {
+	public function close() {
 		$this->objMySqliResult->free();
 	}
 
-	public function GetNextRow() {
-		$strColumnArray = $this->FetchArray();
+	public function getNextRow() {
+		$strColumnArray = $this->fetchArray();
 
 		if ($strColumnArray)
 			return new MysqliRow($strColumnArray);
@@ -71,9 +71,9 @@ class MysqliResult extends AbstractResult {
 			return null;
 	}
 
-	public function GetRows() {
+	public function getRows() {
 		$objDbRowArray = array();
-		while ($objDbRow = $this->GetNextRow())
+		while ($objDbRow = $this->getNextRow())
 			array_push($objDbRowArray, $objDbRow);
 		return $objDbRowArray;
 	}

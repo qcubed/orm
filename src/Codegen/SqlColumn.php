@@ -215,7 +215,7 @@ class SqlColumn extends \QCubed\AbstractBase {
 				try {
 					return parent::__get($strName);
 				} catch (Caller $objExc) {
-					$objExc->IncrementOffset();
+					$objExc->incrementOffset();
 					throw $objExc;
 				}
 		}
@@ -238,53 +238,53 @@ class SqlColumn extends \QCubed\AbstractBase {
 					// $mixValue might be a SqlTable or a QTypeTable
 					return $this->objOwnerTable = $mixValue;
 				case 'PrimaryKey':
-					return $this->blnPrimaryKey = Type::Cast($mixValue, Type::Boolean);
+					return $this->blnPrimaryKey = Type::cast($mixValue, Type::Boolean);
 				case 'Name':
-					return $this->strName = Type::Cast($mixValue, Type::String);
+					return $this->strName = Type::cast($mixValue, Type::String);
 				case 'PropertyName':
-					return $this->strPropertyName = Type::Cast($mixValue, Type::String);
+					return $this->strPropertyName = Type::cast($mixValue, Type::String);
 				case 'VariableName':
-					return $this->strVariableName = Type::Cast($mixValue, Type::String);
+					return $this->strVariableName = Type::cast($mixValue, Type::String);
 				case 'VariableType':
-					return $this->strVariableType = Type::Cast($mixValue, Type::String);
+					return $this->strVariableType = Type::cast($mixValue, Type::String);
 				case 'VariableTypeAsConstant':
-					return $this->strVariableTypeAsConstant = Type::Cast($mixValue, Type::String);
+					return $this->strVariableTypeAsConstant = Type::cast($mixValue, Type::String);
 				case 'DbType':
-					return $this->strDbType = Type::Cast($mixValue, Type::String);
+					return $this->strDbType = Type::cast($mixValue, Type::String);
 				case 'Length':
-					return $this->intLength = Type::Cast($mixValue, Type::Integer);
+					return $this->intLength = Type::cast($mixValue, Type::Integer);
 				case 'Default':
 					if ($mixValue === null || (($mixValue === '' || $mixValue === '0000-00-00 00:00:00' || $mixValue === '0000-00-00') && !$this->blnNotNull))
 						return $this->mixDefault = null;
 					else if (is_int($mixValue))
-						return $this->mixDefault = Type::Cast($mixValue, Type::Integer);
+						return $this->mixDefault = Type::cast($mixValue, Type::Integer);
 					else if (is_numeric($mixValue))
-						return $this->mixDefault = Type::Cast($mixValue, Type::Float);
+						return $this->mixDefault = Type::cast($mixValue, Type::Float);
 					else
-						return $this->mixDefault = Type::Cast($mixValue, Type::String);
+						return $this->mixDefault = Type::cast($mixValue, Type::String);
 				case 'NotNull':
-					return $this->blnNotNull = Type::Cast($mixValue, Type::Boolean);
+					return $this->blnNotNull = Type::cast($mixValue, Type::Boolean);
 				case 'Identity':
-					return $this->blnIdentity = Type::Cast($mixValue, Type::Boolean);
+					return $this->blnIdentity = Type::cast($mixValue, Type::Boolean);
 				case 'Indexed':
-					return $this->blnIndexed = Type::Cast($mixValue, Type::Boolean);
+					return $this->blnIndexed = Type::cast($mixValue, Type::Boolean);
 				case 'Unique':
-					return $this->blnUnique = Type::Cast($mixValue, Type::Boolean);
+					return $this->blnUnique = Type::cast($mixValue, Type::Boolean);
 				case 'Timestamp':
-					return $this->blnTimestamp = Type::Cast($mixValue, Type::Boolean);
+					return $this->blnTimestamp = Type::cast($mixValue, Type::Boolean);
 				case 'Reference':
-					return $this->objReference = Type::Cast($mixValue, Reference::class);
+					return $this->objReference = Type::cast($mixValue, Reference::class);
 				case 'Comment':
-					return $this->strComment = Type::Cast($mixValue, Type::String);
+					return $this->strComment = Type::cast($mixValue, Type::String);
 				case 'Options':
-					return $this->options = Type::Cast($mixValue, Type::ArrayType);
+					return $this->options = Type::cast($mixValue, Type::ArrayType);
 				case 'AutoUpdate':
-					return $this->blnAutoUpdate = Type::Cast($mixValue, Type::Boolean);
+					return $this->blnAutoUpdate = Type::cast($mixValue, Type::Boolean);
 				default:
 					return parent::__set($strName, $mixValue);
 			}
 		} catch (Caller $objExc) {
-			$objExc->IncrementOffset();
+			$objExc->incrementOffset();
 			throw $objExc;
 		}
 	}

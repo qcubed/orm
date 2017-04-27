@@ -111,7 +111,7 @@ class SqlTable extends \QCubed\AbstractBase {
 	 * @param string $strColumnName Name of the column
 	 * @return SqlColumn
 	 */
-	public function GetColumnByName($strColumnName) {
+	public function getColumnByName($strColumnName) {
 		if ($this->objColumnArray) {
 			foreach ($this->objColumnArray as $objColumn){
 				if ($objColumn->Name == $strColumnName)
@@ -126,8 +126,8 @@ class SqlTable extends \QCubed\AbstractBase {
 	 * @param string $strColumnName Name of the column
 	 * @return boolean
 	 */
-	public function HasColumn($strColumnName){
-		return ($this->GetColumnByName($strColumnName) !== null);
+	public function hasColumn($strColumnName){
+		return ($this->getColumnByName($strColumnName) !== null);
 	}
 
 	/**
@@ -135,15 +135,15 @@ class SqlTable extends \QCubed\AbstractBase {
 	 * @param string $strColumnName name of the column
 	 * @return string
 	 */
-	public function LookupColumnPropertyName($strColumnName){
-		$objColumn = $this->GetColumnByName($strColumnName);
+	public function lookupColumnPropertyName($strColumnName){
+		$objColumn = $this->getColumnByName($strColumnName);
 		if ($objColumn)
 			return $objColumn->PropertyName;
 		else
 			return null;
 	}
 
-	public function HasImmediateArrayExpansions() {
+	public function hasImmediateArrayExpansions() {
 		$intCount = count($this->objManyToManyReferenceArray);
 		foreach ($this->objReverseReferenceArray as $objReverseReference) {
 			if (!$objReverseReference->Unique) {
@@ -153,16 +153,16 @@ class SqlTable extends \QCubed\AbstractBase {
 		return $intCount > 0;
 	}
 
-	public function HasExtendedArrayExpansions(DatabaseCodeGen $objCodeGen, $objCheckedTableArray = array()) {
+	public function hasExtendedArrayExpansions(DatabaseCodeGen $objCodeGen, $objCheckedTableArray = array()) {
 		$objCheckedTableArray[] = $this;
 		foreach ($this->ColumnArray as $objColumn) {
 			if (($objReference = $objColumn->Reference) && !$objReference->IsType) {
-				if ($objTable2 = $objCodeGen->GetTable($objReference->Table)) {
-					if ($objTable2->HasImmediateArrayExpansions()) {
+				if ($objTable2 = $objCodeGen->getTable($objReference->Table)) {
+					if ($objTable2->hasImmediateArrayExpansions()) {
 						return true;
 					}
 					if (!in_array($objTable2, $objCheckedTableArray) &&	// watch out for circular references
-							$objTable2->HasExtendedArrayExpansions($objCodeGen, $objCheckedTableArray)) {
+							$objTable2->hasExtendedArrayExpansions($objCodeGen, $objCheckedTableArray)) {
 						return true;
 					}
 				}
@@ -227,7 +227,7 @@ class SqlTable extends \QCubed\AbstractBase {
 				try {
 					return parent::__get($strName);
 				} catch (Caller $objExc) {
-					$objExc->IncrementOffset();
+					$objExc->incrementOffset();
 					throw $objExc;
 				}
 		}
@@ -246,28 +246,28 @@ class SqlTable extends \QCubed\AbstractBase {
 		try {
 			switch ($strName) {
 				case 'OwnerDbIndex':
-					return $this->intOwnerDbIndex = Type::Cast($mixValue, Type::Integer);
+					return $this->intOwnerDbIndex = Type::cast($mixValue, Type::Integer);
 				case 'Name':
-					return $this->strName = Type::Cast($mixValue, Type::String);
+					return $this->strName = Type::cast($mixValue, Type::String);
 				case 'ClassName':
-					return $this->strClassName = Type::Cast($mixValue, Type::String);
+					return $this->strClassName = Type::cast($mixValue, Type::String);
 				case 'ClassNamePlural':
-					return $this->strClassNamePlural = Type::Cast($mixValue, Type::String);
+					return $this->strClassNamePlural = Type::cast($mixValue, Type::String);
 				case 'ColumnArray':
-					return $this->objColumnArray = Type::Cast($mixValue, Type::ArrayType);
+					return $this->objColumnArray = Type::cast($mixValue, Type::ArrayType);
 				case 'ReverseReferenceArray':
-					return $this->objReverseReferenceArray = Type::Cast($mixValue, Type::ArrayType);
+					return $this->objReverseReferenceArray = Type::cast($mixValue, Type::ArrayType);
 				case 'ManyToManyReferenceArray':
-					return $this->objManyToManyReferenceArray = Type::Cast($mixValue, Type::ArrayType);
+					return $this->objManyToManyReferenceArray = Type::cast($mixValue, Type::ArrayType);
 				case 'IndexArray':
-					return $this->objIndexArray = Type::Cast($mixValue, Type::ArrayType);
+					return $this->objIndexArray = Type::cast($mixValue, Type::ArrayType);
 				case 'Options':
-					return $this->options = Type::Cast($mixValue, Type::ArrayType);
+					return $this->options = Type::cast($mixValue, Type::ArrayType);
 				default:
 					return parent::__set($strName, $mixValue);
 			}
 		} catch (Caller $objExc) {
-			$objExc->IncrementOffset();
+			$objExc->incrementOffset();
 			throw $objExc;
 		}
 	}

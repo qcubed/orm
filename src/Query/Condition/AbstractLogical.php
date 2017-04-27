@@ -24,36 +24,36 @@ abstract class AbstractLogical extends AbstractBase implements ConditionInterfac
 	protected $objConditionArray;
 
 	public function __construct($mixParameterArray) {
-		$objConditionArray = $this->CollapseConditions($mixParameterArray);
+		$objConditionArray = $this->collapseConditions($mixParameterArray);
 		try {
-			$this->objConditionArray = Type::Cast($objConditionArray, Type::ArrayType);
+			$this->objConditionArray = Type::cast($objConditionArray, Type::ArrayType);
 		} catch (Caller $objExc) {
-			$objExc->IncrementOffset();
+			$objExc->incrementOffset();
 			throw $objExc;
 		}
 	}
 
-	public function UpdateQueryBuilder(Builder $objBuilder) {
+	public function updateQueryBuilder(Builder $objBuilder) {
 		$intLength = count($this->objConditionArray);
 		if ($intLength) {
-			$objBuilder->AddWhereItem('(');
+			$objBuilder->addWhereItem('(');
 			for ($intIndex = 0; $intIndex < $intLength; $intIndex++) {
 				if (!($this->objConditionArray[$intIndex] instanceof iCondition))
 					throw new Caller($this->strOperator . ' clause has elements that are not Conditions');
 				try {
-					$this->objConditionArray[$intIndex]->UpdateQueryBuilder($objBuilder);
+					$this->objConditionArray[$intIndex]->updateQueryBuilder($objBuilder);
 				} catch (Caller $objExc) {
-					$objExc->IncrementOffset();
+					$objExc->incrementOffset();
 					throw $objExc;
 				}
 				if (($intIndex + 1) != $intLength)
-					$objBuilder->AddWhereItem($this->strOperator);
+					$objBuilder->addWhereItem($this->strOperator);
 			}
-			$objBuilder->AddWhereItem(')');
+			$objBuilder->addWhereItem(')');
 		}
 	}
 
-	protected function CollapseConditions($mixParameterArray) {
+	protected function collapseConditions($mixParameterArray) {
 		$objConditionArray = array();
 		foreach ($mixParameterArray as $mixParameter) {
 			if (is_array($mixParameter))
@@ -72,9 +72,9 @@ abstract class AbstractLogical extends AbstractBase implements ConditionInterfac
 			throw new Caller('No parameters passed in to logical Or/And clause', 3);
 	}
 
-	public function EqualTables($strTableName) {
+	public function equalTables($strTableName) {
 		foreach ($this->objConditionArray as $objCondition) {
-			if (!$objCondition->EqualTables($strTableName)) {
+			if (!$objCondition->equalTables($strTableName)) {
 				return false;
 			}
 		}

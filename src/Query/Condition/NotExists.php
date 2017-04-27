@@ -33,7 +33,7 @@ class NotExists extends AbstractBase {
 	/**
 	 * @param Builder $objBuilder
 	 */
-	public function UpdateQueryBuilder(Builder $objBuilder) {
-		$objBuilder->AddWhereItem('NOT EXISTS ' . $this->objNode->GetColumnAlias($objBuilder));
+	public function updateQueryBuilder(Builder $objBuilder) {
+		$objBuilder->addWhereItem('NOT EXISTS ' . $this->objNode->getColumnAlias($objBuilder));
 	}
 }

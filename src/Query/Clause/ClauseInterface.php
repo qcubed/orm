@@ -18,6 +18,6 @@ use QCubed\Query\Builder;
  * @was QQClause
  */
 interface ClauseInterface {
-	public function UpdateQueryBuilder(Builder $objBuilder);
+	public function updateQueryBuilder(Builder $objBuilder);
 	public function __toString();
 }

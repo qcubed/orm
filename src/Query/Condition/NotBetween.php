@@ -35,11 +35,11 @@ class NotBetween extends AbstractComparison {
 	public function __construct(Node\Column $objQueryNode, $strMinValue, $strMaxValue) {
 		parent::__construct($objQueryNode);
 		try {
-			$this->mixOperand = Type::Cast($strMinValue, Type::String);
-			$this->mixOperandTwo = Type::Cast($strMaxValue, Type::String);
+			$this->mixOperand = Type::cast($strMinValue, Type::String);
+			$this->mixOperandTwo = Type::cast($strMaxValue, Type::String);
 		} catch (Caller $objExc) {
-			$objExc->IncrementOffset();
-			$objExc->IncrementOffset();
+			$objExc->incrementOffset();
+			$objExc->incrementOffset();
 			throw $objExc;
 		}
 
@@ -53,15 +53,15 @@ class NotBetween extends AbstractComparison {
 	/**
 	 * @param Builder $objBuilder
 	 */
-	public function UpdateQueryBuilder(Builder $objBuilder) {
+	public function updateQueryBuilder(Builder $objBuilder) {
 		$mixOperand = $this->mixOperand;
 		$mixOperandTwo = $this->mixOperandTwo;
 		if ($mixOperand instanceof Node\NamedValue) {
 			/** @var Node\NamedValue $mixOperand */
 			/** @var Node\NamedValue $mixOperandTwo */
-			$objBuilder->AddWhereItem($this->objQueryNode->GetColumnAlias($objBuilder) . ' NOT BETWEEN ' . $mixOperand->Parameter() . ' AND ' . $mixOperandTwo->Parameter());
+			$objBuilder->addWhereItem($this->objQueryNode->getColumnAlias($objBuilder) . ' NOT BETWEEN ' . $mixOperand->parameter() . ' AND ' . $mixOperandTwo->parameter());
 		} else {
-			$objBuilder->AddWhereItem($this->objQueryNode->GetColumnAlias($objBuilder) . ' NOT BETWEEN ' . $objBuilder->Database->SqlVariable($mixOperand) . ' AND ' . $objBuilder->Database->SqlVariable($mixOperandTwo));
+			$objBuilder->addWhereItem($this->objQueryNode->getColumnAlias($objBuilder) . ' NOT BETWEEN ' . $objBuilder->Database->sqlVariable($mixOperand) . ' AND ' . $objBuilder->Database->sqlVariable($mixOperandTwo));
 		}
 	}
 }

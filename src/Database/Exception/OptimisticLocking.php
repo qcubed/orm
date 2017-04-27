@@ -21,6 +21,6 @@ class OptimisticLocking extends \QCubed\Exception\Caller {
 	 * @param string $strClass
 	 */
 	public function __construct($strClass) {
-		parent::__construct(sprintf(Translator::Translate('Optimistic Locking constraint when trying to update %s object.  To update anyway, call ->Save() with $blnForceUpdate set to true'), $strClass, 2));
+		parent::__construct(sprintf(Translator::translate('Optimistic Locking constraint when trying to update %s object.  To update anyway, call ->save() with $blnForceUpdate set to true'), $strClass, 2));
 	}
 }

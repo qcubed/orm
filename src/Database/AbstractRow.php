@@ -24,7 +24,7 @@ abstract class AbstractRow extends \QCubed\AbstractBase {
 	 *
 	 * @return mixed
 	 */
-	abstract public function GetColumn($strColumnName, $strColumnType = null);
+	abstract public function getColumn($strColumnName, $strColumnType = null);
 	/**
 	 * Tells whether a particular column exists in a returned database row
 	 *
@@ -32,8 +32,8 @@ abstract class AbstractRow extends \QCubed\AbstractBase {
 	 *
 	 * @return bool
 	 */
-	abstract public function ColumnExists($strColumnName);
-	abstract public function GetColumnNameArray();
+	abstract public function columnExists($strColumnName);
+	abstract public function getColumnNameArray();
 
 	/**
 	 * Returns the boolean value corresponding to whatever a boolean column returns. Some database types
@@ -41,7 +41,7 @@ abstract class AbstractRow extends \QCubed\AbstractBase {
 	 * @param mixed $mixValue the value of the BIT column
 	 * @return bool
 	 */
-	public function ResolveBooleanValue ($mixValue) {
+	public function resolveBooleanValue($mixValue) {
 		if ($mixValue === null) {
 			return null;
 		}

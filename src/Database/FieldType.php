@@ -16,23 +16,23 @@ namespace QCubed\Database;
 
 abstract class FieldType {
 	/** Binary Data */
-	const Blob = "Blob";
+	const BLOB = "Blob";
 	/** Character sequence - variable length */
-	const VarChar = "VarChar";
+	const VAR_CHAR = "VarChar";
 	/** Character sequence - fixed length */
-	const Char = "Char";
+	const CHAR = "Char";
 	/** Integers */
-	const Integer = "Integer";
+	const INTEGER = "Integer";
 	/** Date and Time together */
-	const DateTime = "DateTime";
+	const DATE_TIME = "DateTime";
 	/** Date only */
-	const Date = "Date";
+	const DATE = "Date";
 	/** Time only */
-	const Time = "Time";
+	const TIME = "Time";
 	/** Float, Double and real (postgresql) */
-	const Float = "Float";
+	const FLOAT = "Float";
 	/** Boolean */
-	const Bit = "Bit";
+	const BIT = "Bit";
 	/** New JSON type */
-	const Json = "Json";
+	const JSON = "Json";
 }

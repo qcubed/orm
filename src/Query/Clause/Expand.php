@@ -40,8 +40,8 @@ class Expand extends AbstractBase implements ClauseInterface {
 		$this->objJoinCondition = $objJoinCondition;
 		$this->objSelect = $objSelect;
 	}
-	public function UpdateQueryBuilder(Builder $objBuilder) {
-		$this->objNode->Join($objBuilder, true, $this->objJoinCondition, $this->objSelect);
+	public function updateQueryBuilder(Builder $objBuilder) {
+		$this->objNode->join($objBuilder, true, $this->objJoinCondition, $this->objSelect);
 	}
 	public function __toString() {
 		return 'QQExpand Clause';

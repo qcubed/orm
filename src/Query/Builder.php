@@ -99,8 +99,8 @@ class Builder extends \QCubed\AbstractBase {
 	 * @param string $strColumnName
 	 * @param string $strFullAlias
 	 */
-	public function AddSelectItem($strTableName, $strColumnName, $strFullAlias) {
-		$strTableAlias = $this->GetTableAlias($strTableName);
+	public function addSelectItem($strTableName, $strColumnName, $strFullAlias) {
+		$strTableAlias = $this->getTableAlias($strTableName);
 
 		if (!array_key_exists($strFullAlias, $this->strColumnAliasArray)) {
 			$strColumnAlias = 'a' . $this->intColumnAliasCount++;
@@ -120,7 +120,7 @@ class Builder extends \QCubed\AbstractBase {
 	 * @param string $strColumnName
 	 * @param string $strFullAlias
 	 */
-	public function AddSelectFunction($strFunctionName, $strColumnName, $strFullAlias) {
+	public function addSelectFunction($strFunctionName, $strColumnName, $strFullAlias) {
 		$this->strSelectArray[$strFullAlias] = sprintf('%s(%s) AS %s__%s%s',
 			$strFunctionName, $strColumnName,
 			$this->strEscapeIdentifierBegin, $strFullAlias, $this->strEscapeIdentifierEnd);
@@ -129,8 +129,8 @@ class Builder extends \QCubed\AbstractBase {
 	/**
 	 * @param string $strTableName
 	 */
-	public function AddFromItem($strTableName) {
-		$strTableAlias = $this->GetTableAlias($strTableName);
+	public function addFromItem($strTableName) {
+		$strTableAlias = $this->getTableAlias($strTableName);
 
 		$this->strFromArray[$strTableName] = sprintf('%s%s%s AS %s%s%s',
 			$this->strEscapeIdentifierBegin, $strTableName, $this->strEscapeIdentifierEnd,
@@ -141,7 +141,7 @@ class Builder extends \QCubed\AbstractBase {
 	 * @param string $strTableName
 	 * @return string
 	 */
-	public function GetTableAlias($strTableName) {
+	public function getTableAlias($strTableName) {
 		if (!array_key_exists($strTableName, $this->strTableAliasArray)) {
 			$strTableAlias = 't' . $this->intTableAliasCount++;
 			$this->strTableAliasArray[$strTableName] = $strTableAlias;
@@ -160,25 +160,25 @@ class Builder extends \QCubed\AbstractBase {
 	 * @param iCondition|null $objJoinCondition
 	 * @throws Caller
 	 */
-	public function AddJoinItem($strJoinTableName, $strJoinTableAlias, $strTableName, $strColumnName, $strLinkedColumnName, iCondition $objJoinCondition = null) {
+	public function addJoinItem($strJoinTableName, $strJoinTableAlias, $strTableName, $strColumnName, $strLinkedColumnName, iCondition $objJoinCondition = null) {
 		$strJoinItem = sprintf('LEFT JOIN %s%s%s AS %s%s%s ON %s%s%s.%s%s%s = %s%s%s.%s%s%s',
 			$this->strEscapeIdentifierBegin, $strJoinTableName, $this->strEscapeIdentifierEnd,
-			$this->strEscapeIdentifierBegin, $this->GetTableAlias($strJoinTableAlias), $this->strEscapeIdentifierEnd,
+			$this->strEscapeIdentifierBegin, $this->getTableAlias($strJoinTableAlias), $this->strEscapeIdentifierEnd,
 
-			$this->strEscapeIdentifierBegin, $this->GetTableAlias($strTableName), $this->strEscapeIdentifierEnd,
+			$this->strEscapeIdentifierBegin, $this->getTableAlias($strTableName), $this->strEscapeIdentifierEnd,
 			$this->strEscapeIdentifierBegin, $strColumnName, $this->strEscapeIdentifierEnd,
 
-			$this->strEscapeIdentifierBegin, $this->GetTableAlias($strJoinTableAlias), $this->strEscapeIdentifierEnd,
+			$this->strEscapeIdentifierBegin, $this->getTableAlias($strJoinTableAlias), $this->strEscapeIdentifierEnd,
 			$this->strEscapeIdentifierBegin, $strLinkedColumnName, $this->strEscapeIdentifierEnd);
 
 		$strJoinIndex = $strJoinItem;
 		try {
 			$strConditionClause = null;
 			if ($objJoinCondition &&
-				($strConditionClause = $objJoinCondition->GetWhereClause($this, false)))
+				($strConditionClause = $objJoinCondition->getWhereClause($this, false)))
 				$strJoinItem .= ' AND ' . $strConditionClause;
 		} catch (Caller $objExc) {
-			$objExc->IncrementOffset();
+			$objExc->incrementOffset();
 			throw $objExc;
 		}
 
@@ -236,19 +236,19 @@ class Builder extends \QCubed\AbstractBase {
 	 * @param iCondition $objJoinCondition
 	 * @throws Caller
 	 */
-	public function AddJoinCustomItem($strJoinTableName, $strJoinTableAlias, iCondition $objJoinCondition) {
+	public function addJoinCustomItem($strJoinTableName, $strJoinTableAlias, iCondition $objJoinCondition) {
 		$strJoinItem = sprintf('LEFT JOIN %s%s%s AS %s%s%s ON ',
 			$this->strEscapeIdentifierBegin, $strJoinTableName, $this->strEscapeIdentifierEnd,
-			$this->strEscapeIdentifierBegin, $this->GetTableAlias($strJoinTableAlias), $this->strEscapeIdentifierEnd
+			$this->strEscapeIdentifierBegin, $this->getTableAlias($strJoinTableAlias), $this->strEscapeIdentifierEnd
 		);
 
 		$strJoinIndex = $strJoinItem;
 
 		try {
-			if (($strConditionClause = $objJoinCondition->GetWhereClause($this, true)))
+			if (($strConditionClause = $objJoinCondition->getWhereClause($this, true)))
 				$strJoinItem .= ' AND ' . $strConditionClause;
 		} catch (Caller $objExc) {
-			$objExc->IncrementOffset();
+			$objExc->incrementOffset();
 			throw $objExc;
 		}
 
@@ -258,50 +258,50 @@ class Builder extends \QCubed\AbstractBase {
 	/**
 	 * @param  string $strSql
 	 */
-	public function AddJoinCustomSqlItem($strSql) {
+	public function addJoinCustomSqlItem($strSql) {
 		$this->strJoinArray[$strSql] = $strSql;
 	}
 
 	/**
 	 * @param  string $strItem
 	 */
-	public function AddWhereItem($strItem) {
+	public function addWhereItem($strItem) {
 		array_push($this->strWhereArray, $strItem);
 	}
 
 	/**
 	 * @param  string $strItem
 	 */
-	public function AddOrderByItem($strItem) {
+	public function addOrderByItem($strItem) {
 		array_push($this->strOrderByArray, $strItem);
 	}
 
 	/**
 	 * @param  string $strItem
 	 */
-	public function AddGroupByItem($strItem) {
+	public function addGroupByItem($strItem) {
 		array_push($this->strGroupByArray, $strItem);
 	}
 
 	/**
 	 * @param  string $strItem
 	 */
-	public function AddHavingItem ($strItem) {
+	public function addHavingItem($strItem) {
 		array_push($this->strHavingArray, $strItem);
 	}
 
 	/**
 	 * @param $strLimitInfo
 	 */
-	public function SetLimitInfo($strLimitInfo) {
+	public function setLimitInfo($strLimitInfo) {
 		$this->strLimitInfo = $strLimitInfo;
 	}
 
-	public function SetDistinctFlag() {
+	public function setDistinctFlag() {
 		$this->blnDistinctFlag = true;
 	}
 
-	public function SetCountOnlyFlag() {
+	public function setCountOnlyFlag() {
 		$this->blnCountOnlyFlag = true;
 	}
 
@@ -309,8 +309,8 @@ class Builder extends \QCubed\AbstractBase {
 	 * @param $strName
 	 * @param Node\Column $objNode
 	 */
-	public function SetVirtualNode($strName, Node\Column $objNode) {
-		$this->objVirtualNodeArray[QQ::GetVirtualAlias($strName)] = $objNode;
+	public function setVirtualNode($strName, Node\Column $objNode) {
+		$this->objVirtualNodeArray[QQ::getVirtualAlias($strName)] = $objNode;
 	}
 
 	/**
@@ -318,8 +318,8 @@ class Builder extends \QCubed\AbstractBase {
 	 * @return Node\Column
 	 * @throws Caller
 	 */
-	public function GetVirtualNode($strName) {
-		$strName = QQ::GetVirtualAlias($strName);
+	public function getVirtualNode($strName) {
+		$strName = QQ::getVirtualAlias($strName);
 		if (isset($this->objVirtualNodeArray[$strName])) {
 			return $this->objVirtualNodeArray[$strName];
 		}
@@ -330,7 +330,7 @@ class Builder extends \QCubed\AbstractBase {
 	 * @param Node\AbstractBase $objNode
 	 * @throws Caller
 	 */
-	public function AddExpandAsArrayNode(Node\AbstractBase $objNode) {
+	public function addExpandAsArrayNode(Node\AbstractBase $objNode) {
 		/** @var Node\ReverseReference|Node\Association $objNode */
 		// build child nodes and find top node of given node
 		$objNode->ExpandAsArray = true;
@@ -350,8 +350,8 @@ class Builder extends \QCubed\AbstractBase {
 	/**
 	 * @return string
 	 */
-	public function GetStatement() {
-		$this->ProcessClauses();
+	public function getStatement() {
+		$this->processClauses();
 
 		// SELECT Clause
 		if ($this->blnCountOnlyFlag) {
@@ -367,7 +367,7 @@ class Builder extends \QCubed\AbstractBase {
 			else
 				$strSql = "SELECT\r\n";
 			if ($this->strLimitInfo)
-				$strSql .= $this->objDatabase->SqlLimitVariablePrefix($this->strLimitInfo) . "\r\n";
+				$strSql .= $this->objDatabase->sqlLimitVariablePrefix($this->strLimitInfo) . "\r\n";
 			$strSql .= "    " . implode(",\r\n    ", $this->strSelectArray);
 		}
 
@@ -395,7 +395,7 @@ class Builder extends \QCubed\AbstractBase {
 
 		// Limit Suffix (if applicable)
 		if ($this->strLimitInfo)
-			$strSql .= "\r\n" . $this->objDatabase->SqlLimitVariableSuffix($this->strLimitInfo);
+			$strSql .= "\r\n" . $this->objDatabase->sqlLimitVariableSuffix($this->strLimitInfo);
 
 		// For Distinct Count Queries
 		if ($this->blnCountOnlyFlag && $this->blnDistinctFlag)
@@ -410,7 +410,7 @@ class Builder extends \QCubed\AbstractBase {
 	 * @param Clause\OrderBy $objOrderByClause
 	 * @throws Caller
 	 */
-	public function SetOrderByClause(Clause\OrderBy $objOrderByClause) {
+	public function setOrderByClause(Clause\OrderBy $objOrderByClause) {
 		if ($this->objOrderByClause) {
 			throw new Caller('You can only have one OrderBy clause in a query.');
 		}
@@ -420,7 +420,7 @@ class Builder extends \QCubed\AbstractBase {
 	 * Final processing of delayed clauses. Clauses like OrderBy need to wait to be processed until the complete
 	 * set of aliases is known.
 	 */
-	protected function ProcessClauses() {
+	protected function processClauses() {
 		if ($this->objOrderByClause) {
 			$this->objOrderByClause->_UpdateQueryBuilder($this);
 		}
@@ -441,7 +441,7 @@ class Builder extends \QCubed\AbstractBase {
 				try {
 					return parent::__get($strName);
 				} catch (Caller $objExc) {
-					$objExc->IncrementOffset();
+					$objExc->incrementOffset();
 					throw $objExc;
 				}
 		}

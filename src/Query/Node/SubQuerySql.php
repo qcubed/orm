@@ -36,11 +36,11 @@ class SubQuerySql extends AbstractNoParent {
 	 * @param Builder $objBuilder
 	 * @return string
 	 */
-	public function GetColumnAlias(Builder $objBuilder) {
+	public function getColumnAlias(Builder $objBuilder) {
 		$strSql = $this->strSql;
 		for ($intIndex = 1; $intIndex < count($this->objParentQueryNodes); $intIndex++) {
 			if (!is_null($this->objParentQueryNodes[$intIndex]))
-				$strSql = str_replace('{' . $intIndex . '}', $this->objParentQueryNodes[$intIndex]->GetColumnAlias($objBuilder), $strSql);
+				$strSql = str_replace('{' . $intIndex . '}', $this->objParentQueryNodes[$intIndex]->getColumnAlias($objBuilder), $strSql);
 		}
 		if(stripos($strSql, 'SELECT')===0) {
 			return '(' . $strSql . ')';

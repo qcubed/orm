@@ -46,12 +46,12 @@ class Column extends AbstractBase {
 	 * @param Builder $objBuilder
 	 * @return string
 	 */
-	public function GetColumnAlias(Builder $objBuilder) {
-		$this->Join($objBuilder);
-		$strParentAlias = $this->objParentNode->FullAlias();
-		$strTableAlias = $objBuilder->GetTableAlias($strParentAlias);
+	public function getColumnAlias(Builder $objBuilder) {
+		$this->join($objBuilder);
+		$strParentAlias = $this->objParentNode->fullAlias();
+		$strTableAlias = $objBuilder->getTableAlias($strParentAlias);
 		// Pull the Begin and End Escape Identifiers from the Database Adapter
-		return $this->MakeColumnAlias($objBuilder, $strTableAlias);
+		return $this->makeColumnAlias($objBuilder, $strTableAlias);
 	}
 
 	/**
@@ -59,7 +59,7 @@ class Column extends AbstractBase {
 	 * @param $strTableAlias
 	 * @return string
 	 */
-	public function MakeColumnAlias(Builder $objBuilder, $strTableAlias) {
+	public function makeColumnAlias(Builder $objBuilder, $strTableAlias) {
 		$strBegin = $objBuilder->Database->EscapeIdentifierBegin;
 		$strEnd = $objBuilder->Database->EscapeIdentifierEnd;
 
@@ -72,8 +72,8 @@ class Column extends AbstractBase {
 	/**
 	 * @return string
 	 */
-	public function GetTable() {
-		return $this->objParentNode->FullAlias();
+	public function getTable() {
+		return $this->objParentNode->fullAlias();
 	}
 
 	/**
@@ -85,13 +85,13 @@ class Column extends AbstractBase {
 	 * @param Clause\Select|null $objSelect
 	 * @throws Caller
 	 */
-	public function Join(Builder $objBuilder, $blnExpandSelection = false, iCondition $objJoinCondition = null, Clause\Select $objSelect = null) {
+	public function join(Builder $objBuilder, $blnExpandSelection = false, iCondition $objJoinCondition = null, Clause\Select $objSelect = null) {
 		$objParentNode = $this->objParentNode;
 		if (!$objParentNode) {
 			throw new Caller('A column node must have a parent node.');
 		} else {
 			// Here we pass the join condition on to the parent object
-			$objParentNode->Join($objBuilder, $blnExpandSelection, $objJoinCondition, $objSelect);
+			$objParentNode->join($objBuilder, $blnExpandSelection, $objJoinCondition, $objSelect);
 		}
 	}
 
@@ -99,7 +99,7 @@ class Column extends AbstractBase {
 	 * Get the unaliased column name. For special situations, like order by, since you can't order by aliases.
 	 * @return string
 	 */
-	public function GetAsManualSqlColumn() {
+	public function getAsManualSqlColumn() {
 		if ($this->strTableName)
 			return $this->strTableName . '.' . $this->strName;
 		else if (($this->objParentNode) && ($this->objParentNode->strTableName))

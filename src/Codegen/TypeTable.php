@@ -93,7 +93,7 @@ class TypeTable extends \QCubed\AbstractBase {
 	 * @param mixed $mixColValue
 	 * @return string
 	 */
-	public static function Literal($mixColValue) {
+	public static function literal($mixColValue) {
 		if (is_null($mixColValue)) return 'null';
 		elseif (is_integer($mixColValue)) return $mixColValue;
 		elseif (is_bool($mixColValue)) return ($mixColValue ? 'true' : 'false');
@@ -138,7 +138,7 @@ class TypeTable extends \QCubed\AbstractBase {
 				try {
 					return parent::__get($strName);
 				} catch (Caller $objExc) {
-					$objExc->IncrementOffset();
+					$objExc->incrementOffset();
 					throw $objExc;
 				}
 		}
@@ -157,26 +157,26 @@ class TypeTable extends \QCubed\AbstractBase {
 		try {
 			switch ($strName) {
 				case 'Name':
-					return $this->strName = Type::Cast($mixValue, Type::String);
+					return $this->strName = Type::cast($mixValue, Type::String);
 				case 'ClassName':
-					return $this->strClassName= Type::Cast($mixValue, Type::String);
+					return $this->strClassName= Type::cast($mixValue, Type::String);
 				case 'NameArray':
-					return $this->strNameArray = Type::Cast($mixValue, Type::ArrayType);
+					return $this->strNameArray = Type::cast($mixValue, Type::ArrayType);
 				case 'TokenArray':
-					return $this->strTokenArray = Type::Cast($mixValue, Type::ArrayType);
+					return $this->strTokenArray = Type::cast($mixValue, Type::ArrayType);
 				case 'ExtraPropertyArray':
-					return $this->arrExtraPropertyArray = Type::Cast($mixValue, Type::ArrayType);
+					return $this->arrExtraPropertyArray = Type::cast($mixValue, Type::ArrayType);
 				case 'ExtraFieldsArray':
-					return $this->extraFields = Type::Cast($mixValue, Type::ArrayType);
+					return $this->extraFields = Type::cast($mixValue, Type::ArrayType);
 				case 'KeyColumn':
 					return $this->objKeyColumn = $mixValue;
 				case 'ManyToManyReferenceArray':
-					return $this->objManyToManyReferenceArray = Type::Cast($mixValue, Type::ArrayType);
+					return $this->objManyToManyReferenceArray = Type::cast($mixValue, Type::ArrayType);
 				default:
 					return parent::__set($strName, $mixValue);
 			}
 		} catch (Caller $objExc) {
-			$objExc->IncrementOffset();
+			$objExc->incrementOffset();
 			throw $objExc;
 		}
 	}

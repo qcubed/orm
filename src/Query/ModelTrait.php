@@ -35,7 +35,7 @@ trait ModelTrait {
 	 * of the combined keys such that the combination will be unique.
 	 * @return integer|string
 	 */
-	// protected function PrimaryKey();
+	// protected function primaryKey();
 
 	/**
 	 * A helper function to get the primary key associated with this object type from a query result row.
@@ -45,21 +45,21 @@ trait ModelTrait {
 	 * @param string[] $strColumnAliasArray Array of column aliases associateing our column names with the minimized names in the query.
 	 * @return mixed The primary key found in the row
 	 */
-	// protected static function GetRowPrimaryKey($objDbRow, $strAliasPrefix, $strColumnAliasArray){}
+	// protected static function getRowPrimaryKey($objDbRow, $strAliasPrefix, $strColumnAliasArray){}
 
 	/**
 	 * Return the database object associated with this object.
 	 *
 	 * @return Database\AbstractBase
 	 */
-	//public static function GetDatabase(){}
+	//public static function getDatabase(){}
 
 	/**
 	 * Return the name of the database table associated with this object.
 	 *
 	 * @return string
 	 */
-	//public static function GetTableName(){return '';}
+	//public static function getTableName(){return '';}
 
 	/**
 	 * Add select fields to the query as part of the query building process. The superclass should override this to add the necessary fields
@@ -69,7 +69,7 @@ trait ModelTrait {
 	 * @param string|null $strPrefix	optional prefix to be used if this is an extended query (as in, a join)
 	 * @param Clause\Select|null $objSelect optional Clause\Select clause to select specific fields, rather than the entire set of fields in the object
 	 */
-	//public static function GetSelectFields(Builder $objBuilder, $strPrefix = null, Clause\Select $objSelect = null){}
+	//public static function getSelectFields(Builder $objBuilder, $strPrefix = null, Clause\Select $objSelect = null){}
 
 
 	/***  Implementation ***/
@@ -85,10 +85,10 @@ trait ModelTrait {
 	 * @return string the query statement
 	 * @throws Caller
 	 */
-	protected static function BuildQueryStatement(&$objQueryBuilder, iCondition $objConditions, $objOptionalClauses, $mixParameterArray, $blnCountOnly) {
+	protected static function buildQueryStatement(&$objQueryBuilder, iCondition $objConditions, $objOptionalClauses, $mixParameterArray, $blnCountOnly) {
 		// Get the Database Object for this Class
-		$objDatabase = static::GetDatabase();
-		$strTableName = static::GetTableName();
+		$objDatabase = static::getDatabase();
+		$strTableName = static::getTableName();
 
 		// Create/Build out the QueryBuilder object with class-specific SELECT and FROM fields
 		$objQueryBuilder = new Builder($objDatabase, $strTableName);
@@ -112,24 +112,24 @@ trait ModelTrait {
 			}
 		}
 
-		$objSelectClauses = QQ::ExtractSelectClause($objOptionalClauses);
+		$objSelectClauses = QQ::extractSelectClause($objOptionalClauses);
 		if ($objSelectClauses || $blnAddAllFieldsToSelect) {
-			static::BaseNode()->PutSelectFields($objQueryBuilder, null, $objSelectClauses);
+			static::baseNode()->putSelectFields($objQueryBuilder, null, $objSelectClauses);
 		}
 
-		$objQueryBuilder->AddFromItem($strTableName);
+		$objQueryBuilder->addFromItem($strTableName);
 
 		// Set "CountOnly" option (if applicable)
 		if ($blnCountOnly)
-			$objQueryBuilder->SetCountOnlyFlag();
+			$objQueryBuilder->setCountOnlyFlag();
 
 		// Apply Any Conditions
 		if ($objConditions)
 			try {
-				$objConditions->UpdateQueryBuilder($objQueryBuilder);
+				$objConditions->updateQueryBuilder($objQueryBuilder);
 			} catch (Caller $objExc) {
-				$objExc->IncrementOffset();
-				$objExc->IncrementOffset();
+				$objExc->incrementOffset();
+				$objExc->incrementOffset();
 				throw $objExc;
 			}
 
@@ -137,10 +137,10 @@ trait ModelTrait {
 		if ($objOptionalClauses) {
 			if ($objOptionalClauses instanceof iClause) {
 				try {
-					$objOptionalClauses->UpdateQueryBuilder($objQueryBuilder);
+					$objOptionalClauses->updateQueryBuilder($objQueryBuilder);
 				} catch (Caller $objExc) {
-					$objExc->IncrementOffset();
-					$objExc->IncrementOffset();
+					$objExc->incrementOffset();
+					$objExc->incrementOffset();
 					throw $objExc;
 				}
 
@@ -148,10 +148,10 @@ trait ModelTrait {
 			else if (is_array($objOptionalClauses)) {
 				foreach ($objOptionalClauses as $objClause) {
 					try {
-						$objClause->UpdateQueryBuilder($objQueryBuilder);
+						$objClause->updateQueryBuilder($objQueryBuilder);
 					} catch (Caller $objExc) {
-						$objExc->IncrementOffset();
-						$objExc->IncrementOffset();
+						$objExc->incrementOffset();
+						$objExc->incrementOffset();
 						throw $objExc;
 					}
 
@@ -162,13 +162,13 @@ trait ModelTrait {
 		}
 
 		// Get the SQL Statement
-		$strQuery = $objQueryBuilder->GetStatement();
+		$strQuery = $objQueryBuilder->getStatement();
 
 		// Substitute the correct sql variable names for the placeholders specified in the query, if any.
 		if ($mixParameterArray) {
 			if (is_array($mixParameterArray)) {
 				if (count($mixParameterArray))
-					$strQuery = $objDatabase->PrepareStatement($strQuery, $mixParameterArray);
+					$strQuery = $objDatabase->prepareStatement($strQuery, $mixParameterArray);
 
 				// Ensure that there are no other Unresolved Named Parameters
 				if (strpos($strQuery, chr(Node\NamedValue::DelimiterCode) . '{') !== false)
@@ -196,24 +196,24 @@ trait ModelTrait {
 	protected static function _QuerySingle(iCondition $objConditions, $objOptionalClauses = null, $mixParameterArray = null) {
 		// Get the Query Statement
 		try {
-			$strQuery = static::BuildQueryStatement($objQueryBuilder, $objConditions, $objOptionalClauses, $mixParameterArray, false);
+			$strQuery = static::buildQueryStatement($objQueryBuilder, $objConditions, $objOptionalClauses, $mixParameterArray, false);
 		} catch (Caller $objExc) {
-			$objExc->IncrementOffset();
+			$objExc->incrementOffset();
 			throw $objExc;
 		}
 
 		// Perform the Query, Get the First Row, and Instantiate a new object
-		$objDbResult = $objQueryBuilder->Database->Query($strQuery);
+		$objDbResult = $objQueryBuilder->Database->query($strQuery);
 
 		// Do we have to expand anything?
 		if ($objQueryBuilder->ExpandAsArrayNode) {
 			$objToReturn = array();
 			$objPrevItemArray = array();
-			while ($objDbRow = $objDbResult->GetNextRow()) {
-				$objItem = static::InstantiateDbRow($objDbRow, null, $objQueryBuilder->ExpandAsArrayNode, $objPrevItemArray, $objQueryBuilder->ColumnAliasArray);
+			while ($objDbRow = $objDbResult->getNextRow()) {
+				$objItem = static::instantiateDbRow($objDbRow, null, $objQueryBuilder->ExpandAsArrayNode, $objPrevItemArray, $objQueryBuilder->ColumnAliasArray);
 				if ($objItem) {
 					$objToReturn[] = $objItem;
-					$pk = $objItem->PrimaryKey();
+					$pk = $objItem->primaryKey();
 					if ($pk) {
 						$objPrevItemArray[$pk][] = $objItem;
 					} else {
@@ -229,10 +229,10 @@ trait ModelTrait {
 			}
 		} else {
 			// No expands just return the first row
-			$objDbRow = $objDbResult->GetNextRow();
+			$objDbRow = $objDbResult->getNextRow();
 			if(null === $objDbRow)
 				return null;
-			return static::InstantiateDbRow($objDbRow, null, null, null, $objQueryBuilder->ColumnAliasArray);
+			return static::instantiateDbRow($objDbRow, null, null, null, $objQueryBuilder->ColumnAliasArray);
 		}
 	}
 
@@ -250,15 +250,15 @@ trait ModelTrait {
 	protected static function _QueryArray(iCondition $objConditions, $objOptionalClauses = null, $mixParameterArray = null) {
 		// Get the Query Statement
 		try {
-			$strQuery = static::BuildQueryStatement($objQueryBuilder, $objConditions, $objOptionalClauses, $mixParameterArray, false);
+			$strQuery = static::buildQueryStatement($objQueryBuilder, $objConditions, $objOptionalClauses, $mixParameterArray, false);
 		} catch (Caller $objExc) {
-			$objExc->IncrementOffset();
+			$objExc->incrementOffset();
 			throw $objExc;
 		}
 
 		// Perform the Query and Instantiate the Array Result
-		$objDbResult = $objQueryBuilder->Database->Query($strQuery);
-		return static::InstantiateDbResult($objDbResult, $objQueryBuilder->ExpandAsArrayNode, $objQueryBuilder->ColumnAliasArray);
+		$objDbResult = $objQueryBuilder->Database->query($strQuery);
+		return static::instantiateDbResult($objDbResult, $objQueryBuilder->ExpandAsArrayNode, $objQueryBuilder->ColumnAliasArray);
 	}
 
 	/**
@@ -272,12 +272,12 @@ trait ModelTrait {
 	 * @throws Exception
 	 * @throws Caller
 	 */
-	public static function QueryCursor(iCondition $objConditions, $objOptionalClauses = null, $mixParameterArray = null) {
+	public static function queryCursor(iCondition $objConditions, $objOptionalClauses = null, $mixParameterArray = null) {
 		// Get the query statement
 		try {
-			$strQuery = static::BuildQueryStatement($objQueryBuilder, $objConditions, $objOptionalClauses, $mixParameterArray, false);
+			$strQuery = static::buildQueryStatement($objQueryBuilder, $objConditions, $objOptionalClauses, $mixParameterArray, false);
 		} catch (Caller $objExc) {
-			$objExc->IncrementOffset();
+			$objExc->incrementOffset();
 			throw $objExc;
 		}
 
@@ -288,7 +288,7 @@ trait ModelTrait {
 		}
 
 		// Perform the query
-		$objDbResult = $objQueryBuilder->Database->Query($strQuery);
+		$objDbResult = $objQueryBuilder->Database->query($strQuery);
 
 		// Get the alias array so we know how to instantiate a row from the result
 		$objDbResult->ColumnAliasArray = $objQueryBuilder->ColumnAliasArray;
@@ -304,17 +304,17 @@ trait ModelTrait {
 	 * @param mixed[] $mixParameterArray a array of name-value pairs to perform PrepareStatement with
 	 * @return integer the count of queried objects as an integer
 	 */
-	public static function QueryCount(iCondition $objConditions, $objOptionalClauses = null, $mixParameterArray = null) {
+	public static function queryCount(iCondition $objConditions, $objOptionalClauses = null, $mixParameterArray = null) {
 		// Get the Query Statement
 		try {
-			$strQuery = static::BuildQueryStatement($objQueryBuilder, $objConditions, $objOptionalClauses, $mixParameterArray, true);
+			$strQuery = static::buildQueryStatement($objQueryBuilder, $objConditions, $objOptionalClauses, $mixParameterArray, true);
 		} catch (Caller $objExc) {
-			$objExc->IncrementOffset();
+			$objExc->incrementOffset();
 			throw $objExc;
 		}
 
 		// Perform the Query and return the row_count
-		$objDbResult = $objQueryBuilder->Database->Query($strQuery);
+		$objDbResult = $objQueryBuilder->Database->query($strQuery);
 
 		// Figure out if the query is using GroupBy
 		$blnGrouped = false;
@@ -338,25 +338,25 @@ trait ModelTrait {
 
 		if ($blnGrouped)
 			// Groups in this query - return the count of Groups (which is the count of all rows)
-			return $objDbResult->CountRows();
+			return $objDbResult->countRows();
 		else {
 			// No Groups - return the sql-calculated count(*) value
-			$strDbRow = $objDbResult->FetchRow();
+			$strDbRow = $objDbResult->fetchRow();
 			return (integer)$strDbRow[0];
 		}
 	}
 /*
-	public static function QueryArrayCached(iCondition $objConditions, $objOptionalClauses = null, $mixParameterArray = null, $blnForceUpdate = false) {
-		$strQuery = static::BuildQueryStatement($objQueryBuilder, $objConditions, $objOptionalClauses, $mixParameterArray, false);
+	public static function queryArrayCached(iCondition $objConditions, $objOptionalClauses = null, $mixParameterArray = null, $blnForceUpdate = false) {
+		$strQuery = static::buildQueryStatement($objQueryBuilder, $objConditions, $objOptionalClauses, $mixParameterArray, false);
 
-		$strTableName = static::GetTableName();
+		$strTableName = static::getTableName();
 		$objCache = new QCache(sprintf('qquery/%s', $strTableName), $strQuery);
-		$cacheData = $objCache->GetData();
+		$cacheData = $objCache->getData();
 
 		if (!$cacheData || $blnForceUpdate) {
-			$objDbResult = $objQueryBuilder->Database->Query($strQuery);
-			$arrResult = static::InstantiateDbResult($objDbResult, $objQueryBuilder->ExpandAsArrayNode, $objQueryBuilder->ColumnAliasArray);
-			$objCache->SaveData(serialize($arrResult));
+			$objDbResult = $objQueryBuilder->Database->query($strQuery);
+			$arrResult = static::instantiateDbResult($objDbResult, $objQueryBuilder->ExpandAsArrayNode, $objQueryBuilder->ColumnAliasArray);
+			$objCache->saveData(serialize($arrResult));
 		} else {
 			$arrResult = unserialize($cacheData);
 		}
@@ -376,23 +376,23 @@ trait ModelTrait {
 	 * @param string[] $strColumnAliasArray
 	 * @return boolean|null Returns true if the we used the row for an expansion, false if we already expanded this node in a previous row, or null if no expansion data was found
 	 */
-	public static function ExpandArray ($objDbRow, $strAliasPrefix, $objNode, $objPreviousItemArray, $strColumnAliasArray) {
+	public static function expandArray($objDbRow, $strAliasPrefix, $objNode, $objPreviousItemArray, $strColumnAliasArray) {
 		if (!$objNode->ChildNodeArray) {
 			return null;
 		}
 		$blnExpanded = null;
 
-		$pk = static::GetRowPrimaryKey ($objDbRow, $strAliasPrefix, $strColumnAliasArray);
+		$pk = static::getRowPrimaryKey($objDbRow, $strAliasPrefix, $strColumnAliasArray);
 
 		foreach ($objPreviousItemArray as $objPreviousItem) {
-			if ($pk != $objPreviousItem->PrimaryKey()) {
+			if ($pk != $objPreviousItem->primaryKey()) {
 				continue;
 			}
 
 			foreach ($objNode->ChildNodeArray as $objChildNode) {
 				$strPropName = $objChildNode->_PropertyName;
 				$strClassName = $objChildNode->_ClassName;
-				$strLongAlias = $objChildNode->FullAlias();
+				$strLongAlias = $objChildNode->fullAlias();
 				$blnExpandAsArray = false;
 
 				if ($objChildNode->ExpandAsArray) {
@@ -405,7 +405,7 @@ trait ModelTrait {
 				if ($nodeType == 'reverse_reference') {
 					$strPrefix = '_obj';
 				} elseif ($nodeType == 'association') {
-					$objChildNode = $objChildNode->FirstChild();
+					$objChildNode = $objChildNode->firstChild();
 					if ($objChildNode->IsType) {
 						$strPrefix = '_int';
 					} else {
@@ -423,9 +423,9 @@ trait ModelTrait {
 					}
 					if (count($objPreviousItem->$strVarName)) {
 						$objPreviousChildItems = $objPreviousItem->$strVarName;
-						$nextAlias = $objChildNode->FullAlias() . '__';
+						$nextAlias = $objChildNode->fullAlias() . '__';
 
-						$objChildItem = $strClassName::InstantiateDbRow ($objDbRow, $nextAlias, $objChildNode, $objPreviousChildItems, $strColumnAliasArray, true);
+						$objChildItem = $strClassName::instantiateDbRow($objDbRow, $nextAlias, $objChildNode, $objPreviousChildItems, $strColumnAliasArray, true);
 
 						if ($objChildItem) {
 							$objPreviousItem->{$strVarName}[] = $objChildItem;
@@ -441,7 +441,7 @@ trait ModelTrait {
 						return false;
 					}
 					$objPreviousChildItems = array($objPreviousItem->$strVarName);
-					$blnResult = $strClassName::ExpandArray ($objDbRow, $strLongAlias . '__', $objChildNode, $objPreviousChildItems, $strColumnAliasArray);
+					$blnResult = $strClassName::expandArray($objDbRow, $strLongAlias . '__', $objChildNode, $objPreviousChildItems, $strColumnAliasArray);
 
 					if ($blnResult) {
 						$blnExpanded = true;
@@ -475,21 +475,21 @@ trait ModelTrait {
 	/**
 	 * Put the current object in the cache for future reference.
 	 */
-	public function WriteToCache() {
+	public function writeToCache() {
 	}
 
 	/**
 	 * Delete this particular object from the cache
 	 * @return void
 	 */
-	public function DeleteFromCache() {
+	public function deleteFromCache() {
 	}
 
 
 	/**
 	 * Clears the caches associated with this table.
 	 */
-	public static function ClearCache() {
+	public static function clearCache() {
 	}
 
 } 

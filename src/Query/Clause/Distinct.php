@@ -18,8 +18,8 @@ use QCubed\Query\Builder;
  * @was QQDistinct
  */
 class Distinct extends AbstractBase implements ClauseInterface {
-	public function UpdateQueryBuilder(Builder $objBuilder) {
-		$objBuilder->SetDistinctFlag();
+	public function updateQueryBuilder(Builder $objBuilder) {
+		$objBuilder->setDistinctFlag();
 	}
 	public function __toString() {
 		return 'QQDistinct Clause';

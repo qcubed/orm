@@ -36,7 +36,7 @@ class OrderBy extends AbstractBase implements ClauseInterface {
 	 * @throws Caller
 	 * @throws InvalidCast
 	 */
-	protected function CollapseNodes($mixParameterArray) {
+	protected function collapseNodes($mixParameterArray) {
 		/** @var Node\AbstractBase[] $objNodeArray */
 		$objNodeArray = array();
 		foreach ($mixParameterArray as $mixParameter) {
@@ -86,7 +86,7 @@ class OrderBy extends AbstractBase implements ClauseInterface {
 	 * @throws Caller|InvalidCast
 	 */
 	public function __construct($mixParameterArray) {
-		$this->objNodeArray = $this->CollapseNodes($mixParameterArray);
+		$this->objNodeArray = $this->collapseNodes($mixParameterArray);
 	}
 
 	/**
@@ -94,8 +94,8 @@ class OrderBy extends AbstractBase implements ClauseInterface {
 	 *
 	 * @param Builder $objBuilder
 	 */
-	public function UpdateQueryBuilder(Builder $objBuilder) {
-		$objBuilder->SetOrderByClause($this);
+	public function updateQueryBuilder(Builder $objBuilder) {
+		$objBuilder->setOrderByClause($this);
 	}
 
 	/**
@@ -109,16 +109,16 @@ class OrderBy extends AbstractBase implements ClauseInterface {
 		for ($intIndex = 0; $intIndex < $intLength; $intIndex++) {
 			$objNode = $this->objNodeArray[$intIndex];
 			if ($objNode instanceof Node\Virtual) {
-				if ($objNode->HasSubquery()) {
+				if ($objNode->hasSubquery()) {
 					throw new Caller('You cannot define a virtual node in an order by clause. You must use an Expand clause to define it.');
 				}
-				$strOrderByCommand = '__' . $objNode->GetAttributeName();
+				$strOrderByCommand = '__' . $objNode->getAttributeName();
 			} elseif ($objNode instanceof Node\Column) {
 				/** @var Node\Column $objNode */
-				$strOrderByCommand = $objNode->GetColumnAlias($objBuilder);
+				$strOrderByCommand = $objNode->getColumnAlias($objBuilder);
 			} elseif ($objNode instanceof iCondition) {
 				/** @var iCondition $objNode */
-				$strOrderByCommand = $objNode->GetWhereClause($objBuilder);
+				$strOrderByCommand = $objNode->getWhereClause($objBuilder);
 			} else {
 				$strOrderByCommand = '';
 			}
@@ -134,7 +134,7 @@ class OrderBy extends AbstractBase implements ClauseInterface {
 				$intIndex++;
 			}
 
-			$objBuilder->AddOrderByItem($strOrderByCommand);
+			$objBuilder->addOrderByItem($strOrderByCommand);
 		}
 	}
 
@@ -147,11 +147,11 @@ class OrderBy extends AbstractBase implements ClauseInterface {
 	 *
 	 * @return string
 	 */
-	public function GetAsManualSql() {
+	public function getAsManualSql() {
 		$strOrderByArray = array();
 		$intLength = count($this->objNodeArray);
 		for ($intIndex = 0; $intIndex < $intLength; $intIndex++) {
-			$strOrderByCommand = $this->objNodeArray[$intIndex]->GetAsManualSqlColumn();
+			$strOrderByCommand = $this->objNodeArray[$intIndex]->getAsManualSqlColumn();
 
 			// Check to see if they want a ASC/DESC declarator
 			if ((($intIndex + 1) < $intLength) &&

@@ -34,8 +34,8 @@ class MysqliField extends AbstractField {
 
 		if($this->strOriginalTable)
 		{
-			$objDescriptionResult = $objDb->Query(sprintf("SHOW FULL FIELDS FROM `%s`", $this->strOriginalTable));
-			while (($objRow = $objDescriptionResult->FetchArray())) {
+			$objDescriptionResult = $objDb->query(sprintf("SHOW FULL FIELDS FROM `%s`", $this->strOriginalTable));
+			while (($objRow = $objDescriptionResult->fetchArray())) {
 				if ($objRow["Field"] == $this->strOriginalName) {
 
 					$this->strDefault = $objRow["Default"];
@@ -71,10 +71,10 @@ class MysqliField extends AbstractField {
 		$this->blnPrimaryKey = ($mixFieldData->flags & MYSQLI_PRI_KEY_FLAG) ? true : false;
 		$this->blnUnique = ($mixFieldData->flags & MYSQLI_UNIQUE_KEY_FLAG) ? true : false;
 
-		$this->SetFieldType($mixFieldData->type, $mixFieldData->flags);
+		$this->setFieldType($mixFieldData->type, $mixFieldData->flags);
 	}
 
-	protected function SetFieldType($intMySqlFieldType, $intFlags) {
+	protected function setFieldType($intMySqlFieldType, $intFlags) {
 
 		if (version_compare(PHP_VERSION, '5.6.15') >= 0) {
 			if (defined("MYSQLI_TYPE_JSON") && $intMySqlFieldType == MYSQLI_TYPE_JSON) {

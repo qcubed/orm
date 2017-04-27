@@ -22,14 +22,14 @@ class Not extends AbstractLogical {
 	public function __construct(iCondition $objCondition) {
 		parent::__construct([$objCondition]);
 	}
-	public function UpdateQueryBuilder(Builder $objBuilder) {
-		$objBuilder->AddWhereItem('(NOT');
+	public function updateQueryBuilder(Builder $objBuilder) {
+		$objBuilder->addWhereItem('(NOT');
 		try {
-			$this->objConditionArray[0]->UpdateQueryBuilder($objBuilder);
+			$this->objConditionArray[0]->updateQueryBuilder($objBuilder);
 		} catch (Caller $objExc) {
-			$objExc->IncrementOffset();
+			$objExc->incrementOffset();
 			throw $objExc;
 		}
-		$objBuilder->AddWhereItem(')');
+		$objBuilder->addWhereItem(')');
 	}
 }

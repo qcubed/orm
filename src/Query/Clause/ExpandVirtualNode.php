@@ -25,11 +25,11 @@ class ExpandVirtualNode extends AbstractBase implements ClauseInterface {
 	public function __construct(Virtual $objNode) {
 		$this->objNode = $objNode;
 	}
-	public function UpdateQueryBuilder(Builder $objBuilder) {
+	public function updateQueryBuilder(Builder $objBuilder) {
 		try {
-			$objBuilder->AddSelectFunction(null, $this->objNode->GetColumnAlias($objBuilder), $this->objNode->GetAttributeName());
+			$objBuilder->addSelectFunction(null, $this->objNode->getColumnAlias($objBuilder), $this->objNode->getAttributeName());
 		} catch (Caller $objExc) {
-			$objExc->IncrementOffset();
+			$objExc->incrementOffset();
 			throw $objExc;
 		}
 	}
