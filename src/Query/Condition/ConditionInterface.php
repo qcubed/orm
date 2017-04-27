@@ -18,9 +18,13 @@ use QCubed\Query\Builder;
  * This interface is here simply to let parts of the framework refer to a general condition as a ConditionInterface,
  * instead of a Condition\AbstractBase class, which is just ugly.
  */
-interface ConditionInterface {
-	public function updateQueryBuilder(Builder $objBuilder);
-	public function __toString();
-	public function getWhereClause(Builder $objBuilder, $blnProcessOnce = false);
-	public function equalTables($strTableName);
+interface ConditionInterface
+{
+    public function updateQueryBuilder(Builder $objBuilder);
+
+    public function __toString();
+
+    public function getWhereClause(Builder $objBuilder, $blnProcessOnce = false);
+
+    public function equalTables($strTableName);
 }

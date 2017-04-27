@@ -19,41 +19,50 @@ use QCubed\Type;
  * @package QCubed\Query\Clause
  * @was QQLimitInfo
  */
-class Limit extends AbstractBase implements ClauseInterface {
-	protected $intMaxRowCount;
-	protected $intOffset;
-	public function __construct($intMaxRowCount, $intOffset = 0) {
-		try {
-			$this->intMaxRowCount = Type::cast($intMaxRowCount, Type::Integer);
-			$this->intOffset = Type::cast($intOffset, Type::Integer);
-		} catch (Caller $objExc) {
-			$objExc->incrementOffset();
-			throw $objExc;
-		}
-	}
-	public function updateQueryBuilder(Builder $objBuilder) {
-		if ($this->intOffset)
-			$objBuilder->setLimitInfo($this->intOffset . ',' . $this->intMaxRowCount);
-		else
-			$objBuilder->setLimitInfo($this->intMaxRowCount);
-	}
-	public function __toString() {
-		return 'QQLimitInfo Clause';
-	}
+class Limit extends AbstractBase implements ClauseInterface
+{
+    protected $intMaxRowCount;
+    protected $intOffset;
 
-	public function __get($strName) {
-		switch ($strName) {
-			case 'MaxRowCount':
-				return $this->intMaxRowCount;
-			case 'Offset':
-				return $this->intOffset;
-			default:
-				try {
-					return parent::__get($strName);
-				} catch (Caller $objExc) {
-					$objExc->incrementOffset();
-					throw $objExc;
-				}
-		}
-	}
+    public function __construct($intMaxRowCount, $intOffset = 0)
+    {
+        try {
+            $this->intMaxRowCount = Type::cast($intMaxRowCount, Type::INTEGER);
+            $this->intOffset = Type::cast($intOffset, Type::INTEGER);
+        } catch (Caller $objExc) {
+            $objExc->incrementOffset();
+            throw $objExc;
+        }
+    }
+
+    public function updateQueryBuilder(Builder $objBuilder)
+    {
+        if ($this->intOffset) {
+            $objBuilder->setLimitInfo($this->intOffset . ',' . $this->intMaxRowCount);
+        } else {
+            $objBuilder->setLimitInfo($this->intMaxRowCount);
+        }
+    }
+
+    public function __toString()
+    {
+        return 'QQLimitInfo Clause';
+    }
+
+    public function __get($strName)
+    {
+        switch ($strName) {
+            case 'MaxRowCount':
+                return $this->intMaxRowCount;
+            case 'Offset':
+                return $this->intOffset;
+            default:
+                try {
+                    return parent::__get($strName);
+                } catch (Caller $objExc) {
+                    $objExc->incrementOffset();
+                    throw $objExc;
+                }
+        }
+    }
 }

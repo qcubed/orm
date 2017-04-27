@@ -30,69 +30,70 @@ use QCubed\Exception\Caller;
  * @package QCubed\Database
  * @was QDatabaseFieldBase
  */
+abstract class AbstractField extends \QCubed\AbstractBase
+{
+    protected $strName;
+    protected $strOriginalName;
+    protected $strTable;
+    protected $strOriginalTable;
+    protected $strDefault;
+    protected $intMaxLength;
+    protected $strComment;
 
-abstract class AbstractField extends \QCubed\AbstractBase {
-	protected $strName;
-	protected $strOriginalName;
-	protected $strTable;
-	protected $strOriginalTable;
-	protected $strDefault;
-	protected $intMaxLength;
-	protected $strComment;
+    // Bool
+    protected $blnIdentity;
+    protected $blnNotNull;
+    protected $blnPrimaryKey;
+    protected $blnUnique;
+    protected $blnTimestamp;
 
-	// Bool
-	protected $blnIdentity;
-	protected $blnNotNull;
-	protected $blnPrimaryKey;
-	protected $blnUnique;
-	protected $blnTimestamp;
+    protected $strType;
 
-	protected $strType;
-
-	/**
-	 * PHP magic method
-	 *
-	 * @param string $strName Property name
-	 *
-	 * @return mixed
-	 * @throws \Exception|Caller
-	 */
-	public function __get($strName) {
-		switch ($strName) {
-			case "Name":
-				return $this->strName;
-			case "OriginalName":
-				return $this->strOriginalName;
-			case "Table":
-				return $this->strTable;
-			case "OriginalTable":
-				return $this->strOriginalTable;
-			case "Default":
-				return $this->strDefault;
-			case "MaxLength":
-				return $this->intMaxLength;
-			case "Identity":
-				return $this->blnIdentity;
-			case "NotNull":
-				return $this->blnNotNull;
-			case "PrimaryKey":
-				return $this->blnPrimaryKey;
-			case "Unique":
-				return $this->blnUnique;
-			case "Timestamp":
-				return $this->blnTimestamp;
-			case "Type":
-				return $this->strType;
-			case "Comment":
-				return $this->strComment;
-			default:
-				try {
-					return parent::__get($strName);
-				} catch (Caller $objExc) {
-					$objExc->incrementOffset();
-					throw $objExc;
-				}
-		}
-	}
+    /**
+     * PHP magic method
+     *
+     * @param string $strName Property name
+     *
+     * @return mixed
+     * @throws \Exception|Caller
+     */
+    public function __get($strName)
+    {
+        switch ($strName) {
+            case "Name":
+                return $this->strName;
+            case "OriginalName":
+                return $this->strOriginalName;
+            case "Table":
+                return $this->strTable;
+            case "OriginalTable":
+                return $this->strOriginalTable;
+            case "Default":
+                return $this->strDefault;
+            case "MaxLength":
+                return $this->intMaxLength;
+            case "Identity":
+                return $this->blnIdentity;
+            case "NotNull":
+                return $this->blnNotNull;
+            case "PrimaryKey":
+                return $this->blnPrimaryKey;
+            case "Unique":
+                return $this->blnUnique;
+            case "Timestamp":
+                return $this->blnTimestamp;
+            case "Type":
+                return $this->strType;
+            case "Comment":
+                return $this->strComment;
+            default:
+                try {
+                    return parent::__get($strName);
+                } catch (Caller $objExc) {
+                    $objExc->incrementOffset();
+                    throw $objExc;
+                }
+        }
+    }
 }
 

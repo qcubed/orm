@@ -21,29 +21,41 @@ use QCubed\Query\Node;
  * @package QCubed\Query\Clause
  * @was QQExpand
  */
-class Expand extends AbstractBase implements ClauseInterface {
-	/** @var Node\AbstractBase */
-	protected $objNode;
-	protected $objJoinCondition;
-	protected $objSelect;
+class Expand extends AbstractBase implements ClauseInterface
+{
+    /** @var Node\AbstractBase */
+    protected $objNode;
+    protected $objJoinCondition;
+    protected $objSelect;
 
-	public function __construct($objNode, iCondition $objJoinCondition = null, Select $objSelect  = null) {
-		// Check against root and table QQNodes
-		if ($objNode instanceof Node\Association)
-			throw new Caller('Expand clause parameter cannot be an association table node. Try expanding one level deeper.', 2);
-		else if (!($objNode instanceof Node\AbstractBase))
-			throw new Caller('Expand clause parameter must be a QQNode object', 2);
-		else if (!$objNode->_ParentNode)
-			throw new InvalidCast('Cannot expand on this kind of node.', 3);
+    public function __construct($objNode, iCondition $objJoinCondition = null, Select $objSelect = null)
+    {
+        // Check against root and table QQNodes
+        if ($objNode instanceof Node\Association) {
+            throw new Caller('Expand clause parameter cannot be an association table node. Try expanding one level deeper.',
+                2);
+        } else {
+            if (!($objNode instanceof Node\AbstractBase)) {
+                throw new Caller('Expand clause parameter must be a QQNode object', 2);
+            } else {
+                if (!$objNode->_ParentNode) {
+                    throw new InvalidCast('Cannot expand on this kind of node.', 3);
+                }
+            }
+        }
 
-		$this->objNode = $objNode;
-		$this->objJoinCondition = $objJoinCondition;
-		$this->objSelect = $objSelect;
-	}
-	public function updateQueryBuilder(Builder $objBuilder) {
-		$this->objNode->join($objBuilder, true, $this->objJoinCondition, $this->objSelect);
-	}
-	public function __toString() {
-		return 'QQExpand Clause';
-	}
+        $this->objNode = $objNode;
+        $this->objJoinCondition = $objJoinCondition;
+        $this->objSelect = $objSelect;
+    }
+
+    public function updateQueryBuilder(Builder $objBuilder)
+    {
+        $this->objNode->join($objBuilder, true, $this->objJoinCondition, $this->objSelect);
+    }
+
+    public function __toString()
+    {
+        return 'QQExpand Clause';
+    }
 }

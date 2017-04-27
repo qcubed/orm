@@ -20,20 +20,28 @@ use QCubed\Query\Node\Virtual;
  * @package QCubed\Query\Clause
  * @was QQExpandVirtualNode
  */
-class ExpandVirtualNode extends AbstractBase implements ClauseInterface {
-	protected $objNode;
-	public function __construct(Virtual $objNode) {
-		$this->objNode = $objNode;
-	}
-	public function updateQueryBuilder(Builder $objBuilder) {
-		try {
-			$objBuilder->addSelectFunction(null, $this->objNode->getColumnAlias($objBuilder), $this->objNode->getAttributeName());
-		} catch (Caller $objExc) {
-			$objExc->incrementOffset();
-			throw $objExc;
-		}
-	}
-	public function __toString() {
-		return 'QQExpandVirtualNode Clause';
-	}
+class ExpandVirtualNode extends AbstractBase implements ClauseInterface
+{
+    protected $objNode;
+
+    public function __construct(Virtual $objNode)
+    {
+        $this->objNode = $objNode;
+    }
+
+    public function updateQueryBuilder(Builder $objBuilder)
+    {
+        try {
+            $objBuilder->addSelectFunction(null, $this->objNode->getColumnAlias($objBuilder),
+                $this->objNode->getAttributeName());
+        } catch (Caller $objExc) {
+            $objExc->incrementOffset();
+            throw $objExc;
+        }
+    }
+
+    public function __toString()
+    {
+        return 'QQExpandVirtualNode Clause';
+    }
 }

@@ -14,9 +14,12 @@ namespace QCubed\Query\Clause;
  * @package QCubed\Query\Clause
  * @was QQAverage
  */
-class Average extends AbstractAggregation {
-	protected $strFunctionName = 'AVG';
-	public function __toString() {
-		return 'Average Clause';
-	}
+class Average extends AbstractAggregation
+{
+    protected $strFunctionName = 'AVG';
+
+    public function __toString()
+    {
+        return 'Average Clause';
+    }
 }

@@ -21,5 +21,6 @@ use QCubed\Type;
  * @package QCubed\Query\Node
  * @was QQSubQueryNode
  */
-abstract class AbstractSubQuery extends Column {
+abstract class AbstractSubQuery extends Column
+{
 }

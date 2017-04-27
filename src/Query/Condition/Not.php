@@ -18,18 +18,22 @@ use QCubed\Query\Condition\ConditionInterface as iCondition;
  * @package QCubed\Query\Condition
  * @was QQConditionNot
  */
-class Not extends AbstractLogical {
-	public function __construct(iCondition $objCondition) {
-		parent::__construct([$objCondition]);
-	}
-	public function updateQueryBuilder(Builder $objBuilder) {
-		$objBuilder->addWhereItem('(NOT');
-		try {
-			$this->objConditionArray[0]->updateQueryBuilder($objBuilder);
-		} catch (Caller $objExc) {
-			$objExc->incrementOffset();
-			throw $objExc;
-		}
-		$objBuilder->addWhereItem(')');
-	}
+class Not extends AbstractLogical
+{
+    public function __construct(iCondition $objCondition)
+    {
+        parent::__construct([$objCondition]);
+    }
+
+    public function updateQueryBuilder(Builder $objBuilder)
+    {
+        $objBuilder->addWhereItem('(NOT');
+        try {
+            $this->objConditionArray[0]->updateQueryBuilder($objBuilder);
+        } catch (Caller $objExc) {
+            $objExc->incrementOffset();
+            throw $objExc;
+        }
+        $objBuilder->addWhereItem(')');
+    }
 }

@@ -20,22 +20,31 @@ use QCubed\Query\Node\AbstractSubQuery;
  * @package QCubed\Query\Clause
  * @was QQHavingClause
  */
-class Having extends AbstractBase implements ClauseInterface {
-	protected $objNode;
-	public function __construct(AbstractSubQuery $objSubQueryDefinition) {
-		$this->objNode = $objSubQueryDefinition;
-	}
-	public function updateQueryBuilder(Builder $objBuilder) {
-		$objBuilder->addHavingItem(
-			$this->objNode->getColumnAlias($objBuilder)
-		);
-	}
-	public function getAttributeName() {
-		return $this->objNode->_Name;
-	}
-	public function __toString() {
-		return "Having Clause";
-	}
+class Having extends AbstractBase implements ClauseInterface
+{
+    protected $objNode;
+
+    public function __construct(AbstractSubQuery $objSubQueryDefinition)
+    {
+        $this->objNode = $objSubQueryDefinition;
+    }
+
+    public function updateQueryBuilder(Builder $objBuilder)
+    {
+        $objBuilder->addHavingItem(
+            $this->objNode->getColumnAlias($objBuilder)
+        );
+    }
+
+    public function getAttributeName()
+    {
+        return $this->objNode->_Name;
+    }
+
+    public function __toString()
+    {
+        return "Having Clause";
+    }
 
 }
 

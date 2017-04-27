@@ -17,12 +17,16 @@ use QCubed\Query\Builder;
  * @package QCubed\Query\Clause
  * @was QQDistinct
  */
-class Distinct extends AbstractBase implements ClauseInterface {
-	public function updateQueryBuilder(Builder $objBuilder) {
-		$objBuilder->setDistinctFlag();
-	}
-	public function __toString() {
-		return 'QQDistinct Clause';
-	}
+class Distinct extends AbstractBase implements ClauseInterface
+{
+    public function updateQueryBuilder(Builder $objBuilder)
+    {
+        $objBuilder->setDistinctFlag();
+    }
+
+    public function __toString()
+    {
+        return 'QQDistinct Clause';
+    }
 }
 

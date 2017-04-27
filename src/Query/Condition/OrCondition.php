@@ -15,6 +15,7 @@ namespace QCubed\Query\Condition;
  * @package QCubed\Query\Condition
  * @was QQConditionOr
  */
-class OrCondition extends AbstractLogical {
-	protected $strOperator = 'OR';
+class OrCondition extends AbstractLogical
+{
+    protected $strOperator = 'OR';
 }

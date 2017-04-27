@@ -20,46 +20,52 @@ use QCubed\Query\QQ;
  * @package QCubed\Query\Node
  * @was QQVirtualNode
  */
-class Virtual extends AbstractNoParent {
-	protected $objSubQueryDefinition;
+class Virtual extends AbstractNoParent
+{
+    protected $objSubQueryDefinition;
 
-	/**
-	 * @param $strName
-	 * @param AbstractSubQuery|null $objSubQueryDefinition
-	 */
-	public function __construct($strName, AbstractSubQuery $objSubQueryDefinition = null) {
-		parent::__construct('', '', '');
-		$this->objParentNode = true;
-		$this->strName = QQ::getVirtualAlias($strName);
-		$this->strAlias = $this->strName;
-		$this->objSubQueryDefinition = $objSubQueryDefinition;
-	}
+    /**
+     * @param $strName
+     * @param AbstractSubQuery|null $objSubQueryDefinition
+     */
+    public function __construct($strName, AbstractSubQuery $objSubQueryDefinition = null)
+    {
+        parent::__construct('', '', '');
+        $this->objParentNode = true;
+        $this->strName = QQ::getVirtualAlias($strName);
+        $this->strAlias = $this->strName;
+        $this->objSubQueryDefinition = $objSubQueryDefinition;
+    }
 
-	/**
-	 * @param Builder $objBuilder
-	 * @return string
-	 * @throws Caller
-	 */
-	public function getColumnAlias(Builder $objBuilder) {
-		if ($this->objSubQueryDefinition) {
-			$objBuilder->setVirtualNode($this->strName, $this->objSubQueryDefinition);
-			return $this->objSubQueryDefinition->getColumnAlias($objBuilder);
-		} else {
-			try {
-				$objNode = $objBuilder->getVirtualNode($this->strName);
-				return $objNode->getColumnAlias($objBuilder);
-			} catch (Caller $objExc) {
-				$objExc->incrementOffset();
-				$objExc->incrementOffset();
-				throw $objExc;
-			}
-		}
-	}
-	public function getAttributeName() {
-		return $this->strName;
-	}
+    /**
+     * @param Builder $objBuilder
+     * @return string
+     * @throws Caller
+     */
+    public function getColumnAlias(Builder $objBuilder)
+    {
+        if ($this->objSubQueryDefinition) {
+            $objBuilder->setVirtualNode($this->strName, $this->objSubQueryDefinition);
+            return $this->objSubQueryDefinition->getColumnAlias($objBuilder);
+        } else {
+            try {
+                $objNode = $objBuilder->getVirtualNode($this->strName);
+                return $objNode->getColumnAlias($objBuilder);
+            } catch (Caller $objExc) {
+                $objExc->incrementOffset();
+                $objExc->incrementOffset();
+                throw $objExc;
+            }
+        }
+    }
 
-	public function hasSubquery() {
-		return $this->objSubQueryDefinition != null;
-	}
+    public function getAttributeName()
+    {
+        return $this->strName;
+    }
+
+    public function hasSubquery()
+    {
+        return $this->objSubQueryDefinition != null;
+    }
 }

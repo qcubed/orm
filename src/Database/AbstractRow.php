@@ -15,37 +15,41 @@ namespace QCubed\Database;
  * @package DatabaseAdapters
  * @was QDatabaseRowBase
  */
-abstract class AbstractRow extends \QCubed\AbstractBase {
-	/**
-	 * Gets the value of a column from a result row returned by the database
-	 *
-	 * @param string      $strColumnName Name of the column
-	 * @param null|string $strColumnType Data type
-	 *
-	 * @return mixed
-	 */
-	abstract public function getColumn($strColumnName, $strColumnType = null);
-	/**
-	 * Tells whether a particular column exists in a returned database row
-	 *
-	 * @param string $strColumnName Name of te column
-	 *
-	 * @return bool
-	 */
-	abstract public function columnExists($strColumnName);
-	abstract public function getColumnNameArray();
+abstract class AbstractRow extends \QCubed\AbstractBase
+{
+    /**
+     * Gets the value of a column from a result row returned by the database
+     *
+     * @param string $strColumnName Name of the column
+     * @param null|string $strColumnType Data type
+     *
+     * @return mixed
+     */
+    abstract public function getColumn($strColumnName, $strColumnType = null);
 
-	/**
-	 * Returns the boolean value corresponding to whatever a boolean column returns. Some database types
-	 * return strings that represent the boolean values. Default is to use a PHP cast.
-	 * @param mixed $mixValue the value of the BIT column
-	 * @return bool
-	 */
-	public function resolveBooleanValue($mixValue) {
-		if ($mixValue === null) {
-			return null;
-		}
-		return ((bool)$mixValue);
-	}
+    /**
+     * Tells whether a particular column exists in a returned database row
+     *
+     * @param string $strColumnName Name of te column
+     *
+     * @return bool
+     */
+    abstract public function columnExists($strColumnName);
+
+    abstract public function getColumnNameArray();
+
+    /**
+     * Returns the boolean value corresponding to whatever a boolean column returns. Some database types
+     * return strings that represent the boolean values. Default is to use a PHP cast.
+     * @param mixed $mixValue the value of the BIT column
+     * @return bool
+     */
+    public function resolveBooleanValue($mixValue)
+    {
+        if ($mixValue === null) {
+            return null;
+        }
+        return ((bool)$mixValue);
+    }
 }
 

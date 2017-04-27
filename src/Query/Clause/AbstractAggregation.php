@@ -21,17 +21,22 @@ use QCubed\Query\QQ;
  * @package QCubed\Query\Clause
  * @was QQAggregationClause
  */
-abstract class AbstractAggregation extends AbstractBase implements ClauseInterface {
-	/** @var Node\AbstractBase */
-	protected $objNode;
-	protected $strAttributeName;
-	protected $strFunctionName;
-	public function __construct(Node\Column $objNode, $strAttributeName) {
-		$this->objNode = QQ::func($this->strFunctionName, $objNode);
-		$this->strAttributeName = QQ::getVirtualAlias($strAttributeName); // virtual attributes are queried lower case
-	}
-	public function updateQueryBuilder(Builder $objBuilder) {
-		$objBuilder->setVirtualNode($this->strAttributeName, $this->objNode);
-		$objBuilder->addSelectFunction(null, $this->objNode->getColumnAlias($objBuilder), $this->strAttributeName);
-	}
+abstract class AbstractAggregation extends AbstractBase implements ClauseInterface
+{
+    /** @var Node\AbstractBase */
+    protected $objNode;
+    protected $strAttributeName;
+    protected $strFunctionName;
+
+    public function __construct(Node\Column $objNode, $strAttributeName)
+    {
+        $this->objNode = QQ::func($this->strFunctionName, $objNode);
+        $this->strAttributeName = QQ::getVirtualAlias($strAttributeName); // virtual attributes are queried lower case
+    }
+
+    public function updateQueryBuilder(Builder $objBuilder)
+    {
+        $objBuilder->setVirtualNode($this->strAttributeName, $this->objNode);
+        $objBuilder->addSelectFunction(null, $this->objNode->getColumnAlias($objBuilder), $this->strAttributeName);
+    }
 }

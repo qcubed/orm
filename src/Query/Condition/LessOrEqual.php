@@ -15,6 +15,7 @@ namespace QCubed\Query\Condition;
  * @package QCubed\Query\Condition
  * @was QQConditionLessOrEqual
  */
-class LessOrEqual extends AbstractComparison {
-	protected $strOperator = ' <= ';
+class LessOrEqual extends AbstractComparison
+{
+    protected $strOperator = ' <= ';
 }

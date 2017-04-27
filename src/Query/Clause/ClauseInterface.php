@@ -17,7 +17,9 @@ use QCubed\Query\Builder;
  * @package QCubed\Query\Clause
  * @was QQClause
  */
-interface ClauseInterface {
-	public function updateQueryBuilder(Builder $objBuilder);
-	public function __toString();
+interface ClauseInterface
+{
+    public function updateQueryBuilder(Builder $objBuilder);
+
+    public function __toString();
 }

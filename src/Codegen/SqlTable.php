@@ -246,23 +246,23 @@ class SqlTable extends \QCubed\AbstractBase {
 		try {
 			switch ($strName) {
 				case 'OwnerDbIndex':
-					return $this->intOwnerDbIndex = Type::cast($mixValue, Type::Integer);
+					return $this->intOwnerDbIndex = Type::cast($mixValue, Type::INTEGER);
 				case 'Name':
-					return $this->strName = Type::cast($mixValue, Type::String);
+					return $this->strName = Type::cast($mixValue, Type::STRING);
 				case 'ClassName':
-					return $this->strClassName = Type::cast($mixValue, Type::String);
+					return $this->strClassName = Type::cast($mixValue, Type::STRING);
 				case 'ClassNamePlural':
-					return $this->strClassNamePlural = Type::cast($mixValue, Type::String);
+					return $this->strClassNamePlural = Type::cast($mixValue, Type::STRING);
 				case 'ColumnArray':
-					return $this->objColumnArray = Type::cast($mixValue, Type::ArrayType);
+					return $this->objColumnArray = Type::cast($mixValue, Type::ARRAY_TYPE);
 				case 'ReverseReferenceArray':
-					return $this->objReverseReferenceArray = Type::cast($mixValue, Type::ArrayType);
+					return $this->objReverseReferenceArray = Type::cast($mixValue, Type::ARRAY_TYPE);
 				case 'ManyToManyReferenceArray':
-					return $this->objManyToManyReferenceArray = Type::cast($mixValue, Type::ArrayType);
+					return $this->objManyToManyReferenceArray = Type::cast($mixValue, Type::ARRAY_TYPE);
 				case 'IndexArray':
-					return $this->objIndexArray = Type::cast($mixValue, Type::ArrayType);
+					return $this->objIndexArray = Type::cast($mixValue, Type::ARRAY_TYPE);
 				case 'Options':
-					return $this->options = Type::cast($mixValue, Type::ArrayType);
+					return $this->options = Type::cast($mixValue, Type::ARRAY_TYPE);
 				default:
 					return parent::__set($strName, $mixValue);
 			}

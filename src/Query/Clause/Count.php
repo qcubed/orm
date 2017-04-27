@@ -15,10 +15,13 @@ namespace QCubed\Query\Clause;
  * @package QCubed\Query\Clause
  * @was QQCount
  */
-class Count extends AbstractAggregation {
-	protected $strFunctionName = 'COUNT';
-	public function __toString() {
-		return 'Count Clause';
-	}
+class Count extends AbstractAggregation
+{
+    protected $strFunctionName = 'COUNT';
+
+    public function __toString()
+    {
+        return 'Count Clause';
+    }
 }
 

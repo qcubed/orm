@@ -18,18 +18,21 @@ use QCubed\Query\Node;
  * @package QCubed\Query\Condition
  * @was QQConditionIsNull
  */
-class IsNull extends AbstractComparison {
-	/**
-	 * @param Node\Column $objQueryNode
-	 */
-	public function __construct(Node\Column $objQueryNode) {
-		parent::__construct($objQueryNode);
-	}
+class IsNull extends AbstractComparison
+{
+    /**
+     * @param Node\Column $objQueryNode
+     */
+    public function __construct(Node\Column $objQueryNode)
+    {
+        parent::__construct($objQueryNode);
+    }
 
-	/**
-	 * @param Builder $objBuilder
-	 */
-	public function updateQueryBuilder(Builder $objBuilder) {
-		$objBuilder->addWhereItem($this->objQueryNode->getColumnAlias($objBuilder) . ' IS NULL');
-	}
+    /**
+     * @param Builder $objBuilder
+     */
+    public function updateQueryBuilder(Builder $objBuilder)
+    {
+        $objBuilder->addWhereItem($this->objQueryNode->getColumnAlias($objBuilder) . ' IS NULL');
+    }
 }
