@@ -69,7 +69,6 @@ $a['/(\\W)(?:(?:\\\\\\w+)*\\\\)*QQLimitInfo(\\W)/i'] = '$1\QCubed\\\\Query\\\\Cl
 $a['/(\\W)(?:(?:\\\\\\w+)*\\\\)*QQMaximum(\\W)/i'] = '$1\QCubed\\\\Query\\\\Clause\\\\Maximum$2';
 $a['/(\\W)(?:(?:\\\\\\w+)*\\\\)*QQMinimum(\\W)/i'] = '$1\QCubed\\\\Query\\\\Clause\\\\Minimum$2';
 $a['/(\\W)(?:(?:\\\\\\w+)*\\\\)*QQOrderBy(\\W)/i'] = '$1\QCubed\\\\Query\\\\Clause\\\\OrderBy$2';
-$a['/(\\W)(?:(?:\\\\\\w+)*\\\\)*Select(\\W)/i'] = '$1\QCubed\\\\Query\\\\Clause\\\\Select$2';
 $a['/(\\W)(?:(?:\\\\\\w+)*\\\\)*QQSum(\\W)/i'] = '$1\QCubed\\\\Query\\\\Clause\\\\Sum$2';
 $a['/(\\W)(?:(?:\\\\\\w+)*\\\\)*QQCondition(\\W)/i'] = '$1\QCubed\\\\Query\\\\Condition\\\\AbstractBase$2';
 $a['/(\\W)(?:(?:\\\\\\w+)*\\\\)*QQConditionComparison(\\W)/i'] = '$1\QCubed\\\\Query\\\\Condition\\\\AbstractComparison$2';
@@ -110,4 +109,5 @@ $a['/(\\W)(?:(?:\\\\\\w+)*\\\\)*QQSubQueryCountNode(\\W)/i'] = '$1\QCubed\\\\Que
 $a['/(\\W)(?:(?:\\\\\\w+)*\\\\)*QQSubQuerySqlNode(\\W)/i'] = '$1\QCubed\\\\Query\\\\Node\\\\SubQuerySql$2';
 $a['/(\\W)(?:(?:\\\\\\w+)*\\\\)*QQVirtualNode(\\W)/i'] = '$1\QCubed\\\\Query\\\\Node\\\\Virtual$2';
 $a['/(\\W)(?:(?:\\\\\\w+)*\\\\)*QPartialQueryBuilder(\\W)/i'] = '$1\QCubed\\\\Query\\\\PartialBuilder$2';
+$a['/(\\W)(?:(?:\\\\\\w+)*\\\\)*QQ(\\W)/i'] = '$1\QCubed\\\\Query\\\\QQ$2';
 return $a;

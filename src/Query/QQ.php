@@ -21,6 +21,7 @@ use QCubed\Query\Clause;
  * Factory class of shortcuts for generating the various classes that eventually go in to a query.
  *
  * @package QCubed\Query
+ * @was QQ
  */
 class QQ
 {

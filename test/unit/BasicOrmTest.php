@@ -1,8 +1,8 @@
 <?php
 
 use QCubed\Exception\Caller;
-use \QCubed\Query\QQ;
 use \QCubed\QDateTime;
+use QCubed\Query\QQ;
 
 
 /**
@@ -99,7 +99,7 @@ class BasicOrmTests extends \QCubed\Test\UnitTestCaseBase {
 			QQ::GreaterThan(QQN::Milestone()->Project->StartDate, $someDate),
 			// test for an array of QQClause objects
 			QQ::Clause(
-				// The QQ::Distinct is used because of the https://github.com/qcubed/qcubed/issues/231 issue #231
+				// The \QCubed\Query\QQ::Distinct is used because of the https://github.com/qcubed/qcubed/issues/231 issue #231
 				QQ::Distinct()
 				, QQ::Distinct()
 			)
@@ -125,7 +125,7 @@ class BasicOrmTests extends \QCubed\Test\UnitTestCaseBase {
 			QQ::All(),
 			QQ::Clause(
 				QQ::OrderBy(
-					QQ::NotEqual(QQN::Person()->LastName, 'Smith'), 
+					QQ::NotEqual(QQN::Person()->LastName, 'Smith'),
 					QQN::Person()->FirstName)
 				)
 			);

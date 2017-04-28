@@ -17,7 +17,7 @@ use QCubed\Query\Node;
 /**
  * Class Select
  * @package QCubed\Query\Clause
- * @was Select
+ * no was clause here! It has a name conflict
  */
 class Select extends AbstractBase implements ClauseInterface
 {
