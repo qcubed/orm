@@ -42,9 +42,9 @@
 <?php foreach ($objTable->ColumnArray as $objColumn) { ?>
 <?php if (!$objColumn->Reference || $objColumn->Reference->IsType) { ?>
         if (property_exists($objSoapObject, '<?= $objColumn->PropertyName ?>'))
-<?php if ($objColumn->VariableType != \QCubed\Type::DateTime) { ?>
+<?php if ($objColumn->VariableType != \QCubed\Type::DATE_TIME) { ?>
             $objToReturn-><?= $objColumn->VariableName ?> = $objSoapObject-><?= $objColumn->PropertyName ?>;
-<?php } ?><?php if ($objColumn->VariableType == \QCubed\Type::DateTime) { ?>
+<?php } ?><?php if ($objColumn->VariableType == \QCubed\Type::DATE_TIME) { ?>
             $objToReturn-><?= $objColumn->VariableName ?> = new QDateTime($objSoapObject-><?= $objColumn->PropertyName ?>);
 <?php } ?>
 <?php } ?><?php if ($objColumn->Reference && (!$objColumn->Reference->IsType)) { ?>
@@ -72,7 +72,7 @@
 
     public static function getSoapObjectFromObject($objObject, $blnBindRelatedObjects) {
 <?php foreach ($objTable->ColumnArray as $objColumn) { ?>
-<?php if ($objColumn->VariableType == \QCubed\Type::DateTime) { ?>
+<?php if ($objColumn->VariableType == \QCubed\Type::DATE_TIME) { ?>
         if ($objObject-><?= $objColumn->VariableName ?>)
             $objObject-><?= $objColumn->VariableName ?> = $objObject-><?= $objColumn->VariableName ?>->qFormat(QDateTime::FormatSoap);
 <?php } ?><?php if ($objColumn->Reference && (!$objColumn->Reference->IsType)) { ?>

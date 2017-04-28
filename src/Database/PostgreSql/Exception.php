@@ -9,7 +9,6 @@
 
 namespace QCubed\Database\PostgreSql;
 
-use QCubed\Database\AbstractException;
 
 
 /**
@@ -17,7 +16,7 @@ use QCubed\Database\AbstractException;
  *
  * @was QPostgreSqlDatabaseException
  */
-class Exception extends AbstractException
+class Exception extends \QCubed\Database\Exception\AbstractBase
 {
     /**
      * QPostgreSqlDatabaseException constructor.

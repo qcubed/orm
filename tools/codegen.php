@@ -62,7 +62,7 @@
 		<?php foreach (\Codegen::$CodeGenArray as $objCodeGen) { ?>
 			<p><strong><?= \QCubed\QString::HtmlEntities($objCodeGen->GetTitle()); ?></strong></p>
 			<pre><code><p class="code_title"><?php \QCubed\QString::HtmlEntities($objCodeGen->GetReportLabel()); ?></p><?php
-					if (\Codegen::DebugMode) {
+					if (\Codegen::DEBUG_MODE) {
 						DisplayMonospacedText($objCodeGen->GenerateAll());
 					} else {
 						@DisplayMonospacedText($objCodeGen->GenerateAll());

@@ -6,7 +6,7 @@
 
 	if (count($objTable->PrimaryKeyColumnArray) > 1 &&
 			$blnImmediateExpansions) {
-		throw Caller ("Multi-key table with array expansion not supported.");
+		throw new QCubed\Exception\Caller ("Multi-key table with array expansion not supported.");
 	}
 	
 		
@@ -89,10 +89,10 @@ if ($blnImmediateExpansions || $blnExtendedExpansions) {
             $strAliasName = !empty($strColumnAliasArray[$strAlias]) ? $strColumnAliasArray[$strAlias] : $strAlias;
             if (isset ($strColumnKeys[$strAliasName])) {
                 $mixVal = $strColumns[$strAliasName];
-<?php if ($objColumn->VariableType == \QCubed\Type::Boolean) { ?>
+<?php if ($objColumn->VariableType == \QCubed\Type::BOOLEAN) { ?>
                 $objToReturn-><?= $objColumn->VariableName ?> = $objDbRow->ResolveBooleanValue($mixVal);
 <?php } else { ?>
-<?php 	if ($s = \QCubed\Codegen\DatabaseCodeGen::GetCastString($objColumn)) { ?>
+<?php 	if ($s = $objCodeGen->getCastString($objColumn)) { ?>
                 if ($mixVal !== null) {
                     <?= $s ?>
 
