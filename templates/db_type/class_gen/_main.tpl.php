@@ -174,7 +174,7 @@ abstract class <?= $objTypeTable->ClassName ?>Gen extends \QCubed\AbstractBase {
         }
         $strAlias = $strAliasPrefix . 'id';
         $strAliasName = array_key_exists($strAlias, $strColumnAliasArray) ? $strColumnAliasArray[$strAlias] : $strAlias;
-        $intId = $objDbRow->GetColumn($strAliasName, \QCubed\Database\FieldType::Integer);
+        $intId = $objDbRow->GetColumn($strAliasName, \QCubed\Database\FieldType::INTEGER);
         return $intId;
     }
 }
@@ -221,7 +221,7 @@ class Node<?= $objTypeTable->ClassName ?> extends Node\Table {
                 try {
                     return parent::__get($strName);
                 } catch (Caller $objExc) {
-                    $objExc->IncrementOffset();
+                    $objExc->incrementOffset();
                     throw $objExc;
                 }
         }

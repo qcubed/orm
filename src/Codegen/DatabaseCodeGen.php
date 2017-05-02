@@ -14,14 +14,14 @@ use QCubed\Database;
 use QCubed\Exception\Caller;
 use QCubed\Type;
 
-require_once __INCLUDES__ . '/codegen/Codegen.php';
+require_once __PROJECT__ . '/qcubed/codegen/CodegenBase.php';
 
 /**
  * Class DatabaseCodeGen
  * @package QCubed\Codegen
  * @was QDatabaseCodeGen
  */
-class DatabaseCodeGen extends \Codegen
+class DatabaseCodeGen extends \QCubed\Project\Codegen\CodegenBase
 {
     public $objSettingsXml;    // Make public so templates can use it directly.
 

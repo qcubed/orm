@@ -13,7 +13,7 @@
 					try {
 						return parent::__get($strName);
 					} catch (Caller $objExc) {
-						$objExc->IncrementOffset();
+						$objExc->incrementOffset();
 						throw $objExc;
 					}
 			}
@@ -25,7 +25,7 @@
 					try {
 						return ($this->strSomeNewProperty = \QCubed\Type::Cast($mixValue, \QCubed\Type::String));
 					} catch (QInvalidCastException $objExc) {
-						$objExc->IncrementOffset();
+						$objExc->incrementOffset();
 						throw $objExc;
 					}
 
@@ -33,7 +33,7 @@
 					try {
 						return (parent::__set($strName, $mixValue));
 					} catch (Caller $objExc) {
-						$objExc->IncrementOffset();
+						$objExc->incrementOffset();
 						throw $objExc;
 					}
 			}

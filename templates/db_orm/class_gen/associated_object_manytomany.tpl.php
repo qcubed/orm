@@ -7,22 +7,29 @@
 
     /**
      * Gets all many-to-many associated <?= $objManyToManyReference->ObjectDescriptionPlural ?> as an array of <?= $objManyToManyReference->VariableType ?> objects
-     * @param iClause[] $objOptionalClauses additional optional iClause objects for this query
+     * @param iClause[] $objClauses additional optional iClause objects for this query
      * @return <?= $objManyToManyReference->VariableType ?>[]
-    */
-    public function Get<?= $objManyToManyReference->ObjectDescription ?>Array($objClauses = null) {
+     * @throws Caller
+     */
+    public function get<?= $objManyToManyReference->ObjectDescription ?>Array($objClauses = null) {
         if (<?= $objCodeGen->ImplodeObjectArray(' || ', '(is_null($this->', '))', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>)
             return array();
 
         try {
             return <?= $objManyToManyReference->VariableType ?>::LoadArrayBy<?= $objManyToManyReference->OppositeObjectDescription ?>($this-><?= $objTable->PrimaryKeyColumnArray[0]->VariableName ?>, $objClauses);
         } catch (Caller $objExc) {
-            $objExc->IncrementOffset();
+            $objExc->incrementOffset();
             throw $objExc;
         }
     }
 
-    public function Get<?= $objManyToManyReference->ObjectDescription ?>Keys() {
+    /**
+     * Gets all many-to-many associated <?= $objManyToManyReference->ObjectDescriptionPlural ?> as an array of <?= $objManyToManyReference->VariableType ?> objects
+     * @param iClause[] $objClauses additional optional iClause objects for this query
+     * @return <?= $objManyToManyReference->VariableType ?>[]
+     * @throws Caller
+     */
+    public function get<?= $objManyToManyReference->ObjectDescription ?>Keys() {
         if (<?= $objCodeGen->ImplodeObjectArray(' || ', '(is_null($this->', '))', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>)
             throw new \QCubed\Database\Exception\UndefinedPrimaryKey('Unable to call Get<?= $objManyToManyReference->ObjectDescription ?>Ids on this unsaved <?= $objTable->ClassName ?>.');
 

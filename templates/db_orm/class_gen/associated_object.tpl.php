@@ -10,15 +10,16 @@
      * Gets all associated <?= $objReverseReference->ObjectDescriptionPlural ?> as an array of <?= $objReverseReference->VariableType ?> objects
      * @param iClause[] $objOptionalClauses additional optional iClause objects for this query
      * @return <?= $objReverseReference->VariableType ?>[]
-    */
-    public function Get<?= $objReverseReference->ObjectDescription ?>Array($objOptionalClauses = null) {
+     * @throws Caller
+     */
+    public function get<?= $objReverseReference->ObjectDescription ?>Array($objOptionalClauses = null) {
         if (<?= $objCodeGen->ImplodeObjectArray(' || ', '(is_null($this->', '))', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>)
             return array();
 
         try {
             return <?= $objReverseReference->VariableType ?>::LoadArrayBy<?= $objReverseReferenceColumn->PropertyName ?>(<?= $objCodeGen->ImplodeObjectArray(', ', '$this->', '', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>, $objOptionalClauses);
         } catch (Caller $objExc) {
-            $objExc->IncrementOffset();
+            $objExc->incrementOffset();
             throw $objExc;
         }
     }
@@ -28,7 +29,7 @@
 
      * @return int
     */
-    public function Count<?= $objReverseReference->ObjectDescriptionPlural ?>() {
+    public function count<?= $objReverseReference->ObjectDescriptionPlural ?>() {
         if (<?= $objCodeGen->ImplodeObjectArray(' || ', '(is_null($this->', '))', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>)
             return 0;
 
@@ -43,7 +44,7 @@
      * @throws \QCubed\Database\Exception\UndefinedPrimaryKey
      * @return void
     */
-    public function Associate<?= $objReverseReference->ObjectDescription ?>(<?= $objReverseReference->VariableType ?> $<?= $objReverseReference->VariableName ?>) {
+    public function associate<?= $objReverseReference->ObjectDescription ?>(<?= $objReverseReference->VariableType ?> $<?= $objReverseReference->VariableName ?>) {
         if (<?= $objCodeGen->ImplodeObjectArray(' || ', '(is_null($this->', '))', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>)
             throw new \QCubed\Database\Exception\UndefinedPrimaryKey('Unable to call Associate<?= $objReverseReference->ObjectDescription ?> on this unsaved <?= $objTable->ClassName ?>.');
         if (<?= $objCodeGen->ImplodeObjectArray(' || ', '(is_null($' . $objReverseReference->VariableName . '->', '))', 'PropertyName', $objReverseReferenceTable->PrimaryKeyColumnArray) ?>)
@@ -76,7 +77,7 @@
      * @throws \QCubed\Database\Exception\UndefinedPrimaryKey
      * @return void
     */
-    public function Unassociate<?= $objReverseReference->ObjectDescription ?>(<?= $objReverseReference->VariableType ?> $<?= $objReverseReference->VariableName ?>) {
+    public function unassociate<?= $objReverseReference->ObjectDescription ?>(<?= $objReverseReference->VariableType ?> $<?= $objReverseReference->VariableName ?>) {
         if (<?= $objCodeGen->ImplodeObjectArray(' || ', '(is_null($this->', '))', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>)
             throw new \QCubed\Database\Exception\UndefinedPrimaryKey('Unable to call Unassociate<?= $objReverseReference->ObjectDescription ?> on this unsaved <?= $objTable->ClassName ?>.');
         if (<?= $objCodeGen->ImplodeObjectArray(' || ', '(is_null($' . $objReverseReference->VariableName . '->', '))', 'PropertyName', $objReverseReferenceTable->PrimaryKeyColumnArray) ?>)
@@ -107,7 +108,7 @@
 
      * @return void
     */
-    public function UnassociateAll<?= $objReverseReference->ObjectDescriptionPlural ?>() {
+    public function unassociateAll<?= $objReverseReference->ObjectDescriptionPlural ?>() {
         if (<?= $objCodeGen->ImplodeObjectArray(' || ', '(is_null($this->', '))', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>)
             throw new \QCubed\Database\Exception\UndefinedPrimaryKey('Unable to call Unassociate<?= $objReverseReference->ObjectDescription ?> on this unsaved <?= $objTable->ClassName ?>.');
 
@@ -133,7 +134,7 @@
 
      * @return void
     */
-    public function DeleteAssociated<?= $objReverseReference->ObjectDescription ?>(<?= $objReverseReference->VariableType ?> $<?= $objReverseReference->VariableName ?>) {
+    public function deleteAssociated<?= $objReverseReference->ObjectDescription ?>(<?= $objReverseReference->VariableType ?> $<?= $objReverseReference->VariableName ?>) {
         if (<?= $objCodeGen->ImplodeObjectArray(' || ', '(is_null($this->', '))', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>)
             throw new \QCubed\Database\Exception\UndefinedPrimaryKey('Unable to call Unassociate<?= $objReverseReference->ObjectDescription ?> on this unsaved <?= $objTable->ClassName ?>.');
         if (<?= $objCodeGen->ImplodeObjectArray(' || ', '(is_null($' . $objReverseReference->VariableName . '->', '))', 'PropertyName', $objReverseReferenceTable->PrimaryKeyColumnArray) ?>)
@@ -162,7 +163,7 @@
 
      * @return void
     */
-    public function DeleteAll<?= $objReverseReference->ObjectDescriptionPlural ?>() {
+    public function deleteAll<?= $objReverseReference->ObjectDescriptionPlural ?>() {
         if (<?= $objCodeGen->ImplodeObjectArray(' || ', '(is_null($this->', '))', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>)
             throw new \QCubed\Database\Exception\UndefinedPrimaryKey('Unable to call Unassociate<?= $objReverseReference->ObjectDescription ?> on this unsaved <?= $objTable->ClassName ?>.');
 

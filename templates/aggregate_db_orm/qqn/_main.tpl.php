@@ -11,6 +11,10 @@
 	);
 ?>
 <?php print("<?php\n"); ?>
+    /**
+     * Class QQN
+     * Factory methods for generating database nodes at the top of a node chain.
+     */
 	class QQN {
 <?php foreach ($objTableArray as $objTable) { ?>
 		/**

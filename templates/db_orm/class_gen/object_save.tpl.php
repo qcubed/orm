@@ -83,7 +83,7 @@ if ($strValues) {
                 $this->Update($blnForceUpdate);
             }
         } catch (Caller $objExc) {
-            $objExc->IncrementOffset();
+            $objExc->incrementOffset();
             throw $objExc;
         }
 

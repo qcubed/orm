@@ -4,7 +4,7 @@
      * via the <?= $objManyToManyReference->Table ?> table
      * @param <?= $objManyToManyReference->OppositeVariableType ?> $<?= $objManyToManyReference->OppositeVariableName ?>
 
-     * @param iClause[] $objOptionalClauses additional optional iClause objects for this query
+     * @param iClause[] $objClauses additional optional iClause objects for this query
      * @throws Caller
      * @return <?= $objTable->ClassName ?>[]
     */
@@ -16,7 +16,7 @@
                 $objClauses
             );
         } catch (Caller $objExc) {
-            $objExc->IncrementOffset();
+            $objExc->incrementOffset();
             throw $objExc;
         }
     }

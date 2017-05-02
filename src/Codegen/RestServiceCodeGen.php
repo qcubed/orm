@@ -18,7 +18,7 @@ use QCubed\Exception\Caller;
  *
  * @package Codegen
  */
-class RestServiceCodeGen extends \CodeGen
+class RestServiceCodeGen extends \QCubed\Project\Codegen\CodegenBase
 {
     // REST Service-specific Attributes
     protected $strServiceUrl;
