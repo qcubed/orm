@@ -20,4 +20,4 @@ include (__APP_INCLUDES__ . '/model_includes.php');
 	->addClassmapFile(__MODEL_GEN__ . '/_type_class_paths.inc.php');
 
 
-\QCubed\Database\Service::InitializeDatabaseConnections();
+\QCubed\Database\Service::initializeDatabaseConnections();
