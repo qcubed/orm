@@ -15,7 +15,7 @@ namespace QCubed\Query\Condition;
  * @package QCubed\Query\Condition
  * @was QQConditionGreaterThan
  */
-class GreaterThan extends AbstractComparison
+class GreaterThan extends ComparisonBase
 {
     protected $strOperator = ' > ';
 }

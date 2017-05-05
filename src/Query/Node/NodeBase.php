@@ -10,6 +10,7 @@
 namespace QCubed\Query\Node;
 
 use QCubed\Exception\Caller;
+use QCubed\ObjectBase;
 use QCubed\Query\Builder;
 use QCubed\Query\Clause\Select;
 use QCubed\Query\Condition\ConditionInterface as iCondition;
@@ -22,7 +23,7 @@ use QCubed\Type;
  *
  * The properties begin with underscores to prevent name conflicts with codegenerated subclasses.
  *
- * @property-read AbstractBase $_ParentNode        // Parent object in tree.
+ * @property-read NodeBase $_ParentNode        // Parent object in tree.
  * @property-read string $_Name                // Default SQL name in query, or default alias
  * @property-read string $_Alias                // Actual alias. Usually the name, unless changed by QQ::alias() call
  * @property-read string $_PropertyName        // The name as used in PHP
@@ -31,15 +32,15 @@ use QCubed\Type;
  * @property-read string $_TableName            // The name of the table associated with this node, if its not a column node.
  * @property-read string $_PrimaryKey
  * @property-read string $_ClassName
- * @property-read AbstractBase $_PrimaryKeyNode
+ * @property-read NodeBase $_PrimaryKeyNode
  * @property bool $ExpandAsArray True if this node should be array expanded.
  * @property-read bool $IsType Is a type table node. For association type arrays.
- * @property-read AbstractBase $ChildNodeArray
+ * @property-read NodeBase $ChildNodeArray
  * @was QQNode
  */
-abstract class AbstractBase extends \QCubed\AbstractBase
+abstract class NodeBase extends ObjectBase
 {
-    /** @var null|AbstractBase|bool */
+    /** @var null|NodeBase|bool */
     protected $objParentNode;
     /** @var  string Type node. SQL type or table type */
     protected $strType;
@@ -64,7 +65,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase
     // used by expansion nodes
     /** @var  bool True if this is an expand as array node point */
     protected $blnExpandAsArray;
-    /** @var  AbstractBase[] the array of child nodes if this is an expand as array point */
+    /** @var  NodeBase[] the array of child nodes if this is an expand as array point */
     protected $objChildNodeArray;
     /** @var  bool True if this is a Type node */
     protected $blnIsType;
@@ -156,10 +157,10 @@ abstract class AbstractBase extends \QCubed\AbstractBase
      * is to set up a node chain where intermediate nodes can be designated as being array
      * expansion nodes, as well as the leaf nodes.
      *
-     * @param AbstractBase $objNewNode
+     * @param NodeBase $objNewNode
      * @throws Caller
      */
-    public function _MergeExpansionNode(AbstractBase $objNewNode)
+    public function _MergeExpansionNode(NodeBase $objNewNode)
     {
         if (!$objNewNode || empty($objNewNode->objChildNodeArray)) {
             return;
@@ -219,7 +220,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase
     }
 
     /**
-     * @return AbstractBase|null
+     * @return NodeBase|null
      */
     public function firstChild()
     {
@@ -254,8 +255,8 @@ abstract class AbstractBase extends \QCubed\AbstractBase
             return $mixValue->parameter($blnEqualityType);
         }
 
-        if ($mixValue instanceof AbstractBase) {
-            /** @var AbstractBase $mixValue */
+        if ($mixValue instanceof NodeBase) {
+            /** @var NodeBase $mixValue */
             if ($n = $mixValue->_PrimaryKeyNode) {
                 $mixValue = $n;    // Convert table node to column node
             }

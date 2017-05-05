@@ -9,7 +9,7 @@
 
 namespace QCubed\Query\Clause;
 
-use QCubed\AbstractBase;
+use QCubed\ObjectBase;
 use QCubed\Exception\Caller;
 use QCubed\Exception\InvalidCast;
 use QCubed\Query\Builder;
@@ -21,9 +21,9 @@ use QCubed\Query\Node;
  * @package QCubed\Query\Clause
  * @was QQExpand
  */
-class Expand extends AbstractBase implements ClauseInterface
+class Expand extends ObjectBase implements ClauseInterface
 {
-    /** @var Node\AbstractBase */
+    /** @var Node\NodeBase */
     protected $objNode;
     protected $objJoinCondition;
     protected $objSelect;
@@ -35,7 +35,7 @@ class Expand extends AbstractBase implements ClauseInterface
             throw new Caller('Expand clause parameter cannot be an association table node. Try expanding one level deeper.',
                 2);
         } else {
-            if (!($objNode instanceof Node\AbstractBase)) {
+            if (!($objNode instanceof Node\NodeBase)) {
                 throw new Caller('Expand clause parameter must be a QQNode object', 2);
             } else {
                 if (!$objNode->_ParentNode) {

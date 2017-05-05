@@ -18,7 +18,7 @@ use QCubed\Query\Condition\ConditionInterface as iCondition;
  * @package QCubed\Query\Condition
  * @was QQConditionNot
  */
-class Not extends AbstractLogical
+class Not extends LogicalBase
 {
     public function __construct(iCondition $objCondition)
     {

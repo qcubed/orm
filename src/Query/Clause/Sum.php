@@ -14,7 +14,7 @@ namespace QCubed\Query\Clause;
  * @package QCubed\Query\Clause
  * @was QQSum
  */
-class Sum extends AbstractAggregation
+class Sum extends AggregationBase
 {
     protected $strFunctionName = 'SUM';
 

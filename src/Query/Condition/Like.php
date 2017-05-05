@@ -20,7 +20,7 @@ use QCubed\Query\Node;
  * @package QCubed\Query\Condition
  * @was QQConditionLike
  */
-class Like extends AbstractComparison
+class Like extends ComparisonBase
 {
     /**
      * @param Node\Column $objQueryNode

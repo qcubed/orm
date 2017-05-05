@@ -10,6 +10,7 @@
 namespace QCubed\Codegen;
 
 use QCubed\Exception\Caller;
+use QCubed\ObjectBase;
 use QCubed\Type;
 
 /**
@@ -28,7 +29,7 @@ use QCubed\Type;
  * @property string $Name
  * @was QReference
  */
-class Reference extends \QCubed\AbstractBase
+class Reference extends ObjectBase
 {
 
     /////////////////////////////

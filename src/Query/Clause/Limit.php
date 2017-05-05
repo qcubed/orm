@@ -9,7 +9,7 @@
 
 namespace QCubed\Query\Clause;
 
-use QCubed\AbstractBase;
+use QCubed\ObjectBase;
 use QCubed\Exception\Caller;
 use QCubed\Query\Builder;
 use QCubed\Type;
@@ -19,7 +19,7 @@ use QCubed\Type;
  * @package QCubed\Query\Clause
  * @was QQLimitInfo
  */
-class Limit extends AbstractBase implements ClauseInterface
+class Limit extends ObjectBase implements ClauseInterface
 {
     protected $intMaxRowCount;
     protected $intOffset;

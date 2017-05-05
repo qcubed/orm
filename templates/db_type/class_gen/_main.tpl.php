@@ -39,7 +39,7 @@ use QCubed\Exception\Caller;
 
  * @subpackage Model
  */
-abstract class <?= $objTypeTable->ClassName ?>Gen extends \QCubed\AbstractBase {
+abstract class <?= $objTypeTable->ClassName ?>Gen extends \QCubed\ObjectBase {
 <?= ($intKey = 0) == 1; ?><?php foreach ($objTypeTable->TokenArray as $intKey=>$strValue) { ?>
     const <?= $strValue ?> = <?= $intKey ?>;
 <?php } ?>
@@ -159,7 +159,7 @@ abstract class <?= $objTypeTable->ClassName ?>Gen extends \QCubed\AbstractBase {
      * Takes in an optional strAliasPrefix, used in case another Object::InstantiateDbRow
      * is calling this <?= $objTypeTable->ClassName ?>::InstantiateDbRow in order to perform
      * early binding on referenced objects.
-     * @param \QCubed\Database\AbstractRow $objDbRow
+     * @param \QCubed\Database\RowBase $objDbRow
      * @param string|null $strAliasPrefix
      * @param string|null $strExpandAsArrayNodes
      * @param array|null $arrPreviousItems

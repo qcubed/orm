@@ -9,7 +9,7 @@
 
 namespace QCubed\Database\Mysqli5;
 
-use QCubed\Database\AbstractField;
+use QCubed\Database\FieldBase;
 use QCubed\Database\FieldType;
 
 
@@ -18,7 +18,7 @@ use QCubed\Database\FieldType;
  * @package DatabaseAdapters
  * @was QMySqliDatabaseField
  */
-class MysqliField extends AbstractField
+class MysqliField extends FieldBase
 {
     public function __construct($mixFieldData, MysqliDatabase $objDb = null)
     {

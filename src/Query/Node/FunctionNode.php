@@ -18,7 +18,7 @@ use QCubed\Query\Builder;
  * @package QCubed\Query\Node
  * @was QQFunctionNode
  */
-class FunctionNode extends AbstractSubQuery
+class FunctionNode extends SubQueryBase
 {
     /** @var  string */
     protected $strFunctionName;

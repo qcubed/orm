@@ -21,7 +21,7 @@ use QCubed\Query\Node;
  * @package QCubed\Query\Condition
  * @was QQConditionNotIn
  */
-class NotIn extends AbstractComparison
+class NotIn extends ComparisonBase
 {
     /**
      * @param Node\Column $objQueryNode
@@ -35,7 +35,7 @@ class NotIn extends AbstractComparison
         if ($mixValuesArray instanceof Node\NamedValue) {
             $this->mixOperand = $mixValuesArray;
         } else {
-            if ($mixValuesArray instanceof Node\AbstractSubQuery) {
+            if ($mixValuesArray instanceof Node\SubQueryBase) {
                 $this->mixOperand = $mixValuesArray;
             } else {
                 try {
@@ -59,8 +59,8 @@ class NotIn extends AbstractComparison
             /** @var Node\NamedValue $mixOperand */
             $objBuilder->addWhereItem($this->objQueryNode->getColumnAlias($objBuilder) . ' NOT IN (' . $mixOperand->parameter() . ')');
         } else {
-            if ($mixOperand instanceof Node\AbstractSubQuery) {
-                /** @var Node\AbstractSubQuery $mixOperand */
+            if ($mixOperand instanceof Node\SubQueryBase) {
+                /** @var Node\SubQueryBase $mixOperand */
                 $objBuilder->addWhereItem($this->objQueryNode->getColumnAlias($objBuilder) . ' NOT IN ' . $mixOperand->getColumnAlias($objBuilder));
             } else {
                 $strParameters = array();

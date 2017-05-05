@@ -9,8 +9,8 @@
 
 namespace QCubed\Query\Clause;
 
-use QCubed\AbstractBase;
 use QCubed\Exception\Caller;
+use QCubed\ObjectBase;
 use QCubed\Query\Builder;
 use QCubed\Query\Node\Virtual;
 
@@ -20,7 +20,7 @@ use QCubed\Query\Node\Virtual;
  * @package QCubed\Query\Clause
  * @was QQExpandVirtualNode
  */
-class ExpandVirtualNode extends AbstractBase implements ClauseInterface
+class ExpandVirtualNode extends ObjectBase implements ClauseInterface
 {
     protected $objNode;
 

@@ -10,6 +10,7 @@
 namespace QCubed\Codegen;
 
 use QCubed\Exception\Caller;
+use QCubed\ObjectBase;
 use QCubed\Type;
 
 /**
@@ -21,7 +22,7 @@ use QCubed\Type;
  * @property boolean $PrimaryKey
  * @property string[] $ColumnNameArray
  */
-class Index extends \QCubed\AbstractBase
+class Index extends ObjectBase
 {
 
     /////////////////////////////

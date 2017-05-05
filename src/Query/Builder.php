@@ -11,6 +11,7 @@
 namespace QCubed\Query;
 
 use QCubed\Exception\Caller;
+use QCubed\ObjectBase;
 use QCubed\Query\Node;
 use QCubed\Query\Clause;
 use QCubed\Query\Condition\ConditionInterface as iCondition;
@@ -18,13 +19,13 @@ use QCubed\Database;
 
 /**
  * Builder class
- * @property \QCubed\Database\AbstractBase $Database
+ * @property \QCubed\Database\DatabaseBase $Database
  * @property string $RootTableName
  * @property string[] $ColumnAliasArray
- * @property Node\AbstractBase $ExpandAsArrayNode
+ * @property Node\NodeBase $ExpandAsArrayNode
  * @was QQueryBuilder
  */
-class Builder extends \QCubed\AbstractBase
+class Builder extends ObjectBase
 {
     /** @var string[] */
     protected $strSelectArray;
@@ -56,12 +57,12 @@ class Builder extends \QCubed\AbstractBase
     protected $strLimitInfo;
     /** @var  bool */
     protected $blnDistinctFlag;
-    /** @var  Node\AbstractBase */
+    /** @var  Node\NodeBase */
     protected $objExpandAsArrayNode;
     /** @var  bool */
     protected $blnCountOnlyFlag;
 
-    /** @var \QCubed\Database\AbstractBase */
+    /** @var \QCubed\Database\DatabaseBase */
     protected $objDatabase;
     /** @var string */
     protected $strRootTableName;
@@ -73,10 +74,10 @@ class Builder extends \QCubed\AbstractBase
     protected $objOrderByClause;
 
     /**
-     * @param \QCubed\Database\AbstractBase $objDatabase
+     * @param \QCubed\Database\DatabaseBase $objDatabase
      * @param string $strRootTableName
      */
-    public function __construct(Database\AbstractBase $objDatabase, $strRootTableName)
+    public function __construct(Database\DatabaseBase $objDatabase, $strRootTableName)
     {
         $this->objDatabase = $objDatabase;
         $this->strEscapeIdentifierBegin = $objDatabase->EscapeIdentifierBegin;
@@ -358,10 +359,10 @@ class Builder extends \QCubed\AbstractBase
     }
 
     /**
-     * @param Node\AbstractBase $objNode
+     * @param Node\NodeBase $objNode
      * @throws Caller
      */
-    public function addExpandAsArrayNode(Node\AbstractBase $objNode)
+    public function addExpandAsArrayNode(Node\NodeBase $objNode)
     {
         /** @var Node\ReverseReference|Node\Association $objNode */
         // build child nodes and find top node of given node

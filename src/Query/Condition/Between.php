@@ -20,7 +20,7 @@ use QCubed\Query\Node;
  * @package QCubed\Query\Condition
  * @was QQConditionBetween
  */
-class Between extends AbstractComparison
+class Between extends ComparisonBase
 {
     /** @var  mixed */
     protected $mixOperandTwo;

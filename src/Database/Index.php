@@ -10,13 +10,14 @@
 namespace QCubed\Database;
 
 use QCubed\Exception\Caller;
+use QCubed\ObjectBase;
 
 /**
  * To handle index in a table in database
  * @package DatabaseAdapters
  * @was QDatabaseIndex
  */
-class Index extends \QCubed\AbstractBase
+class Index extends ObjectBase
 {
     /** @var string Name of the index */
     protected $strKeyName;

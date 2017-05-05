@@ -15,7 +15,7 @@ namespace QCubed\Query\Clause;
  * @package QCubed\Query\Clause
  * @was QQCount
  */
-class Count extends AbstractAggregation
+class Count extends AggregationBase
 {
     protected $strFunctionName = 'COUNT';
 

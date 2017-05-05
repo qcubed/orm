@@ -9,7 +9,7 @@
 
 namespace QCubed\Query\Clause;
 
-use QCubed\AbstractBase;
+use QCubed\ObjectBase;
 use QCubed\Exception\Caller;
 use QCubed\Exception\InvalidCast;
 use QCubed\Query\Builder;
@@ -22,7 +22,7 @@ use QCubed\Query\Node;
  * @package QCubed\Query\Clause
  * @was QQOrderBy
  */
-class OrderBy extends AbstractBase implements ClauseInterface
+class OrderBy extends ObjectBase implements ClauseInterface
 {
     /** @var mixed[] */
     protected $objNodeArray;
@@ -39,7 +39,7 @@ class OrderBy extends AbstractBase implements ClauseInterface
      */
     protected function collapseNodes($mixParameterArray)
     {
-        /** @var Node\AbstractBase[] $objNodeArray */
+        /** @var Node\NodeBase[] $objNodeArray */
         $objNodeArray = array();
         foreach ($mixParameterArray as $mixParameter) {
             if (is_array($mixParameter)) {
@@ -52,9 +52,9 @@ class OrderBy extends AbstractBase implements ClauseInterface
         $blnPreviousIsNode = false;
         $objFinalNodeArray = array();
         foreach ($objNodeArray as $objNode) {
-            if (!($objNode instanceof Node\AbstractBase || $objNode instanceof iCondition)) {
+            if (!($objNode instanceof Node\NodeBase || $objNode instanceof iCondition)) {
                 if (!$blnPreviousIsNode) {
-                    throw new Caller('OrderBy clause parameters must all be Node\AbstractBase or iCondition objects followed by an optional true/false "Ascending Order" option',
+                    throw new Caller('OrderBy clause parameters must all be Node\NodeBase or iCondition objects followed by an optional true/false "Ascending Order" option',
                         3);
                 }
                 $blnPreviousIsNode = false;
@@ -64,7 +64,7 @@ class OrderBy extends AbstractBase implements ClauseInterface
                 array_push($objFinalNodeArray, $objNode);
             } else {
                 if (!$objNode->_ParentNode) {
-                    throw new InvalidCast('Unable to cast "' . $objNode->_Name . '" table to Column-based Node\AbstractBase',
+                    throw new InvalidCast('Unable to cast "' . $objNode->_Name . '" table to Column-based Node\NodeBase',
                         4);
                 }
                 if ($objNode->_PrimaryKeyNode) { // if a table node, then use the primary key of the table
@@ -133,7 +133,7 @@ class OrderBy extends AbstractBase implements ClauseInterface
 
             // Check to see if they want a ASC/DESC declarator
             if ((($intIndex + 1) < $intLength) &&
-                !($this->objNodeArray[$intIndex + 1] instanceof Node\AbstractBase)
+                !($this->objNodeArray[$intIndex + 1] instanceof Node\NodeBase)
             ) {
                 if ((!$this->objNodeArray[$intIndex + 1]) ||
                     (trim(strtolower($this->objNodeArray[$intIndex + 1])) == 'desc')
@@ -166,7 +166,7 @@ class OrderBy extends AbstractBase implements ClauseInterface
 
             // Check to see if they want a ASC/DESC declarator
             if ((($intIndex + 1) < $intLength) &&
-                !($this->objNodeArray[$intIndex + 1] instanceof Node\AbstractBase)
+                !($this->objNodeArray[$intIndex + 1] instanceof Node\NodeBase)
             ) {
                 if ((!$this->objNodeArray[$intIndex + 1]) ||
                     (trim(strtolower($this->objNodeArray[$intIndex + 1])) == 'desc')

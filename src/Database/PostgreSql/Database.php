@@ -22,7 +22,7 @@
 
 namespace QCubed\Database\PostgreSql;
 
-use QCubed\Database\AbstractBase;
+use QCubed\Database\DatabaseBase;
 use QCubed\Database\ForeignKey;
 use QCubed\Database\Index;
 use QCubed\Exception\Caller;
@@ -38,7 +38,7 @@ use QCubed\QDateTime;
  *
  * @was QPostgreSqlDatabase
  */
-class Database extends AbstractBase
+class Database extends DatabaseBase
 {
     /** Adapter name */
     const ADAPTER = 'PostgreSQL Database Adapter';

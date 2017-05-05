@@ -45,7 +45,7 @@ use QCubed\QDateTime;
 <?php include("property_comments.tpl.php"); ?>
 
  */
-abstract class <?= $objTable->ClassName ?>Gen extends \QCubed\AbstractBase implements IteratorAggregate, JsonSerializable {
+abstract class <?= $objTable->ClassName ?>Gen extends \QCubed\ObjectBase implements IteratorAggregate, JsonSerializable {
 
     use \QCubed\Query\ModelTrait;
 

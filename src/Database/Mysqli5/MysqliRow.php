@@ -9,7 +9,7 @@
 
 namespace QCubed\Database\Mysqli5;
 
-use QCubed\Database\AbstractRow;
+use QCubed\Database\RowBase;
 use QCubed\Database\FieldType;
 use QCubed\QDateTime;
 use QCubed\Type;
@@ -19,7 +19,7 @@ use QCubed\Type;
  * @package DatabaseAdapters
  * @was QMySqliDatabaseRow
  */
-class MysqliRow extends AbstractRow
+class MysqliRow extends RowBase
 {
     protected $strColumnArray;
 

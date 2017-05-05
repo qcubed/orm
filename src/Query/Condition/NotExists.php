@@ -19,7 +19,7 @@ use QCubed\Query\Node;
  * @package QCubed\Query\Condition
  * @was QQConditionNotExists
  */
-class NotExists extends AbstractBase
+class NotExists extends ConditionBase
 {
     /** @var Node\SubQuerySql */
     protected $objNode;

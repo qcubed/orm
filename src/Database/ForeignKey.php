@@ -10,6 +10,7 @@
 namespace QCubed\Database;
 
 use QCubed\Exception\Caller;
+use QCubed\ObjectBase;
 
 /**
  *
@@ -26,7 +27,7 @@ use QCubed\Exception\Caller;
  * @was QDatabaseForeignKey
  * @package QCubed\Database
  */
-class ForeignKey extends \QCubed\AbstractBase
+class ForeignKey extends ObjectBase
 {
     protected $strKeyName;
     protected $strColumnNameArray;

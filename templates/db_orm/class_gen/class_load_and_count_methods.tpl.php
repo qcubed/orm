@@ -4,7 +4,7 @@
 
     /**
      * Static method to retrieve the Database object that owns this class.
-     * @return \QCubed\Database\AbstractBase reference to the Database object that can query this class
+     * @return \QCubed\Database\DatabaseBase reference to the Database object that can query this class
      */
     public static function getDatabase() {
         return \QCubed\Database\Service::getDatabase(self::getDatabaseIndex());

@@ -19,7 +19,7 @@ use QCubed\Query\Condition\ConditionInterface as iCondition;
  * @package QCubed\Query\Node
  * @was QQNamedValue
  */
-class NamedValue extends AbstractBase
+class NamedValue extends NodeBase
 {
     const DELIMITER_CODE = 3;
 

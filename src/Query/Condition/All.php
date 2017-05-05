@@ -17,7 +17,7 @@ use QCubed\Query\Builder;
  * @package QCubed\Query\Condition
  * @was QQConditionAll
  */
-class All extends AbstractBase implements ConditionInterface
+class All extends ConditionBase implements ConditionInterface
 {
     /**
      * @param $mixParameterArray

@@ -12,6 +12,8 @@ namespace QCubed\Codegen;
 /**
  * Redefine __CODEGEN_OPTION_FILE__ if you want your file to be in a different location
  */
+use QCubed\ObjectBase;
+
 if (!defined("__CODEGEN_OPTION_FILE__")) {
     define("__CODEGEN_OPTION_FILE__", __CONFIGURATION__ . '/codegen_options.json');
 }
@@ -37,7 +39,7 @@ if (!defined("__CODEGEN_OPTION_FILE__")) {
  * This will be used by the designer to record the changes in preparation for codegen.
  * @package QCubed\Codegen
  */
-class OptionFile extends \QCubed\AbstractBase
+class OptionFile extends ObjectBase
 {
     protected $options = array();
     protected $blnChanged = false;

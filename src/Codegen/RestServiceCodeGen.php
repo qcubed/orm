@@ -10,6 +10,7 @@
 namespace QCubed\Codegen;
 
 use QCubed\Exception\Caller;
+use QCubed\Project\Codegen\CodegenBase as QCodegen;
 
 /**
  * RestServiceCodegen
@@ -18,7 +19,7 @@ use QCubed\Exception\Caller;
  *
  * @package Codegen
  */
-class RestServiceCodeGen extends \QCubed\Project\Codegen\CodegenBase
+class RestServiceCodeGen extends QCodegen
 {
     // REST Service-specific Attributes
     protected $strServiceUrl;

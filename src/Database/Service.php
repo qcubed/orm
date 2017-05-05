@@ -9,6 +9,8 @@
 
 namespace QCubed\Database;
 
+use QCubed\ObjectBase;
+
 /**
  * Class Service
  *
@@ -20,13 +22,13 @@ namespace QCubed\Database;
  *
  * @package QCubed\Database
  */
-class Service extends \QCubed\AbstractBase
+class Service extends ObjectBase
 {
 
     /**
      * An array of Database objects, as initialized by Service::initializeDatabaseConnections()
      *
-     * @var AbstractBase[]
+     * @var Base[]
      */
     protected static $Database = [];
 
@@ -98,7 +100,7 @@ class Service extends \QCubed\AbstractBase
 
     /**
      * @param $intIndex
-     * @return AbstractBase|null
+     * @return DatabaseBase|null
      */
     public static function getDatabase($intIndex)
     {

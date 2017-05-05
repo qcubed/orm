@@ -21,7 +21,7 @@ use QCubed\Query\Node;
  * @package QCubed\Query\Condition
  * @was QQConditionIn
  */
-class In extends AbstractComparison
+class In extends ComparisonBase
 {
     /**
      * In constructor.
@@ -36,7 +36,7 @@ class In extends AbstractComparison
         if ($mixValuesArray instanceof Node\NamedValue) {
             $this->mixOperand = $mixValuesArray;
         } else {
-            if ($mixValuesArray instanceof Node\AbstractSubQuery) {
+            if ($mixValuesArray instanceof Node\SubQueryBase) {
                 $this->mixOperand = $mixValuesArray;
             } else {
                 try {
@@ -60,8 +60,8 @@ class In extends AbstractComparison
             /** @var Node\NamedValue $mixOperand */
             $objBuilder->addWhereItem($this->objQueryNode->getColumnAlias($objBuilder) . ' IN (' . $mixOperand->parameter() . ')');
         } else {
-            if ($mixOperand instanceof Node\AbstractSubQuery) {
-                /** @var Node\AbstractSubQuery $mixOperand */
+            if ($mixOperand instanceof Node\SubQueryBase) {
+                /** @var Node\SubQueryBase $mixOperand */
                 $objBuilder->addWhereItem($this->objQueryNode->getColumnAlias($objBuilder) . ' IN ' . $mixOperand->getColumnAlias($objBuilder));
             } else {
                 $strParameters = array();

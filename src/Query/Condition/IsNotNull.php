@@ -18,7 +18,7 @@ use QCubed\Query\Node;
  * @package QCubed\Query\Condition
  * @was QQConditionIsNotNull
  */
-class IsNotNull extends AbstractComparison
+class IsNotNull extends ComparisonBase
 {
     public function __construct(Node\Column $objQueryNode)
     {

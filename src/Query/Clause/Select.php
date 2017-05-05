@@ -9,7 +9,7 @@
 
 namespace QCubed\Query\Clause;
 
-use QCubed\AbstractBase;
+use QCubed\ObjectBase;
 use QCubed\Exception\Caller;
 use QCubed\Query\Builder;
 use QCubed\Query\Node;
@@ -19,14 +19,14 @@ use QCubed\Query\Node;
  * @package QCubed\Query\Clause
  * no was clause here! It has a name conflict
  */
-class Select extends AbstractBase implements ClauseInterface
+class Select extends ObjectBase implements ClauseInterface
 {
-    /** @var Node\AbstractBase[] */
+    /** @var Node\NodeBase[] */
     protected $arrNodeObj = array();
     protected $blnSkipPrimaryKey = false;
 
     /**
-     * @param Node\AbstractBase[] $arrNodeObj
+     * @param Node\NodeBase[] $arrNodeObj
      * @throws Caller
      */
     public function __construct($arrNodeObj)

@@ -9,14 +9,14 @@
 
 namespace QCubed\Database\Mysqli5;
 
-use QCubed\Database\Exception;
+use QCubed\Database\Exception\ExceptionBase;
 
 
 /**
  * Exception
  * @was QMySqliDatabaseException
  */
-class MysqliException extends Exception\AbstractBase
+class MysqliException extends ExceptionBase
 {
     public function __construct($strMessage, $intNumber, $strQuery)
     {

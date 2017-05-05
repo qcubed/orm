@@ -9,7 +9,7 @@
 
 namespace QCubed\Database\Mysqli5;
 
-use QCubed\Database\AbstractBase;
+use QCubed\Database\DatabaseBase;
 use QCubed\Database\ForeignKey;
 use QCubed\Database\Index;
 use QCubed\Exception\Caller;
@@ -23,7 +23,7 @@ if (!defined('MYSQLI_ON_UPDATE_NOW_FLAG')) {
  * Class QMySqliDatabase
  * @was QMySqliDatabase
  */
-class MysqliDatabase extends AbstractBase
+class MysqliDatabase extends DatabaseBase
 {
     const ADAPTER = 'MySql Improved Database Adapter for MySQL 4';
 

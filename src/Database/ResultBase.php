@@ -11,13 +11,14 @@ namespace QCubed\Database;
 
 use QCubed\Exception\Caller;
 use QCubed\Exception\InvalidCast;
+use QCubed\ObjectBase;
 use QCubed\Type;
 
 /**
  */
 
 /**
- * Class AbstractResult
+ * Class ResultBase
  *
  * Class to handle results sent by database upon querying
  *
@@ -25,7 +26,7 @@ use QCubed\Type;
  * @package QCubed\Database
  * @was QDatabaseResultBase
  */
-abstract class AbstractResult extends \QCubed\AbstractBase
+abstract class ResultBase extends ObjectBase
 {
     /** @var array The column alias array. This is needed for instantiating cursors. */
     protected $strColumnAliasArray;
@@ -53,7 +54,7 @@ abstract class AbstractResult extends \QCubed\AbstractBase
     abstract public function countFields();
 
     /**
-     * @return AbstractRow
+     * @return RowBase
      */
     abstract public function getNextRow();
 

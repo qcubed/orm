@@ -9,7 +9,7 @@
 
 namespace QCubed\Query\Clause;
 
-use QCubed\AbstractBase;
+use QCubed\ObjectBase;
 use QCubed\Exception\Caller;
 use QCubed\Exception\InvalidCast;
 use QCubed\Query\Builder;
@@ -20,7 +20,7 @@ use QCubed\Query\Node;
  * @package QCubed\Query\Clause
  * @was QQGroupBy
  */
-class GroupBy extends AbstractBase implements ClauseInterface
+class GroupBy extends \QCubed\ObjectBase implements ClauseInterface
 {
     /** @var Node\Column[] */
     protected $objNodeArray;
@@ -48,11 +48,11 @@ class GroupBy extends AbstractBase implements ClauseInterface
 
         $objFinalNodeArray = array();
         foreach ($objNodeArray as $objNode) {
-            /** @var Node\AbstractBase $objNode */
+            /** @var Node\NodeBase $objNode */
             if ($objNode instanceof Node\Association) {
                 throw new Caller('GroupBy clause parameter cannot be an association table node.', 3);
             } else {
-                if (!($objNode instanceof Node\AbstractBase)) {
+                if (!($objNode instanceof Node\NodeBase)) {
                     throw new Caller('GroupBy clause parameters must all be QQNode objects.', 3);
                 }
             }

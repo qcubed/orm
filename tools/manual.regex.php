@@ -5,4 +5,6 @@
 
 $a['regex']['QApplication::\\$Database\\s*\\[(\\S+?)\\]'] = '\\QCubed\\Database\\Service::getDatabase($1)';
 
+$a['warn']['QQClause'] = "QQClause cannot be automatically fixed. Should extend ObjectBase, and impelement ClauseInterface";
+
 return $a;

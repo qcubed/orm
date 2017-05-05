@@ -10,6 +10,7 @@
 namespace QCubed\Codegen;
 
 use QCubed\Exception\Caller;
+use QCubed\ObjectBase;
 use QCubed\Type;
 
 /**
@@ -36,7 +37,7 @@ use QCubed\Type;
  * @property string $Comment                Comment on the column
  * @property boolean $AutoUpdate             Whether column that is a Timestamp should generate code to automatically update the timestamp
  */
-class SqlColumn extends \QCubed\AbstractBase
+class SqlColumn extends ObjectBase
 {
 
     /////////////////////////////

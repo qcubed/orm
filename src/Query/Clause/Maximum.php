@@ -14,7 +14,7 @@ namespace QCubed\Query\Clause;
  * @package QCubed\Query\Clause
  * @was QQMaximum
  */
-class Maximum extends AbstractAggregation
+class Maximum extends AggregationBase
 {
     protected $strFunctionName = 'MAX';
 

@@ -10,16 +10,17 @@
 namespace QCubed\Query\Condition;
 
 use QCubed\Exception\Caller;
+use QCubed\ObjectBase;
 use QCubed\Query\Builder;
 use QCubed\Query\PartialBuilder;
 
 /**
- * Class AbstractBase
+ * Class Base
  * @package QCubed\Query\Condition
  * @abstract
  * @was QQCondition
  */
-abstract class AbstractBase extends \QCubed\AbstractBase
+abstract class ConditionBase extends ObjectBase
 {
     protected $strOperator;
     protected $blnProcessed;

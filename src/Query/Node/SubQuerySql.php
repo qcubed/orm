@@ -17,10 +17,10 @@ use QCubed\Query\Builder;
  * @package QCubed\Query\Node
  * @was QQSubQuerySqlNode
  */
-class SubQuerySql extends AbstractNoParent
+class SubQuerySql extends NoParentBase
 {
     protected $strSql;
-    /** @var AbstractBase[] */
+    /** @var NodeBase[] */
     protected $objParentQueryNodes;
 
     /**

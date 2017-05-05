@@ -10,6 +10,7 @@
 namespace QCubed\Codegen;
 
 use QCubed\Exception\Caller;
+use QCubed\ObjectBase;
 use QCubed\Type;
 
 /**
@@ -32,7 +33,7 @@ use QCubed\Type;
  * @property string $ObjectPropertyName
  * @property array $Options
  */
-class ReverseReference extends \QCubed\AbstractBase
+class ReverseReference extends ObjectBase
 {
 
     /////////////////////////////

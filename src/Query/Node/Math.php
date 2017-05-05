@@ -17,7 +17,7 @@ use QCubed\Query\Builder;
  * @package QCubed\Query\Node
  * @was QQMathNode
  */
-class Math extends AbstractSubQuery
+class Math extends SubQueryBase
 {
     /** @var  string */
     protected $strOperation;

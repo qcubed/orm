@@ -9,13 +9,15 @@
 
 namespace QCubed\Database;
 
+use QCubed\ObjectBase;
+
 
 /**
  * Base class for all Database rows. Implemented by Database adapters
  * @package DatabaseAdapters
  * @was QDatabaseRowBase
  */
-abstract class AbstractRow extends \QCubed\AbstractBase
+abstract class RowBase extends ObjectBase
 {
     /**
      * Gets the value of a column from a result row returned by the database

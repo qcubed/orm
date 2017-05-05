@@ -9,13 +9,13 @@
 
 namespace QCubed\Database\Mysqli5;
 
-use QCubed\Database\AbstractResult;
+use QCubed\Database\ResultBase;
 
 /**
  * Class to handle results sent by database upon querying
  * @was QMySqliDatabaseResult
  */
-class MysqliResult extends AbstractResult
+class MysqliResult extends ResultBase
 {
     protected $objMySqliResult;
     protected $objDb;

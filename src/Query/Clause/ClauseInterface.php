@@ -12,7 +12,7 @@ namespace QCubed\Query\Clause;
 use QCubed\Query\Builder;
 
 /**
- * Class AbstractBase
+ * Class Base
  * Base class for all query clauses
  * @package QCubed\Query\Clause
  * @was QQClause

@@ -41,7 +41,7 @@ trait ModelTrait
     /**
      * A helper function to get the primary key associated with this object type from a query result row.
      *
-     * @param Database\AbstractRow $objDbRow
+     * @param Database\RowBase $objDbRow
      * @param string $strAliasPrefix Prefix to use if this is a row expansion (as in, a join)
      * @param string[] $strColumnAliasArray Array of column aliases associateing our column names with the minimized names in the query.
      * @return mixed The primary key found in the row
@@ -51,7 +51,7 @@ trait ModelTrait
     /**
      * Return the database object associated with this object.
      *
-     * @return Database\AbstractBase
+     * @return Database\DatabaseBase
      */
     //public static function getDatabase(){}
 
@@ -106,13 +106,13 @@ trait ModelTrait
             // because these databases post an error instead of just choosing a value to return when a select item could
             // have multiple values
             if ($objOptionalClauses instanceof iClause) {
-                if ($objOptionalClauses instanceof Clause\AbstractAggregation || $objOptionalClauses instanceof Clause\GroupBy) {
+                if ($objOptionalClauses instanceof Clause\AggregationBase || $objOptionalClauses instanceof Clause\GroupBy) {
                     $blnAddAllFieldsToSelect = false;
                 }
             } else {
                 if (is_array($objOptionalClauses)) {
                     foreach ($objOptionalClauses as $objClause) {
-                        if ($objClause instanceof Clause\AbstractAggregation || $objClause instanceof Clause\GroupBy) {
+                        if ($objClause instanceof Clause\AggregationBase || $objClause instanceof Clause\GroupBy) {
                             $blnAddAllFieldsToSelect = false;
                             break;
                         }
@@ -296,7 +296,7 @@ trait ModelTrait
      * @param iCondition $objConditions any conditions on the query, itself
      * @param iClause[] $objOptionalClauses additional optional iClause objects for this query
      * @param mixed[] $mixParameterArray an array of name-value pairs to substitute in to the placeholders in the query, if needed
-     * @return Database\AbstractResult the cursor resource instance
+     * @return Database\ResultBase the cursor resource instance
      * @throws Exception
      * @throws Caller
      */
@@ -404,9 +404,9 @@ trait ModelTrait
      * it will add to the corresponding array in the object. Otherwise, it will follow the node
      * so that any leaf expansions can be handled.
      *
-     * @param \QCubed\Database\AbstractRow $objDbRow
+     * @param \QCubed\Database\RowBase $objDbRow
      * @param string $strAliasPrefix
-     * @param Node\AbstractBase $objNode
+     * @param Node\NodeBase $objNode
      * @param array $objPreviousItemArray
      * @param string[] $strColumnAliasArray
      * @return boolean|null Returns true if the we used the row for an expansion, false if we already expanded this node in a previous row, or null if no expansion data was found

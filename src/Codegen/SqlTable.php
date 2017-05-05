@@ -10,6 +10,7 @@
 namespace QCubed\Codegen;
 
 use QCubed\Exception\Caller;
+use QCubed\ObjectBase;
 use QCubed\Type;
 
 /**
@@ -28,7 +29,7 @@ use QCubed\Type;
  * @property-read int $ReferenceCount
  * @property array $Options
  */
-class SqlTable extends \QCubed\AbstractBase {
+class SqlTable extends ObjectBase {
 
 	/////////////////////////////
 	// Protected Member Variables

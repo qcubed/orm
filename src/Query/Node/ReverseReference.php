@@ -29,15 +29,15 @@ class ReverseReference extends Table
     /**
      * Construct the reverse reference.
      *
-     * @param AbstractBase $objParentNode
+     * @param NodeBase $objParentNode
      * @param null|string $strName
      * @param null|string $strType
-     * @param null|AbstractBase $strForeignKey
+     * @param null|string $strForeignKey
      * @param null $strPropertyName If a unique reverse relationship, the name of property that will be used in the model class.
      * @throws Caller
      */
     public function __construct(
-        AbstractBase $objParentNode,
+        NodeBase $objParentNode,
         $strName,
         $strType,
         $strForeignKey,

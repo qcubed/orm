@@ -20,16 +20,16 @@ use QCubed\Query\Clause;
  * @package QCubed\Query\Condition
  * @was QQColumnNode
  */
-class Column extends AbstractBase
+class Column extends NodeBase
 {
     /**
      * Initialize a column node.
      * @param string $strName
      * @param string $strPropertyName
      * @param string $strType
-     * @param AbstractBase|null $objParentNode
+     * @param NodeBase|null $objParentNode
      */
-    public function __construct($strName, $strPropertyName, $strType, AbstractBase $objParentNode = null)
+    public function __construct($strName, $strPropertyName, $strType, NodeBase $objParentNode = null)
     {
         $this->objParentNode = $objParentNode;
         $this->strName = $strName;

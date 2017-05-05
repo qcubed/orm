@@ -236,7 +236,7 @@ class QQ
 
     /**
      * @param string $strSql Sql string. Use {1}, {2}, etc. to represent nodes inside of the sql string.
-     * @param null|Node\AbstractBase[] $objParentQueryNodes Array of nodes to specify replacement value in the sql.
+     * @param null|Node\NodeBase[] $objParentQueryNodes Array of nodes to specify replacement value in the sql.
      * @return Node\SubQuerySql
      */
     static public function subSql($strSql, $objParentQueryNodes = null)
@@ -245,7 +245,7 @@ class QQ
         return new Node\SubQuerySql($strSql, $objParentQueryNodeArray);
     }
 
-    static public function virtual($strName, Node\AbstractSubQuery $objSubQueryDefinition = null)
+    static public function virtual($strName, Node\SubQueryBase $objSubQueryDefinition = null)
     {
         return new Node\Virtual($strName, $objSubQueryDefinition);
     }
@@ -267,10 +267,10 @@ class QQ
     }
 
     /////////////////////////
-    // Clause\AbstractBase Factories
+    // Clause\Base Factories
     /////////////////////////
 
-    static public function clause(/* parameterized list of Clause\AbstractBase objects */)
+    static public function clause(/* parameterized list of Clause\Base objects */)
     {
         $objClauseArray = array();
 
@@ -287,12 +287,12 @@ class QQ
         return $objClauseArray;
     }
 
-    static public function orderBy(/* array and/or parameterized list of Node\AbstractBase objects*/)
+    static public function orderBy(/* array and/or parameterized list of Node\NodeBase objects*/)
     {
         return new Clause\OrderBy(func_get_args());
     }
 
-    static public function groupBy(/* array and/or parameterized list of Node\AbstractBase objects*/)
+    static public function groupBy(/* array and/or parameterized list of Node\NodeBase objects*/)
     {
         return new Clause\GroupBy(func_get_args());
     }
@@ -328,7 +328,7 @@ class QQ
     }
 
     static public function expand(
-        Node\AbstractBase $objNode,
+        Node\NodeBase $objNode,
         iCondition $objJoinCondition = null,
         Clause\Select $objSelect = null
     ) {
@@ -343,14 +343,14 @@ class QQ
     }
 
     static public function expandAsArray(
-        Node\AbstractBase $objNode,
+        Node\NodeBase $objNode,
         $objCondition = null,
         Clause\Select $objSelect = null
     ) {
         return new Clause\ExpandAsArray($objNode, $objCondition, $objSelect);
     }
 
-    static public function select(/* array and/or parameterized list of Node\AbstractBase objects*/)
+    static public function select(/* array and/or parameterized list of Node\NodeBase objects*/)
     {
         if (func_num_args() == 1 && is_array($a = func_get_arg(0))) {
             return new Clause\Select($a);
@@ -373,7 +373,7 @@ class QQ
      * Searches for all the Clause\Select clauses and merges them into one clause and returns that clause.
      * Returns null if none found.
      *
-     * @param Clause\AbstractBase[]|Clause\AbstractBase|null $objClauses Clause\AbstractBase object or array of Clause\AbstractBase objects
+     * @param Clause\Base[]|Clause\Base|null $objClauses Clause\Base object or array of Clause\Base objects
      * @return Clause\Select Clause\Select clause containing all the nodes from all the Clause\Select clauses from $objClauses,
      * or null if $objClauses contains no Clause\Select clauses
      */
@@ -406,12 +406,12 @@ class QQ
     /**
      * Returns the supplied node object, after setting its alias to the value supplied
      *
-     * @param Node\AbstractBase $objNode The node object to set alias on
+     * @param Node\NodeBase $objNode The node object to set alias on
      * @param string $strAlias The alias to set
      * @return mixed The same node that was passed in, but with the alias set
      *
      */
-    static public function alias(Node\AbstractBase $objNode, $strAlias)
+    static public function alias(Node\NodeBase $objNode, $strAlias)
     {
         $objNode->setAlias($strAlias);
         return $objNode;
@@ -432,7 +432,7 @@ class QQ
      * knowing that it might not be cross platform compatible if you ever change SQL engines.
      *
      * @param string $strName The function name, like ABS or POWER
-     * @param Node\AbstractBase|mixed $param1 The function parameter. Can be a qq node or a number.
+     * @param Node\NodeBase|mixed $param1 The function parameter. Can be a qq node or a number.
      * @return Node\FunctionNode The resulting wrapper node
      */
     static public function func($strName, $param1/** ... */)
@@ -449,7 +449,7 @@ class QQ
     /**
      * Return the absolute value
      *
-     * @param Node\AbstractBase $param The qq node to apply the function to.
+     * @param Node\NodeBase $param The qq node to apply the function to.
      * @return Node\FunctionNode The resulting wrapper node
      */
     static public function abs($param)
@@ -460,7 +460,7 @@ class QQ
     /**
      * Return the smallest integer value not less than the argument
      *
-     * @param Node\AbstractBase $param The qq node to apply the function to.
+     * @param Node\NodeBase $param The qq node to apply the function to.
      * @return Node\FunctionNode The resulting wrapper node
      */
     static public function ceil($param)
@@ -471,7 +471,7 @@ class QQ
     /**
      * Return the largest integer value not greater than the argument
      *
-     * @param Node\AbstractBase $param The qq node to apply the function to.
+     * @param Node\NodeBase $param The qq node to apply the function to.
      * @return Node\FunctionNode The resulting wrapper node
      */
     static public function floor($param)
@@ -506,7 +506,7 @@ class QQ
     /**
      *    Return the square root of the argument
      *
-     * @param Node\AbstractBase $param The qq node to apply the function to.
+     * @param Node\NodeBase $param The qq node to apply the function to.
      * @return Node\FunctionNode The resulting wrapper node
      */
     static public function sqrt($param)
@@ -518,7 +518,7 @@ class QQ
      * Apply an arbitrary math operation to 2 or more operands. Operands can be scalar values, or column nodes.
      *
      * @param string $strOperation The operation symbol, like + or *
-     * @param Node\AbstractBase|mixed $param1 The first parameter
+     * @param Node\NodeBase|mixed $param1 The first parameter
      * @return Node\Math The resulting wrapper node
      */
     static public function mathOp($strOperation, $param1/** ... */)
@@ -531,8 +531,8 @@ class QQ
     /**
      * The multiplication operation
      *
-     * @param Node\AbstractBase|mixed $op1 The first operand
-     * @param Node\AbstractBase|mixed $op2 The second operand
+     * @param Node\NodeBase|mixed $op1 The first operand
+     * @param Node\NodeBase|mixed $op2 The second operand
      * @return Node\Math The resulting wrapper node
      */
     static public function mul($op1, $op2/** ... */)
@@ -543,8 +543,8 @@ class QQ
     /**
      * The division operation
      *
-     * @param Node\AbstractBase|mixed $op1 The first operand
-     * @param Node\AbstractBase|mixed $op2 The second operand
+     * @param Node\NodeBase|mixed $op1 The first operand
+     * @param Node\NodeBase|mixed $op2 The second operand
      * @return Node\Math The resulting wrapper node
      */
     static public function div($op1, $op2/** ... */)
@@ -555,8 +555,8 @@ class QQ
     /**
      * The subtraction operation
      *
-     * @param Node\AbstractBase|mixed $op1 The first operand
-     * @param Node\AbstractBase|mixed $op2 The second operand
+     * @param Node\NodeBase|mixed $op1 The first operand
+     * @param Node\NodeBase|mixed $op2 The second operand
      * @return Node\Math The resulting wrapper node
      */
     static public function sub($op1, $op2/** ... */)
@@ -567,8 +567,8 @@ class QQ
     /**
      * The addition operation
      *
-     * @param Node\AbstractBase|mixed $op1 The first operand
-     * @param Node\AbstractBase|mixed $op2 The second operand
+     * @param Node\NodeBase|mixed $op1 The first operand
+     * @param Node\NodeBase|mixed $op2 The second operand
      * @return Node\Math The resulting wrapper node
      */
     static public function add($op1, $op2/** ... */)
@@ -579,7 +579,7 @@ class QQ
     /**
      * The negation unary operation
      *
-     * @param Node\AbstractBase|mixed $op1 The first operand
+     * @param Node\NodeBase|mixed $op1 The first operand
      * @return Node\Math The resulting wrapper node
      */
     static public function neg($op1)

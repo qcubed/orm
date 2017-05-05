@@ -10,6 +10,7 @@
 namespace QCubed\Codegen;
 
 use QCubed\Exception\Caller;
+use QCubed\ObjectBase;
 use QCubed\Type;
 
 /**
@@ -28,7 +29,7 @@ use QCubed\Type;
  * @property-write QSqlColumn $KeyColumn
  * @property QManyToManyReference[] $ManyToManyReferenceArray
  */
-class TypeTable extends \QCubed\AbstractBase
+class TypeTable extends ObjectBase
 {
 
     /////////////////////////////

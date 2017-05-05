@@ -20,9 +20,9 @@
      * Takes in an optional strAliasPrefix, used in case another Object::instantiateDbRow
      * is calling this <?= $objTable->ClassName ?>::instantiateDbRow in order to perform
      * early binding on referenced objects.
-     * @param \QCubed\Database\AbstractRow $objDbRow
+     * @param \QCubed\Database\RowBase $objDbRow
      * @param string $strAliasPrefix
-     * @param Node\AbstractBase $objExpandAsArrayNode
+     * @param Node\Base $objExpandAsArrayNode
      * @param array|null $objPreviousItemArray Used by expansion code to aid in expanding arrays
      * @param string[] $strColumnAliasArray Array of column aliases mapping names in the query to items in the object
      * @param boolean $blnCheckDuplicate Used by ExpandArray to indicate we should not create a new object if this is a duplicate of a previoius object
@@ -31,9 +31,9 @@
      * @return mixed Either a <?= $objTable->ClassName ?>, or false to indicate the dbrow was used in an expansion, or null to indicate that this leaf is a duplicate.
     */
     public static function instantiateDbRow(
-        \QCubed\Database\AbstractRow $objDbRow,
+        \QCubed\Database\RowBase $objDbRow,
         $strAliasPrefix = null,
-        Node\AbstractBase $objExpandAsArrayNode = null,
+        Node\Base $objExpandAsArrayNode = null,
         $objPreviousItemArray = null,
         $strColumnAliasArray = array(),
         $blnCheckDuplicate = false,
@@ -250,12 +250,12 @@ if (is_a($objAssociatedTable, '\QCubed\Codegen\TypeTable') ) {
 
     /**
      * Instantiate an array of <?= $objTable->ClassNamePlural ?> from a Database Result
-     * @param \QCubed\Database\AbstractResult $objDbResult
-     * @param Node\AbstractBase $objExpandAsArrayNode
+     * @param \QCubed\Database\ResultBase $objDbResult
+     * @param Node\Base $objExpandAsArrayNode
      * @param string[] $strColumnAliasArray
      * @return <?= $objTable->ClassName ?>[]
      */
-    public static function instantiateDbResult(\QCubed\Database\AbstractResult $objDbResult, $objExpandAsArrayNode = null, $strColumnAliasArray = null) {
+    public static function instantiateDbResult(\QCubed\Database\ResultBase $objDbResult, $objExpandAsArrayNode = null, $strColumnAliasArray = null) {
         $objToReturn = array();
 
         if (!$strColumnAliasArray)
@@ -294,10 +294,10 @@ if (is_a($objAssociatedTable, '\QCubed\Codegen\TypeTable') ) {
      * Instantiate a single <?= $objTable->ClassName ?> object from a query cursor (e.g. a DB ResultSet).
      * Cursor is automatically moved to the "next row" of the result set.
      * Will return NULL if no cursor or if the cursor has no more rows in the resultset.
-     * @param \QCubed\Database\AbstractResult $objDbResult cursor resource
+     * @param \QCubed\Database\ResultBase $objDbResult cursor resource
      * @return <?= $objTable->ClassName ?> next row resulting from the query
      */
-    public static function instantiateCursor(\QCubed\Database\AbstractResult $objDbResult) {
+    public static function instantiateCursor(\QCubed\Database\ResultBase $objDbResult) {
         // If blank resultset, then return empty result
         if (!$objDbResult) return null;
 

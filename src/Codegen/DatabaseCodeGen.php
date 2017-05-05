@@ -9,19 +9,19 @@
 
 namespace QCubed\Codegen;
 
-use \Codegen;
 use QCubed\Database;
 use QCubed\Exception\Caller;
 use QCubed\Type;
+use QCubed\Project\Codegen\CodegenBase as QCodegen;
 
-require_once __PROJECT__ . '/qcubed/codegen/CodegenBase.php';
+//require_once __PROJECT__ . '/qcubed/codegen/CodegenBase.php';
 
 /**
  * Class DatabaseCodeGen
  * @package QCubed\Codegen
  * @was QDatabaseCodeGen
  */
-class DatabaseCodeGen extends \QCubed\Project\Codegen\CodegenBase
+class DatabaseCodeGen extends QCodegen
 {
     public $objSettingsXml;    // Make public so templates can use it directly.
 
@@ -31,7 +31,7 @@ class DatabaseCodeGen extends \QCubed\Project\Codegen\CodegenBase
     protected $strExcludedTableArray;
     protected $objTypeTableArray;
     protected $strAssociationTableNameArray;
-    /** @var Database\AbstractBase The database we are dealing with */
+    /** @var Database\DatabaseBase The database we are dealing with */
     protected $objDb;
 
     protected $intDatabaseIndex;
@@ -314,48 +314,48 @@ class DatabaseCodeGen extends \QCubed\Project\Codegen\CodegenBase
         $this->strExcludedTableArray = array();
 
         // Set the DatabaseIndex
-        $this->intDatabaseIndex = Codegen::lookupSetting($objSettingsXml, null, 'index', Type::INTEGER);
+        $this->intDatabaseIndex = static::lookupSetting($objSettingsXml, null, 'index', Type::INTEGER);
 
         // Append Suffix/Prefixes
-        $this->strClassPrefix = Codegen::lookupSetting($objSettingsXml, 'className', 'prefix');
-        $this->strClassSuffix = Codegen::lookupSetting($objSettingsXml, 'className', 'suffix');
-        $this->strAssociatedObjectPrefix = Codegen::lookupSetting($objSettingsXml, 'associatedObjectName', 'prefix');
-        $this->strAssociatedObjectSuffix = Codegen::lookupSetting($objSettingsXml, 'associatedObjectName', 'suffix');
+        $this->strClassPrefix = static::lookupSetting($objSettingsXml, 'className', 'prefix');
+        $this->strClassSuffix = static::lookupSetting($objSettingsXml, 'className', 'suffix');
+        $this->strAssociatedObjectPrefix = static::lookupSetting($objSettingsXml, 'associatedObjectName', 'prefix');
+        $this->strAssociatedObjectSuffix = static::lookupSetting($objSettingsXml, 'associatedObjectName', 'suffix');
 
         // Table Type Identifiers
-        $strTypeTableSuffixList = Codegen::lookupSetting($objSettingsXml, 'typeTableIdentifier', 'suffix');
+        $strTypeTableSuffixList = static::lookupSetting($objSettingsXml, 'typeTableIdentifier', 'suffix');
         $strTypeTableSuffixArray = explode(',', $strTypeTableSuffixList);
         foreach ($strTypeTableSuffixArray as $strTypeTableSuffix) {
             $this->strTypeTableSuffixArray[] = trim($strTypeTableSuffix);
             $this->intTypeTableSuffixLengthArray[] = strlen(trim($strTypeTableSuffix));
         }
-        $this->strAssociationTableSuffix = Codegen::lookupSetting($objSettingsXml, 'associationTableIdentifier',
+        $this->strAssociationTableSuffix = static::lookupSetting($objSettingsXml, 'associationTableIdentifier',
             'suffix');
         $this->intAssociationTableSuffixLength = strlen($this->strAssociationTableSuffix);
 
         // Stripping TablePrefixes
-        $this->strStripTablePrefix = Codegen::lookupSetting($objSettingsXml, 'stripFromTableName', 'prefix');
+        $this->strStripTablePrefix = static::lookupSetting($objSettingsXml, 'stripFromTableName', 'prefix');
         $this->intStripTablePrefixLength = strlen($this->strStripTablePrefix);
 
         // Exclude/Include Tables
-        $this->strExcludePattern = Codegen::lookupSetting($objSettingsXml, 'excludeTables', 'pattern');
-        $strExcludeList = Codegen::lookupSetting($objSettingsXml, 'excludeTables', 'list');
+        $this->strExcludePattern = static::lookupSetting($objSettingsXml, 'excludeTables', 'pattern');
+        $strExcludeList = static::lookupSetting($objSettingsXml, 'excludeTables', 'list');
         $this->strExcludeListArray = explode(',', $strExcludeList);
         array_walk($this->strExcludeListArray, 'QCubed\Codegen\array_trim');
 
         // Include Patterns
-        $this->strIncludePattern = Codegen::lookupSetting($objSettingsXml, 'includeTables', 'pattern');
-        $strIncludeList = Codegen::lookupSetting($objSettingsXml, 'includeTables', 'list');
+        $this->strIncludePattern = static::lookupSetting($objSettingsXml, 'includeTables', 'pattern');
+        $strIncludeList = static::lookupSetting($objSettingsXml, 'includeTables', 'list');
         $this->strIncludeListArray = explode(',', $strIncludeList);
         array_walk($this->strIncludeListArray, 'QCubed\Codegen\array_trim');
 
         // Relationship Scripts
-        $this->strRelationships = Codegen::lookupSetting($objSettingsXml, 'relationships');
-        $this->strRelationshipsScriptPath = Codegen::lookupSetting($objSettingsXml, 'relationshipsScript', 'filepath');
-        $this->strRelationshipsScriptFormat = Codegen::lookupSetting($objSettingsXml, 'relationshipsScript', 'format');
+        $this->strRelationships = static::lookupSetting($objSettingsXml, 'relationships');
+        $this->strRelationshipsScriptPath = static::lookupSetting($objSettingsXml, 'relationshipsScript', 'filepath');
+        $this->strRelationshipsScriptFormat = static::lookupSetting($objSettingsXml, 'relationshipsScript', 'format');
 
         // Column Comment for ModelConnectorLabel setting.
-        $this->strCommentConnectorLabelDelimiter = Codegen::lookupSetting($objSettingsXml,
+        $this->strCommentConnectorLabelDelimiter = static::lookupSetting($objSettingsXml,
             'columnCommentForModelConnector', 'delimiter');
 
         // Check to make sure things that are required are there
@@ -461,13 +461,13 @@ class DatabaseCodeGen extends \QCubed\Project\Codegen\CodegenBase
             }
         }
 
-        $this->blnGenerateControlId = Codegen::lookupSetting($objSettingsXml, 'generateControlId', 'support',
+        $this->blnGenerateControlId = static::lookupSetting($objSettingsXml, 'generateControlId', 'support',
             Type::BOOLEAN);
         $this->objModelConnectorOptions = new OptionFile();
 
-        $this->blnAutoInitialize = Codegen::lookupSetting($objSettingsXml, 'createOptions', 'autoInitialize',
+        $this->blnAutoInitialize = static::lookupSetting($objSettingsXml, 'createOptions', 'autoInitialize',
             Type::BOOLEAN);
-        $this->blnPrivateColumnVars = Codegen::lookupSetting($objSettingsXml, 'createOptions', 'privateColumnVars',
+        $this->blnPrivateColumnVars = static::lookupSetting($objSettingsXml, 'createOptions', 'privateColumnVars',
             Type::BOOLEAN);
 
         if ($this->strErrors) {
@@ -532,7 +532,7 @@ class DatabaseCodeGen extends \QCubed\Project\Codegen\CodegenBase
                 }
 
                 // Check to see if this table name exists anywhere else yet, and warn if it is
-                foreach (Codegen::$CodeGenArray as $objCodeGen) {
+                foreach (static::$CodeGenArray as $objCodeGen) {
                     if ($objCodeGen instanceof DatabaseCodeGen) {
                         foreach ($objCodeGen->objTableArray as $objPossibleDuplicate) {
                             if (strtolower($objPossibleDuplicate->Name) == strtolower($strTableName)) {
@@ -830,7 +830,7 @@ class DatabaseCodeGen extends \QCubed\Project\Codegen\CodegenBase
     protected function analyzeTypeTable(TypeTable $objTypeTable)
     {
         // Setup the Array of Reserved Words
-        $strReservedWords = explode(',', Codegen::PHP_RESERVED_WORDS);
+        $strReservedWords = explode(',', static::PHP_RESERVED_WORDS);
         for ($intIndex = 0; $intIndex < count($strReservedWords); $intIndex++) {
             $strReservedWords[$intIndex] = strtolower(trim($strReservedWords[$intIndex]));
         }
@@ -875,7 +875,7 @@ class DatabaseCodeGen extends \QCubed\Project\Codegen\CodegenBase
             if ($intRowWidth > 2) { // there are extra columns to process
                 $strExtraPropertyArray[$id] = array();
                 for ($i = 2; $i < $intRowWidth; $i++) {
-                    $strFieldName = Codegen::typeColumnPropertyName($objFieldArray[$i]->Name);
+                    $strFieldName = static::typeColumnPropertyName($objFieldArray[$i]->Name);
                     $extraFields[$i - 2]['name'] = $strFieldName;
                     $extraFields[$i - 2]['type'] = $this->variableTypeFromDbType($objFieldArray[$i]->Type);
                     $extraFields[$i - 2]['nullAllowed'] = !$objFieldArray[$i]->NotNull;
@@ -1174,7 +1174,7 @@ class DatabaseCodeGen extends \QCubed\Project\Codegen\CodegenBase
 
                                 // See if ReverseReference is due to an ORM-based Class Inheritence Chain
                                 if ((count($objTable->PrimaryKeyColumnArray) == 1) && ($objColumn->PrimaryKey)) {
-                                    $objReverseReference->ObjectMemberVariable = Codegen::prefixFromType(Type::OBJECT) . $objReverseReference->VariableType;
+                                    $objReverseReference->ObjectMemberVariable = static::prefixFromType(Type::OBJECT) . $objReverseReference->VariableType;
                                     $objReverseReference->ObjectPropertyName = $objReverseReference->VariableType;
                                     $objReverseReference->ObjectDescription = $objReverseReference->VariableType;
                                     $objReverseReference->ObjectDescriptionPlural = $this->pluralize($objReverseReference->VariableType);
@@ -1217,7 +1217,7 @@ class DatabaseCodeGen extends \QCubed\Project\Codegen\CodegenBase
         preg_match('/' . $this->strPatternTableName . '/', $strTableName, $strMatches);
         if (count($strMatches) && ($strMatches[0] == $strTableName) && ($strTableName != '_')) {
             // Setup Reserved Words
-            $strReservedWords = explode(',', Codegen::PHP_RESERVED_WORDS);
+            $strReservedWords = explode(',', static::PHP_RESERVED_WORDS);
             for ($intIndex = 0; $intIndex < count($strReservedWords); $intIndex++) {
                 $strReservedWords[$intIndex] = strtolower(trim($strReservedWords[$intIndex]));
             }
@@ -1268,7 +1268,7 @@ class DatabaseCodeGen extends \QCubed\Project\Codegen\CodegenBase
         }
     }
 
-    protected function analyzeTableColumn(Database\AbstractField $objField, $objTable)
+    protected function analyzeTableColumn(Database\FieldBase $objField, $objTable)
     {
         $objColumn = new SqlColumn();
         $objColumn->Name = $objField->Name;
@@ -1531,7 +1531,7 @@ class DatabaseCodeGen extends \QCubed\Project\Codegen\CodegenBase
             //$strObjectName = $this->modelVariableName($objTable->Name);
             $strClassName = $objTable->ClassName;
             $strControlVarName = $this->modelConnectorVariableName($objColumn);
-            //$strLabelName = Codegen::modelConnectorControlName($objColumn);
+            //$strLabelName = static::modelConnectorControlName($objColumn);
 
             $strControlId = $strControlVarName . $strClassName;
 

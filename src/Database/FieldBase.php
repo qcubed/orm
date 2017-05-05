@@ -10,9 +10,10 @@
 namespace QCubed\Database;
 
 use QCubed\Exception\Caller;
+use QCubed\ObjectBase;
 
 /**
- * Class AbstractField
+ * Class FieldBase
  *
  * @property-read string $Name
  * @property-read string $OriginalName
@@ -30,7 +31,7 @@ use QCubed\Exception\Caller;
  * @package QCubed\Database
  * @was QDatabaseFieldBase
  */
-abstract class AbstractField extends \QCubed\AbstractBase
+abstract class FieldBase extends ObjectBase
 {
     protected $strName;
     protected $strOriginalName;

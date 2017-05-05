@@ -9,7 +9,7 @@
 
 namespace QCubed\Database\PostgreSql;
 
-use QCubed\Database\AbstractRow;
+use QCubed\Database\RowBase;
 use QCubed\Database\FieldType;
 use QCubed\QDateTime;
 use QCubed\Type;
@@ -19,7 +19,7 @@ use QCubed\Type;
  *
  * @was QPostgreSqlDatabaseRow
  */
-class Row extends AbstractRow
+class Row extends RowBase
 {
     /** @var string[] Column name value pairs for current result set */
     protected $strColumnArray;

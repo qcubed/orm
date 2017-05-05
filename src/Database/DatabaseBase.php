@@ -11,6 +11,7 @@ namespace QCubed\Database;
 
 use QCubed\Exception\Caller;
 use QCubed\Exception\InvalidCast;
+use QCubed\ObjectBase;
 use QCubed\QCubed;
 use QCubed\QDateTime;
 use QCubed\Timer;
@@ -52,7 +53,7 @@ use QCubed\Type;
  * @package DatabaseAdapters
  * @was QDatabaseBase
  */
-abstract class AbstractBase extends \QCubed\AbstractBase
+abstract class DatabaseBase extends ObjectBase
 {
     // Must be updated for all Adapters
     /** Adapter name */
@@ -358,7 +359,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase
      *
      * @param string $strQuery query string
      *
-     * @return AbstractResult
+     * @return ResultBase
      */
     public final function query($strQuery)
     {
@@ -810,7 +811,7 @@ abstract class AbstractBase extends \QCubed\AbstractBase
      *
      * Usage:
      * <code>
-     *    list($strComment, $options) = AbstractBase::extractCommentOptions($strComment);
+     *    list($strComment, $options) = Base::extractCommentOptions($strComment);
      * </code>
      *
      * @param string $strComment The comment to analyze

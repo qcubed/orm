@@ -13,12 +13,12 @@ use QCubed\Exception\Caller;
 use QCubed\Type;
 
 /**
- * Class AbstractNoParent
+ * Class NoParentBase
  * Node that represents special asub queries that do not have parent nodes.
  * @package QCubed\Query\Node
  * @was QQNoParentNode
  */
-abstract class AbstractNoParent extends AbstractSubQuery
+abstract class NoParentBase extends SubQueryBase
 {
     /**
      * @return string

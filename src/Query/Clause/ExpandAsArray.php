@@ -9,7 +9,7 @@
 
 namespace QCubed\Query\Clause;
 
-use QCubed\AbstractBase;
+use QCubed\ObjectBase;
 use QCubed\Exception\Caller;
 use QCubed\Query\Builder;
 use QCubed\Query\Condition\ConditionInterface as iCondition;
@@ -20,21 +20,21 @@ use QCubed\Query\Node;
  * @package QCubed\Query\Clause
  * @was QQExpandAsArray
  */
-class ExpandAsArray extends AbstractBase implements ClauseInterface
+class ExpandAsArray extends ObjectBase implements ClauseInterface
 {
-    /** @var Node\AbstractBase */
+    /** @var Node\NodeBase */
     protected $objNode;
     protected $objCondition;
     protected $objSelect;
 
     /**
      * ExpandAsArray constructor.
-     * @param Node\AbstractBase $objNode
+     * @param Node\NodeBase $objNode
      * @param null $objCondition
      * @param Select|null $objSelect
      * @throws Caller
      */
-    public function __construct(Node\AbstractBase $objNode, $objCondition = null, Select $objSelect = null)
+    public function __construct(Node\NodeBase $objNode, $objCondition = null, Select $objSelect = null)
     {
         // For backwards compatibility with v2, which did not have a condition parameter, we will detect what the 2nd param is.
         // Ensure that this is an Association

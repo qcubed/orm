@@ -9,21 +9,21 @@
 
 namespace QCubed\Query\Clause;
 
-use QCubed\AbstractBase;
+use QCubed\ObjectBase;
 use QCubed\Query\Builder;
 use QCubed\Query\Node;
 use QCubed\Query\QQ;
 
 /**
- * Class AbstractAggregation
+ * Class AggregationBase
  * Base class for functions that work in cooperation with GroupBy clauses
  *
  * @package QCubed\Query\Clause
  * @was QQAggregationClause
  */
-abstract class AbstractAggregation extends AbstractBase implements ClauseInterface
+abstract class AggregationBase extends ObjectBase implements ClauseInterface
 {
-    /** @var Node\AbstractBase */
+    /** @var Node\NodeBase */
     protected $objNode;
     protected $strAttributeName;
     protected $strFunctionName;

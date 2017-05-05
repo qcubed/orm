@@ -20,15 +20,15 @@ use QCubed\Query\QQ;
  * @package QCubed\Query\Node
  * @was QQVirtualNode
  */
-class Virtual extends AbstractNoParent
+class Virtual extends NoParentBase
 {
     protected $objSubQueryDefinition;
 
     /**
      * @param $strName
-     * @param AbstractSubQuery|null $objSubQueryDefinition
+     * @param SubQueryBase|null $objSubQueryDefinition
      */
-    public function __construct($strName, AbstractSubQuery $objSubQueryDefinition = null)
+    public function __construct($strName, SubQueryBase $objSubQueryDefinition = null)
     {
         parent::__construct('', '', '');
         $this->objParentNode = true;

@@ -18,7 +18,7 @@ use QCubed\Query\Builder;
  * @package QCubed\Query\Condition
  * @was QQConditionEqual
  */
-class Equal extends AbstractComparison
+class Equal extends ComparisonBase
 {
     protected $strOperator = ' = ';
 
@@ -27,7 +27,7 @@ class Equal extends AbstractComparison
      */
     public function updateQueryBuilder(Builder $objBuilder)
     {
-        $objBuilder->addWhereItem($this->objQueryNode->getColumnAlias($objBuilder) . ' ' . Node\AbstractBase::getValue($this->mixOperand,
+        $objBuilder->addWhereItem($this->objQueryNode->getColumnAlias($objBuilder) . ' ' . Node\NodeBase::getValue($this->mixOperand,
                 $objBuilder, true));
     }
 }

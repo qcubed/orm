@@ -14,7 +14,7 @@ namespace QCubed\Query\Node;
  * @package QCubed\Query\Node
  * @was QQSubQueryCountNode
  */
-class SubQueryCount extends AbstractSubQuery
+class SubQueryCount extends SubQueryBase
 {
     protected $strFunctionName = 'COUNT';
 }

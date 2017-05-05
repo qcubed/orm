@@ -22,7 +22,7 @@ use QCubed\Query\Node;
  * @package QCubed\Query\Condition
  * @was QQConditionNotBetween
  */
-class NotBetween extends AbstractComparison
+class NotBetween extends ComparisonBase
 {
     /** @var mixed */
     protected $mixOperandTwo;

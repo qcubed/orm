@@ -18,7 +18,7 @@ use QCubed\Query\Node;
  * @package QCubed\Query\Condition
  * @was QQConditionExists
  */
-class Exists extends AbstractBase implements ConditionInterface
+class Exists extends ConditionBase implements ConditionInterface
 {
     /** @var Node\SubQuerySql */
     protected $objNode;

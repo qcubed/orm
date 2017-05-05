@@ -9,7 +9,7 @@
 
 namespace QCubed\Database\PostgreSql;
 
-use QCubed\Database\AbstractField;
+use QCubed\Database\FieldBase;
 use QCubed\Database\FieldType;
 
 /**
@@ -17,7 +17,7 @@ use QCubed\Database\FieldType;
  * @package QCubed\Database\PostgreSql
  * @was QPostgreSqlDatabaseField
  */
-class Field extends AbstractField
+class Field extends FieldBase
 {
     /**
      * QPostgreSqlDatabaseField constructor.

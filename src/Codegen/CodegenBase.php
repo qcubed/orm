@@ -12,6 +12,7 @@ namespace QCubed\Codegen;
 use QCubed\ErrorHandler;
 use QCubed\Exception\Caller;
 use QCubed\Folder;
+use QCubed\ObjectBase;
 use QCubed\QString;
 use QCubed\Database;
 use \Codegen;
@@ -67,7 +68,7 @@ function trimOffEnd($off, $str)
  * @property string $Errors List of errors
  * @property string $Warnings List of warnings
  */
-abstract class AbstractBase extends \QCubed\AbstractBase
+abstract class CodegenBase extends ObjectBase
 {
     // Class Name Suffix/Prefix
     /** @var string Class Prefix, as specified in the codegen_settings.xml file */

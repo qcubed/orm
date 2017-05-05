@@ -9,14 +9,14 @@
 
 namespace QCubed\Database\PostgreSql;
 
-use QCubed\Database\AbstractResult;
+use QCubed\Database\ResultBase;
 
 /**
  * Class to handle results sent by database upon querying
  * @package DatabaseAdapters
  * @was QPostgreSqlDatabaseResult
  */
-class Result extends AbstractResult
+class Result extends ResultBase
 {
     protected $objPgSqlResult;
     protected $objDb;

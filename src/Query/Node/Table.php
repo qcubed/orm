@@ -21,7 +21,7 @@ use QCubed\Query\Condition\ConditionInterface as iCondition;
  * @package QCubed\Query\Node
  * @was QQTableNode
  */
-abstract class Table extends AbstractBase
+abstract class Table extends NodeBase
 {
     /**
      * Initialize a table node. The subclass should fill in the table name, primary key and class name.
@@ -29,9 +29,9 @@ abstract class Table extends AbstractBase
      * @param $strName
      * @param null|string $strPropertyName If it has a parent, the property the parent uses to refer to this node.
      * @param null|string $strType If it has a parent, the type of the column in the parent that is the fk to this node. (Likely Integer).
-     * @param AbstractBase|null $objParentNode
+     * @param NodeBase|null $objParentNode
      */
-    public function __construct($strName, $strPropertyName = null, $strType = null, AbstractBase $objParentNode = null)
+    public function __construct($strName, $strPropertyName = null, $strType = null, NodeBase $objParentNode = null)
     {
         $this->objParentNode = $objParentNode;
         $this->strName = $strName;
@@ -70,7 +70,7 @@ abstract class Table extends AbstractBase
         $objParentNode = $this->objParentNode;
         if (!$objParentNode) {
             if ($this->strTableName != $objBuilder->RootTableName) {
-                throw new Caller('Cannot use AbstractBase for "' . $this->strTableName . '" when querying against the "' . $objBuilder->RootTableName . '" table',
+                throw new Caller('Cannot use Node for "' . $this->strTableName . '" when querying against the "' . $objBuilder->RootTableName . '" table',
                     3);
             }
         } else {

@@ -15,11 +15,11 @@ use QCubed\Query\Condition\ConditionInterface as iCondition;
 use QCubed\Type;
 
 /**
- * Class AbstractLogical
+ * Class LogicalBase
  * @package QCubed\Query\Condition
  * @was QQConditionLogical
  */
-abstract class AbstractLogical extends AbstractBase implements ConditionInterface
+abstract class LogicalBase extends ConditionBase implements ConditionInterface
 {
     /** @var iCondition[] */
     protected $objConditionArray;

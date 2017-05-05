@@ -14,7 +14,7 @@ namespace QCubed\Query\Clause;
  * @package QCubed\Query\Clause
  * @was QQAverage
  */
-class Average extends AbstractAggregation
+class Average extends AggregationBase
 {
     protected $strFunctionName = 'AVG';
 

@@ -20,13 +20,13 @@ use QCubed\Query\Clause;
  * @package QCubed\Query\Node
  * @was QQAssociationNode
  */
-class Association extends AbstractBase
+class Association extends NodeBase
 {
     /**
-     * @param AbstractBase $objParentNode
+     * @param NodeBase $objParentNode
      * @throws \Exception
      */
-    public function __construct(AbstractBase $objParentNode)
+    public function __construct(NodeBase $objParentNode)
     {
         $this->objParentNode = $objParentNode;
         if ($objParentNode) {

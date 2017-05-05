@@ -10,6 +10,7 @@
 namespace QCubed\Codegen;
 
 use QCubed\Exception\Caller;
+use QCubed\ObjectBase;
 use QCubed\Type;
 
 /**
@@ -36,7 +37,7 @@ use QCubed\Type;
  * @property boolean $IsTypeAssociation
  * @property array $Options
  */
-class ManyToManyReference extends \QCubed\AbstractBase
+class ManyToManyReference extends ObjectBase
 {
 
     /////////////////////////////
