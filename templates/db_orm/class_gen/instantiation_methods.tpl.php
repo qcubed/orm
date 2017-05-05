@@ -22,7 +22,7 @@
      * early binding on referenced objects.
      * @param \QCubed\Database\RowBase $objDbRow
      * @param string $strAliasPrefix
-     * @param Node\Base $objExpandAsArrayNode
+     * @param Node\NodeBase $objExpandAsArrayNode
      * @param array|null $objPreviousItemArray Used by expansion code to aid in expanding arrays
      * @param string[] $strColumnAliasArray Array of column aliases mapping names in the query to items in the object
      * @param boolean $blnCheckDuplicate Used by ExpandArray to indicate we should not create a new object if this is a duplicate of a previoius object
@@ -33,7 +33,7 @@
     public static function instantiateDbRow(
         \QCubed\Database\RowBase $objDbRow,
         $strAliasPrefix = null,
-        Node\Base $objExpandAsArrayNode = null,
+        Node\NodeBase $objExpandAsArrayNode = null,
         $objPreviousItemArray = null,
         $strColumnAliasArray = array(),
         $blnCheckDuplicate = false,
@@ -251,11 +251,11 @@ if (is_a($objAssociatedTable, '\QCubed\Codegen\TypeTable') ) {
     /**
      * Instantiate an array of <?= $objTable->ClassNamePlural ?> from a Database Result
      * @param \QCubed\Database\ResultBase $objDbResult
-     * @param Node\Base $objExpandAsArrayNode
+     * @param Node\NodeBase $objExpandAsArrayNode
      * @param string[] $strColumnAliasArray
      * @return <?= $objTable->ClassName ?>[]
      */
-    public static function instantiateDbResult(\QCubed\Database\ResultBase $objDbResult, $objExpandAsArrayNode = null, $strColumnAliasArray = null) {
+    public static function instantiateDbResult(\QCubed\Database\ResultBase $objDbResult, Node\NodeBase $objExpandAsArrayNode = null, $strColumnAliasArray = null) {
         $objToReturn = array();
 
         if (!$strColumnAliasArray)

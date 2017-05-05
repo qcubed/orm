@@ -753,6 +753,9 @@ abstract class DatabaseBase extends ObjectBase
      */
     public function outputProfiling($blnPrintOutput = true)
     {
+        $strPath = isset($_SERVER['REQUEST_URI']) ?
+            $_SERVER['REQUEST_URI'] :
+            $_SERVER['PHP_SELF'];
 
         $strOut = '<div class="qDbProfile">';
         if ($this->blnEnableProfiling) {
@@ -762,7 +765,7 @@ abstract class DatabaseBase extends ObjectBase
                 base64_encode(serialize($this->strProfileArray)));
             $strOut .= sprintf('<input type="hidden" name="intDatabaseIndex" value="%s" />', $this->intDatabaseIndex);
             $strOut .= sprintf('<input type="hidden" name="strReferrer" value="%s" /></div></form>',
-                \QApplication::htmlEntities(\QApplication::$RequestUri));
+                htmlentities($strPath));
 
             $intCount = round(count($this->strProfileArray));
             if ($intCount == 0) {

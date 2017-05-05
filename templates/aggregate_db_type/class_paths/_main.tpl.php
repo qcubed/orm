@@ -17,7 +17,7 @@ $a = [];
 // ClassPaths for the <?= $objTable->ClassName ?> type class
 <?php if (__MODEL__) { ?>
 $a['<?= strtolower($objTable->ClassName) ?>'] = __MODEL__ . '/<?= $objTable->ClassName ?>.class.php';
-$a['qqnode<?= strtolower($objTable->ClassName) ?>'] = __MODEL__ . '/<?= $objTable->ClassName ?>.class.php';<?php } ?>
+$a['node<?= strtolower($objTable->ClassName) ?>'] = __MODEL__ . '/<?= $objTable->ClassName ?>.class.php';<?php } ?>
 <?php } ?>
 
 
