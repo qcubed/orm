@@ -15,7 +15,7 @@ use QCubed\Folder;
 use QCubed\ObjectBase;
 use QCubed\QString;
 use QCubed\Database;
-use \Codegen;
+use QCubed\Project\Codegen\CodegenBase as Codegen;
 use QCubed\Type;
 
 function qcubedHandleCodeGenParseError($__exc_errno, $__exc_errstr, $__exc_errfile, $__exc_errline)

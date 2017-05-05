@@ -22,6 +22,7 @@ use QCubed\Query\Node;
 use QCubed\Exception\Caller;
 use QCubed\Type;
 use QCubed\QDateTime;
+use QCubed\Query\ModelTrait;
 
 /**
  * Class <?= $objTable->ClassName ?>Gen
@@ -39,7 +40,7 @@ use QCubed\QDateTime;
  * overriding existing or implementing new methods, properties and variables
  * in the <?= $objTable->ClassName ?> class.
  *
- * @package <?= \Codegen::$ApplicationName; ?>
+ * @package <?= \QCubed\Project\Codegen\CodegenBase::$ApplicationName; ?>
 
  * @subpackage ModelGen
 <?php include("property_comments.tpl.php"); ?>
@@ -47,7 +48,7 @@ use QCubed\QDateTime;
  */
 abstract class <?= $objTable->ClassName ?>Gen extends \QCubed\ObjectBase implements IteratorAggregate, JsonSerializable {
 
-    use \QCubed\Query\ModelTrait;
+    use ModelTrait;
 
     /** @var boolean Set to false in superclass to save a little time if this db object should not be watched for changes. */
     public static $blnWatchChanges = true;

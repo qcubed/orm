@@ -35,7 +35,7 @@ use QCubed\Exception\Caller;
  * overriding existing or implementing new methods, properties and variables
  * in the <?= $objTypeTable->ClassName ?> class.
  *
- * @package <?= \Codegen::$ApplicationName; ?>
+ * @package <?= \QCubed\Project\Codegen\CodegenBase::$ApplicationName; ?>
 
  * @subpackage Model
  */
