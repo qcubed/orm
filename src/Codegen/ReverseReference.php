@@ -33,7 +33,7 @@ use QCubed\Type;
  * @property string $ObjectPropertyName
  * @property array $Options
  */
-class ReverseReference extends ObjectBase
+class ReverseReference extends ObjectBase implements ColumnInterface
 {
 
     /////////////////////////////

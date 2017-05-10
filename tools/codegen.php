@@ -3,7 +3,7 @@
 use QCubed\Project\CodeGen\CodegenBase as QCodegen;
 use QCubed\QString;
 
-$__CONFIG_ONLY__ = true;
+//$__CONFIG_ONLY__ = true;
 
 
 require_once('qcubed.inc.php');
@@ -11,7 +11,6 @@ require_once('qcubed.inc.php');
 $strOrmPath = dirname(__DIR__);
 $strQCubedPath = dirname($strOrmPath);
 $loader = require(dirname($strQCubedPath) . '/autoload.php'); // Add the Composer autoloader if using Composer
-
 $loader->addPsr4('QCubed\\', $strOrmPath . '/../common/src');
 $loader->addPsr4('QCubed\\Database\\', $strOrmPath . '/src/database');
 $loader->addPsr4('QCubed\\Query\\', $strOrmPath . '/src/query');
@@ -30,7 +29,7 @@ QCodegen::Run(__CONFIGURATION__ . '/codegen_settings.xml');
 
 function DisplayMonospacedText($strText)
 {
-    $strText = QString::HtmlEntities($strText);
+    $strText = QString::htmlEntities($strText);
     $strText = str_replace('	', '    ', $strText);
     $strText = str_replace(' ', '&nbsp;', $strText);
     $strText = str_replace("\r", '', $strText);

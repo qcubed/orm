@@ -18,7 +18,7 @@ function GO_BACK($intNumChars) {
  * @param integer $intCount	The number of indents to add
  * @return string
  */
-function _indent($strText, $intCount = 1) {
+function _indent_($strText, $intCount = 1) {
 	$strRepeat = '    ';
 	$strTabs = str_repeat($strRepeat, $intCount);
 	$strRet = preg_replace ( '/^/m', $strTabs , $strText);

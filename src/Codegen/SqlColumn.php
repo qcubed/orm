@@ -37,7 +37,7 @@ use QCubed\Type;
  * @property string $Comment                Comment on the column
  * @property boolean $AutoUpdate             Whether column that is a Timestamp should generate code to automatically update the timestamp
  */
-class SqlColumn extends ObjectBase
+class SqlColumn extends ObjectBase implements ColumnInterface
 {
 
     /////////////////////////////

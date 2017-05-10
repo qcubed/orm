@@ -48,6 +48,7 @@ $a["class"]['QMySqli5DatabaseField'] = '\\QCubed\\Database\\Mysqli5\\Field';
 $a["class"]['QMySqliDatabaseException'] = '\\QCubed\\Database\\Mysqli5\\MysqliException';
 $a["class"]['QDatabaseResultBase'] = '\\QCubed\\Database\\ResultBase';
 $a["class"]['QMySqliDatabaseResult'] = '\\QCubed\\Database\\Mysqli5\\MysqliResult';
+$a["class"]['QDatabaseRowBase'] = '\\QCubed\\Database\\RowBase';
 $a["class"]['QMySqliDatabaseRow'] = '\\QCubed\\Database\\Mysqli5\\MysqliRow';
 $a["class"]['QMySqli5DatabaseResult'] = '\\QCubed\\Database\\Mysqli5\\Result';
 $a["class"]['QPostgreSqlDatabase'] = '\\QCubed\\Database\\PostgreSql\\Database';

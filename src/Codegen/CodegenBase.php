@@ -806,7 +806,7 @@ abstract class CodegenBase extends ObjectBase
         if ($objArrayToImplode) {
             foreach ($objArrayToImplode as $objObject) {
                 array_push($strArrayToReturn,
-                    sprintf('%s%s%s', $strPrefix, $objObject->__get($strProperty), $strSuffix));
+                    sprintf('%s%s%s', $strPrefix, $objObject->$strProperty, $strSuffix));
             }
         }
 
@@ -838,11 +838,11 @@ abstract class CodegenBase extends ObjectBase
     /**
      * Returns the control label name as used in the ModelConnector corresponding to this column or table.
      *
-     * @param SqlColumn|ReverseReference|ManyToManyReference $objColumn
+     * @param ColumnInterface $objColumn
      *
      * @return string
      */
-    public static function modelConnectorControlName($objColumn)
+    public static function modelConnectorControlName(ColumnInterface $objColumn)
     {
         if (($o = $objColumn->Options) && isset ($o['Name'])) { // Did developer default?
             return $o['Name'];
@@ -853,12 +853,12 @@ abstract class CodegenBase extends ObjectBase
     /**
      * The property name used in the ModelConnector for the given column, virtual column or table
      *
-     * @param SqlColumn|ReverseReference|ManyToManyReference $objColumn
+     * @param ColumnInterface $objColumn
      *
      * @return string
      * @throws \Exception
      */
-    public static function modelConnectorPropertyName($objColumn)
+    public static function modelConnectorPropertyName(ColumnInterface $objColumn)
     {
         if ($objColumn instanceof SqlColumn) {
             if ($objColumn->Reference) {
@@ -882,10 +882,10 @@ abstract class CodegenBase extends ObjectBase
     /**
      * Return a variable name corresponding to the given column, including virtual columns like
      * ReverseReference and QManyToMany references.
-     * @param SqlColumn|ReverseReference|ManyToManyReference $objColumn
+     * @param ColumnInterface $objColumn
      * @return string
      */
-    public function modelConnectorVariableName($objColumn)
+    public function modelConnectorVariableName(ColumnInterface $objColumn)
     {
         $strPropName = static::modelConnectorPropertyName($objColumn);
         $objControlHelper = $this->getControlCodeGenerator($objColumn);
@@ -895,10 +895,10 @@ abstract class CodegenBase extends ObjectBase
     /**
      * Returns a variable name for the "label" version of a control, which would be the read-only version
      * of viewing the data in the column.
-     * @param SqlColumn|ReverseReference|ManyToManyReference $objColumn
+     * @param ColumnInterface $objColumn
      * @return string
      */
-    public function modelConnectorLabelVariableName($objColumn)
+    public function modelConnectorLabelVariableName(ColumnInterface $objColumn)
     {
         $strPropName = static::modelConnectorPropertyName($objColumn);
         return QLabel_CodeGenerator::instance()->varName($strPropName);
@@ -908,18 +908,18 @@ abstract class CodegenBase extends ObjectBase
      * Returns the class for the control that will be created to edit the given column,
      * including the 'virtual' columns of reverse references (many to one) and many-to-many references.
      *
-     * @param SqlColumn|ReverseReference|ManyToManyReference $objColumn
+     * @param ColumnInterface $objColumn
      *
      * @return string Class name of control which can handle this column's data
      * @throws \Exception
      */
-    protected function modelConnectorControlClass($objColumn)
+    protected function modelConnectorControlClass(ColumnInterface $objColumn)
     {
 
         // Is the class specified by the developer?
         if ($o = $objColumn->Options) {
-            if (isset ($o['FormGen']) && $o['FormGen'] == \QFormGen::LabelOnly) {
-                return 'QLabel';
+            if (isset ($o['FormGen']) && $o['FormGen'] == \QCubed\ModelConnector\Options::FORMGEN_LABEL_ONLY) {
+                return '\\QCubed\\Control\\Label';
             }
             if (isset($o['ControlClass'])) {
                 return $o['ControlClass'];
@@ -929,43 +929,43 @@ abstract class CodegenBase extends ObjectBase
         // otherwise, return the default class based on the column
         if ($objColumn instanceof SqlColumn) {
             if ($objColumn->Identity) {
-                return 'QLabel';
+                return '\\QCubed\\Control\\Label';
             }
 
             if ($objColumn->Timestamp) {
-                return 'QLabel';
+                return '\\QCubed\\Control\\Label';
             }
 
             if ($objColumn->Reference) {
-                return 'QListBox';
+                return '\\QCubed\\Project\\Control\\ListBox';
             }
 
             switch ($objColumn->VariableType) {
                 case Type::BOOLEAN:
-                    return 'QCheckBox';
+                    return '\\QCubed\\Project\\Control\\Checkbox';
                 case Type::DATE_TIME:
-                    return 'QDateTimePicker';
+                    return '\\QCubed\\Control\\DateTimePicker';
                 case Type::INTEGER:
-                    return 'QIntegerTextBox';
+                    return '\\QCubed\\Control\\IntegerTextBox';
                 case Type::FLOAT:
-                    return 'QFloatTextBox';
+                    return '\\QCubed\\Control\\FloatTextBox';
                 default:
-                    return 'QTextBox';
+                    return '\\QCubed\\Project\\Control\\TextBox';
             }
         } elseif ($objColumn instanceof ReverseReference) {
             if ($objColumn->Unique) {
-                return 'QListBox';
+                return '\\QCubed\\Project\\Control\\ListBox';
             } else {
-                return 'QCheckBoxList';    // for multi-selection
+                return '\\QCubed\\Control\\CheckboxList';    // for multi-selection
             }
         } elseif ($objColumn instanceof ManyToManyReference) {
-            return 'QCheckBoxList';    // for multi-selection
+            return '\\QCubed\\Control\\CheckboxList';    // for multi-selection
         }
         throw new \Exception('Unknown column type.');
     }
 
 
-    public function dataListControlClass(SqlTable $objTable)
+    public static function dataListControlClass(SqlTable $objTable)
     {
         // Is the class specified by the developer?
         if ($o = $objTable->Options) {
@@ -975,7 +975,7 @@ abstract class CodegenBase extends ObjectBase
         }
 
         // Otherwise, return a default
-        return 'QDataGrid';
+        return '\\QCubed\\Project\\Control\\DataGrid';
     }
 
     /**
@@ -1030,61 +1030,33 @@ abstract class CodegenBase extends ObjectBase
      * Returns the class for the control that will be created to edit the given column,
      * including the 'virtual' columns of reverse references (many to one) and many-to-many references.
      *
-     * @param SqlColumn|ReverseReference|ManyToManyReference $objColumn
+     * @param ColumnInterface $objColumn
      *
-     * @return AbstractControl_CodeGenerator helper object
+     * @return \QCubed\Generator\GeneratorBase helper object
      * @throws \Exception
      */
     public function getControlCodeGenerator($objColumn)
     {
         $strControlClass = $this->modelConnectorControlClass($objColumn);
 
-        if (method_exists($strControlClass, 'GetCodeGenerator')) {
-            return call_user_func($strControlClass . '::GetCodeGenerator');
+        if (method_exists($strControlClass, 'getCodeGenerator')) {
+            return $strControlClass::getCodeGenerator();
         }
-
-        switch ($strControlClass) {
-            case 'QLabel':
-                return QLabel_CodeGenerator::instance();
-            case 'QListBox':
-                return new QListBox_CodeGenerator();
-            case 'QCheckBox':
-                return new QCheckBox_CodeGenerator();
-            case 'QDateTimePicker':
-                return new QDateTimePicker_CodeGenerator();
-            case 'QTextBox':
-                return new QTextBox_CodeGenerator();
-            case 'QIntegerTextBox':
-                return new QIntegerTextBox_CodeGenerator();
-            case 'QFloatTextBox':
-                return new QFloatTextBox_CodeGenerator();
-            case 'QCheckBoxList':
-                return new QCheckBoxList_CodeGenerator();
-            default:
-                break;
+        else {
+            throw new Caller("Class " . $strControlClass . " must implement getCodeGenerator()");
         }
-
-        $strOrigControlClass = $strControlClass;
-        $strControlCodeGeneratorClass = $strControlClass . '_CodeGenerator';
-        while (!class_exists($strControlCodeGeneratorClass)) {
-            $strControlClass = get_parent_class($strControlClass);
-            if ($strControlClass === 'QControl') {
-                throw new Caller("Cannot find an appropriate subclass of AbstractControl_CodeGenerator for " . $strOrigControlClass);
-            }
-            $strControlCodeGeneratorClass = $strControlClass . '_CodeGenerator';
-        }
-        return new $strControlCodeGeneratorClass($strOrigControlClass);
     }
 
     public function getDataListCodeGenerator($objTable)
     {
         $strControlClass = $this->dataListControlClass($objTable);
 
-        if (method_exists($strControlClass, 'GetCodeGenerator')) {
-            return call_user_func($strControlClass . '::GetCodeGenerator');
+        if (method_exists($strControlClass, 'getCodeGenerator')) {
+            return $strControlClass::getCodeGenerator();
         }
-
-        return new QDataGrid_CodeGenerator();
+        else {
+            throw new Caller("Class " . $strControlClass . " must implement getCodeGenerator()");
+        }
     }
 
 

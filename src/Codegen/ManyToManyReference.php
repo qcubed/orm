@@ -37,7 +37,7 @@ use QCubed\Type;
  * @property boolean $IsTypeAssociation
  * @property array $Options
  */
-class ManyToManyReference extends ObjectBase
+class ManyToManyReference extends ObjectBase implements ColumnInterface
 {
 
     /////////////////////////////
