@@ -901,7 +901,7 @@ abstract class CodegenBase extends ObjectBase
     public function modelConnectorLabelVariableName(ColumnInterface $objColumn)
     {
         $strPropName = static::modelConnectorPropertyName($objColumn);
-        return QLabel_CodeGenerator::instance()->varName($strPropName);
+        return \QCubed\Generator\Label::instance()->varName($strPropName);
     }
 
     /**

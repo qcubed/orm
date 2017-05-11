@@ -14,6 +14,7 @@ use QCubed\Exception\Caller;
  * Class OptimisticLocking
  * Thrown when optimistic locking (in ORM Save() method) detects that DB data was updated
  * @package QCubed\Database\Exception
+ * @was QOptimisticLockingException
  */
 class OptimisticLocking extends Caller
 {
