@@ -1,21 +1,23 @@
 <?php
 /**
- * CodeGen
+ * QCodeGen
  *
- * Overrides the Codegen\Base class.
+ * Overrides the Codegen\AbstractBase class.
  *
  * Feel free to override any of those methods here to customize your code generation.
  *
  */
+
+namespace QCubed\Project\Codegen;
 
 /**
  * Class Codegen
  *
  * Overrides the default codegen class. Override and implement any functions here to customize the code generation process.
  * @package Project
- * @was CodeGen
+ * @was QCodeGen
  */
-class Codegen extends \QCubed\Codegen\Base {
+class CodegenBase extends \QCubed\Codegen\CodegenBase {
 
 	/**
 	 * Construct the CodeGen object.
@@ -26,13 +28,15 @@ class Codegen extends \QCubed\Codegen\Base {
 		// Specify the paths to your template files here. These paths will be searched in the order declared, to
 		// find a particular template file. Template files found lower down in the order will override the previous ones.
 		static::$TemplatePaths = array (
-			__QCUBED_CORE__ . '/../../orm/templates/',
-			__DIR__ . '/templates/'
+			QCUBED_BASE_DIR . '/orm/templates/',
+            QCUBED_BASE_DIR . '/application/codegen/templates/'
+
+            //__INCLUDES__ . '/codegen/templates/'
 		);
 	}
 
 	/**
-	 * CodeGen::Pluralize()
+	 * QCodeGen::Pluralize()
 	 *
 	 * Example: Overriding the Pluralize method
 	 *
