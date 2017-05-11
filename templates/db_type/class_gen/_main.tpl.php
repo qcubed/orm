@@ -7,7 +7,7 @@
 		'DocrootFlag' => false,
 		'DirectorySuffix' => '',
 		'TargetDirectory' => __MODEL_GEN__,
-		'TargetFileName' => $objTypeTable->ClassName . 'Gen.class.php'
+		'TargetFileName' => $objTypeTable->ClassName . 'Gen.php'
 	);
 ?>
 <?php print("<?php\n"); ?>

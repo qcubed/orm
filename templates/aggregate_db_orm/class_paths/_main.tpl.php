@@ -16,12 +16,12 @@ $a = [];
 <?php foreach ($objTableArray as $objTable) { ?>
 // ClassPaths for the <?= $objTable->ClassName ?> class
 <?php if (defined('__MODEL__')) { ?>
-$a['<?= strtolower($objTable->ClassName) ?>'] = __MODEL__ . '/<?= $objTable->ClassName ?>.class.php';
-$a['node<?= strtolower($objTable->ClassName) ?>'] = __MODEL__ . '/<?= $objTable->ClassName ?>.class.php';
-$a['reversereferencenode<?= strtolower($objTable->ClassName) ?>'] = __MODEL__ . '/<?= $objTable->ClassName ?>.class.php';
+$a['<?= strtolower($objTable->ClassName) ?>'] = __MODEL__ . '/<?= $objTable->ClassName ?>.php';
+$a['node<?= strtolower($objTable->ClassName) ?>'] = __MODEL__ . '/<?= $objTable->ClassName ?>.php';
+$a['reversereferencenode<?= strtolower($objTable->ClassName) ?>'] = __MODEL__ . '/<?= $objTable->ClassName ?>.php';
 <?php } ?><?php if (defined('__MODEL_CONNECTOR__')) { ?>
-$a['<?= strtolower($objTable->ClassName) ?>connector'] = __MODEL_CONNECTOR__ . '/<?= $objTable->ClassName ?>Connector.class.php';
-$a['<?= strtolower($objTable->ClassName) ?>list'] = __MODEL_CONNECTOR__ . '/<?= $objTable->ClassName ?>List.class.php';
+$a['<?= strtolower($objTable->ClassName) ?>connector'] = __MODEL_CONNECTOR__ . '/<?= $objTable->ClassName ?>Connector.php';
+$a['<?= strtolower($objTable->ClassName) ?>list'] = __MODEL_CONNECTOR__ . '/<?= $objTable->ClassName ?>List.php';
 <?php } ?>
 
 <?php } ?>

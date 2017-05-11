@@ -7,7 +7,7 @@
 		'DocrootFlag' => false,
 		'DirectorySuffix' => '',
 		'TargetDirectory' => __MODEL_GEN__,
-		'TargetFileName' => 'QQN.class.php'
+		'TargetFileName' => 'QQN.php'
 	);
 ?>
 <?php print("<?php\n"); ?>

@@ -7,11 +7,11 @@
 		'DocrootFlag' => false,
 		'DirectorySuffix' => '',
 		'TargetDirectory' => __MODEL__,
-		'TargetFileName' => $objTable->ClassName . '.class.php'
+		'TargetFileName' => $objTable->ClassName . '.php'
 	);
 ?>
 <?php print("<?php\n"); ?>
-	require(__MODEL_GEN__ . '/<?= $objTable->ClassName ?>Gen.class.php');
+	require(__MODEL_GEN__ . '/<?= $objTable->ClassName ?>Gen.php');
 
 	/**
 	 * The <?= $objTable->ClassName ?> class defined here contains any
