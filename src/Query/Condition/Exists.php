@@ -18,21 +18,24 @@ use QCubed\Query\Node;
  * @package QCubed\Query\Condition
  * @was QQConditionExists
  */
-class Exists extends AbstractBase implements ConditionInterface {
-	/** @var Node\SubQuerySql  */
-	protected $objNode;
+class Exists extends ConditionBase implements ConditionInterface
+{
+    /** @var Node\SubQuerySql */
+    protected $objNode;
 
-	/**
-	 * @param Node\SubQuerySql $objNode
-	 */
-	public function __construct(Node\SubQuerySql $objNode) {
-		$this->objNode = $objNode;
-	}
+    /**
+     * @param Node\SubQuerySql $objNode
+     */
+    public function __construct(Node\SubQuerySql $objNode)
+    {
+        $this->objNode = $objNode;
+    }
 
-	/**
-	 * @param Builder $objBuilder
-	 */
-	public function UpdateQueryBuilder(Builder $objBuilder) {
-		$objBuilder->AddWhereItem('EXISTS ' . $this->objNode->GetColumnAlias($objBuilder));
-	}
+    /**
+     * @param Builder $objBuilder
+     */
+    public function updateQueryBuilder(Builder $objBuilder)
+    {
+        $objBuilder->addWhereItem('EXISTS ' . $this->objNode->getColumnAlias($objBuilder));
+    }
 }

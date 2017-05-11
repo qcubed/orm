@@ -12,12 +12,14 @@ namespace QCubed\Query\Clause;
 use QCubed\Query\Builder;
 
 /**
- * Class AbstractBase
+ * Class Base
  * Base class for all query clauses
  * @package QCubed\Query\Clause
  * @was QQClause
  */
-interface ClauseInterface {
-	public function UpdateQueryBuilder(Builder $objBuilder);
-	public function __toString();
+interface ClauseInterface
+{
+    public function updateQueryBuilder(Builder $objBuilder);
+
+    public function __toString();
 }

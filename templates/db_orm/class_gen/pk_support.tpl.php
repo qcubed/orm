@@ -39,13 +39,13 @@ if (count($objTable->PrimaryKeyColumnArray) == 1) {
 
     /**
     * Returns the primary key directly from a database row.
-    * @param \QCubed\Database\AbstractRow $objDbRow
+    * @param \QCubed\Database\RowBase $objDbRow
     * @param string $strAliasPrefix
     * @param string[] $strColumnAliasArray
     * @return <?= $pkType ?>
 
     **/
-    protected static function getRowPrimaryKey(\QCubed\Database\AbstractRow $objDbRow, $strAliasPrefix, $strColumnAliasArray) {
+    protected static function getRowPrimaryKey(\QCubed\Database\RowBase $objDbRow, $strAliasPrefix, $strColumnAliasArray) {
 <?php 	if (count ($objTable->PrimaryKeyColumnArray) == 1) { ?>
         $strAlias = $strAliasPrefix . '<?= $objTable->PrimaryKeyColumnArray[0]->Name ?>';
         $strAliasName = !empty($strColumnAliasArray[$strAlias]) ? $strColumnAliasArray[$strAlias] : $strAlias;

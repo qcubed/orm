@@ -83,7 +83,7 @@ if ($strValues) {
                 $this->Update($blnForceUpdate);
             }
         } catch (Caller $objExc) {
-            $objExc->IncrementOffset();
+            $objExc->incrementOffset();
             throw $objExc;
         }
 
@@ -134,7 +134,7 @@ if ($strValues) {
                 <?= $strEscapeIdentifierBegin ?><?= $objTable->Name ?><?= $strEscapeIdentifierEnd ?>
 
             WHERE
-<?= _indent($strIds, 4); ?>
+<?= _indent_($strIds, 4); ?>
 
         );
 
@@ -171,7 +171,7 @@ if ($strValues) {
                 ' . $strValues . '
 
             WHERE
-<?= _indent($strIds, 4) ?>;
+<?= _indent_($strIds, 4) ?>;
 <?php
 $blnNeedsTransaction = false;
 if ($blnHasUniqueReverseReference || isset($timestampColumn)) {
@@ -231,7 +231,7 @@ if (!$blnNeedsTransaction) { ?>
                     <?= $strEscapeIdentifierBegin ?><?= $objTable->Name ?><?= $strEscapeIdentifierEnd ?>
 
                 WHERE
-<?= _indent($strIds, 5); ?>
+<?= _indent_($strIds, 5); ?>
 
             );
 

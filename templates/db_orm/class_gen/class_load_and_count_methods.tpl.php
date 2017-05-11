@@ -4,7 +4,7 @@
 
     /**
      * Static method to retrieve the Database object that owns this class.
-     * @return \QCubed\Database\AbstractBase reference to the Database object that can query this class
+     * @return \QCubed\Database\DatabaseBase reference to the Database object that can query this class
      */
     public static function getDatabase() {
         return \QCubed\Database\Service::getDatabase(self::getDatabaseIndex());
@@ -58,6 +58,7 @@ foreach ($objTable->PrimaryKeyColumnArray as $objColumn) {
      * @param iClause[]|null $objOptionalClauses additional optional iClause objects for this query
      * @throws Caller
      * @return <?= $objTable->ClassName ?>[]
+     * @throws Caller
      */
     public static function loadAll($objOptionalClauses = null) {
         if (func_num_args() > 1) {
@@ -67,7 +68,7 @@ foreach ($objTable->PrimaryKeyColumnArray as $objColumn) {
         try {
             return <?= $objTable->ClassName; ?>::queryArray(QQ::All(), $objOptionalClauses);
         } catch (Caller $objExc) {
-            $objExc->IncrementOffset();
+            $objExc->incrementOffset();
             throw $objExc;
         }
     }

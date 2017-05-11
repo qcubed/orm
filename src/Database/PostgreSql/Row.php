@@ -9,7 +9,7 @@
 
 namespace QCubed\Database\PostgreSql;
 
-use QCubed\Database\AbstractRow;
+use QCubed\Database\RowBase;
 use QCubed\Database\FieldType;
 use QCubed\QDateTime;
 use QCubed\Type;
@@ -19,95 +19,101 @@ use QCubed\Type;
  *
  * @was QPostgreSqlDatabaseRow
  */
-class Row extends AbstractRow {
-	/** @var string[] Column name value pairs for current result set */
-	protected $strColumnArray;
+class Row extends RowBase
+{
+    /** @var string[] Column name value pairs for current result set */
+    protected $strColumnArray;
 
-	/**
-	 * QPostgreSqlDatabaseRow constructor.
-	 *
-	 * @param string $strColumnArray
-	 */
-	public function __construct($strColumnArray) {
-		$this->strColumnArray = $strColumnArray;
-	}
+    /**
+     * QPostgreSqlDatabaseRow constructor.
+     *
+     * @param string $strColumnArray
+     */
+    public function __construct($strColumnArray)
+    {
+        $this->strColumnArray = $strColumnArray;
+    }
 
-	/**
-	 * Gets the value of a column from a result row returned by the database
-	 *
-	 * @param string        $strColumnName Name of the column
-	 * @param null|string 	$strColumnType Data type
-	 *
-	 * @return mixed
-	 */
-	public function GetColumn($strColumnName, $strColumnType = null) {
-		if (!isset($this->strColumnArray[$strColumnName])) {
-			return null;
-		}
-		$strColumnValue = $this->strColumnArray[$strColumnName];
-		switch ($strColumnType) {
-			case FieldType::Bit:
-				// PostgreSQL returns 't' or 'f' for boolean fields
-				if ($strColumnValue == 'f') {
-					return false;
-				} else {
-					return ($strColumnValue) ? true : false;
-				}
+    /**
+     * Gets the value of a column from a result row returned by the database
+     *
+     * @param string $strColumnName Name of the column
+     * @param null|string $strColumnType Data type
+     *
+     * @return mixed
+     */
+    public function getColumn($strColumnName, $strColumnType = null)
+    {
+        if (!isset($this->strColumnArray[$strColumnName])) {
+            return null;
+        }
+        $strColumnValue = $this->strColumnArray[$strColumnName];
+        switch ($strColumnType) {
+            case FieldType::BIT:
+                // PostgreSQL returns 't' or 'f' for boolean fields
+                if ($strColumnValue == 'f') {
+                    return false;
+                } else {
+                    return ($strColumnValue) ? true : false;
+                }
 
-			case FieldType::Blob:
-			case FieldType::Char:
-			case FieldType::VarChar:
-			case FieldType::Json: // JSON is basically String
-				return Type::Cast($strColumnValue, Type::String);
-			case FieldType::Date:
-			case FieldType::DateTime:
-			case FieldType::Time:
-				return new QDateTime($strColumnValue);
+            case FieldType::BLOB:
+            case FieldType::CHAR:
+            case FieldType::VAR_CHAR:
+            case FieldType::JSON: // JSON is basically String
+                return Type::cast($strColumnValue, Type::STRING);
+            case FieldType::DATE:
+            case FieldType::DATE_TIME:
+            case FieldType::TIME:
+                return new QDateTime($strColumnValue);
 
-			case FieldType::Float:
-				return Type::Cast($strColumnValue, Type::Float);
+            case FieldType::FLOAT:
+                return Type::cast($strColumnValue, Type::FLOAT);
 
-			case FieldType::Integer:
-				return Type::Cast($strColumnValue, Type::Integer);
+            case FieldType::INTEGER:
+                return Type::cast($strColumnValue, Type::INTEGER);
 
-			default:
-				return $strColumnValue;
-		}
-	}
+            default:
+                return $strColumnValue;
+        }
+    }
 
-	/**
-	 * Tells whether a particular column exists in a returned database row
-	 *
-	 * @param string $strColumnName Name of te column
-	 *
-	 * @return bool
-	 */
-	public function ColumnExists($strColumnName) {
-		return array_key_exists($strColumnName, $this->strColumnArray);
-	}
+    /**
+     * Tells whether a particular column exists in a returned database row
+     *
+     * @param string $strColumnName Name of te column
+     *
+     * @return bool
+     */
+    public function columnExists($strColumnName)
+    {
+        return array_key_exists($strColumnName, $this->strColumnArray);
+    }
 
-	/**
-	 * @return string|string[]
-	 */
-	public function GetColumnNameArray() {
-		return $this->strColumnArray;
-	}
+    /**
+     * @return string|string[]
+     */
+    public function getColumnNameArray()
+    {
+        return $this->strColumnArray;
+    }
 
-	/**
-	 * Returns the boolean value corresponding to whatever a bit column returns. Postgres
-	 * returns a 't' or 'f' (or null).
-	 * @param bool|null $mixValue Value of the BIT column
-	 * @return bool
-	 */
-	public function ResolveBooleanValue ($mixValue) {
-		if ($mixValue == 'f') {
-			return false;
-		} elseif ($mixValue == 't') {
-			return true;
-		}
-		else
-			return null;
-	}
+    /**
+     * Returns the boolean value corresponding to whatever a bit column returns. Postgres
+     * returns a 't' or 'f' (or null).
+     * @param bool|null $mixValue Value of the BIT column
+     * @return bool
+     */
+    public function resolveBooleanValue($mixValue)
+    {
+        if ($mixValue == 'f') {
+            return false;
+        } elseif ($mixValue == 't') {
+            return true;
+        } else {
+            return null;
+        }
+    }
 }
 
 

@@ -9,7 +9,6 @@
 
 namespace QCubed\Database\PostgreSql;
 
-use QCubed\Database\AbstractException;
 
 
 /**
@@ -17,18 +16,20 @@ use QCubed\Database\AbstractException;
  *
  * @was QPostgreSqlDatabaseException
  */
-class Exception extends AbstractException {
-	/**
-	 * QPostgreSqlDatabaseException constructor.
-	 *
-	 * @param string $strMessage
-	 * @param int    $intNumber
-	 * @param string $strQuery
-	 */
-	public function __construct($strMessage, $intNumber, $strQuery) {
-		parent::__construct(sprintf("PostgreSql Error: %s", $strMessage), 2);
-		$this->intErrorNumber = $intNumber;
-		$this->strQuery = $strQuery;
-	}
+class Exception extends \QCubed\Database\Exception\ExceptionBase
+{
+    /**
+     * QPostgreSqlDatabaseException constructor.
+     *
+     * @param string $strMessage
+     * @param int $intNumber
+     * @param string $strQuery
+     */
+    public function __construct($strMessage, $intNumber, $strQuery)
+    {
+        parent::__construct(sprintf("PostgreSql Error: %s", $strMessage), 2);
+        $this->intErrorNumber = $intNumber;
+        $this->strQuery = $strQuery;
+    }
 }
 

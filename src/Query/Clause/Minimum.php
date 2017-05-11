@@ -14,9 +14,12 @@ namespace QCubed\Query\Clause;
  * @package QCubed\Query\Clause
  * @was QQMinimum
  */
-class Minimum extends AbstractAggregation {
-	protected $strFunctionName = 'MIN';
-	public function __toString() {
-		return 'Minimum Clause';
-	}
+class Minimum extends AggregationBase
+{
+    protected $strFunctionName = 'MIN';
+
+    public function __toString()
+    {
+        return 'Minimum Clause';
+    }
 }

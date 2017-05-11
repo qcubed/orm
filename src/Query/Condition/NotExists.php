@@ -19,21 +19,24 @@ use QCubed\Query\Node;
  * @package QCubed\Query\Condition
  * @was QQConditionNotExists
  */
-class NotExists extends AbstractBase {
-	/** @var Node\SubQuerySql  */
-	protected $objNode;
+class NotExists extends ConditionBase
+{
+    /** @var Node\SubQuerySql */
+    protected $objNode;
 
-	/**
-	 * @param Node\SubQuerySql $objNode
-	 */
-	public function __construct(Node\SubQuerySql $objNode) {
-		$this->objNode = $objNode;
-	}
+    /**
+     * @param Node\SubQuerySql $objNode
+     */
+    public function __construct(Node\SubQuerySql $objNode)
+    {
+        $this->objNode = $objNode;
+    }
 
-	/**
-	 * @param Builder $objBuilder
-	 */
-	public function UpdateQueryBuilder(Builder $objBuilder) {
-		$objBuilder->AddWhereItem('NOT EXISTS ' . $this->objNode->GetColumnAlias($objBuilder));
-	}
+    /**
+     * @param Builder $objBuilder
+     */
+    public function updateQueryBuilder(Builder $objBuilder)
+    {
+        $objBuilder->addWhereItem('NOT EXISTS ' . $this->objNode->getColumnAlias($objBuilder));
+    }
 }

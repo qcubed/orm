@@ -21,78 +21,90 @@ use QCubed\Query\Condition\ConditionInterface as iCondition;
  * @package QCubed\Query\Node
  * @was QQTableNode
  */
-abstract class Table extends AbstractBase {
-	/**
-	 * Initialize a table node. The subclass should fill in the table name, primary key and class name.
-	 *
-	 * @param $strName
-	 * @param null|string $strPropertyName	If it has a parent, the property the parent uses to refer to this node.
-	 * @param null|string $strType If it has a parent, the type of the column in the parent that is the fk to this node. (Likely Integer).
-	 * @param AbstractBase|null $objParentNode
-	 */
-	public function __construct($strName, $strPropertyName = null, $strType = null, AbstractBase $objParentNode = null) {
-		$this->objParentNode = $objParentNode;
-		$this->strName = $strName;
-		$this->strAlias = $strName;
-		if ($objParentNode) $objParentNode->objChildNodeArray[$strName] = $this;
+abstract class Table extends NodeBase
+{
+    /**
+     * Initialize a table node. The subclass should fill in the table name, primary key and class name.
+     *
+     * @param $strName
+     * @param null|string $strPropertyName If it has a parent, the property the parent uses to refer to this node.
+     * @param null|string $strType If it has a parent, the type of the column in the parent that is the fk to this node. (Likely Integer).
+     * @param NodeBase|null $objParentNode
+     */
+    public function __construct($strName, $strPropertyName = null, $strType = null, NodeBase $objParentNode = null)
+    {
+        $this->objParentNode = $objParentNode;
+        $this->strName = $strName;
+        $this->strAlias = $strName;
+        if ($objParentNode) {
+            $objParentNode->objChildNodeArray[$strName] = $this;
+        }
 
-		$this->strPropertyName = $strPropertyName;
-		$this->strType = $strType;
-		if ($objParentNode) {
-			$this->strRootTableName = $objParentNode->strRootTableName;
-		} else
-			$this->strRootTableName = $strName;
-	}
+        $this->strPropertyName = $strPropertyName;
+        $this->strType = $strType;
+        if ($objParentNode) {
+            $this->strRootTableName = $objParentNode->strRootTableName;
+        } else {
+            $this->strRootTableName = $strName;
+        }
+    }
 
-	/**
-	 * Join the node to the query.
-	 * Otherwise, its a straightforward
-	 * one-to-one join. Conditional joins in this situation are really only useful when combined with condition
-	 * clauses that select out rows that were not joined (null FK).
-	 *
-	 * @param Builder $objBuilder
-	 * @param bool $blnExpandSelection
-	 * @param iCondition|null $objJoinCondition
-	 * @param Clause\Select|null $objSelect
-	 * @throws Caller
-	 */
-	public function Join(Builder $objBuilder, $blnExpandSelection = false, iCondition $objJoinCondition = null, Clause\Select $objSelect = null) {
-		$objParentNode = $this->objParentNode;
-		if (!$objParentNode) {
-			if ($this->strTableName != $objBuilder->RootTableName) {
-				throw new Caller('Cannot use AbstractBase for "' . $this->strTableName . '" when querying against the "' . $objBuilder->RootTableName . '" table', 3);
-			}
-		} else {
+    /**
+     * Join the node to the query.
+     * Otherwise, its a straightforward
+     * one-to-one join. Conditional joins in this situation are really only useful when combined with condition
+     * clauses that select out rows that were not joined (null FK).
+     *
+     * @param Builder $objBuilder
+     * @param bool $blnExpandSelection
+     * @param iCondition|null $objJoinCondition
+     * @param Clause\Select|null $objSelect
+     * @throws Caller
+     */
+    public function join(
+        Builder $objBuilder,
+        $blnExpandSelection = false,
+        iCondition $objJoinCondition = null,
+        Clause\Select $objSelect = null
+    ) {
+        $objParentNode = $this->objParentNode;
+        if (!$objParentNode) {
+            if ($this->strTableName != $objBuilder->RootTableName) {
+                throw new Caller('Cannot use Node for "' . $this->strTableName . '" when querying against the "' . $objBuilder->RootTableName . '" table',
+                    3);
+            }
+        } else {
 
-			// Special case situation to allow applying a join condition on an association table.
-			// The condition must be testing against the primary key of the joined table.
-			if ($objJoinCondition &&
-				$this->objParentNode instanceof Association &&
-				$objJoinCondition->EqualTables($this->objParentNode->FullAlias())) {
+            // Special case situation to allow applying a join condition on an association table.
+            // The condition must be testing against the primary key of the joined table.
+            if ($objJoinCondition &&
+                $this->objParentNode instanceof Association &&
+                $objJoinCondition->equalTables($this->objParentNode->fullAlias())
+            ) {
 
-				$objParentNode->Join($objBuilder, $blnExpandSelection, $objJoinCondition, $objSelect);
-				$objJoinCondition = null; // prevent passing join condition to this level
-			} else {
-				$objParentNode->Join($objBuilder, $blnExpandSelection, null, $objSelect);
-				if ($objJoinCondition && !$objJoinCondition->EqualTables($this->FullAlias())) {
-					throw new Caller("The join condition on the \"" . $this->strTableName . "\" table must only contain conditions for that table.");
-				}
-			}
+                $objParentNode->join($objBuilder, $blnExpandSelection, $objJoinCondition, $objSelect);
+                $objJoinCondition = null; // prevent passing join condition to this level
+            } else {
+                $objParentNode->join($objBuilder, $blnExpandSelection, null, $objSelect);
+                if ($objJoinCondition && !$objJoinCondition->equalTables($this->fullAlias())) {
+                    throw new Caller("The join condition on the \"" . $this->strTableName . "\" table must only contain conditions for that table.");
+                }
+            }
 
-			try {
-				$strParentAlias = $objParentNode->FullAlias();
-				$strAlias = $this->FullAlias();
-				//$strJoinTableAlias = $strParentAlias . '__' . ($this->strAlias ? $this->strAlias : $this->strName);
-				$objBuilder->AddJoinItem($this->strTableName, $strAlias,
-					$strParentAlias, $this->strName, $this->strPrimaryKey, $objJoinCondition);
+            try {
+                $strParentAlias = $objParentNode->fullAlias();
+                $strAlias = $this->fullAlias();
+                //$strJoinTableAlias = $strParentAlias . '__' . ($this->strAlias ? $this->strAlias : $this->strName);
+                $objBuilder->addJoinItem($this->strTableName, $strAlias,
+                    $strParentAlias, $this->strName, $this->strPrimaryKey, $objJoinCondition);
 
-				if ($blnExpandSelection) {
-					$this->PutSelectFields($objBuilder, $strAlias, $objSelect);
-				}
-			} catch (Caller $objExc) {
-				$objExc->IncrementOffset();
-				throw $objExc;
-			}
-		}
-	}
+                if ($blnExpandSelection) {
+                    $this->putSelectFields($objBuilder, $strAlias, $objSelect);
+                }
+            } catch (Caller $objExc) {
+                $objExc->incrementOffset();
+                throw $objExc;
+            }
+        }
+    }
 }

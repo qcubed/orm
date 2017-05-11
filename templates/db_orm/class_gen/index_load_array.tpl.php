@@ -25,7 +25,7 @@
 <?php } ?>,
                 $objOptionalClauses);
         } catch (Caller $objExc) {
-            $objExc->IncrementOffset();
+            $objExc->incrementOffset();
             throw $objExc;
         }
     }

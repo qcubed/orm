@@ -9,9 +9,9 @@
 
 namespace QCubed\Query\Clause;
 
-use QCubed\AbstractBase;
+use QCubed\ObjectBase;
 use QCubed\Query\Builder;
-use QCubed\Query\Node\AbstractSubQuery;
+use QCubed\Query\Node\SubQueryBase;
 
 /**
  * Class Having
@@ -20,22 +20,31 @@ use QCubed\Query\Node\AbstractSubQuery;
  * @package QCubed\Query\Clause
  * @was QQHavingClause
  */
-class Having extends AbstractBase implements ClauseInterface {
-	protected $objNode;
-	public function __construct(AbstractSubQuery $objSubQueryDefinition) {
-		$this->objNode = $objSubQueryDefinition;
-	}
-	public function UpdateQueryBuilder(Builder $objBuilder) {
-		$objBuilder->AddHavingItem (
-			$this->objNode->GetColumnAlias($objBuilder)
-		);
-	}
-	public function GetAttributeName() {
-		return $this->objNode->_Name;
-	}
-	public function __toString() {
-		return "Having Clause";
-	}
+class Having extends ObjectBase implements ClauseInterface
+{
+    protected $objNode;
+
+    public function __construct(SubQueryBase $objSubQueryDefinition)
+    {
+        $this->objNode = $objSubQueryDefinition;
+    }
+
+    public function updateQueryBuilder(Builder $objBuilder)
+    {
+        $objBuilder->addHavingItem(
+            $this->objNode->getColumnAlias($objBuilder)
+        );
+    }
+
+    public function getAttributeName()
+    {
+        return $this->objNode->_Name;
+    }
+
+    public function __toString()
+    {
+        return "Having Clause";
+    }
 
 }
 

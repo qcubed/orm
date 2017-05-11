@@ -74,10 +74,10 @@ class ExpandAsArrayTests extends \QCubed\Test\UnitTestCaseBase {
 		}
 		
 		// Now test a multilevel expansion where first level does not expand by array. Should get duplicate entries at that level.
-		$clauses = QQ::Clause(
-			QQ::ExpandAsArray(QQN::Person()->Address),
-			QQ::Expand(QQN::Person()->ProjectAsManager),
-			QQ::ExpandAsArray(QQN::Person()->ProjectAsManager->Milestone)
+		$clauses = \QCubed\Query\QQ::Clause(
+			\QCubed\Query\QQ::ExpandAsArray(QQN::Person()->Address),
+			\QCubed\Query\QQ::Expand(QQN::Person()->ProjectAsManager),
+			\QCubed\Query\QQ::ExpandAsArray(QQN::Person()->ProjectAsManager->Milestone)
 		);
 
 		$arrPeople = Person::LoadAll(
@@ -113,19 +113,19 @@ class ExpandAsArrayTests extends \QCubed\Test\UnitTestCaseBase {
 	
 	public function testQuerySingle() {
 		$targetPerson = Person::QuerySingle(
-			QQ::Equal(QQN::Person()->Id, 7),
+			\QCubed\Query\QQ::Equal(QQN::Person()->Id, 7),
 			self::getTestClauses()
 		);
 		
 		$this->helperVerifyKarenWolfe($targetPerson);
 		
 		$objTwoKey = TwoKey::QuerySingle(
-			QQ::AndCondition (
-				QQ::Equal(QQN::TwoKey()->Server, 'google.com'),
-				QQ::Equal(QQN::TwoKey()->Directory, 'mail')
+			\QCubed\Query\QQ::AndCondition (
+				\QCubed\Query\QQ::Equal(QQN::TwoKey()->Server, 'google.com'),
+				\QCubed\Query\QQ::Equal(QQN::TwoKey()->Directory, 'mail')
 			),
-			QQ::Clause(
-				QQ::ExpandAsArray(QQN::TwoKey()->Project->PersonAsTeamMember)
+			\QCubed\Query\QQ::Clause(
+				\QCubed\Query\QQ::ExpandAsArray(QQN::TwoKey()->Project->PersonAsTeamMember)
 			)
 		);
 		
@@ -134,7 +134,7 @@ class ExpandAsArrayTests extends \QCubed\Test\UnitTestCaseBase {
 	
 	public function testEmptyArray() {
 		$arrPeople = Person::QuerySingle(
-			QQ::Equal(QQN::Person()->Id, 2),
+			\QCubed\Query\QQ::Equal(QQN::Person()->Id, 2),
 			self::getTestClauses()
 			);
 			
@@ -144,20 +144,20 @@ class ExpandAsArrayTests extends \QCubed\Test\UnitTestCaseBase {
 
 	public function testNullArray() {
 		$arrPeople = Person::QuerySingle(
-			QQ::Equal(QQN::Person()->Id, 2)
+			\QCubed\Query\QQ::Equal(QQN::Person()->Id, 2)
 			);
 		
 		$this->assertTrue(is_null($arrPeople->_ProjectAsManagerArray), "_ProjectAsManagerArray is null");
 	}
 	
 	public function testTypeExpansion() {		
-		$clauses = QQ::Clause(
-			QQ::ExpandAsArray (QQN::Person()->PersonType)
+		$clauses = \QCubed\Query\QQ::Clause(
+			\QCubed\Query\QQ::ExpandAsArray (QQN::Person()->PersonType)
 		);
 		
 		$objPerson = 
 			Person::QuerySingle(
-				QQ::Equal (QQN::Person()->Id, 7),
+				\QCubed\Query\QQ::Equal (QQN::Person()->Id, 7),
 				$clauses
 			);
 		
@@ -170,10 +170,10 @@ class ExpandAsArrayTests extends \QCubed\Test\UnitTestCaseBase {
 	}
 
 	private static function getTestClauses() {
-		return QQ::Clause(
-			QQ::ExpandAsArray(QQN::Person()->Address),
-			QQ::ExpandAsArray(QQN::Person()->ProjectAsManager),
-			QQ::ExpandAsArray(QQN::Person()->ProjectAsManager->Milestone)
+		return \QCubed\Query\QQ::Clause(
+			\QCubed\Query\QQ::ExpandAsArray(QQN::Person()->Address),
+			\QCubed\Query\QQ::ExpandAsArray(QQN::Person()->ProjectAsManager),
+			\QCubed\Query\QQ::ExpandAsArray(QQN::Person()->ProjectAsManager->Milestone)
 		);
 	}
 	
@@ -187,15 +187,15 @@ class ExpandAsArrayTests extends \QCubed\Test\UnitTestCaseBase {
 
 	public function testSelectSubsetInExpand() {
 		$objPersonArray = Person::QueryArray(
-			QQ::OrCondition(
-				QQ::Like(QQN::Person()->ProjectAsManager->Name, '%ACME%'),
-				QQ::Like(QQN::Person()->ProjectAsManager->Name, '%HR%')
+			\QCubed\Query\QQ::OrCondition(
+				\QCubed\Query\QQ::Like(QQN::Person()->ProjectAsManager->Name, '%ACME%'),
+				\QCubed\Query\QQ::Like(QQN::Person()->ProjectAsManager->Name, '%HR%')
 			),
 			// Let's expand on the Project, itself
-			QQ::Clause(
-				QQ::Select(QQN::Person()->LastName),
-				QQ::Expand(QQN::Person()->ProjectAsManager, null, QQ::Select(QQN::Person()->ProjectAsManager->Spent)),
-				QQ::OrderBy(QQN::Person()->LastName, QQN::Person()->FirstName)
+			\QCubed\Query\QQ::Clause(
+				\QCubed\Query\QQ::Select(QQN::Person()->LastName),
+				\QCubed\Query\QQ::Expand(QQN::Person()->ProjectAsManager, null, \QCubed\Query\QQ::Select(QQN::Person()->ProjectAsManager->Spent)),
+				\QCubed\Query\QQ::OrderBy(QQN::Person()->LastName, QQN::Person()->FirstName)
 			)
 		);
 
@@ -217,11 +217,11 @@ class ExpandAsArrayTests extends \QCubed\Test\UnitTestCaseBase {
 
 	public function testSelectSubsetInExpandAsArray() {
 		$objPersonArray = Person::LoadAll(
-			QQ::Clause(
-				QQ::Select(QQN::Person()->FirstName),
-				QQ::ExpandAsArray(QQN::Person()->Address, QQ::Select(QQN::Person()->Address->Street, QQN::Person()->Address->City)),
-				QQ::ExpandAsArray(QQN::Person()->ProjectAsManager, QQ::Select(QQN::Person()->ProjectAsManager->StartDate)),
-				QQ::ExpandAsArray(QQN::Person()->ProjectAsManager->Milestone, QQ::Select(QQN::Person()->ProjectAsManager->Milestone->Name))
+			\QCubed\Query\QQ::Clause(
+				\QCubed\Query\QQ::Select(QQN::Person()->FirstName),
+				\QCubed\Query\QQ::ExpandAsArray(QQN::Person()->Address, \QCubed\Query\QQ::Select(QQN::Person()->Address->Street, QQN::Person()->Address->City)),
+				\QCubed\Query\QQ::ExpandAsArray(QQN::Person()->ProjectAsManager, \QCubed\Query\QQ::Select(QQN::Person()->ProjectAsManager->StartDate)),
+				\QCubed\Query\QQ::ExpandAsArray(QQN::Person()->ProjectAsManager->Milestone, \QCubed\Query\QQ::Select(QQN::Person()->ProjectAsManager->Milestone->Name))
 			)
 		);
 
@@ -266,10 +266,10 @@ class ExpandAsArrayTests extends \QCubed\Test\UnitTestCaseBase {
 	
 	public function testMultiLeafExpansion() {
 		$objMilestone = Milestone::QuerySingle(
-			QQ::Equal (QQN::Milestone()->Id, 1),
-			QQ::Clause(
-				QQ::ExpandAsArray(QQN::Milestone()->Project->ManagerPerson->ProjectAsTeamMember),
-				QQ::ExpandAsArray(QQN::Milestone()->Project->PersonAsTeamMember)
+			\QCubed\Query\QQ::Equal (QQN::Milestone()->Id, 1),
+			\QCubed\Query\QQ::Clause(
+				\QCubed\Query\QQ::ExpandAsArray(QQN::Milestone()->Project->ManagerPerson->ProjectAsTeamMember),
+				\QCubed\Query\QQ::ExpandAsArray(QQN::Milestone()->Project->PersonAsTeamMember)
 			)
 		);
 		
@@ -284,10 +284,10 @@ class ExpandAsArrayTests extends \QCubed\Test\UnitTestCaseBase {
 		
 		// try through a unique relationship
 		$objLogin = Login::QuerySingle(
-			QQ::Equal (QQN::Login()->PersonId, 7),
-			QQ::Clause(
-				QQ::ExpandAsArray(QQN::Login()->Person->ProjectAsTeamMember),
-				QQ::ExpandAsArray(QQN::Login()->Person->ProjectAsManager)
+			\QCubed\Query\QQ::Equal (QQN::Login()->PersonId, 7),
+			\QCubed\Query\QQ::Clause(
+				\QCubed\Query\QQ::ExpandAsArray(QQN::Login()->Person->ProjectAsTeamMember),
+				\QCubed\Query\QQ::ExpandAsArray(QQN::Login()->Person->ProjectAsManager)
 			)
 		);
 		
@@ -304,11 +304,11 @@ class ExpandAsArrayTests extends \QCubed\Test\UnitTestCaseBase {
 	}
 
 	public function testConditionalExpansion() {
-		$clauses = QQ::Clause(
-			QQ::ExpandAsArray(QQN::Person()->Address),
-			QQ::Expand(QQN::Person()->ProjectAsManager, QQ::Equal (QQN::Person()->ProjectAsManager->ProjectStatusTypeId, ProjectStatusType::Open)),
-			QQ::ExpandAsArray(QQN::Person()->ProjectAsManager->Milestone),
-			QQ::OrderBy(QQN::Person()->Id)
+		$clauses = \QCubed\Query\QQ::Clause(
+			\QCubed\Query\QQ::ExpandAsArray(QQN::Person()->Address),
+			\QCubed\Query\QQ::Expand(QQN::Person()->ProjectAsManager, \QCubed\Query\QQ::Equal (QQN::Person()->ProjectAsManager->ProjectStatusTypeId, ProjectStatusType::Open)),
+			\QCubed\Query\QQ::ExpandAsArray(QQN::Person()->ProjectAsManager->Milestone),
+			\QCubed\Query\QQ::OrderBy(QQN::Person()->Id)
 		);
 		
 		$targetPersonArray = Person::LoadAll (
@@ -328,14 +328,14 @@ class ExpandAsArrayTests extends \QCubed\Test\UnitTestCaseBase {
 	}
 
 	public function testConditionalExpansion2() {
-		$clauses = QQ::Clause(
-			QQ::Expand(QQN::Login()->Person->ProjectAsManager, QQ::Equal (QQN::Login()->Person->ProjectAsManager->ProjectStatusTypeId, ProjectStatusType::Open)),
-			QQ::ExpandAsArray(QQN::Login()->Person->ProjectAsManager->Milestone),
-			QQ::ExpandAsArray(QQN::Login()->Person->Address),
-			QQ::OrderBy(QQN::Login()->Person->Id)
+		$clauses = \QCubed\Query\QQ::Clause(
+			\QCubed\Query\QQ::Expand(QQN::Login()->Person->ProjectAsManager, \QCubed\Query\QQ::Equal (QQN::Login()->Person->ProjectAsManager->ProjectStatusTypeId, ProjectStatusType::Open)),
+			\QCubed\Query\QQ::ExpandAsArray(QQN::Login()->Person->ProjectAsManager->Milestone),
+			\QCubed\Query\QQ::ExpandAsArray(QQN::Login()->Person->Address),
+			\QCubed\Query\QQ::OrderBy(QQN::Login()->Person->Id)
 		);
 
-		$cond = QQ::In (QQN::Login()->PersonId, [1,3,7]);
+		$cond = \QCubed\Query\QQ::In (QQN::Login()->PersonId, [1,3,7]);
 		$targetLoginArray = Login::QueryArray (
 			$cond,
 			$clauses
@@ -359,12 +359,12 @@ class ExpandAsArrayTests extends \QCubed\Test\UnitTestCaseBase {
 	public function testConditionalExpansion3() {
 
 		// A complex join with conditions. Find all team members of completed projects which have an open child project.
-		$clauses = QQ::Clause(
-			QQ::Expand(QQN::Person()->ProjectAsTeamMember->Project, QQ::Equal(QQN::Person()->ProjectAsTeamMember->Project->ProjectStatusTypeId, ProjectStatusType::Completed)),
-			QQ::Expand(QQN::Person()->ProjectAsTeamMember->Project->ProjectAsRelated->Project, QQ::Equal(QQN::Person()->ProjectAsTeamMember->Project->ProjectAsRelated->Project->ProjectStatusTypeId, ProjectStatusType::Open))
+		$clauses = \QCubed\Query\QQ::Clause(
+			\QCubed\Query\QQ::Expand(QQN::Person()->ProjectAsTeamMember->Project, \QCubed\Query\QQ::Equal(QQN::Person()->ProjectAsTeamMember->Project->ProjectStatusTypeId, ProjectStatusType::Completed)),
+			\QCubed\Query\QQ::Expand(QQN::Person()->ProjectAsTeamMember->Project->ProjectAsRelated->Project, \QCubed\Query\QQ::Equal(QQN::Person()->ProjectAsTeamMember->Project->ProjectAsRelated->Project->ProjectStatusTypeId, ProjectStatusType::Open))
 		);
 
-		$cond = QQ::IsNotNull(QQN::Person()->ProjectAsTeamMember->Project->ProjectAsRelated->Project->Id); // Filter out unsuccessful joins
+		$cond = \QCubed\Query\QQ::IsNotNull(QQN::Person()->ProjectAsTeamMember->Project->ProjectAsRelated->Project->Id); // Filter out unsuccessful joins
 
 		$targetPersonArray = Person::QueryArray (
 			$cond,
@@ -381,10 +381,10 @@ class ExpandAsArrayTests extends \QCubed\Test\UnitTestCaseBase {
 	public function testConditionalExpansionReverse() {
 		// Get all people, and projects they are managing if the projects are open.
 		$a = Person::QueryArray(
-			QQ::All(),
+			\QCubed\Query\QQ::All(),
 			[
-				QQ::ExpandAsArray(QQN::Person()->ProjectAsManager, QQ::Equal(QQN::Person()->ProjectAsManager->ProjectStatusTypeId, ProjectStatusType::Open)),
-				QQ::OrderBy(QQN::Person()->Id)
+				\QCubed\Query\QQ::ExpandAsArray(QQN::Person()->ProjectAsManager, \QCubed\Query\QQ::Equal(QQN::Person()->ProjectAsManager->ProjectStatusTypeId, ProjectStatusType::Open)),
+				\QCubed\Query\QQ::OrderBy(QQN::Person()->Id)
 			]
 		);
 
@@ -396,11 +396,11 @@ class ExpandAsArrayTests extends \QCubed\Test\UnitTestCaseBase {
 
 		// Get all projects, and also expand on related projects if the id is 1
 		$a = Project::QueryArray(
-			QQ::All(),
+			\QCubed\Query\QQ::All(),
 			[
-				QQ::ExpandAsArray(QQN::Project()->ParentProjectAsRelated, QQ::Equal(QQN::Project()->ParentProjectAsRelated->ProjectId, 1)),
-				QQ::ExpandAsArray(QQN::Project()->ProjectAsRelated, QQ::Equal(QQN::Project()->ProjectAsRelated->Project->Id, 1)),
-				QQ::OrderBy(QQN::Project()->Id)
+				\QCubed\Query\QQ::ExpandAsArray(QQN::Project()->ParentProjectAsRelated, \QCubed\Query\QQ::Equal(QQN::Project()->ParentProjectAsRelated->ProjectId, 1)),
+				\QCubed\Query\QQ::ExpandAsArray(QQN::Project()->ProjectAsRelated, \QCubed\Query\QQ::Equal(QQN::Project()->ProjectAsRelated->Project->Id, 1)),
+				\QCubed\Query\QQ::OrderBy(QQN::Project()->Id)
 			]
 		);
 

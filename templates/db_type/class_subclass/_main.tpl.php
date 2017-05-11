@@ -7,11 +7,11 @@
 		'DocrootFlag' => false,
 		'DirectorySuffix' => '',
 		'TargetDirectory' => __MODEL__,
-		'TargetFileName' => $objTypeTable->ClassName . '.class.php'
+		'TargetFileName' => $objTypeTable->ClassName . '.php'
 	);
 ?>
 <?php print("<?php\n"); ?>
-	require(__MODEL_GEN__ . '/<?= $objTypeTable->ClassName ?>Gen.class.php');
+	require(__MODEL_GEN__ . '/<?= $objTypeTable->ClassName ?>Gen.php');
 
 	/**
 	 * The <?= $objTypeTable->ClassName ?> class defined here contains any
@@ -24,7 +24,7 @@
 	 * Type classes which are generally used to attach a type to data object.
 	 * However, they may be used as simple database indepedant enumerated type.
 	 *
-	 * @package <?= \Codegen::$ApplicationName; ?>
+	 * @package <?= \QCubed\Project\Codegen\CodegenBase::$ApplicationName; ?>
 
 	 * @subpackage DataObjects
 	 */

@@ -20,40 +20,43 @@ use QCubed\Query\Node;
  * @package QCubed\Query\Condition
  * @was QQConditionBetween
  */
-class Between extends AbstractComparison {
-	/** @var  mixed */
-	protected $mixOperandTwo;
+class Between extends ComparisonBase
+{
+    /** @var  mixed */
+    protected $mixOperandTwo;
 
-	/**
-	 * @param Node\Column $objQueryNode
-	 * @param mixed|null $mixMinValue
-	 * @param $mixMaxValue
-	 * @throws Caller
-	 */
-	public function __construct(Node\Column $objQueryNode, $mixMinValue, $mixMaxValue) {
-		parent::__construct($objQueryNode);
-		try {
-			$this->mixOperand = $mixMinValue;
-			$this->mixOperandTwo = $mixMaxValue;
-		} catch (Caller $objExc) {
-			$objExc->IncrementOffset();
-			$objExc->IncrementOffset();
-			throw $objExc;
-		}
-	}
+    /**
+     * @param Node\Column $objQueryNode
+     * @param mixed|null $mixMinValue
+     * @param $mixMaxValue
+     * @throws Caller
+     */
+    public function __construct(Node\Column $objQueryNode, $mixMinValue, $mixMaxValue)
+    {
+        parent::__construct($objQueryNode);
+        try {
+            $this->mixOperand = $mixMinValue;
+            $this->mixOperandTwo = $mixMaxValue;
+        } catch (Caller $objExc) {
+            $objExc->incrementOffset();
+            $objExc->incrementOffset();
+            throw $objExc;
+        }
+    }
 
-	/**
-	 * @param Builder $objBuilder
-	 */
-	public function UpdateQueryBuilder(Builder $objBuilder) {
-		$mixOperand = $this->mixOperand;
-		$mixOperandTwo = $this->mixOperandTwo;
-		if ($mixOperand instanceof Node\NamedValue) {
-			/** @var Node\NamedValue $mixOperand */
-			/** @var Node\NamedValue $mixOperandTwo */
-			$objBuilder->AddWhereItem($this->objQueryNode->GetColumnAlias($objBuilder) . ' BETWEEN ' . $mixOperand->Parameter() . ' AND ' . $mixOperandTwo->Parameter());
-		} else {
-			$objBuilder->AddWhereItem($this->objQueryNode->GetColumnAlias($objBuilder) . ' BETWEEN ' . $objBuilder->Database->SqlVariable($mixOperand) . ' AND ' . $objBuilder->Database->SqlVariable($mixOperandTwo));
-		}
-	}
+    /**
+     * @param Builder $objBuilder
+     */
+    public function updateQueryBuilder(Builder $objBuilder)
+    {
+        $mixOperand = $this->mixOperand;
+        $mixOperandTwo = $this->mixOperandTwo;
+        if ($mixOperand instanceof Node\NamedValue) {
+            /** @var Node\NamedValue $mixOperand */
+            /** @var Node\NamedValue $mixOperandTwo */
+            $objBuilder->addWhereItem($this->objQueryNode->getColumnAlias($objBuilder) . ' BETWEEN ' . $mixOperand->parameter() . ' AND ' . $mixOperandTwo->parameter());
+        } else {
+            $objBuilder->addWhereItem($this->objQueryNode->getColumnAlias($objBuilder) . ' BETWEEN ' . $objBuilder->Database->sqlVariable($mixOperand) . ' AND ' . $objBuilder->Database->sqlVariable($mixOperandTwo));
+        }
+    }
 }

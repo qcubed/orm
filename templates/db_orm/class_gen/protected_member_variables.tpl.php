@@ -19,7 +19,7 @@
 <?php } else { ?>
     protected $<?= $objColumn->VariableName ?>;
 <?php   } ?>
-<?php if (($objColumn->VariableType == \QCubed\Type::String) && (is_numeric($objColumn->Length))) { ?>
+<?php if (($objColumn->VariableType == \QCubed\Type::STRING) && (is_numeric($objColumn->Length))) { ?>
     const <?= $objColumn->PropertyName ?>MaxLength = <?= $objColumn->Length ?>; // Deprecated
     const <?= $strConstName ?>_MAX_LENGTH = <?= $objColumn->Length ?>;
 <?php } ?>
@@ -34,14 +34,14 @@ elseif ($objColumn->Default === 'CURRENT_TIMESTAMP') {
 elseif (strtoupper($objColumn->Default) === 'TRUE' || (
         is_numeric($objColumn->Default) &&
         $objColumn->Default == 1 &&
-        $objColumn->DbType == \QCubed\Database\FieldType::Bit)
+        $objColumn->DbType == \QCubed\Database\FieldType::BIT)
     ) {
     print 'true';
 }
 elseif (strtoupper($objColumn->Default) === 'FALSE' || (
         is_numeric($objColumn->Default) &&
         $objColumn->Default == 0 &&
-        $objColumn->DbType == \QCubed\Database\FieldType::Bit)
+        $objColumn->DbType == \QCubed\Database\FieldType::BIT)
 ) {
     print 'false';
 }

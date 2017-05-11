@@ -18,13 +18,16 @@ use QCubed\Query\Builder;
  * @package QCubed\Query\Condition
  * @was QQConditionEqual
  */
-class Equal extends AbstractComparison {
-	protected $strOperator = ' = ';
+class Equal extends ComparisonBase
+{
+    protected $strOperator = ' = ';
 
-	/**
-	 * @param Builder $objBuilder
-	 */
-	public function UpdateQueryBuilder(Builder $objBuilder) {
-		$objBuilder->AddWhereItem($this->objQueryNode->GetColumnAlias($objBuilder) . ' ' . Node\AbstractBase::GetValue($this->mixOperand, $objBuilder, true));
-	}
+    /**
+     * @param Builder $objBuilder
+     */
+    public function updateQueryBuilder(Builder $objBuilder)
+    {
+        $objBuilder->addWhereItem($this->objQueryNode->getColumnAlias($objBuilder) . ' ' . Node\NodeBase::getValue($this->mixOperand,
+                $objBuilder, true));
+    }
 }

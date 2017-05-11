@@ -7,11 +7,11 @@
 		'DocrootFlag' => false,
 		'DirectorySuffix' => '',
 		'TargetDirectory' => __MODEL__,
-		'TargetFileName' => $objTable->ClassName . '.class.php'
+		'TargetFileName' => $objTable->ClassName . '.php'
 	);
 ?>
 <?php print("<?php\n"); ?>
-	require(__MODEL_GEN__ . '/<?= $objTable->ClassName ?>Gen.class.php');
+	require(__MODEL_GEN__ . '/<?= $objTable->ClassName ?>Gen.php');
 
 	/**
 	 * The <?= $objTable->ClassName ?> class defined here contains any
@@ -21,7 +21,7 @@
 	 * class, which contains all the basic CRUD-type functionality as well as
 	 * basic methods to handle relationships and index-based loading.
 	 *
-	 * @package <?= \Codegen::$ApplicationName; ?>
+	 * @package <?= \QCubed\Project\Codegen\CodegenBase::$ApplicationName; ?>
 
 	 * @subpackage Model
 	 *

@@ -14,25 +14,26 @@ namespace QCubed\Database;
  * @package DatabaseAdapters
  */
 
-abstract class FieldType {
-	/** Binary Data */
-	const Blob = "Blob";
-	/** Character sequence - variable length */
-	const VarChar = "VarChar";
-	/** Character sequence - fixed length */
-	const Char = "Char";
-	/** Integers */
-	const Integer = "Integer";
-	/** Date and Time together */
-	const DateTime = "DateTime";
-	/** Date only */
-	const Date = "Date";
-	/** Time only */
-	const Time = "Time";
-	/** Float, Double and real (postgresql) */
-	const Float = "Float";
-	/** Boolean */
-	const Bit = "Bit";
-	/** New JSON type */
-	const Json = "Json";
+abstract class FieldType
+{
+    /** Binary Data */
+    const BLOB = "Blob";
+    /** Character sequence - variable length */
+    const VAR_CHAR = "VarChar";
+    /** Character sequence - fixed length */
+    const CHAR = "Char";
+    /** Integers */
+    const INTEGER = "Integer";
+    /** Date and Time together */
+    const DATE_TIME = "DateTime";
+    /** Date only */
+    const DATE = "Date";
+    /** Time only */
+    const TIME = "Time";
+    /** Float, Double and real (postgresql) */
+    const FLOAT = "Float";
+    /** Boolean */
+    const BIT = "Bit";
+    /** New JSON type */
+    const JSON = "Json";
 }

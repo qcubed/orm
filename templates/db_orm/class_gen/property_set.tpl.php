@@ -19,7 +19,7 @@
                 parent::__set($strName, $mixValue);
             }
         } catch (Caller $objExc) {
-            $objExc->IncrementOffset();
+            $objExc->incrementOffset();
             throw $objExc;
         }
     }

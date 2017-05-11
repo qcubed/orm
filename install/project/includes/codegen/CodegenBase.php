@@ -1,6 +1,6 @@
 <?php
 /**
- * CodeGen
+ * QCodeGen
  *
  * Overrides the Codegen\AbstractBase class.
  *
@@ -8,7 +8,7 @@
  *
  */
 
-namespace Project;
+namespace QCubed\Project\Codegen;
 
 /**
  * Class Codegen
@@ -17,7 +17,7 @@ namespace Project;
  * @package Project
  * @was QCodeGen
  */
-class Codegen extends \QCubed\Codegen\AbstractBase {
+class CodegenBase extends \QCubed\Codegen\CodegenBase {
 
 	/**
 	 * Construct the CodeGen object.
@@ -28,15 +28,17 @@ class Codegen extends \QCubed\Codegen\AbstractBase {
 		// Specify the paths to your template files here. These paths will be searched in the order declared, to
 		// find a particular template file. Template files found lower down in the order will override the previous ones.
 		static::$TemplatePaths = array (
-			__QCUBED_CORE__ . '/codegen/templates/',
-			__INCLUDES__ . '/codegen/templates/'
+			QCUBED_BASE_DIR . '/orm/templates/',
+            QCUBED_BASE_DIR . '/application/codegen/templates/'
+
+            //__INCLUDES__ . '/codegen/templates/'
 		);
 	}
 
 	/**
-	 * Pluralize()
+	 * QCodeGen::Pluralize()
 	 *
-	 * An example of overriding the Pluralize method to implement custom plural word forms.
+	 * Example: Overriding the Pluralize method
 	 *
 	 * @param string $strName
 	 * @return string

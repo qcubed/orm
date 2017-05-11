@@ -14,14 +14,14 @@ if (!define('__QCUBED_CONFIG__')) {
 	$dirpath = realpath($dirpath . '/active');
 	if ($dirpath !== false) {	// does the active directory exist?
 		if (file_exists($dirpath . '/config.cfg.php')) {
-			require ($dirpath . '/config.cfg.php');
+			require_once ($dirpath . '/config.cfg.php');
 		}
 		foreach (new DirectoryIterator($dirpath) as $fileInfo) {
 			if($fileInfo->isDot()) continue;
 			if ($fileInfo->getFilename() === 'config.cfg.php') continue;
 			$strFileName = $fileInfo->getPathname();
 			if (substr($strFileName, -8) == '.cfg.php') {
-				require ($strFileName);
+				require_once ($strFileName);
 			}
 		}
 	}

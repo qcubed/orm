@@ -7,7 +7,7 @@
 		'DocrootFlag' => false,
 		'DirectorySuffix' => '',
 		'TargetDirectory' => __MODEL_GEN__,
-		'TargetFileName' => $objTypeTable->ClassName . 'Gen.class.php'
+		'TargetFileName' => $objTypeTable->ClassName . 'Gen.php'
 	);
 ?>
 <?php print("<?php\n"); ?>
@@ -35,11 +35,11 @@ use QCubed\Exception\Caller;
  * overriding existing or implementing new methods, properties and variables
  * in the <?= $objTypeTable->ClassName ?> class.
  *
- * @package <?= \Codegen::$ApplicationName; ?>
+ * @package <?= \QCubed\Project\Codegen\CodegenBase::$ApplicationName; ?>
 
  * @subpackage Model
  */
-abstract class <?= $objTypeTable->ClassName ?>Gen extends \QCubed\AbstractBase {
+abstract class <?= $objTypeTable->ClassName ?>Gen extends \QCubed\ObjectBase {
 <?= ($intKey = 0) == 1; ?><?php foreach ($objTypeTable->TokenArray as $intKey=>$strValue) { ?>
     const <?= $strValue ?> = <?= $intKey ?>;
 <?php } ?>
@@ -159,7 +159,7 @@ abstract class <?= $objTypeTable->ClassName ?>Gen extends \QCubed\AbstractBase {
      * Takes in an optional strAliasPrefix, used in case another Object::InstantiateDbRow
      * is calling this <?= $objTypeTable->ClassName ?>::InstantiateDbRow in order to perform
      * early binding on referenced objects.
-     * @param \QCubed\Database\AbstractRow $objDbRow
+     * @param \QCubed\Database\RowBase $objDbRow
      * @param string|null $strAliasPrefix
      * @param string|null $strExpandAsArrayNodes
      * @param array|null $arrPreviousItems
@@ -174,7 +174,7 @@ abstract class <?= $objTypeTable->ClassName ?>Gen extends \QCubed\AbstractBase {
         }
         $strAlias = $strAliasPrefix . 'id';
         $strAliasName = array_key_exists($strAlias, $strColumnAliasArray) ? $strColumnAliasArray[$strAlias] : $strAlias;
-        $intId = $objDbRow->GetColumn($strAliasName, \QCubed\Database\FieldType::Integer);
+        $intId = $objDbRow->GetColumn($strAliasName, \QCubed\Database\FieldType::INTEGER);
         return $intId;
     }
 }
@@ -221,7 +221,7 @@ class Node<?= $objTypeTable->ClassName ?> extends Node\Table {
                 try {
                     return parent::__get($strName);
                 } catch (Caller $objExc) {
-                    $objExc->IncrementOffset();
+                    $objExc->incrementOffset();
                     throw $objExc;
                 }
         }

@@ -64,10 +64,10 @@
         }
 <?php 	} else { ?>
         if (isset($this->__blnValid[self::<?= strtoupper($objColumn->Name) ?>_FIELD])) {
-<?php		if ($objColumn->DbType == \QCubed\Database\FieldType::Blob) { // binary value ?>
+<?php		if ($objColumn->DbType == \QCubed\Database\FieldType::BLOB) { // binary value ?>
             $a['<?= $objColumn->Name ?>'] = base64_encode($this-><?= $objColumn->VariableName ?>);
 <?php       }
-        elseif ($objColumn->VariableType == \QCubed\Type::String && __APPLICATION_ENCODING_TYPE__ != 'UTF-8') { ?>
+        elseif ($objColumn->VariableType == \QCubed\Type::STRING && __APPLICATION_ENCODING_TYPE__ != 'UTF-8') { ?>
             $a['<?= $objColumn->Name ?>'] = JavsScriptHelper::MakeJsonEncodable($this-><?= $objColumn->VariableName ?>);
 <?php 		}
         else {?>

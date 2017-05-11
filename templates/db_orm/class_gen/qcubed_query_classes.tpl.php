@@ -11,7 +11,7 @@
  * @property-read Node<?= $objReference->VariableType ?> $_ChildTableNode
  **/
 class Node<?= $objTable->ClassName ?><?= $objReference->ObjectDescription ?> extends Node\Association {
-    protected $strType = \QCubed\Type::Association;
+    protected $strType = \QCubed\Type::ASSOCIATION;
     protected $strName = '<?= strtolower($objReference->ObjectDescription); ?>';
 
     protected $strTableName = '<?= $objReference->Table ?>';
@@ -20,6 +20,12 @@ class Node<?= $objTable->ClassName ?><?= $objReference->ObjectDescription ?> ext
     protected $strPropertyName = '<?= $objReference->ObjectDescription ?>';
     protected $strAlias = '<?= strtolower($objReference->ObjectDescription); ?>';
 
+    /**
+    * __get Magic Method
+    *
+    * @param string $strName
+    * @throws Caller
+    */
     public function __get($strName) {
         switch ($strName) {
             case '<?= $objReference->OppositePropertyName ?>':
@@ -32,7 +38,7 @@ class Node<?= $objTable->ClassName ?><?= $objReference->ObjectDescription ?> ext
                 try {
                     return parent::__get($strName);
                 } catch (Caller $objExc) {
-                    $objExc->IncrementOffset();
+                    $objExc->incrementOffset();
                     throw $objExc;
                 }
         }
@@ -65,6 +71,9 @@ class Node<?= $objTable->ClassName ?> extends Node\Table {
     protected $strPrimaryKey = '<?= $objTable->PrimaryKeyColumnArray[0]->Name ?>';
     protected $strClassName = '<?= $objTable->ClassName ?>';
 
+    /**
+    * @return array
+    */
     public function fields() {
         return [
 <?php foreach ($objTable->ColumnArray as $objColumn) { ?>
@@ -73,6 +82,9 @@ class Node<?= $objTable->ClassName ?> extends Node\Table {
         ];
     }
 
+    /**
+    * @return array
+    */
     public function primaryKeyFields() {
         return [
 <?php foreach ($objTable->PrimaryKeyColumnArray as $objColumn) { ?>
@@ -81,11 +93,20 @@ class Node<?= $objTable->ClassName ?> extends Node\Table {
         ];
     }
 
+   /**
+    * @return AbstractDatabase
+    */
     protected function database() {
         return \QCubed\Database\Service::getDatabase(<?= $objCodeGen->DatabaseIndex; ?>);
     }
 
 
+    /**
+    * __get Magic Method
+    *
+    * @param string $strName
+    * @throws Caller
+    */
     public function __get($strName) {
         switch ($strName) {
 <?php foreach ($objTable->ColumnArray as $objColumn) { ?>
@@ -101,7 +122,7 @@ class Node<?= $objTable->ClassName ?> extends Node\Table {
                 return new Node<?= $objTable->ClassName ?><?= $objReference->ObjectDescription ?>($this);
 <?php } ?><?php foreach ($objTable->ReverseReferenceArray as $objReference) { ?>
             case '<?= $objReference->ObjectDescription ?>':
-                return new ReverseReferenceNode<?= $objReference->VariableType ?>($this, '<?= strtolower($objReference->ObjectDescription); ?>', \QCubed\Type::ReverseReference, '<?= $objReference->Column ?>', '<?= $objReference->ObjectDescription ?>');
+                return new ReverseReferenceNode<?= $objReference->VariableType ?>($this, '<?= strtolower($objReference->ObjectDescription); ?>', \QCubed\Type::REVERSE_REFERENCE, '<?= $objReference->Column ?>', '<?= $objReference->ObjectDescription ?>');
 <?php } ?><?php $objPkColumn = $objTable->PrimaryKeyColumnArray[0]; ?>
 
             case '_PrimaryKeyNode':
@@ -114,7 +135,7 @@ class Node<?= $objTable->ClassName ?> extends Node\Table {
                 try {
                     return parent::__get($strName);
                 } catch (Caller $objExc) {
-                    $objExc->IncrementOffset();
+                    $objExc->incrementOffset();
                     throw $objExc;
                 }
         }
@@ -147,6 +168,9 @@ class ReverseReferenceNode<?= $objTable->ClassName ?> extends Node\ReverseRefere
     protected $strPrimaryKey = '<?= $objTable->PrimaryKeyColumnArray[0]->Name ?>';
     protected $strClassName = '<?= $objTable->ClassName ?>';
 
+    /**
+    * @return array
+    */
     public function fields() {
         return [
 <?php foreach ($objTable->ColumnArray as $objColumn) { ?>
@@ -155,6 +179,9 @@ class ReverseReferenceNode<?= $objTable->ClassName ?> extends Node\ReverseRefere
         ];
     }
 
+    /**
+    * @return array
+    */
     public function primaryKeyFields() {
         return [
 <?php foreach ($objTable->PrimaryKeyColumnArray as $objColumn) { ?>
@@ -163,6 +190,12 @@ class ReverseReferenceNode<?= $objTable->ClassName ?> extends Node\ReverseRefere
         ];
     }
 
+    /**
+    * __get Magic Method
+    *
+    * @param string $strName
+    * @throws Caller
+    */
     public function __get($strName) {
         switch ($strName) {
 <?php foreach ($objTable->ColumnArray as $objColumn) { ?>
@@ -178,7 +211,7 @@ class ReverseReferenceNode<?= $objTable->ClassName ?> extends Node\ReverseRefere
                 return new Node<?= $objTable->ClassName ?><?= $objReference->ObjectDescription ?>($this);
 <?php } ?><?php foreach ($objTable->ReverseReferenceArray as $objReference) { ?>
             case '<?= $objReference->ObjectDescription ?>':
-                return new ReverseReferenceNode<?= $objReference->VariableType ?>($this, '<?= strtolower($objReference->ObjectDescription); ?>', \QCubed\Type::ReverseReference, '<?= $objReference->Column ?>', '<?= $objReference->ObjectDescription ?>');
+                return new ReverseReferenceNode<?= $objReference->VariableType ?>($this, '<?= strtolower($objReference->ObjectDescription); ?>', \QCubed\Type::REVERSE_REFERENCE, '<?= $objReference->Column ?>', '<?= $objReference->ObjectDescription ?>');
 <?php } ?><?php $objPkColumn = $objTable->PrimaryKeyColumnArray[0]; ?>
 
             case '_PrimaryKeyNode':
@@ -191,7 +224,7 @@ class ReverseReferenceNode<?= $objTable->ClassName ?> extends Node\ReverseRefere
                 try {
                     return parent::__get($strName);
                 } catch (Caller $objExc) {
-                    $objExc->IncrementOffset();
+                    $objExc->incrementOffset();
                     throw $objExc;
                 }
         }

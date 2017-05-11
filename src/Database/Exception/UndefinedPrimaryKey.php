@@ -8,17 +8,22 @@
 
 namespace QCubed\Database\Exception;
 
+use QCubed\Exception\Caller;
+
 /**
  * Class UndefinedPrimaryKey
  * Used when trying to access a table object which does not have a primary key defined on it
  * @package QCubed\Exception
+ * @was QUndefinedPrimaryKeyException
  */
-class UndefinedPrimaryKey extends \QCubed\Exception\Caller {
-	/**
-	 * Constructor method
-	 * @param string $strMessage
-	 */
-	public function __construct($strMessage) {
-		parent::__construct($strMessage, 2);
-	}
+class UndefinedPrimaryKey extends Caller
+{
+    /**
+     * Constructor method
+     * @param string $strMessage
+     */
+    public function __construct($strMessage)
+    {
+        parent::__construct($strMessage, 2);
+    }
 }

@@ -7,7 +7,7 @@
 		'DocrootFlag' => false,
 		'DirectorySuffix' => '',
 		'TargetDirectory' => __MODEL_GEN__,
-		'TargetFileName' => $objTable->ClassName . 'Gen.class.php'
+		'TargetFileName' => $objTable->ClassName . 'Gen.php'
 	);
 ?>
 <?php print("<?php\n"); ?>
@@ -22,6 +22,7 @@ use QCubed\Query\Node;
 use QCubed\Exception\Caller;
 use QCubed\Type;
 use QCubed\QDateTime;
+use QCubed\Query\ModelTrait;
 
 /**
  * Class <?= $objTable->ClassName ?>Gen
@@ -39,15 +40,15 @@ use QCubed\QDateTime;
  * overriding existing or implementing new methods, properties and variables
  * in the <?= $objTable->ClassName ?> class.
  *
- * @package <?= \Codegen::$ApplicationName; ?>
+ * @package <?= \QCubed\Project\Codegen\CodegenBase::$ApplicationName; ?>
 
  * @subpackage ModelGen
 <?php include("property_comments.tpl.php"); ?>
 
  */
-abstract class <?= $objTable->ClassName ?>Gen extends \QCubed\AbstractBase implements IteratorAggregate, JsonSerializable {
+abstract class <?= $objTable->ClassName ?>Gen extends \QCubed\ObjectBase implements IteratorAggregate, JsonSerializable {
 
-    use \QCubed\Query\ModelTrait;
+    use ModelTrait;
 
     /** @var boolean Set to false in superclass to save a little time if this db object should not be watched for changes. */
     public static $blnWatchChanges = true;

@@ -9,7 +9,7 @@
 
 namespace QCubed\Query\Clause;
 
-use QCubed\AbstractBase;
+use QCubed\ObjectBase;
 use QCubed\Query\Builder;
 
 /**
@@ -17,12 +17,16 @@ use QCubed\Query\Builder;
  * @package QCubed\Query\Clause
  * @was QQDistinct
  */
-class Distinct extends AbstractBase implements ClauseInterface {
-	public function UpdateQueryBuilder(Builder $objBuilder) {
-		$objBuilder->SetDistinctFlag();
-	}
-	public function __toString() {
-		return 'QQDistinct Clause';
-	}
+class Distinct extends ObjectBase implements ClauseInterface
+{
+    public function updateQueryBuilder(Builder $objBuilder)
+    {
+        $objBuilder->setDistinctFlag();
+    }
+
+    public function __toString()
+    {
+        return 'QQDistinct Clause';
+    }
 }
 

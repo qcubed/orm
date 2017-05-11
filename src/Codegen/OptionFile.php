@@ -12,8 +12,10 @@ namespace QCubed\Codegen;
 /**
  * Redefine __CODEGEN_OPTION_FILE__ if you want your file to be in a different location
  */
+use QCubed\ObjectBase;
+
 if (!defined("__CODEGEN_OPTION_FILE__")) {
-	define("__CODEGEN_OPTION_FILE__", __CONFIGURATION__ . '/codegen_options.json');
+    define("__CODEGEN_OPTION_FILE__", __CONFIGURATION__ . '/codegen_options.json');
 }
 
 
@@ -37,116 +39,124 @@ if (!defined("__CODEGEN_OPTION_FILE__")) {
  * This will be used by the designer to record the changes in preparation for codegen.
  * @package QCubed\Codegen
  */
-class OptionFile extends \QCubed\AbstractBase {
-	protected $options = array();
-	protected $blnChanged = false;
+class OptionFile extends ObjectBase
+{
+    protected $options = array();
+    protected $blnChanged = false;
 
-	const TableOptionsFieldName = '*';
+    const TABLE_OPTIONS_FIELD_NAME = '*';
 
-	public function __construct() {
-		if (file_exists(__CODEGEN_OPTION_FILE__)) {
-			$strContent = file_get_contents(__CODEGEN_OPTION_FILE__);
+    public function __construct()
+    {
+        if (file_exists(__CODEGEN_OPTION_FILE__)) {
+            $strContent = file_get_contents(__CODEGEN_OPTION_FILE__);
 
-			if ($strContent) {
-				$this->options = json_decode($strContent, true);
-			}
-		}
+            if ($strContent) {
+                $this->options = json_decode($strContent, true);
+            }
+        }
 
-		// TODO: Analyze the result for changes and make a guess as to whether a table name or field name was changed
-	}
+        // TODO: Analyze the result for changes and make a guess as to whether a table name or field name was changed
+    }
 
-	/**
-	 * Save the current configuration into the options file.
-	 */
-	function Save() {
-		if (!$this->blnChanged) {
-			return;
-		}
-		$flags = JSON_PRETTY_PRINT;
-		$strContent = json_encode ($this->options, $flags);
+    /**
+     * Save the current configuration into the options file.
+     */
+    function save()
+    {
+        if (!$this->blnChanged) {
+            return;
+        }
+        $flags = JSON_PRETTY_PRINT;
+        $strContent = json_encode($this->options, $flags);
 
-		file_put_contents(__CODEGEN_OPTION_FILE__, $strContent);
-		$this->blnChanged = false;
-	}
+        file_put_contents(__CODEGEN_OPTION_FILE__, $strContent);
+        $this->blnChanged = false;
+    }
 
-	/**
-	 * Makes sure save is the final step.
-	 */
-	function __destruct() {
-		$this->Save();
-	}
+    /**
+     * Makes sure save is the final step.
+     */
+    function __destruct()
+    {
+        $this->save();
+    }
 
 
-	/**
-	 * Set an option for a widget associated with the given table and field.
-	 *
-	 * @param $strTableName
-	 * @param $strFieldName
-	 * @param $strOptionName
-	 * @param $mixValue
-	 */
-	public function SetOption ($strTableName, $strFieldName, $strOptionName, $mixValue) {
-		$this->options[$strTableName][$strFieldName][$strOptionName] = $mixValue;
-		$this->blnChanged = true;
-	}
+    /**
+     * Set an option for a widget associated with the given table and field.
+     *
+     * @param $strTableName
+     * @param $strFieldName
+     * @param $strOptionName
+     * @param $mixValue
+     */
+    public function setOption($strTableName, $strFieldName, $strOptionName, $mixValue)
+    {
+        $this->options[$strTableName][$strFieldName][$strOptionName] = $mixValue;
+        $this->blnChanged = true;
+    }
 
-	/**
-	 * Bulk option setting.
-	 *
-	 * @param $strClassName
-	 * @param $strFieldName
-	 * @param $mixValue
-	 */
-	public function SetOptions ($strClassName, $strFieldName, $mixValue) {
-		if (empty ($mixValue)) {
-			unset($this->options[$strClassName][$strFieldName]);
-		}
-		else {
-			$this->options[$strClassName][$strFieldName] = $mixValue;
-		}
-		$this->blnChanged = true;
-	}
+    /**
+     * Bulk option setting.
+     *
+     * @param $strClassName
+     * @param $strFieldName
+     * @param $mixValue
+     */
+    public function setOptions($strClassName, $strFieldName, $mixValue)
+    {
+        if (empty ($mixValue)) {
+            unset($this->options[$strClassName][$strFieldName]);
+        } else {
+            $this->options[$strClassName][$strFieldName] = $mixValue;
+        }
+        $this->blnChanged = true;
+    }
 
-	/**
-	 * Remove the option
-	 *
-	 * @param $strClassName
-	 * @param $strFieldName
-	 * @param $strOptionName
-	 */
-	public function UnsetOption ($strClassName, $strFieldName, $strOptionName) {
-		unset ($this->options[$strClassName][$strFieldName][$strOptionName]);
-		$this->blnChanged = true;
-	}
+    /**
+     * Remove the option
+     *
+     * @param $strClassName
+     * @param $strFieldName
+     * @param $strOptionName
+     */
+    public function unsetOption($strClassName, $strFieldName, $strOptionName)
+    {
+        unset ($this->options[$strClassName][$strFieldName][$strOptionName]);
+        $this->blnChanged = true;
+    }
 
-	/**
-	 * Lookup an option.
-	 *
-	 * @param $strClassName
-	 * @param $strFieldName
-	 * @param $strOptionName
-	 * @return mixed
-	 */
-	public function GetOption ($strClassName, $strFieldName, $strOptionName) {
-		if (isset ($this->options[$strClassName][$strFieldName][$strOptionName])) {
-			return $this->options[$strClassName][$strFieldName][$strOptionName];
-		} else {
-			return null;
-		}
-	}
+    /**
+     * Lookup an option.
+     *
+     * @param $strClassName
+     * @param $strFieldName
+     * @param $strOptionName
+     * @return mixed
+     */
+    public function getOption($strClassName, $strFieldName, $strOptionName)
+    {
+        if (isset ($this->options[$strClassName][$strFieldName][$strOptionName])) {
+            return $this->options[$strClassName][$strFieldName][$strOptionName];
+        } else {
+            return null;
+        }
+    }
 
-	/**
-	 * Return all the options associated with the given table and field.
-	 * @param $strClassName
-	 * @param $strFieldName
-	 * @return mixed
-	 */
-	public function GetOptions ($strClassName, $strFieldName) {
-		if (isset($this->options[$strClassName][$strFieldName])) {
-			return $this->options[$strClassName][$strFieldName];
-		} else {
-			return array();
-		}
-	}
+    /**
+     * Return all the options associated with the given table and field.
+     * @param $strClassName
+     * @param $strFieldName
+     * @return mixed
+     */
+    public function getOptions($strClassName, $strFieldName)
+    {
+        if (isset($this->options[$strClassName][$strFieldName])) {
+            return $this->options[$strClassName][$strFieldName];
+        } else {
+            return array();
+        }
+    }
 
 }

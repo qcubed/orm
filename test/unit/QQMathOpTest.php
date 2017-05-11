@@ -29,7 +29,7 @@ class QQMathOpTests extends \QCubed\Test\UnitTestCaseBase {
 		$objTest2->TestFloat = 2.0;
 		$objTest2->Save();
 		
-		$objResArray = TypeTest::QueryArray(QQ::GreaterThan(QQ::MathOp('*', QQN::TypeTest()->TestFloat, 2.0), 3.0));
+		$objResArray = TypeTest::QueryArray(\QCubed\Query\QQ::GreaterThan(\QCubed\Query\QQ::MathOp('*', QQN::TypeTest()->TestFloat, 2.0), 3.0));
 		$this->assertEquals(1, count($objResArray));
 		if (count($objResArray) > 0) {
 			$objRes = $objResArray[0];
@@ -39,7 +39,7 @@ class QQMathOpTests extends \QCubed\Test\UnitTestCaseBase {
 			}
 		}
 		
-		$objResArray = TypeTest::QueryArray(QQ::GreaterThan(QQ::MathOp('*', 2.0, QQN::TypeTest()->TestFloat), 3.0));
+		$objResArray = TypeTest::QueryArray(\QCubed\Query\QQ::GreaterThan(\QCubed\Query\QQ::MathOp('*', 2.0, QQN::TypeTest()->TestFloat), 3.0));
 		$this->assertEquals(1, count($objResArray));
 		if (count($objResArray) > 0) {
 			$objRes = $objResArray[0];
@@ -49,7 +49,7 @@ class QQMathOpTests extends \QCubed\Test\UnitTestCaseBase {
 			}
 		}
 		
-		$objResArray = TypeTest::QueryArray(QQ::GreaterThan(QQ::MathOp('*', QQN::TypeTest()->TestFloat, QQN::TypeTest()->TestFloat), 3.0));
+		$objResArray = TypeTest::QueryArray(\QCubed\Query\QQ::GreaterThan(\QCubed\Query\QQ::MathOp('*', QQN::TypeTest()->TestFloat, QQN::TypeTest()->TestFloat), 3.0));
 		$this->assertEquals(1, count($objResArray));
 		if (count($objResArray) > 0) {
 			$objRes = $objResArray[0];
@@ -72,7 +72,7 @@ class QQMathOpTests extends \QCubed\Test\UnitTestCaseBase {
 		$objTest2->TestFloat = 2.0;
 		$objTest2->Save();
 		
-		$objResArray = TypeTest::QueryArray(QQ::GreaterThan(QQ::Mul(QQN::TypeTest()->TestFloat, 2.0), 3.0));
+		$objResArray = TypeTest::QueryArray(\QCubed\Query\QQ::GreaterThan(\QCubed\Query\QQ::Mul(QQN::TypeTest()->TestFloat, 2.0), 3.0));
 		$this->assertEquals(1, count($objResArray));
 		if (count($objResArray) > 0) {
 			$objRes = $objResArray[0];
@@ -95,7 +95,7 @@ class QQMathOpTests extends \QCubed\Test\UnitTestCaseBase {
 		$objTest2->TestFloat = 8.0;
 		$objTest2->Save();
 		
-		$objResArray = TypeTest::QueryArray(QQ::GreaterThan(QQ::Div(QQN::TypeTest()->TestFloat, 2.0), 3.0));
+		$objResArray = TypeTest::QueryArray(\QCubed\Query\QQ::GreaterThan(\QCubed\Query\QQ::Div(QQN::TypeTest()->TestFloat, 2.0), 3.0));
 		$this->assertEquals(1, count($objResArray));
 		if (count($objResArray) > 0) {
 			$objRes = $objResArray[0];
@@ -118,7 +118,7 @@ class QQMathOpTests extends \QCubed\Test\UnitTestCaseBase {
 		$objTest2->TestFloat = 4.0;
 		$objTest2->Save();
 		
-		$objResArray = TypeTest::QueryArray(QQ::GreaterOrEqual(QQ::Sub(QQN::TypeTest()->TestFloat, 1.0), 3.0));
+		$objResArray = TypeTest::QueryArray(\QCubed\Query\QQ::GreaterOrEqual(\QCubed\Query\QQ::Sub(QQN::TypeTest()->TestFloat, 1.0), 3.0));
 		$this->assertEquals(1, count($objResArray));
 		if (count($objResArray) > 0) {
 			$objRes = $objResArray[0];
@@ -141,7 +141,7 @@ class QQMathOpTests extends \QCubed\Test\UnitTestCaseBase {
 		$objTest2->TestFloat = 2.0;
 		$objTest2->Save();
 		
-		$objResArray = TypeTest::QueryArray(QQ::GreaterThan(QQ::Add(QQN::TypeTest()->TestFloat, 1.5), 3.0));
+		$objResArray = TypeTest::QueryArray(\QCubed\Query\QQ::GreaterThan(\QCubed\Query\QQ::Add(QQN::TypeTest()->TestFloat, 1.5), 3.0));
 		$this->assertEquals(1, count($objResArray));
 		if (count($objResArray) > 0) {
 			$objRes = $objResArray[0];
@@ -164,7 +164,7 @@ class QQMathOpTests extends \QCubed\Test\UnitTestCaseBase {
 		$objTest2->TestFloat = -2.0;
 		$objTest2->Save();
 
-		$objResArray = TypeTest::QueryArray(QQ::GreaterThan(QQ::Neg(QQN::TypeTest()->TestFloat), 1.0));
+		$objResArray = TypeTest::QueryArray(\QCubed\Query\QQ::GreaterThan(\QCubed\Query\QQ::Neg(QQN::TypeTest()->TestFloat), 1.0));
 		$this->assertEquals(1, count($objResArray));
 		if (count($objResArray) > 0) {
 			$objRes = $objResArray[0];
@@ -189,13 +189,13 @@ class QQMathOpTests extends \QCubed\Test\UnitTestCaseBase {
 		$objTest2->TestFloat = 2.0;
 		$objTest2->Save();
 		
-		$objResArray = TypeTest::QueryArray(QQ::LessThan(
-			QQ::Virtual('mul1', QQ::Mul(QQN::TypeTest()->TestFloat, -2.0))
+		$objResArray = TypeTest::QueryArray(\QCubed\Query\QQ::LessThan(
+			\QCubed\Query\QQ::Virtual('mul1', \QCubed\Query\QQ::Mul(QQN::TypeTest()->TestFloat, -2.0))
 			, -1.0
 		),
-		QQ::Clause(
-			QQ::OrderBy(QQ::Virtual('mul1'))
-			, QQ::Expand(QQ::Virtual('mul1'))
+		\QCubed\Query\QQ::Clause(
+			\QCubed\Query\QQ::OrderBy(\QCubed\Query\QQ::Virtual('mul1'))
+			, \QCubed\Query\QQ::Expand(\QCubed\Query\QQ::Virtual('mul1'))
 		));
 		$this->assertEquals(2, count($objResArray));
 		if (2 == count($objResArray)) {
@@ -226,13 +226,13 @@ class QQMathOpTests extends \QCubed\Test\UnitTestCaseBase {
 		$objTest2->TestFloat = 2.0;
 		$objTest2->Save();
 		
-		$objResArray = TypeTest::QueryArray(QQ::LessThan(
-			QQ::Virtual('mul1', QQ::Mul(QQN::TypeTest()->TestFloat, -2.0))
+		$objResArray = TypeTest::QueryArray(\QCubed\Query\QQ::LessThan(
+			\QCubed\Query\QQ::Virtual('mul1', \QCubed\Query\QQ::Mul(QQN::TypeTest()->TestFloat, -2.0))
 			, -1.0
 		),
-		QQ::Clause(
-			QQ::OrderBy(QQ::Virtual('mul1'), 'DESC')
-			, QQ::Expand(QQ::Virtual('mul1'))
+		\QCubed\Query\QQ::Clause(
+			\QCubed\Query\QQ::OrderBy(\QCubed\Query\QQ::Virtual('mul1'), 'DESC')
+			, \QCubed\Query\QQ::Expand(\QCubed\Query\QQ::Virtual('mul1'))
 		));
 		$this->assertEquals(2, count($objResArray));
 		if (2 == count($objResArray)) {
@@ -263,14 +263,14 @@ class QQMathOpTests extends \QCubed\Test\UnitTestCaseBase {
 		$objTest2->TestFloat = 2.0;
 		$objTest2->Save();
 		
-		$objResArray = TypeTest::QueryArray(QQ::LessThan(
-			QQ::Virtual('mul1', QQ::Mul(QQN::TypeTest()->TestFloat, -2.0))
+		$objResArray = TypeTest::QueryArray(\QCubed\Query\QQ::LessThan(
+			\QCubed\Query\QQ::Virtual('mul1', \QCubed\Query\QQ::Mul(QQN::TypeTest()->TestFloat, -2.0))
 			, -1.0
 		),
-		QQ::Clause(
-			QQ::OrderBy(QQ::Virtual('mul1'))
-			, QQ::Expand(QQ::Virtual('mul1'))
-			, QQ::Select(QQ::Virtual('mul1'))
+		\QCubed\Query\QQ::Clause(
+			\QCubed\Query\QQ::OrderBy(\QCubed\Query\QQ::Virtual('mul1'))
+			, \QCubed\Query\QQ::Expand(\QCubed\Query\QQ::Virtual('mul1'))
+			, \QCubed\Query\QQ::Select(\QCubed\Query\QQ::Virtual('mul1'))
 		));
 		$this->assertEquals(2, count($objResArray));
 		if (2 == count($objResArray)) {
@@ -311,7 +311,7 @@ class QQMathOpTests extends \QCubed\Test\UnitTestCaseBase {
 	public function testExample() {
 		$objPersonArray = Person::QueryArray(
 			/* Only return the persons who have AT LEAST ONE overdue project */
-			QQ::GreaterThan(QQ::Sub(QQN::Person()->ProjectAsManager->Spent, QQN::Person()->ProjectAsManager->Budget), 20)
+			\QCubed\Query\QQ::GreaterThan(\QCubed\Query\QQ::Sub(QQN::Person()->ProjectAsManager->Spent, QQN::Person()->ProjectAsManager->Budget), 20)
 		);
 		$this->assertGreaterThan(0, count($objPersonArray));
 
@@ -322,18 +322,18 @@ class QQMathOpTests extends \QCubed\Test\UnitTestCaseBase {
 
 		$objPersonArray = Person::QueryArray(
 			/* Only return the persons who have AT LEAST ONE overdue project */
-			QQ::GreaterThan(
-				QQ::Virtual('diff', QQ::Sub(
+			\QCubed\Query\QQ::GreaterThan(
+				\QCubed\Query\QQ::Virtual('diff', \QCubed\Query\QQ::Sub(
 					QQN::Person()->ProjectAsManager->Spent
 					, QQN::Person()->ProjectAsManager->Budget
 				))
 				, 20
 			),
-			QQ::Clause(
+			\QCubed\Query\QQ::Clause(
 				/* The most overdue first */
-				QQ::OrderBy(QQ::Virtual('diff'), 'DESC')
+				\QCubed\Query\QQ::OrderBy(\QCubed\Query\QQ::Virtual('diff'), 'DESC')
 				/* Required to access this field with GetVirtualAttribute */
-				, QQ::Expand(QQ::Virtual('diff'))
+				, \QCubed\Query\QQ::Expand(\QCubed\Query\QQ::Virtual('diff'))
 			)
 		);
 		$this->assertGreaterThan(0, count($objPersonArray));
@@ -346,21 +346,21 @@ class QQMathOpTests extends \QCubed\Test\UnitTestCaseBase {
 
 		$objPersonArray = Person::QueryArray(
 			/* Only return the persons who have AT LEAST ONE overdue project */
-			QQ::GreaterThan(
-				QQ::Virtual('diff', QQ::MathOp(
+			\QCubed\Query\QQ::GreaterThan(
+				\QCubed\Query\QQ::Virtual('diff', \QCubed\Query\QQ::MathOp(
 					'-', // Note the minus operation sign here
 					QQN::Person()->ProjectAsManager->Spent
 					, QQN::Person()->ProjectAsManager->Budget
 				))
 				, 20
 			),
-			QQ::Clause(
+			\QCubed\Query\QQ::Clause(
 				/* The most overdue first */
-				QQ::OrderBy(QQ::Virtual('diff'), 'DESC')
+				\QCubed\Query\QQ::OrderBy(\QCubed\Query\QQ::Virtual('diff'), 'DESC')
 				/* Required to access this field with GetVirtualAttribute */
-				, QQ::Expand(QQ::Virtual('diff'))
-				, QQ::Select(array(
-					QQ::Virtual('diff')
+				, \QCubed\Query\QQ::Expand(\QCubed\Query\QQ::Virtual('diff'))
+				, \QCubed\Query\QQ::Select(array(
+					\QCubed\Query\QQ::Virtual('diff')
 					, QQN::Person()->FirstName
 					, QQN::Person()->LastName
 				))
@@ -376,22 +376,22 @@ class QQMathOpTests extends \QCubed\Test\UnitTestCaseBase {
 
 		$objPersonArray = Person::QueryArray(
 			/* Only return the persons who have AT LEAST ONE overdue project */
-			QQ::GreaterThan(
-				QQ::Virtual('absdiff', QQ::Abs(
-					QQ::Sub(
+			\QCubed\Query\QQ::GreaterThan(
+				\QCubed\Query\QQ::Virtual('absdiff', \QCubed\Query\QQ::Abs(
+					\QCubed\Query\QQ::Sub(
 						QQN::Person()->ProjectAsManager->Spent
 						, QQN::Person()->ProjectAsManager->Budget
 					)
 				))
 				, 20
 			),
-			QQ::Clause(
+			\QCubed\Query\QQ::Clause(
 				/* The most overdue first */
-				QQ::OrderBy(QQ::Virtual('absdiff'), 'DESC')
+				\QCubed\Query\QQ::OrderBy(\QCubed\Query\QQ::Virtual('absdiff'), 'DESC')
 				/* Required to access this field with GetVirtualAttribute */
-				, QQ::Expand(QQ::Virtual('absdiff'))
-				, QQ::Select(array(
-					QQ::Virtual('absdiff')
+				, \QCubed\Query\QQ::Expand(\QCubed\Query\QQ::Virtual('absdiff'))
+				, \QCubed\Query\QQ::Select(array(
+					\QCubed\Query\QQ::Virtual('absdiff')
 					, QQN::Person()->FirstName
 					, QQN::Person()->LastName
 				))

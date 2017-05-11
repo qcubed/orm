@@ -20,38 +20,41 @@ use QCubed\Query\Node;
  * @package QCubed\Query\Condition
  * @was QQConditionLike
  */
-class Like extends AbstractComparison {
-	/**
-	 * @param Node\Column $objQueryNode
-	 * @param string $strValue
-	 * @throws Caller
-	 */
-	public function __construct(Node\Column $objQueryNode, $strValue) {
-		parent::__construct($objQueryNode);
+class Like extends ComparisonBase
+{
+    /**
+     * @param Node\Column $objQueryNode
+     * @param string $strValue
+     * @throws Caller
+     */
+    public function __construct(Node\Column $objQueryNode, $strValue)
+    {
+        parent::__construct($objQueryNode);
 
-		if ($strValue instanceof Node\NamedValue)
-			$this->mixOperand = $strValue;
-		else {
-			try {
-				$this->mixOperand = Type::Cast($strValue, Type::String);
-			} catch (Caller $objExc) {
-				$objExc->IncrementOffset();
-				$objExc->IncrementOffset();
-				throw $objExc;
-			}
-		}
-	}
+        if ($strValue instanceof Node\NamedValue) {
+            $this->mixOperand = $strValue;
+        } else {
+            try {
+                $this->mixOperand = Type::cast($strValue, Type::STRING);
+            } catch (Caller $objExc) {
+                $objExc->incrementOffset();
+                $objExc->incrementOffset();
+                throw $objExc;
+            }
+        }
+    }
 
-	/**
-	 * @param Builder $objBuilder
-	 */
-	public function UpdateQueryBuilder(Builder $objBuilder) {
-		$mixOperand = $this->mixOperand;
-		if ($mixOperand instanceof Node\NamedValue) {
-			/** @var Node\NamedValue $mixOperand */
-			$objBuilder->AddWhereItem($this->objQueryNode->GetColumnAlias($objBuilder) . ' LIKE ' . $mixOperand->Parameter());
-		} else {
-			$objBuilder->AddWhereItem($this->objQueryNode->GetColumnAlias($objBuilder) . ' LIKE ' . $objBuilder->Database->SqlVariable($mixOperand));
-		}
-	}
+    /**
+     * @param Builder $objBuilder
+     */
+    public function updateQueryBuilder(Builder $objBuilder)
+    {
+        $mixOperand = $this->mixOperand;
+        if ($mixOperand instanceof Node\NamedValue) {
+            /** @var Node\NamedValue $mixOperand */
+            $objBuilder->addWhereItem($this->objQueryNode->getColumnAlias($objBuilder) . ' LIKE ' . $mixOperand->parameter());
+        } else {
+            $objBuilder->addWhereItem($this->objQueryNode->getColumnAlias($objBuilder) . ' LIKE ' . $objBuilder->Database->sqlVariable($mixOperand));
+        }
+    }
 }

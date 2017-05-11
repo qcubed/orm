@@ -7,10 +7,14 @@
 		'DocrootFlag' => false,
 		'DirectorySuffix' => '',
 		'TargetDirectory' => __MODEL_GEN__,
-		'TargetFileName' => 'QQN.class.php'
+		'TargetFileName' => 'QQN.php'
 	);
 ?>
 <?php print("<?php\n"); ?>
+    /**
+     * Class QQN
+     * Factory methods for generating database nodes at the top of a node chain.
+     */
 	class QQN {
 <?php foreach ($objTableArray as $objTable) { ?>
 		/**
