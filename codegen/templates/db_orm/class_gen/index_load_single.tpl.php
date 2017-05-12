@@ -10,7 +10,8 @@
      * @return <?= $objTable->ClassName ?>
 
     */
-    public static function loadBy<?= $objCodeGen->ImplodeObjectArray('', '', '', 'PropertyName', $objColumnArray); ?>(<?= $objCodeGen->ParameterListFromColumnArray($objColumnArray); ?>, $objOptionalClauses = null) {
+    public static function loadBy<?= $objCodeGen->ImplodeObjectArray('', '', '', 'PropertyName', $objColumnArray); ?>(<?= $objCodeGen->ParameterListFromColumnArray($objColumnArray); ?>, $objOptionalClauses = null)
+    {
         return <?= $objTable->ClassName ?>::QuerySingle(
             QQ::AndCondition(
 <?php foreach ($objColumnArray as $objColumn) { ?>

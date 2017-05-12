@@ -7,7 +7,8 @@
      * Construct a new <?= $objTable->ClassName ?> object.
      * @param bool $blnInitialize
      */
-    public function __construct($blnInitialize = true) {
+    public function __construct($blnInitialize = true)
+    {
         if ($blnInitialize) {
             $this->Initialize();
         }

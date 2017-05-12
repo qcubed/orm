@@ -3,7 +3,8 @@
     // METHODS for SOAP-BASED WEB SERVICES
     ////////////////////////////////////////
 
-    public static function getSoapComplexTypeXml() {
+    public static function getSoapComplexTypeXml()
+    {
         $strToReturn = '<complexType name="<?= $objTable->ClassName ?>"><sequence>';
 <?php foreach ($objTable->ColumnArray as $objColumn) { ?>
 <?php if (!$objColumn->Reference || $objColumn->Reference->IsType) { ?>
@@ -17,7 +18,8 @@
         return $strToReturn;
     }
 
-    public static function alterSoapComplexTypeArray(&$strComplexTypeArray) {
+    public static function alterSoapComplexTypeArray(&$strComplexTypeArray)
+    {
         if (!array_key_exists('<?= $objTable->ClassName ?>', $strComplexTypeArray)) {
             $strComplexTypeArray['<?= $objTable->ClassName ?>'] = <?= $objTable->ClassName ?>::GetSoapComplexTypeXml();
 <?php foreach ($objTable->ColumnArray as $objColumn) { ?>
@@ -28,7 +30,8 @@
         }
     }
 
-    public static function getArrayFromSoapArray($objSoapArray) {
+    public static function getArrayFromSoapArray($objSoapArray)
+    {
         $objArrayToReturn = array();
 
         foreach ($objSoapArray as $objSoapObject)
@@ -37,7 +40,8 @@
         return $objArrayToReturn;
     }
 
-    public static function getObjectFromSoapObject($objSoapObject) {
+    public static function getObjectFromSoapObject($objSoapObject)
+    {
         $objToReturn = new <?= $objTable->ClassName ?>();
 <?php foreach ($objTable->ColumnArray as $objColumn) { ?>
 <?php if (!$objColumn->Reference || $objColumn->Reference->IsType) { ?>
@@ -58,7 +62,8 @@
         return $objToReturn;
     }
 
-    public static function getSoapArrayFromArray($objArray) {
+    public static function getSoapArrayFromArray($objArray)
+    {
         if (!$objArray)
             return null;
 
@@ -70,7 +75,8 @@
         return unserialize(serialize($objArrayToReturn));
     }
 
-    public static function getSoapObjectFromObject($objObject, $blnBindRelatedObjects) {
+    public static function getSoapObjectFromObject($objObject, $blnBindRelatedObjects)
+    {
 <?php foreach ($objTable->ColumnArray as $objColumn) { ?>
 <?php if ($objColumn->VariableType == \QCubed\Type::DATE_TIME) { ?>
         if ($objObject-><?= $objColumn->VariableName ?>)

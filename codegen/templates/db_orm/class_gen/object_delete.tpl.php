@@ -4,7 +4,8 @@
      * @throws \QCubed\Database\Exception\UndefinedPrimaryKey
      * @return void
      */
-    public function Delete() {
+    public function delete()
+    {
         if (<?= $objCodeGen->ImplodeObjectArray(' || ', '(is_null($this->', '))', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>)
             throw new \QCubed\Database\Exception\UndefinedPrimaryKey('Cannot delete this <?= $objTable->ClassName ?> with an unset primary key.');
 
@@ -63,7 +64,8 @@
 
      * @return void
      */
-    public static function DeleteAll() {
+    public static function deleteAll()
+    {
         // Get the Database Object for this Class
         $objDatabase = <?= $objTable->ClassName ?>::GetDatabase();
 
@@ -80,7 +82,8 @@
      * Truncate <?= $objTable->Name ?> table
      * @return void
      */
-    public static function Truncate() {
+    public static function truncate()
+    {
         // Get the Database Object for this Class
         $objDatabase = <?= $objTable->ClassName ?>::GetDatabase();
 

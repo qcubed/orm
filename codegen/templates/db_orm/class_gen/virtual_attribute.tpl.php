@@ -4,7 +4,8 @@
      * @param string $strName
      * @return string|null
      */
-    public function getVirtualAttribute($strName) {
+    public function getVirtualAttribute($strName)
+    {
         $strName = QQ::GetVirtualAlias($strName);
         if (isset($this->__strVirtualAttributeArray[$strName])) {
             return $this->__strVirtualAttributeArray[$strName];
@@ -17,7 +18,8 @@
      * @param string $strName
      * @return boolean
      */
-    public function hasVirtualAttribute($strName) {
+    public function hasVirtualAttribute($strName)
+    {
         $strName = QQ::GetVirtualAlias($strName);
         if (array_key_exists($strName, $this->__strVirtualAttributeArray)) {
             return true;

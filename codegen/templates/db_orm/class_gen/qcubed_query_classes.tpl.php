@@ -10,7 +10,8 @@
 
  * @property-read Node<?= $objReference->VariableType ?> $_ChildTableNode
  **/
-class Node<?= $objTable->ClassName ?><?= $objReference->ObjectDescription ?> extends Node\Association {
+class Node<?= $objTable->ClassName ?><?= $objReference->ObjectDescription ?> extends Node\Association
+{
     protected $strType = \QCubed\Type::ASSOCIATION;
     protected $strName = '<?= strtolower($objReference->ObjectDescription); ?>';
 
