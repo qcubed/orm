@@ -239,7 +239,7 @@ if ($strValues) {
 					<?= $strEscapeIdentifierBegin ?><?= $objTable->Name ?><?= $strEscapeIdentifierEnd ?>
 
 				WHERE
-<?= _indent($strIds, 5); ?>
+<?= _indent_($strIds, 5); ?>
 
 			);
 
