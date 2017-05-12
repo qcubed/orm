@@ -1,5 +1,7 @@
 <?php
 
+use QCubed\Project\Codegen\CodegenBase as Codegen;
+
 /* This includes library file is used by the codegen.cli and codegen.phpexe scripts
  * to simply fire up and run the CodeGen object, itself.
  *

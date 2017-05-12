@@ -12,7 +12,7 @@ $__CONFIG_ONLY__ = true;
 
 include ($strPackagePath . '/tools/qcubed.inc.php');
 
-include (__APP_INCLUDES__ . '/model_includes.php');
+include ($strPackagePath . '/src/model_includes.inc.php');
 
 \QCubed\AutoloaderService::instance()
 	->initialize(QCUBED_BASE_DIR . '/../autoload.php')
