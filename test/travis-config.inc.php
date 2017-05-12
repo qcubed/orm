@@ -19,7 +19,7 @@ require(__CONFIGURATION__ . '/Codegen.php');
 require( __DOCROOT__ . __SUBDIRECTORY__ . '/tools/codegen.cli.php');
 
 // Load up generated classes
-include (__APP_INCLUDES__ . '/model_includes.php');
+include ($strPackagePath . '/src/model_includes.inc.php');
 
 \QCubed\AutoloaderService::instance()
 	->addClassmapFile(__MODEL_GEN__ . '/_class_paths.inc.php')

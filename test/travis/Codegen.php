@@ -15,47 +15,49 @@
  * @package Project
  * @was CodeGen
  */
-class Codegen extends \QCubed\Codegen\CodegenBase {
+class Codegen extends \QCubed\Codegen\CodegenBase
+{
 
-	/**
-	 * Construct the CodeGen object.
-	 *
-	 * Gives you an opportunity to read your xml file and make codegen changes accordingly.
-	 */
-	public function __construct($objSettingsXml) {
-		// Specify the paths to your template files here. These paths will be searched in the order declared, to
-		// find a particular template file. Template files found lower down in the order will override the previous ones.
-		static::$TemplatePaths = array (
-			dirname(dirname(__DIR__)) . '/templates/'
-		);
-	}
+    /**
+     * Construct the CodeGen object.
+     *
+     * Gives you an opportunity to read your xml file and make codegen changes accordingly.
+     */
+    public function __construct($objSettingsXml)
+    {
+        // Specify the paths to your template files here. These paths will be searched in the order declared, to
+        // find a particular template file. Template files found lower down in the order will override the previous ones.
+        static::$TemplatePaths = array(
+            dirname(dirname(__DIR__)) . '/codegen/templates/'
+        );
+    }
 
-	/**
-	 * CodeGen::Pluralize()
-	 *
-	 * Example: Overriding the Pluralize method
-	 *
-	 * @param string $strName
-	 * @return string
-	 */
-	protected function Pluralize($strName) {
-		// Special Rules go Here
-		switch (true) {
-			case ($strName == 'person'):
-				return 'people';
-			case ($strName == 'Person'):
-				return 'People';
-			case ($strName == 'PERSON'):
-				return 'PEOPLE';
+    /**
+     * CodeGen::pluralize()
+     *
+     * Example: Overriding the Pluralize method
+     *
+     * @param string $strName
+     * @return string
+     */
+    protected function pluralize($strName)
+    {
+        // Special Rules go Here
+        switch (true) {
+            case ($strName == 'person'):
+                return 'people';
+            case ($strName == 'Person'):
+                return 'People';
+            case ($strName == 'PERSON'):
+                return 'PEOPLE';
 
-			// Trying to be cute here...
-			case (strtolower($strName) == 'fish'):
-				return $strName . 'ies';
+            // Trying to be cute here...
+            case (strtolower($strName) == 'fish'):
+                return $strName . 'ies';
 
-			// Otherwise, call parent
-			default:
-				return parent::Pluralize($strName);
-		}
-	}
+            // Otherwise, call parent
+            default:
+                return parent::pluralize($strName);
+        }
+    }
 }
-

@@ -12,9 +12,7 @@ $strOrmPath = dirname(__DIR__);
 $strQCubedPath = dirname($strOrmPath);
 $loader = require(dirname($strQCubedPath) . '/autoload.php'); // Add the Composer autoloader if using Composer
 $loader->addPsr4('QCubed\\', $strOrmPath . '/../common/src');
-$loader->addPsr4('QCubed\\Database\\', $strOrmPath . '/src/database');
-$loader->addPsr4('QCubed\\Query\\', $strOrmPath . '/src/query');
-$loader->addPsr4('QCubed\\Codegen\\', $strOrmPath . '/src/codegen');
+$loader->addPsr4('QCubed\\', $strOrmPath . '/src');
 
 \QCubed\Database\Service::InitializeDatabaseConnections();
 
