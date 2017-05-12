@@ -2,7 +2,8 @@
     * Copying an object creates a copy of the object with all external references nulled and null primary keys in
     * preparation for saving or further processing.
    	*/
-   	public function Copy() {
+   	public function copy()
+    {
 		$objCopy = clone $this;
 		$objCopy->__blnRestored = false;
 

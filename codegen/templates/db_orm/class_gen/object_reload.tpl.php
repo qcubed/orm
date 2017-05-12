@@ -8,7 +8,8 @@
      * @throws Caller
 	 * @return void
 	 */
-	public function Reload($clauses = null) {
+	public function reload($clauses = null)
+    {
 		// Make sure we are actually Restored from the database
 		if (!$this->__blnRestored)
 			throw new Caller('Cannot call Reload() on a new, unsaved <?= $objTable->ClassName ?> object.');

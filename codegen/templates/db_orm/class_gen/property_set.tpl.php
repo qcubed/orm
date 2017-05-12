@@ -8,7 +8,8 @@
      * @throws Caller
      * @return void
      */
-    public function __set($strName, $mixValue) {
+    public function __set($strName, $mixValue)
+    {
         try {
 
             // Use setter if it exists

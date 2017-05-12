@@ -15,7 +15,8 @@ if (count($objTable->PrimaryKeyColumnArray) == 1) {
 	* The current record has just been inserted into the table. Let everyone know.
 	* @param <?= $pkType ?>	$pk Primary key of record just inserted.
 	*/
-	protected static function broadcastInsert($pk) {
+	protected static function broadcastInsert($pk)
+    {
 	}
 
    /**
@@ -24,18 +25,21 @@ if (count($objTable->PrimaryKeyColumnArray) == 1) {
 	* @param <?= $pkType ?>	$pk Primary key of record just updated.
 	* @param string[] $fields array of field names that were modified.
 	*/
-	protected static function broadcastUpdate($pk, $fields) {
+	protected static function broadcastUpdate($pk, $fields)
+    {
 	}
 
    /**
 	* The current record has just been deleted. Let everyone know.
 	* @param <?= $pkType ?>	$pk Primary key of record just deleted.
 	*/
-	protected static function broadcastDelete($pk) {
+	protected static function broadcastDelete($pk)
+    {
 	}
 
    /**
 	* All records have just been deleted. Let everyone know.
 	*/
-	protected static function broadcastDeleteAll() {
+	protected static function broadcastDeleteAll()
+    {
 	}

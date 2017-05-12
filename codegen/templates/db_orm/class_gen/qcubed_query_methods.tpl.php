@@ -7,7 +7,8 @@
      * @param mixed[] $mixParameterArray a array of name-value pairs to perform PrepareStatement with
      * @return <?= $objTable->ClassName ?> the queried object
      */
-    public static function querySingle(iCondition $objConditions, $objOptionalClauses = null, $mixParameterArray = null) {
+    public static function querySingle(iCondition $objConditions, $objOptionalClauses = null, $mixParameterArray = null)
+    {
         return static::_QuerySingle($objConditions, $objOptionalClauses, $mixParameterArray);
     }
 
@@ -19,12 +20,14 @@
      * @param mixed[] $mixParameterArray a array of name-value pairs to perform PrepareStatement with
      * @return <?= $objTable->ClassName ?>[] the queried objects as an array
      */
-    public static function queryArray(iCondition $objConditions, $objOptionalClauses = null, $mixParameterArray = null) {
+    public static function queryArray(iCondition $objConditions, $objOptionalClauses = null, $mixParameterArray = null)
+    {
         return static::_QueryArray($objConditions, $objOptionalClauses, $mixParameterArray);
     }
 
 <?php if (count($objTable->PrimaryKeyColumnArray) == 1) { ?>
-    public static function queryPrimaryKeys(iCondition $objConditions = null) {
+    public static function queryPrimaryKeys(iCondition $objConditions = null)
+    {
         if ($objConditions === null) {
             $objConditions = QQ::All();
         }
@@ -62,6 +65,7 @@
     * @param $key
     * @return <?= $objTable->ClassName ?> the queried object
     */
-    public static function getFromCache($key) {
+    public static function getFromCache($key)
+    {
         return static::_GetFromCache($key);
     }

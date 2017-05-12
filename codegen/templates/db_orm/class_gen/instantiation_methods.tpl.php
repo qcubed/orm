@@ -11,9 +11,6 @@
 	
 		
 ?>
-    ///////////////////////////////
-    // INSTANTIATION-RELATED METHODS
-    ///////////////////////////////
 
     /**
      * Instantiate a <?= $objTable->ClassName ?> from a Database Row.
@@ -38,7 +35,8 @@
         $strColumnAliasArray = array(),
         $blnCheckDuplicate = false,
         $strParentExpansionKey = null,
-        $objExpansionParent = null) {
+        $objExpansionParent = null
+    ) {
 
         // If blank row, return null
         if (!$objDbRow) {
@@ -255,7 +253,8 @@ if (is_a($objAssociatedTable, '\QCubed\Codegen\TypeTable') ) {
      * @param string[] $strColumnAliasArray
      * @return <?= $objTable->ClassName ?>[]
      */
-    public static function instantiateDbResult(\QCubed\Database\ResultBase $objDbResult, Node\NodeBase $objExpandAsArrayNode = null, $strColumnAliasArray = null) {
+    public static function instantiateDbResult(\QCubed\Database\ResultBase $objDbResult, Node\NodeBase $objExpandAsArrayNode = null, $strColumnAliasArray = null)
+    {
         $objToReturn = array();
 
         if (!$strColumnAliasArray)
@@ -297,7 +296,8 @@ if (is_a($objAssociatedTable, '\QCubed\Codegen\TypeTable') ) {
      * @param \QCubed\Database\ResultBase $objDbResult cursor resource
      * @return <?= $objTable->ClassName ?> next row resulting from the query
      */
-    public static function instantiateCursor(\QCubed\Database\ResultBase $objDbResult) {
+    public static function instantiateCursor(\QCubed\Database\ResultBase $objDbResult)
+    {
         // If blank resultset, then return empty result
         if (!$objDbResult) return null;
 

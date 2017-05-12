@@ -14,7 +14,8 @@ if (count($objTable->PrimaryKeyColumnArray) == 1) {
     * @return string
     */
 
-    protected static function makeMultiKey($keyValues) {
+    protected static function makeMultiKey($keyValues)
+    {
         return implode (':', $keyValues);
     }
 <?php 	} ?>
@@ -24,7 +25,8 @@ if (count($objTable->PrimaryKeyColumnArray) == 1) {
      * @return <?= $pkType ?>
 
      */
-    public function primaryKey() {
+    public function primaryKey()
+    {
 <?php 	if (count ($objTable->PrimaryKeyColumnArray) == 1) { ?>
         return $this-><?= $objTable->PrimaryKeyColumnArray[0]->VariableName ?>;
 <?php 	} else {
@@ -45,7 +47,8 @@ if (count($objTable->PrimaryKeyColumnArray) == 1) {
     * @return <?= $pkType ?>
 
     **/
-    protected static function getRowPrimaryKey(\QCubed\Database\RowBase $objDbRow, $strAliasPrefix, $strColumnAliasArray) {
+    protected static function getRowPrimaryKey(\QCubed\Database\RowBase $objDbRow, $strAliasPrefix, $strColumnAliasArray)
+    {
 <?php 	if (count ($objTable->PrimaryKeyColumnArray) == 1) { ?>
         $strAlias = $strAliasPrefix . '<?= $objTable->PrimaryKeyColumnArray[0]->Name ?>';
         $strAliasName = !empty($strColumnAliasArray[$strAlias]) ? $strColumnAliasArray[$strAlias] : $strAlias;
@@ -72,14 +75,16 @@ if (count($objTable->PrimaryKeyColumnArray) == 1) {
    /**
     * @return null
     */
-    protected function primaryKey() {
+    protected function primaryKey()
+    {
         return null;
     }
 
    /**
     * @return null
     */
-    protected static function getRowPrimaryKey($objDbRow, $strAliasPrefix, $strColumnAliasArray) {
+    protected static function getRowPrimaryKey($objDbRow, $strAliasPrefix, $strColumnAliasArray)
+    {
         return null;
     }
 <?php }

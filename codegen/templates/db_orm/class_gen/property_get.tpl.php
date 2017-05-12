@@ -7,7 +7,8 @@
      * @throws Caller
      * @return mixed
      */
-    public function __get($strName) {
+    public function __get($strName)
+    {
         switch ($strName) {
 
             ////////////////////////////

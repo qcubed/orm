@@ -11,7 +11,8 @@ $objManyToManyReferenceTable = $objCodeGen->TypeTableArray[strtolower($objManyTo
      * @param iClause[] $objOptionalClauses additional optional iClause objects for this query
      * @return array
      */
-    public function Get<?= $objManyToManyReference->ObjectDescription; ?>Array($objOptionalClauses = null) {
+    public function get<?= $objManyToManyReference->ObjectDescription; ?>Array($objOptionalClauses = null)
+    {
         if (<?= $objCodeGen->ImplodeObjectArray(' || ', '(is_null($this->', '))', 'VariableName', $objTable->PrimaryKeyColumnArray); ?>)
             return array();
 
@@ -40,7 +41,8 @@ $objManyToManyReferenceTable = $objCodeGen->TypeTableArray[strtolower($objManyTo
 
      * @return int
      */
-    public function Count<?= $objManyToManyReference->ObjectDescriptionPlural; ?>() {
+    public function count<?= $objManyToManyReference->ObjectDescriptionPlural; ?>()
+    {
         if (<?= $objCodeGen->ImplodeObjectArray(' || ', '(is_null($this->', '))', 'VariableName', $objTable->PrimaryKeyColumnArray); ?>)
             return 0;
 
@@ -62,7 +64,8 @@ $objManyToManyReferenceTable = $objCodeGen->TypeTableArray[strtolower($objManyTo
 
      * @return bool
      */
-    public function Is<?= $objManyToManyReference->ObjectDescription; ?>Associated($intId) {
+    public function is<?= $objManyToManyReference->ObjectDescription; ?>Associated($intId)
+    {
         if (<?= $objCodeGen->ImplodeObjectArray(' || ', '(is_null($this->', '))', 'VariableName', $objTable->PrimaryKeyColumnArray); ?>)
             throw new \QCubed\Database\Exception\UndefinedPrimaryKey('Unable to call Is<?= $objManyToManyReference->ObjectDescription; ?>Associated on this unsaved <?= $objTable->ClassName; ?>.');
 
@@ -83,7 +86,8 @@ $objManyToManyReferenceTable = $objCodeGen->TypeTableArray[strtolower($objManyTo
      * @param mixed $mixId	id or array of ids.
      * @return void
      */
-    public function Associate<?= $objManyToManyReference->ObjectDescription; ?>($mixId) {
+    public function associate<?= $objManyToManyReference->ObjectDescription; ?>($mixId)
+    {
 
         if (<?= $objCodeGen->ImplodeObjectArray(' || ', '(is_null($this->', '))', 'VariableName', $objTable->PrimaryKeyColumnArray); ?>)
             throw new \QCubed\Database\Exception\UndefinedPrimaryKey('Unable to call Associate<?= $objManyToManyReference->ObjectDescription; ?> on this unsaved <?= $objTable->ClassName; ?>.');
@@ -115,7 +119,8 @@ $objManyToManyReferenceTable = $objCodeGen->TypeTableArray[strtolower($objManyTo
      * @param mixed $mixId	id or array of ids
      * @return void
      */
-    public function Unassociate<?= $objManyToManyReference->ObjectDescription; ?>($mixId) {
+    public function unassociate<?= $objManyToManyReference->ObjectDescription; ?>($mixId)
+    {
         if (<?= $objCodeGen->ImplodeObjectArray(' || ', '(is_null($this->', '))', 'VariableName', $objTable->PrimaryKeyColumnArray); ?>)
             throw new \QCubed\Database\Exception\UndefinedPrimaryKey('Unable to call Unassociate<?= $objManyToManyReference->ObjectDescription; ?> on this unsaved <?= $objTable->ClassName; ?>.');
 
@@ -142,7 +147,8 @@ $objManyToManyReferenceTable = $objCodeGen->TypeTableArray[strtolower($objManyTo
 
      * @return void
      */
-    public function UnassociateAll<?= $objManyToManyReference->ObjectDescriptionPlural; ?>() {
+    public function unassociateAll<?= $objManyToManyReference->ObjectDescriptionPlural; ?>()
+    {
         if (<?= $objCodeGen->ImplodeObjectArray(' || ', '(is_null($this->', '))', 'VariableName', $objTable->PrimaryKeyColumnArray); ?>)
             throw new \QCubed\Database\Exception\UndefinedPrimaryKey('Unable to call UnassociateAll<?= $objManyToManyReference->ObjectDescription; ?>Array on this unsaved <?= $objTable->ClassName; ?>.');
 

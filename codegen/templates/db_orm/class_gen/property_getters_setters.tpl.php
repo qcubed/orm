@@ -15,7 +15,8 @@
 	* @return <?= $objColumn->VariableType ?>
 
 	*/
-	public function get<?= $objColumn->PropertyName ?>() {
+	public function get<?= $objColumn->PropertyName ?>()
+    {
 <?php if (!$objColumn->Identity) { ?>
 		if ($this->__blnRestored && empty($this->__blnValid[self::<?= strtoupper($objColumn->Name) ?>_FIELD])) {
 			throw new Caller("<?= $objColumn->PropertyName ?> was not selected in the most recent query and is not valid.");
@@ -45,7 +46,8 @@
      * @return <?= $objColumn->Reference->VariableType ?>
 
      */
-     public function get<?= $objColumn->Reference->PropertyName ?>() {
+     public function get<?= $objColumn->Reference->PropertyName ?>()
+     {
  		if ($this->__blnRestored && empty($this->__blnValid[self::<?= strtoupper($objColumn->Name) ?>_FIELD])) {
 			throw new Caller("<?= $objColumn->PropertyName ?> was not selected in the most recent query and is not valid.");
 		}
@@ -69,7 +71,8 @@
 	* @return <?= $objTable->ClassName ?>
 
 	*/
-	public function set<?= $objColumn->PropertyName ?>($<?= $objColumn->VariableName ?>) {
+	public function set<?= $objColumn->PropertyName ?>($<?= $objColumn->VariableName ?>)
+    {
 <?php if ($objColumn->NotNull) { ?>
         if ($<?= $objColumn->VariableName ?> === null) {
 <?php if (is_null($objColumn->Default)) { ?>
@@ -162,7 +165,8 @@ foreach ($objTable->ReverseReferenceArray as $objReverseReference) {
     * @return <?= $objTable->ClassName ?>
 
     */
-    public function set<?= $objReverseReference->ObjectPropertyName ?>($<?= $objReverseReference->ObjectMemberVariable ?>) {
+    public function set<?= $objReverseReference->ObjectPropertyName ?>($<?= $objReverseReference->ObjectMemberVariable ?>)
+    {
         if (is_null($<?= $objReverseReference->ObjectMemberVariable ?>)) {
             $this-><?= $objReverseReference->ObjectMemberVariable ?> = null;
 

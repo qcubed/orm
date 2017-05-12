@@ -10,7 +10,8 @@
      * @throws Caller
      * @return <?= $objTable->ClassName ?>[]
     */
-    public static function loadArrayBy<?= $objCodeGen->ImplodeObjectArray('', '', '', 'PropertyName', $objColumnArray); ?>(<?= $objCodeGen->ParameterListFromColumnArray($objColumnArray); ?>, $objOptionalClauses = null) {
+    public static function loadArrayBy<?= $objCodeGen->ImplodeObjectArray('', '', '', 'PropertyName', $objColumnArray); ?>(<?= $objCodeGen->ParameterListFromColumnArray($objColumnArray); ?>, $objOptionalClauses = null)
+    {
         // Call <?= $objTable->ClassName ?>::QueryArray to perform the LoadArrayBy<?= $objCodeGen->ImplodeObjectArray('', '', '', 'PropertyName', $objColumnArray); ?> query
         try {
             return <?= $objTable->ClassName; ?>::QueryArray(
@@ -40,7 +41,8 @@
 <?php } ?>
      * @return int
     */
-    public static function countBy<?= $objCodeGen->ImplodeObjectArray('', '', '', 'PropertyName', $objColumnArray); ?>(<?= $objCodeGen->ParameterListFromColumnArray($objColumnArray); ?>) {
+    public static function countBy<?= $objCodeGen->ImplodeObjectArray('', '', '', 'PropertyName', $objColumnArray); ?>(<?= $objCodeGen->ParameterListFromColumnArray($objColumnArray); ?>)
+    {
         // Call <?= $objTable->ClassName ?>::QueryCount to perform the CountBy<?= $objCodeGen->ImplodeObjectArray('', '', '', 'PropertyName', $objColumnArray); ?> query
         return <?= $objTable->ClassName ?>::QueryCount(
 <?php if (count($objColumnArray) > 1) { ?>

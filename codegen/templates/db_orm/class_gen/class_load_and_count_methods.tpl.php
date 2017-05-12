@@ -6,7 +6,8 @@
      * Static method to retrieve the Database object that owns this class.
      * @return \QCubed\Database\DatabaseBase reference to the Database object that can query this class
      */
-    public static function getDatabase() {
+    public static function getDatabase()
+    {
         return \QCubed\Database\Service::getDatabase(self::getDatabaseIndex());
     }
 
@@ -22,7 +23,8 @@
      * @return <?= $objTable->ClassName ?>
 
      */
-    public static function load(<?= $objCodeGen->ParameterListFromColumnArray($objTable->PrimaryKeyColumnArray); ?>, $objOptionalClauses = null) {
+    public static function load(<?= $objCodeGen->ParameterListFromColumnArray($objTable->PrimaryKeyColumnArray); ?>, $objOptionalClauses = null)
+    {
         if (!$objOptionalClauses) {
 <?php if (count ($objTable->PrimaryKeyColumnArray) == 1) { ?>
             $objCachedObject = static::getFromCache ($<?= $objTable->PrimaryKeyColumnArray[0]->VariableName ?>);
@@ -60,7 +62,8 @@ foreach ($objTable->PrimaryKeyColumnArray as $objColumn) {
      * @return <?= $objTable->ClassName ?>[]
      * @throws Caller
      */
-    public static function loadAll($objOptionalClauses = null) {
+    public static function loadAll($objOptionalClauses = null)
+    {
         if (func_num_args() > 1) {
             throw new Caller("LoadAll must be called with an array of optional clauses as a single argument");
         }
@@ -78,7 +81,8 @@ foreach ($objTable->PrimaryKeyColumnArray as $objColumn) {
 
      * @return int
      */
-    public static function countAll() {
+    public static function countAll()
+    {
         // Call <?= $objTable->ClassName ?>::queryCount to perform the CountAll query
         return <?= $objTable->ClassName ?>::queryCount(QQ::All());
     }

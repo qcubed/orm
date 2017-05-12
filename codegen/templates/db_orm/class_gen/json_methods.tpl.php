@@ -3,13 +3,10 @@
 	// identifiers, so you don't need to worry about encoding issues for identifiers.
 ?>
 
-    ////////////////////////////////////////
-    // METHODS for JSON Object Translation
-    ////////////////////////////////////////
-
     // this function is required for objects that implement the
     // IteratorAggregate interface
-    public function getIterator() {
+    public function getIterator()
+    {
         $iArray = array();
 
 <?php foreach ($objTable->ColumnArray as $objColumn) { ?>
@@ -23,7 +20,8 @@
     /**
      *   @deprecated. Just call json_encode on the object. See the jsonSerialize function for the result.
     /*/
-    public function getJson() {
+    public function getJson()
+    {
         return json_encode($this->getIterator());
     }
 
@@ -38,7 +36,8 @@
      *
      * @return string
      */
-    public function toJsObject () {
+    public function toJsObject ()
+    {
         return JavaScriptHelper::toJsObject(array('value' => $this->__toString(), 'id' => <?php if ( count($objTable->PrimaryKeyColumnArray) == 1 ) { ?> $this-><?= $objTable->PrimaryKeyColumnArray[0]->VariableName ?> <?php } ?><?php if ( count($objTable->PrimaryKeyColumnArray) > 1 ) { ?> array(<?php foreach ($objTable->PrimaryKeyColumnArray as $objColumn) { ?> $this-><?= $objColumn->VariableName ?>, <?php } ?><?php GO_BACK(2); ?>) <?php } ?>));
     }
 
@@ -53,7 +52,8 @@
      *
      * @return array An array that is json serializable
      */
-    public function jsonSerialize () {
+    public function jsonSerialize ()
+    {
         $a = [];
 <?php foreach ($objTable->ColumnArray as $objColumn) { ?>
 <?php 	if (($objColumn->Reference) && (!$objColumn->Reference->IsType)) { ?>
