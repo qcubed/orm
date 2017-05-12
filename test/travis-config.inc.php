@@ -18,8 +18,7 @@ define ('__CONFIGURATION__', __WORKING_DIR__ . '/test/travis');
 require(__CONFIGURATION__ . '/CodegenBase.php');
 require( __DOCROOT__ . __SUBDIRECTORY__ . '/tools/codegen.cli.php');
 
-// Load up generated classes
-include ($strPackagePath . '/src/model_includes.inc.php');
+include (__DIR__ . '/../src/model_includes.inc.php');
 
 \QCubed\AutoloaderService::instance()
 	->addClassmapFile(__MODEL_GEN__ . '/_class_paths.inc.php')
