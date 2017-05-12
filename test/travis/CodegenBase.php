@@ -1,4 +1,7 @@
 <?php
+
+namespace QCubed\Project\Codegen;
+
 /**
  * CodeGen
  *
@@ -12,10 +15,8 @@
  * Class Codegen
  *
  * Overrides the default codegen class. Override and implement any functions here to customize the code generation process.
- * @package Project
- * @was CodeGen
  */
-class Codegen extends \QCubed\Codegen\CodegenBase
+class CodegenBase extends \QCubed\Codegen\CodegenBase
 {
 
     /**

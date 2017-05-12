@@ -15,7 +15,7 @@ define ('__CONFIGURATION__', __WORKING_DIR__ . '/test/travis');
 	->addPsr4('QCubed\\', __WORKING_DIR__ . '/src');
 
 // Codegen
-require(__CONFIGURATION__ . '/Codegen.php');
+require(__CONFIGURATION__ . '/CodegenBase.php');
 require( __DOCROOT__ . __SUBDIRECTORY__ . '/tools/codegen.cli.php');
 
 // Load up generated classes
