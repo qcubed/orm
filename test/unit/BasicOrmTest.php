@@ -10,23 +10,23 @@ use QCubed\Query\QQ;
  * @package Tests
  */
 if(!class_exists('Person')){
-    require_once __INCLUDES__ .'/model/Person.class.php';
+    require_once QCUBED_PROJECT_MODEL_DIR .'/Person.php';
     
 }
 if(!class_exists('Project')){
-    require_once __INCLUDES__ .'/model/Project.class.php';
+    require_once QCUBED_PROJECT_MODEL_DIR .'/Project.php';
 }
 if(!class_exists('Login')){
-    require_once __INCLUDES__ .'/model/Login.class.php';
+    require_once QCUBED_PROJECT_MODEL_DIR .'/Login.php';
 }
 if(!class_exists('Milestone')){
-    require_once __INCLUDES__ .'/model/Milestone.class.php';
+    require_once QCUBED_PROJECT_MODEL_DIR .'/Milestone.php';
 }
 if(!class_exists('Address')){
-    require_once __INCLUDES__ .'/model/Address.class.php';
+    require_once QCUBED_PROJECT_MODEL_DIR .'/Address.php';
 }
 if(!class_exists('TwoKey')){
-    require_once __INCLUDES__ .'/model/TwoKey.class.php';
+    require_once QCUBED_PROJECT_MODEL_DIR .'/TwoKey.php';
 }
 
 class BasicOrmTests extends \QCubed\Test\UnitTestCaseBase {

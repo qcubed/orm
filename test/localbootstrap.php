@@ -16,8 +16,8 @@ include ($strPackagePath . '/src/model_includes.inc.php');
 
 \QCubed\AutoloaderService::instance()
 	->initialize(QCUBED_BASE_DIR . '/../autoload.php')
-	->addClassmapFile(__MODEL_GEN__ . '/_class_paths.inc.php')
-	->addClassmapFile(__MODEL_GEN__ . '/_type_class_paths.inc.php');
+	->addClassmapFile(QCUBED_PROJECT_MODEL_GEN_DIR . '/_class_paths.inc.php')
+	->addClassmapFile(QCUBED_PROJECT_MODEL_GEN_DIR . '/_type_class_paths.inc.php');
 
 
 \QCubed\Database\Service::initializeDatabaseConnections();

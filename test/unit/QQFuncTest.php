@@ -9,7 +9,7 @@ use \QCubed\QDateTime;
  */
 
 if(!class_exists('TypeTest')){
-	require_once __INCLUDES__ .'/model/TypeTest.class.php';
+	require_once QCUBED_PROJECT_MODEL_DIR .'/TypeTest.php';
 }
 
 class QQFuncTests extends \QCubed\Test\UnitTestCaseBase {

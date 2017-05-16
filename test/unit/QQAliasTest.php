@@ -7,11 +7,11 @@ use \QCubed\QDateTime;
 // If the test is being run in php cli mode, the autoloader does not work.
 // Check to see if the models you need exist and if not, include them here.
 if(!class_exists('Person')){
-    require_once __INCLUDES__ .'/model/Person.class.php';
+    require_once QCUBED_PROJECT_MODEL_DIR .'/Person.php';
     
 }
 if(!class_exists('Project')){
-    require_once __INCLUDES__ . '/model/Project.class.php';
+    require_once QCUBED_PROJECT_MODEL_DIR . '/Project.php';
 }
 /**
  * Validation tests for the SQL Aliasing logic provided in \QCubed\Query\QQ::Alias().

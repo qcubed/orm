@@ -33,4 +33,4 @@ This needs to be fixed!
 	ob_end_flush();
 
 // Include the CodeGen class library
-require(__INCLUDES__ . '/codegen/Codegen.php');
+require(QCUBED_PROJECT_INCLUDES_DIR . '/codegen/Codegen.php');

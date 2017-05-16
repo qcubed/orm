@@ -452,7 +452,7 @@ abstract class CodegenBase extends ObjectBase
         if ($strTemplate === null) {
             $strTemplate = file_get_contents($strTemplateFilePath);
         }
-        $strError = 'Template\'s first line must be <template OverwriteFlag="boolean" DocrootFlag="boolean" TargetDirectory="string" DirectorySuffix="string" TargetFileName="string"/>: ' . $strTemplateFilePath;
+        $strError = 'Template\'s first line must be <template OverwriteFlag="boolean" TargetDirectory="string" DirectorySuffix="string" TargetFileName="string"/>: ' . $strTemplateFilePath;
         // Parse out the first line (which contains path and overwriting information)
         $intPosition = strpos($strTemplate, "\n");
         if ($intPosition === false) {
@@ -516,22 +516,17 @@ abstract class CodegenBase extends ObjectBase
         set_include_path($strOldIncludePath);
 
         $blnOverwriteFlag = Type::cast($templateSettings['OverwriteFlag'], Type::BOOLEAN);
-        $blnDocrootFlag = Type::cast($templateSettings['DocrootFlag'], Type::BOOLEAN);
         $strTargetDirectory = Type::cast($templateSettings['TargetDirectory'], Type::STRING);
         $strDirectorySuffix = Type::cast($templateSettings['DirectorySuffix'], Type::STRING);
         $strTargetFileName = Type::cast($templateSettings['TargetFileName'], Type::STRING);
 
-        if (is_null($blnOverwriteFlag) || is_null($strTargetFileName) || is_null($strTargetDirectory) || is_null($strDirectorySuffix) || is_null($blnDocrootFlag)) {
+        if (is_null($blnOverwriteFlag) || is_null($strTargetFileName) || is_null($strTargetDirectory) || is_null($strDirectorySuffix)) {
             throw new \Exception('the template settings cannot be null');
         }
 
         if ($blnSave && $strTargetDirectory) {
             // Figure out the REAL target directory
-            if ($blnDocrootFlag) {
-                $strTargetDirectory = __DOCROOT__ . $strTargetDirectory . $strDirectorySuffix;
-            } else {
-                $strTargetDirectory = $strTargetDirectory . $strDirectorySuffix;
-            }
+            $strTargetDirectory = $strTargetDirectory . $strDirectorySuffix;
 
             // Create Directory (if needed)
             if (!is_dir($strTargetDirectory)) {

@@ -17,13 +17,13 @@ $loader->addPsr4('QCubed\\', $strOrmPath . '/src');
 \QCubed\Database\Service::InitializeDatabaseConnections();
 
 // Load in the Project classes
-$loader->addPsr4('QCubed\\Project\\', __PROJECT__ . '/qcubed'); // make sure user side codegen is included
+$loader->addPsr4('QCubed\\Project\\', QCUBED_PROJECT_DIR . '/qcubed'); // make sure user side codegen is included
 
 
 /////////////////////////////////////////////////////
 // Run CodeGen, using the ./codegen_settings.xml file
 /////////////////////////////////////////////////////
-QCodegen::Run(__CONFIGURATION__ . '/codegen_settings.xml');
+QCodegen::Run(QCUBED_PROJECT_CONFIGURATION_DIR . '/codegen_settings.xml');
 
 function DisplayMonospacedText($strText)
 {

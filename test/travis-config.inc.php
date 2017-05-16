@@ -8,18 +8,19 @@ define('__WORKING_DIR__', $workingDir);
 
 // Configure
 require( __WORKING_DIR__ . '/test/travis/configuration.inc.php');
-define ('__CONFIGURATION__', __WORKING_DIR__ . '/test/travis');
+
+define ('QCUBED_PROJECT_CONFIGURATION_DIR', __WORKING_DIR__ . '/test/travis');
 
 \QCubed\AutoloaderService::instance()
 	->initialize('./vendor/autoload.php')
 	->addPsr4('QCubed\\', __WORKING_DIR__ . '/src');
 
 // Codegen
-require(__CONFIGURATION__ . '/CodegenBase.php');
-require( __DOCROOT__ . __SUBDIRECTORY__ . '/tools/codegen.cli.php');
+require(QCUBED_PROJECT_CONFIGURATION_DIR . '/CodegenBase.php');
+require( QCUBED_ORM_DIR . '/tools/codegen.cli.php');
 
 include (__DIR__ . '/../src/model_includes.inc.php');
 
 \QCubed\AutoloaderService::instance()
-	->addClassmapFile(__MODEL_GEN__ . '/_class_paths.inc.php')
-	->addClassmapFile(__MODEL_GEN__ . '/_type_class_paths.inc.php');
+	->addClassmapFile(QCUBED_PROJECT_MODEL_GEN_DIR . '/_class_paths.inc.php')
+	->addClassmapFile(QCUBED_PROJECT_MODEL_GEN_DIR . '/_type_class_paths.inc.php');

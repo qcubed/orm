@@ -5,7 +5,7 @@ use QCubed\Project\Codegen\CodegenBase as Codegen;
 /* This includes library file is used by the codegen.cli and codegen.phpexe scripts
  * to simply fire up and run the CodeGen object, itself.
  *
- * Depends on __INCLUDES__ and __CONFIGURATION__ defines
+ * Depends on QCUBED_PROJECT_INCLUDES_DIR and QCUBED_PROJECT_CONFIGURATION_DIR defines
  */
 
 
@@ -31,7 +31,7 @@ For more information, please go to http://qcu.be
 
 \QCubed\Database\Service::InitializeDatabaseConnections();
 
-$settingsFile = __CONFIGURATION__ . '/codegen_settings.xml';
+$settingsFile = QCUBED_PROJECT_CONFIGURATION_DIR . '/codegen_settings.xml';
 
 if (!is_file($settingsFile)) {
 	echo "Settings file: " . $settingsFile;

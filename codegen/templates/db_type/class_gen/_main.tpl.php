@@ -4,9 +4,8 @@
 	global $_TEMPLATE_SETTINGS;
 	$_TEMPLATE_SETTINGS = array(
 		'OverwriteFlag' => true,
-		'DocrootFlag' => false,
 		'DirectorySuffix' => '',
-		'TargetDirectory' => __MODEL_GEN__,
+		'TargetDirectory' => QCUBED_PROJECT_MODEL_GEN_DIR,
 		'TargetFileName' => $objTypeTable->ClassName . 'Gen.php'
 	);
 ?>

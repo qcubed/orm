@@ -760,7 +760,7 @@ abstract class DatabaseBase extends ObjectBase
         $strOut = '<div class="qDbProfile">';
         if ($this->blnEnableProfiling) {
             $strOut .= sprintf('<form method="post" id="frmDbProfile%s" action="%s/profile.php"><div>',
-                $this->intDatabaseIndex, __VIRTUAL_DIRECTORY__ . __PHP_ASSETS__);
+                $this->intDatabaseIndex, QCUBED_PHP_URL);
             $strOut .= sprintf('<input type="hidden" name="strProfileData" value="%s" />',
                 base64_encode(serialize($this->strProfileArray)));
             $strOut .= sprintf('<input type="hidden" name="intDatabaseIndex" value="%s" />', $this->intDatabaseIndex);

@@ -1,3 +1,3 @@
 <?php
 // manually included class files
-@include(__MODEL_GEN__ . '/QQN.php');
+@include(QCUBED_PROJECT_MODEL_GEN_DIR . '/QQN.php');

@@ -13,31 +13,31 @@ use \QCubed\QDateTime;
 // If the test is being run in php cli mode, the autoloader does not work.
 // Check to see if the models you need exist and if not, include them here.
 if(!class_exists('Person')){
-    require_once __INCLUDES__ .'/model/Person.class.php';
+    require_once QCUBED_PROJECT_MODEL_DIR .'/Person.php';
 }
 if(!class_exists('Project')){
-    require_once __INCLUDES__ .'/model/Project.class.php';
+    require_once QCUBED_PROJECT_MODEL_DIR .'/Project.php';
 }
 if(!class_exists('Login')){
-    require_once __INCLUDES__ .'/model/Login.class.php';
+    require_once QCUBED_PROJECT_MODEL_DIR .'/Login.php';
 }
 if(!class_exists('Milestone')){
-    require_once __INCLUDES__ .'/model/Milestone.class.php';
+    require_once QCUBED_PROJECT_MODEL_DIR .'/Milestone.php';
 }
 if(!class_exists('Address')){
-    require_once __INCLUDES__ .'/model/Address.class.php';
+    require_once QCUBED_PROJECT_MODEL_DIR .'/Address.php';
 }
 if(!class_exists('PersonType')){
-    require_once __INCLUDES__ .'/model/PersonType.class.php';
+    require_once QCUBED_PROJECT_MODEL_DIR .'/PersonType.php';
 }
 if(!class_exists('TwoKey')){
-    require_once __INCLUDES__ .'/model/TwoKey.class.php';
+    require_once QCUBED_PROJECT_MODEL_DIR .'/TwoKey.php';
 }
 if(!class_exists('ProjectStatusType')){
-    require_once __INCLUDES__ .'/model/ProjectStatusType.class.php';
+    require_once QCUBED_PROJECT_MODEL_DIR .'/ProjectStatusType.php';
 }
 if(!class_exists('Login')){
-    require_once __INCLUDES__ .'/model/Login.class.php';
+    require_once QCUBED_PROJECT_MODEL_DIR .'/Login.php';
 }
 
 class ExpandAsArrayTests extends \QCubed\Test\UnitTestCaseBase {

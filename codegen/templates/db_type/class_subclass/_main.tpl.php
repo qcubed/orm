@@ -4,14 +4,13 @@
 	global $_TEMPLATE_SETTINGS;
 	$_TEMPLATE_SETTINGS = array(
 		'OverwriteFlag' => false,
-		'DocrootFlag' => false,
 		'DirectorySuffix' => '',
-		'TargetDirectory' => __MODEL__,
+		'TargetDirectory' => QCUBED_PROJECT_MODEL_DIR,
 		'TargetFileName' => $objTypeTable->ClassName . '.php'
 	);
 ?>
 <?php print("<?php\n"); ?>
-	require(__MODEL_GEN__ . '/<?= $objTypeTable->ClassName ?>Gen.php');
+	require(QCUBED_PROJECT_MODEL_GEN_DIR . '/<?= $objTypeTable->ClassName ?>Gen.php');
 
 	/**
 	 * The <?= $objTypeTable->ClassName ?> class defined here contains any

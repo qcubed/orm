@@ -4,9 +4,8 @@
 	global $_TEMPLATE_SETTINGS;
 	$_TEMPLATE_SETTINGS = array(
 		'OverwriteFlag' => true,
-		'DocrootFlag' => false,
 		'DirectorySuffix' => '',
-		'TargetDirectory' => __MODEL_GEN__,
+		'TargetDirectory' => QCUBED_PROJECT_MODEL_GEN_DIR,
 		'TargetFileName' => '_type_class_paths.inc.php'
 	);
 ?>
@@ -15,9 +14,9 @@ $a = [];
 
 <?php foreach ($objTableArray as $objTable) { ?>
 // ClassPaths for the <?= $objTable->ClassName ?> type class
-<?php if (__MODEL__) { ?>
-$a['<?= strtolower($objTable->ClassName) ?>'] = __MODEL__ . '/<?= $objTable->ClassName ?>.php';
-$a['node<?= strtolower($objTable->ClassName) ?>'] = __MODEL__ . '/<?= $objTable->ClassName ?>.php';<?php } ?>
+<?php if (QCUBED_PROJECT_MODEL_DIR) { ?>
+$a['<?= strtolower($objTable->ClassName) ?>'] = QCUBED_PROJECT_MODEL_DIR . '/<?= $objTable->ClassName ?>.php';
+$a['node<?= strtolower($objTable->ClassName) ?>'] = QCUBED_PROJECT_MODEL_DIR . '/<?= $objTable->ClassName ?>.php';<?php } ?>
 <?php } ?>
 
 
