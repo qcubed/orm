@@ -84,7 +84,7 @@ switch (SERVER_INSTANCE) {
  * If you are using Apache-based mod_rewrite to perform URL rewrites, please specify "apache" here.
  * Otherwise, specify as "none"
  */
-define ('__URL_REWRITE__', 'none');
+define ('QCUBED_URL_REWRITE', 'none');
 
 /**
  * The encoding type for the application (e.g. UTF-8, ISO-8859-1, etc.). This is the encoding that will be
@@ -93,7 +93,7 @@ define ('__URL_REWRITE__', 'none');
  * was QApplication::$EncodingType
  */
 
-define('__APPLICATION_ENCODING_TYPE__', 'UTF-8');
+define('QCUBED_ENCODING', 'UTF-8');
 
 if ((function_exists('date_default_timezone_set')) && (!ini_get('date.timezone')))
     date_default_timezone_set('America/Los_Angeles');

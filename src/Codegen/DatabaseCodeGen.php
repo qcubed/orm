@@ -14,7 +14,7 @@ use QCubed\Exception\Caller;
 use QCubed\Type;
 use QCubed\Project\Codegen\CodegenBase as QCodegen;
 
-//require_once __PROJECT__ . '/qcubed/codegen/CodegenBase.php';
+//require_once QCUBED_PROJECT_DIR . '/qcubed/codegen/CodegenBase.php';
 
 /**
  * Class DatabaseCodeGen

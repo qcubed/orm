@@ -31,7 +31,7 @@ class CodegenBase extends \QCubed\Codegen\CodegenBase {
 			QCUBED_BASE_DIR . '/orm/templates/',
             QCUBED_BASE_DIR . '/application/codegen/templates/'
 
-            //__INCLUDES__ . '/codegen/templates/'
+            //QCUBED_PROJECT_INCLUDES_DIR . '/codegen/templates/'
 		);
 	}
 
