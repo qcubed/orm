@@ -23,7 +23,7 @@ if (!defined('SERVER_INSTANCE')) {
     define ('QCUBED_APP_INCLUDES_DIR', QCUBED_PROJECT_DIR . '/includes/app_includes' );
     define ('QCUBED_ORM_TOOLS_DIR', __QC__ . '/orm/tools' );
 
-	require_once (getenv("DB") . '.inc.php');
+    require_once (__DIR__ . '/' . getenv("DB") . '.inc.php');
 
 	define ('MAX_DB_CONNECTION_INDEX', 1);
 
