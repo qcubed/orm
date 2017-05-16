@@ -82,4 +82,4 @@ switch (SERVER_INSTANCE) {
 // Maximum index of the DB connections defined by DB_CONNECTION_# constants above
 // When reading the DB_CONNECTION_# constants, it will only go up to (and including) the index defined here
 // See ApplicationBase::InitializeDatabaseConnections()
-define ('MAX_DB_CONNECTION_INDEX', 9);
+define ('MAX_DB_CONNECTION_INDEX', 1);
