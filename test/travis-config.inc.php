@@ -17,7 +17,7 @@ define ('QCUBED_PROJECT_CONFIGURATION_DIR', __WORKING_DIR__ . '/test/travis');
 
 // Codegen
 require(QCUBED_PROJECT_CONFIGURATION_DIR . '/CodegenBase.php');
-require( QCUBED_ORM_DIR . '/tools/codegen.cli.php');
+require( QCUBED_ORM_TOOLS_DIR . '/codegen.cli.php');
 
 include (__DIR__ . '/../src/model_includes.inc.php');
 
