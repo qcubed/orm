@@ -1,10 +1,11 @@
 <?php
 
-use QCubed\Project\CodeGen\CodegenBase as QCodegen;
+use QCubed\Project\CodeGen\CodegenBase as Codegen;
 use QCubed\QString;
 
 //$__CONFIG_ONLY__ = true;
 
+define('QCUBED_CODE_GENERATING', true);
 
 require_once('qcubed.inc.php');
 
@@ -14,7 +15,7 @@ $loader = require(dirname($strQCubedPath) . '/autoload.php'); // Add the Compose
 $loader->addPsr4('QCubed\\', $strOrmPath . '/../common/src');
 $loader->addPsr4('QCubed\\', $strOrmPath . '/src');
 
-\QCubed\Database\Service::InitializeDatabaseConnections();
+\QCubed\Database\Service::initializeDatabaseConnections();
 
 // Load in the Project classes
 $loader->addPsr4('QCubed\\Project\\', QCUBED_PROJECT_DIR . '/qcubed'); // make sure user side codegen is included
@@ -23,9 +24,9 @@ $loader->addPsr4('QCubed\\Project\\', QCUBED_PROJECT_DIR . '/qcubed'); // make s
 /////////////////////////////////////////////////////
 // Run CodeGen, using the ./codegen_settings.xml file
 /////////////////////////////////////////////////////
-QCodegen::Run(QCUBED_PROJECT_CONFIGURATION_DIR . '/codegen_settings.xml');
+Codegen::run(QCUBED_PROJECT_CONFIGURATION_DIR . '/codegen_settings.xml');
 
-function DisplayMonospacedText($strText)
+function displayMonospacedText($strText)
 {
     $strText = QString::htmlEntities($strText);
     $strText = str_replace('	', '    ', $strText);
@@ -49,29 +50,29 @@ $strPageTitle = "QCubed Development Framework - Code Generator";
 
 <div class="headerLine"><span><strong>Code Generated:</strong> <?php echo(date('l, F j Y, g:i:s A')); ?></span></div>
 
-<?php if (QCodegen::$TemplatePaths) { ?>
+<?php if (Codegen::$TemplatePaths) { ?>
     <div>
         <p><strong>Template Paths</strong></p>
-        <pre><code><?php DisplayMonospacedText(implode("\r\n", QCodegen::$TemplatePaths)); ?></code></pre>
+        <pre><code><?php DisplayMonospacedText(implode("\r\n", Codegen::$TemplatePaths)); ?></code></pre>
     </div>
 <?php } ?>
 
 <div>
-    <?php if ($strErrors = QCodegen::$RootErrors) { ?>
+    <?php if ($strErrors = Codegen::$RootErrors) { ?>
         <p><strong>The following root errors were reported:</strong></p>
         <pre><code><?php DisplayMonospacedText($strErrors); ?></code></pre>
     <?php } else { ?>
-        <p><strong>CodeGen Settings (as evaluated from <?php echo(QCodegen::$SettingsFilePath); ?>):</strong></p>
-        <pre><code><?php DisplayMonospacedText(QCodegen::GetSettingsXml()); ?></code></pre>
+        <p><strong>CodeGen Settings (as evaluated from <?php echo(Codegen::$SettingsFilePath); ?>):</strong></p>
+        <pre><code><?php DisplayMonospacedText(Codegen::getSettingsXml()); ?></code></pre>
     <?php } ?>
 
-    <?php foreach (QCodegen::$CodeGenArray as $objCodeGen) { ?>
-        <p><strong><?= QString::HtmlEntities($objCodeGen->GetTitle()); ?></strong></p>
-        <pre><code><p class="code_title"><?php QString::HtmlEntities($objCodeGen->GetReportLabel()); ?></p><?php
-                if (QCodegen::DEBUG_MODE) {
-                    DisplayMonospacedText($objCodeGen->GenerateAll());
+    <?php foreach (Codegen::$CodeGenArray as $objCodeGen) { ?>
+        <p><strong><?= QString::htmlEntities($objCodeGen->getTitle()); ?></strong></p>
+        <pre><code><p class="code_title"><?php QString::htmlEntities($objCodeGen->getReportLabel()); ?></p><?php
+                if (Codegen::DEBUG_MODE) {
+                    DisplayMonospacedText($objCodeGen->generateAll());
                 } else {
-                    @DisplayMonospacedText($objCodeGen->GenerateAll());
+                    @DisplayMonospacedText($objCodeGen->generateAll());
                 }
                 ?>
                 <?php if ($strErrors = $objCodeGen->Errors) { ?>
@@ -86,8 +87,8 @@ $strPageTitle = "QCubed Development Framework - Code Generator";
 
     <?php
     if (!$strErrors) {
-        foreach (QCodegen::GenerateAggregate() as $strMessage) { ?>
-            <p><strong><?php QString::HtmlEntities($strMessage); ?></strong></p>
+        foreach (Codegen::generateAggregate() as $strMessage) { ?>
+            <p><strong><?php QString::htmlEntities($strMessage); ?></strong></p>
         <?php }
     } ?>
 </div>

@@ -226,7 +226,10 @@ abstract class CodegenBase extends ObjectBase
      */
     public static function run($strSettingsXmlFilePath)
     {
-        define('__CODE_GENERATING__', true);
+        if (!defined('QCUBED_CODE_GENERATING')) {
+            define('QCUBED_CODE_GENERATING', true);
+        }
+
         Codegen::$CodeGenArray = array();
         Codegen::$SettingsFilePath = $strSettingsXmlFilePath;
 
