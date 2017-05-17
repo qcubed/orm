@@ -49,6 +49,11 @@ switch (SERVER_INSTANCE) {
 
         /** The following are paths relative to DOCROOT that are inserted in front of file names so the browser can get to them. **/
 
+		// Before QCubed can do anything, it needs to know the URL to use for development purposes. This would be a local
+		// url on your development computer. The prefix below is only used within this config file to help with the url
+		// pointers below. It would be whatever needs to go after "http:/" and before the "/vendor" or "/project" directory
+		define ('QCUBED_URL_PREFIX', '{ url_prefix }');
+
         // The files need to be in DOC_ROOT, or somehow (perhaps a rewrite rule), be browser accessible.
         // Default values point inside of the project and QCubed base directories. A production environment should
         // copy those out of those locations and put them in some web accessible location. Also, production environments
@@ -58,15 +63,15 @@ switch (SERVER_INSTANCE) {
         // to various development tools that are browser based. In a production environment, this would be the parent directory
         // of the various assets directories for files provided by framework.
         // @was __VIRTUAL_DIRECTORY__ . __SUBDIRECTORY __
-        define ('QCUBED_BASE_URL', '/home/qcubed/vendor/qcubed');
+        define ('QCUBED_BASE_URL', QCUBED_URL_PREFIX . '/vendor/qcubed');
 
         // This is the project assets directory where we put files that are designed to be altered by the developer.
         // js, css, etc. directories should be under this directory.
-        define ('QCUBED_PROJECT_ASSETS_URL', '/home/qcubed/project/assets');
+        define ('QCUBED_PROJECT_ASSETS_URL', QCUBED_URL_PREFIX . '/project/assets');
 
         // This is the forms directory where we put generated php form files that are entry points for the browser.
         // @was __FORMS__
-        define ('QCUBED_FORMS_URL', '/home/qcubed/project/forms');
+        define ('QCUBED_FORMS_URL', QCUBED_URL_PREFIX . '/project/forms');
         // This is the corresponding absolute path so we know where to write the files AND how to access them from a browser.
         // Production environments should be able to remove this define
         define ('QCUBED_FORMS_DIR', QCUBED_PROJECT_DIR . '/forms');

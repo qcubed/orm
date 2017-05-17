@@ -7,7 +7,22 @@ use QCubed\QString;
 
 define('QCUBED_CODE_GENERATING', true);
 
-require_once('qcubed.inc.php');
+require_once(__DIR__ . '/qcubed.inc.php');
+
+if (!defined('QCUBED_URL_PREFIX')) {
+    echo "Cannot find the configuration file. Make sure your qcubed.inc.php file is installed correctly."; exit;
+}
+if (QCUBED_URL_PREFIX == '{ url_prefix }') {
+    // config file has not been set up correctly
+    // what should it be?
+    $uri = $_SERVER['REQUEST_URI'];
+    $offset = strrpos ($uri, '/vendor');
+    echo "Your config file is not set up correcly. In particular, look in the project/includes/configuration/active/config.cfg.php file and change the '{ url_prefix }' to '";
+    echo substr($uri, 0, $offset);
+    echo "'";
+    exit;
+}
+
 
 $strOrmPath = dirname(__DIR__);
 $strQCubedPath = dirname($strOrmPath);

@@ -17,49 +17,57 @@ namespace QCubed\Project\Codegen;
  * @package Project
  * @was QCodeGen
  */
-class CodegenBase extends \QCubed\Codegen\CodegenBase {
+class CodegenBase extends \QCubed\Codegen\CodegenBase
+{
 
-	/**
-	 * Construct the CodeGen object.
-	 *
-	 * Gives you an opportunity to read your xml file and make codegen changes accordingly.
-	 */
-	public function __construct($objSettingsXml) {
-		// Specify the paths to your template files here. These paths will be searched in the order declared, to
-		// find a particular template file. Template files found lower down in the order will override the previous ones.
-		static::$TemplatePaths = array (
-			QCUBED_BASE_DIR . '/orm/codegen/templates/'
+    /**
+     * Construct the CodeGen object.
+     *
+     * Gives you an opportunity to read your xml file and make codegen changes accordingly.
+     */
+    public function __construct($objSettingsXml)
+    {
+        static::$TemplatePaths = $this->getInstalledTemplatePaths();
+    }
 
-            //QCUBED_PROJECT_INCLUDES_DIR . '/codegen/templates/'
-		);
-	}
+    /**
+     * Calls the super class, then inserts our own paths to our templates.
+     */
+    public function getInstalledTemplatePaths()
+    {
+        $paths = parent::getInstalledTemplatePaths();
 
-	/**
-	 * QCodeGen::Pluralize()
-	 *
-	 * Example: Overriding the Pluralize method
-	 *
-	 * @param string $strName
-	 * @return string
-	 */
-	protected function Pluralize($strName) {
-		// Special Rules go Here
-		switch (true) {
-			case ($strName == 'person'):
-				return 'people';
-			case ($strName == 'Person'):
-				return 'People';
-			case ($strName == 'PERSON'):
-				return 'PEOPLE';
+        // Add the paths to your custom template files here. These paths will be searched in the order declared, to
+        // find a particular template file. Template files found lower down in the order will override the previous ones.
+        $paths[] = QCUBED_PROJECT_DIR . '/codegen/templates/';
+    }
 
-			// Trying to be cute here...
-			case (strtolower($strName) == 'fish'):
-				return $strName . 'ies';
+    /**
+     * QCodeGen::pluralize()
+     *
+     * Example: Overriding the Pluralize method
+     *
+     * @param string $strName
+     * @return string
+     */
+    protected function pluralize($strName)
+    {
+        // Special Rules go Here
+        switch (true) {
+            case ($strName == 'person'):
+                return 'people';
+            case ($strName == 'Person'):
+                return 'People';
+            case ($strName == 'PERSON'):
+                return 'PEOPLE';
 
-			// Otherwise, call parent
-			default:
-				return parent::Pluralize($strName);
-		}
-	}
+            // Trying to be cute here...
+            case (strtolower($strName) == 'fish'):
+                return $strName . 'ies';
+
+            // Otherwise, call parent
+            default:
+                return parent::pluralize($strName);
+        }
+    }
 }
-

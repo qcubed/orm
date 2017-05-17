@@ -196,6 +196,36 @@ abstract class CodegenBase extends ObjectBase
         return "";
     }
 
+    /**
+     * Return an array of paths to template files. This base class versions searches a config directory for pointers
+     * to template files to use. This allows qcubed repos to inject templates into the codegen process.
+     *
+     * This process is similar to how the control registry works.
+     */
+    public function getInstalledTemplatePaths()
+    {
+        $dir = QCUBED_CONFIG_DIR . '/templates';
+
+        $paths = [];
+
+        if ($dir !== false) {    // does the active directory exist?
+            foreach (new \DirectoryIterator($dir) as $fileInfo) {
+                if ($fileInfo->isDot()) {
+                    continue;
+                }
+                $strFileName = $fileInfo->getPathname();
+                if (substr($strFileName, -8) == '.inc.php') {
+                    $paths2 = include($strFileName);
+                    if ($paths2 && is_array($paths2)) {
+                        $paths = array_merge($paths, $paths2);
+                    }
+                }
+            }
+        }
+
+        return $paths;
+    }
+
 
     /**
      * Gets the settings in codegen_settings.xml file and returns its text without comments
@@ -1039,8 +1069,7 @@ abstract class CodegenBase extends ObjectBase
 
         if (method_exists($strControlClass, 'getCodeGenerator')) {
             return $strControlClass::getCodeGenerator();
-        }
-        else {
+        } else {
             throw new Caller("Class " . $strControlClass . " must implement getCodeGenerator()");
         }
     }
@@ -1051,8 +1080,7 @@ abstract class CodegenBase extends ObjectBase
 
         if (method_exists($strControlClass, 'getCodeGenerator')) {
             return $strControlClass::getCodeGenerator();
-        }
-        else {
+        } else {
             throw new Caller("Class " . $strControlClass . " must implement getCodeGenerator()");
         }
     }
