@@ -40,6 +40,7 @@ class CodegenBase extends \QCubed\Codegen\CodegenBase
         // Add the paths to your custom template files here. These paths will be searched in the order declared, to
         // find a particular template file. Template files found lower down in the order will override the previous ones.
         $paths[] = QCUBED_PROJECT_DIR . '/codegen/templates/';
+        return $paths;
     }
 
     /**
