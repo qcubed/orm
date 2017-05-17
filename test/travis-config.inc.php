@@ -9,14 +9,14 @@ define('__WORKING_DIR__', $workingDir);
 // Configure
 require( __WORKING_DIR__ . '/test/travis/configuration.inc.php');
 
-define ('QCUBED_PROJECT_CONFIGURATION_DIR', __WORKING_DIR__ . '/test/travis');
+define ('QCUBED_CONFIG_DIR', __WORKING_DIR__ . '/test/travis');
 
 \QCubed\AutoloaderService::instance()
 	->initialize('./vendor/autoload.php')
 	->addPsr4('QCubed\\', __WORKING_DIR__ . '/src');
 
 // Codegen
-require(QCUBED_PROJECT_CONFIGURATION_DIR . '/CodegenBase.php');
+require(QCUBED_CONFIG_DIR . '/CodegenBase.php');
 require( QCUBED_ORM_TOOLS_DIR . '/codegen.cli.php');
 
 include (__DIR__ . '/../src/model_includes.inc.php');

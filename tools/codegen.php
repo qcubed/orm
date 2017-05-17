@@ -24,7 +24,7 @@ $loader->addPsr4('QCubed\\Project\\', QCUBED_PROJECT_DIR . '/qcubed'); // make s
 /////////////////////////////////////////////////////
 // Run CodeGen, using the ./codegen_settings.xml file
 /////////////////////////////////////////////////////
-Codegen::run(QCUBED_PROJECT_CONFIGURATION_DIR . '/codegen_settings.xml');
+Codegen::run(QCUBED_CONFIG_DIR . '/codegen_settings.xml');
 
 function displayMonospacedText($strText)
 {

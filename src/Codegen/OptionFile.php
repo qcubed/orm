@@ -15,7 +15,7 @@ namespace QCubed\Codegen;
 use QCubed\ObjectBase;
 
 if (!defined("__CODEGEN_OPTION_FILE__")) {
-    define("__CODEGEN_OPTION_FILE__", QCUBED_PROJECT_CONFIGURATION_DIR . '/codegen_options.json');
+    define("__CODEGEN_OPTION_FILE__", QCUBED_CONFIG_DIR . '/codegen_options.json');
 }
 
 
