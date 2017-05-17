@@ -16,7 +16,7 @@
     -->
 	<formgen
 			createMethod="queryString"
-			buttonClass="QJqButton"
+			buttonClass="\QCubed\Project\Control\Button"
 			preferredRenderMethod = "RenderWithName"
 			/>
 
@@ -49,6 +49,7 @@
             -->
             <createOptions
                     autoInitialize="true"
+                    privateColumnVars="true"
             />
 
             <!-- Specific Tables to Exclude or Include in the CodeGen process -->
@@ -62,6 +63,9 @@
 			-->
 			<excludeTables pattern="" list=""/>
 			<includeTables pattern="" list=""/>
+
+			<!-- Support for "Beta 2" version of Manual Queries and Hard Coded Column Names -->
+			<manualQuery support="false"/>
 
 			<!--
 				This feature allows you to use the comments made on the column of database table to be used as

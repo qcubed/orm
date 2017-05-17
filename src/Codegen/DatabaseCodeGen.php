@@ -480,7 +480,7 @@ class DatabaseCodeGen extends QCodegen
     protected function analyzeDatabase()
     {
         if (!Database\Service::count()) {
-            $this->strErrors = 'FATAL ERROR: No databases are listed in the configuration file.';
+            $this->strErrors = 'FATAL ERROR: No databases are listed in the configuration file. Edit the /project/includes/configuration/active/databases.cfg.php file';
             return;
         }
 

@@ -28,16 +28,20 @@
  * 		those constraints are.  The path of the script can be defined here. - default is blank or none
  * Note: any option not used or set to blank will result in using the default value for that option
  */
+ switch (SERVER_INSTANCE) {
+	case 'dev':
+		// change the info below for your database
+
 /*
 		define('DB_CONNECTION_1', serialize(array(
-			'adapter' => 'PostgreSqlPdo',
+			'adapter' => 'Mysqli5',
 			'server' => 'localhost',
-			'port' => 5432,
+			'port' => null,
 			'database' => 'qcubed',
-			'username' => 'shannon',
+			'username' => 'root',
 			//	'profiling' => true,
 			'profiling' => false,
-			'password' => ''
+			'password' => '12345'
 		)));*/
 /*
 		define('DB_CONNECTION_1', serialize(array(
@@ -45,31 +49,18 @@
 			'server' => 'localhost',
 			'port' => null,
 			'database' => 'qcubed',
-			'username' => 'shannon',
-			//	'profiling' => true,
-			'profiling' => false,
-			'password' => ''
-		)));*/
-
-switch (SERVER_INSTANCE) {
-	case 'dev':
-		// change the info below for your database
-		define('DB_CONNECTION_1', serialize(array(
-			'adapter' => 'Mysqli5',
-			'server' => 'db',
-			'port' => null,
-			'database' => 'qcubed',
 			'username' => 'root',
 			//	'profiling' => true,
 			'profiling' => false,
-			'caching' => true,
 			'password' => '12345'
-		)));
+		)));*/
+
 		break;
 
 	case 'test':
 	case 'stage':
 	case 'prod':
+	break;
 }
 
 // Additional Database Connection Strings can be defined here (e.g. for connection #2, #3, #4, #5, etc.)
