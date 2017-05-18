@@ -38,15 +38,13 @@ switch (SERVER_INSTANCE) {
         // the framework without touching the files in QCUBED_BASE_DIR. Also, in here will go files that are generated
         // by the code generator. Again, during development, it may be convenient to put this in docroot, but we recommend
         // NOT doing this for production.
-        define ('QCUBED_PROJECT_DIR', realpath(dirname(__DIR__, 3)));
-        echo (QCUBED_PROJECT_DIR) . "\n";
+        define ('QCUBED_PROJECT_DIR', dirname(dirname(dirname(__DIR__))));
 
         // The installation base path of the qcubed repositories. The application, orm, and other repos go in here.
         // Often during development, it is convenient to put this in your document root directory,
         // but we highly recommend for deployments that it NOT be in docroot. 3rd party libraries would be siblings
         // to this dir, and the default autoloader is a sibling too.
         define ('QCUBED_BASE_DIR',  dirname(QCUBED_PROJECT_DIR) . '/vendor/qcubed'); // default to having project dir be a sibling of vendor
-        echo (QCUBED_BASE_DIR) . "\n";
 
 
         /** The following are paths relative to DOCROOT that are inserted in front of file names so the browser can get to them. **/
