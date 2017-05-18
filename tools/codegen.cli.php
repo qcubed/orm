@@ -50,6 +50,11 @@ if ($strErrors = CodeGen::$RootErrors) {
 	printf("CodeGen settings (as evaluted from %s):\r\n%s\r\n\r\n", $settingsFile, CodeGen::GetSettingsXml());
 }
 
+print ("Template files:\r\n");
+$strFiles = Codegen::$TemplatePaths;
+echo implode("\r\n", $strFiles);
+
+
 foreach (CodeGen::$CodeGenArray as $objCodeGen) {
 	printf("%s\r\n---------------------------------------------------------------------\r\n", $objCodeGen->GetTitle());
 	printf("%s\r\n", $objCodeGen->GetReportLabel());
@@ -58,10 +63,6 @@ foreach (CodeGen::$CodeGenArray as $objCodeGen) {
 		printf("The following errors were reported:\r\n%s\r\n", $strErrors);
 	print("\r\n");
 }
-
-print ("Template files:\r\n");
-$strFiles = Codegen::$TemplatePaths;
-echo implode("\r\n", $strFiles);
 
 foreach (CodeGen::GenerateAggregate() as $strMessage) {
 	printf("%s\r\n\r\n", $strMessage);
