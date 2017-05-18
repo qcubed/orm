@@ -19,8 +19,8 @@ define ('QCUBED_CONFIG_DIR', __WORKING_DIR__ . '/test/travis');
 require(QCUBED_CONFIG_DIR . '/CodegenBase.php');
 require( QCUBED_ORM_TOOLS_DIR . '/codegen.cli.php');
 
-include (__DIR__ . '/../src/model_includes.inc.php');
 
 \QCubed\AutoloaderService::instance()
 	->addClassmapFile(QCUBED_PROJECT_MODEL_GEN_DIR . '/_class_paths.inc.php')
 	->addClassmapFile(QCUBED_PROJECT_MODEL_GEN_DIR . '/_type_class_paths.inc.php');
+include (QCUBED_PROJECT_MODEL_GEN_DIR . '/QQN.php');
