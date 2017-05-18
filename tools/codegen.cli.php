@@ -59,9 +59,9 @@ foreach (CodeGen::$CodeGenArray as $objCodeGen) {
 	print("\r\n");
 }
 
-echo ("Template files:\n");
+print ("Template files:\r\n");
 $strFiles = Codegen::$TemplatePaths;
-echo implode("\n", $strFiles);
+echo implode("\r\n", $strFiles);
 
 foreach (CodeGen::GenerateAggregate() as $strMessage) {
 	printf("%s\r\n\r\n", $strMessage);
