@@ -40,7 +40,7 @@ if (!is_file($settingsFile)) {
 
 /////////////////////
 // Run Code Gen
-CodeGen::Run($settingsFile);
+CodeGen::run($settingsFile);
 /////////////////////
 
 
@@ -58,6 +58,10 @@ foreach (CodeGen::$CodeGenArray as $objCodeGen) {
 		printf("The following errors were reported:\r\n%s\r\n", $strErrors);
 	print("\r\n");
 }
+
+echo ("Template files:\n");
+$strFiles = Codegen::$TemplatePaths;
+echo implode("\n", $strFiles);
 
 foreach (CodeGen::GenerateAggregate() as $strMessage) {
 	printf("%s\r\n\r\n", $strMessage);
