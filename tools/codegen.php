@@ -84,11 +84,7 @@ $strPageTitle = "QCubed Development Framework - Code Generator";
     <?php foreach (Codegen::$CodeGenArray as $objCodeGen) { ?>
         <p><strong><?= QString::htmlEntities($objCodeGen->getTitle()); ?></strong></p>
         <pre><code><p class="code_title"><?php QString::htmlEntities($objCodeGen->getReportLabel()); ?></p><?php
-                if (Codegen::DEBUG_MODE) {
                     DisplayMonospacedText($objCodeGen->generateAll());
-                } else {
-                    @DisplayMonospacedText($objCodeGen->generateAll());
-                }
                 ?>
                 <?php if ($strErrors = $objCodeGen->Errors) { ?>
                     <p class="code_title">The following errors were reported:</p>
