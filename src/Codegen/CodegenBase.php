@@ -9,7 +9,7 @@
 
 namespace QCubed\Codegen;
 
-use QCubed\ErrorHandler;
+use QCubed\Error;
 use QCubed\Exception\Caller;
 use QCubed\Folder;
 use QCubed\ObjectBase;
@@ -275,9 +275,9 @@ abstract class CodegenBase extends ObjectBase
 
         // Try Parsing the Xml Settings File
         try {
-            ErrorHandler::set('\\QCubed\\Codegen\\QcubedHandleCodeGenParseError', E_ALL);
+            $errorHandler = new Error\Handler('\\QCubed\\Codegen\\QcubedHandleCodeGenParseError', E_ALL);
             Codegen::$SettingsXml = new \SimpleXMLElement(file_get_contents($strSettingsXmlFilePath));
-            ErrorHandler::restore();
+            $errorHandler->restore();
         } catch (\Exception $objExc) {
             Codegen::$RootErrors .= 'FATAL ERROR: Unable to parse CodeGenSettings XML File: ' . $strSettingsXmlFilePath;
             Codegen::$RootErrors .= "\r\n";
@@ -602,9 +602,8 @@ abstract class CodegenBase extends ObjectBase
         // CHMOD to full read/write permissions (applicable only to nonwindows)
         // Need to ignore error handling for this call just in case
         if (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN') {
-            ErrorHandler::set(null);
+            $e = new Error\Handler();
             chmod($strFilePath, 0666);
-            ErrorHandler::restore();
         }
     }
 
