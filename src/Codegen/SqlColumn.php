@@ -232,7 +232,7 @@ class SqlColumn extends ObjectBase implements ColumnInterface
      * @param string $strName Name of the property to set
      * @param string $mixValue New value of the property
      * @throws Caller
-     * @return mixed
+     * @return void
      */
     public function __set($strName, $mixValue)
     {
@@ -241,57 +241,77 @@ class SqlColumn extends ObjectBase implements ColumnInterface
                 case 'OwnerTable':
                     //return $this->objOwnerTable = \QCubed\Type::cast($mixValue, 'SqlTable');
                     // $mixValue might be a SqlTable or a QTypeTable
-                    return $this->objOwnerTable = $mixValue;
+                    $this->objOwnerTable = $mixValue;
+                    break;
                 case 'PrimaryKey':
-                    return $this->blnPrimaryKey = Type::cast($mixValue, Type::BOOLEAN);
+                    $this->blnPrimaryKey = Type::cast($mixValue, Type::BOOLEAN);
+                    break;
                 case 'Name':
-                    return $this->strName = Type::cast($mixValue, Type::STRING);
+                    $this->strName = Type::cast($mixValue, Type::STRING);
+                    break;
                 case 'PropertyName':
-                    return $this->strPropertyName = Type::cast($mixValue, Type::STRING);
+                    $this->strPropertyName = Type::cast($mixValue, Type::STRING);
+                    break;
                 case 'VariableName':
-                    return $this->strVariableName = Type::cast($mixValue, Type::STRING);
+                    $this->strVariableName = Type::cast($mixValue, Type::STRING);
+                    break;
                 case 'VariableType':
-                    return $this->strVariableType = Type::cast($mixValue, Type::STRING);
+                    $this->strVariableType = Type::cast($mixValue, Type::STRING);
+                    break;
                 case 'VariableTypeAsConstant':
-                    return $this->strVariableTypeAsConstant = Type::cast($mixValue, Type::STRING);
+                    $this->strVariableTypeAsConstant = Type::cast($mixValue, Type::STRING);
+                    break;
                 case 'DbType':
-                    return $this->strDbType = Type::cast($mixValue, Type::STRING);
+                    $this->strDbType = Type::cast($mixValue, Type::STRING);
+                    break;
                 case 'Length':
-                    return $this->intLength = Type::cast($mixValue, Type::INTEGER);
+                    $this->intLength = Type::cast($mixValue, Type::INTEGER);
+                    break;
                 case 'Default':
                     if ($mixValue === null || (($mixValue === '' || $mixValue === '0000-00-00 00:00:00' || $mixValue === '0000-00-00') && !$this->blnNotNull)) {
-                        return $this->mixDefault = null;
+                        $this->mixDefault = null;
                     } else {
                         if (is_int($mixValue)) {
-                            return $this->mixDefault = Type::cast($mixValue, Type::INTEGER);
+                            $this->mixDefault = Type::cast($mixValue, Type::INTEGER);
                         } else {
                             if (is_numeric($mixValue)) {
-                                return $this->mixDefault = Type::cast($mixValue, Type::FLOAT);
+                                $this->mixDefault = Type::cast($mixValue, Type::FLOAT);
                             } else {
-                                return $this->mixDefault = Type::cast($mixValue, Type::STRING);
+                                $this->mixDefault = Type::cast($mixValue, Type::STRING);
                             }
                         }
                     }
+                    break;
                 case 'NotNull':
-                    return $this->blnNotNull = Type::cast($mixValue, Type::BOOLEAN);
+                    $this->blnNotNull = Type::cast($mixValue, Type::BOOLEAN);
+                    break;
                 case 'Identity':
-                    return $this->blnIdentity = Type::cast($mixValue, Type::BOOLEAN);
+                    $this->blnIdentity = Type::cast($mixValue, Type::BOOLEAN);
+                    break;
                 case 'Indexed':
-                    return $this->blnIndexed = Type::cast($mixValue, Type::BOOLEAN);
+                    $this->blnIndexed = Type::cast($mixValue, Type::BOOLEAN);
+                    break;
                 case 'Unique':
-                    return $this->blnUnique = Type::cast($mixValue, Type::BOOLEAN);
+                    $this->blnUnique = Type::cast($mixValue, Type::BOOLEAN);
+                    break;
                 case 'Timestamp':
-                    return $this->blnTimestamp = Type::cast($mixValue, Type::BOOLEAN);
+                    $this->blnTimestamp = Type::cast($mixValue, Type::BOOLEAN);
+                    break;
                 case 'Reference':
-                    return $this->objReference = Type::cast($mixValue, Reference::class);
+                    $this->objReference = Type::cast($mixValue, Reference::class);
+                    break;
                 case 'Comment':
-                    return $this->strComment = Type::cast($mixValue, Type::STRING);
+                    $this->strComment = Type::cast($mixValue, Type::STRING);
+                    break;
                 case 'Options':
-                    return $this->options = Type::cast($mixValue, Type::ARRAY_TYPE);
+                    $this->options = Type::cast($mixValue, Type::ARRAY_TYPE);
+                    break;
                 case 'AutoUpdate':
-                    return $this->blnAutoUpdate = Type::cast($mixValue, Type::BOOLEAN);
+                    $this->blnAutoUpdate = Type::cast($mixValue, Type::BOOLEAN);
+                    break;
                 default:
-                    return parent::__set($strName, $mixValue);
+                    parent::__set($strName, $mixValue);
+                    break;
             }
         } catch (Caller $objExc) {
             $objExc->incrementOffset();
