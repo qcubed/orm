@@ -1178,6 +1178,8 @@ class DatabaseCodeGen extends QCodegen
                                     $objReverseReference->ObjectPropertyName = $objReverseReference->VariableType;
                                     $objReverseReference->ObjectDescription = $objReverseReference->VariableType;
                                     $objReverseReference->ObjectDescriptionPlural = $this->pluralize($objReverseReference->VariableType);
+                                    $objReverseReference->Options = $this->objModelConnectorOptions->getOptions($objReference->VariableType,
+                                        $objReverseReference->ObjectDescription);
 
                                     // Otherwise, see if it's just plain ol' unique
                                 } else {

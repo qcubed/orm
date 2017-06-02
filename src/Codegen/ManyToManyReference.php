@@ -236,50 +236,69 @@ class ManyToManyReference extends ObjectBase implements ColumnInterface
      * @param string $strName Name of the property to set
      * @param string $mixValue New value of the property
      * @throws Caller
-     * @return mixed
+     * @return void
      */
     public function __set($strName, $mixValue)
     {
         try {
             switch ($strName) {
                 case 'KeyName':
-                    return $this->strKeyName = Type::cast($mixValue, Type::STRING);
+                    $this->strKeyName = Type::cast($mixValue, Type::STRING);
+                    break;
                 case 'Table':
-                    return $this->strTable = Type::cast($mixValue, Type::STRING);
+                    $this->strTable = Type::cast($mixValue, Type::STRING);
+                    break;
                 case 'Column':
-                    return $this->strColumn = Type::cast($mixValue, Type::STRING);
+                    $this->strColumn = Type::cast($mixValue, Type::STRING);
+                    break;
                 case 'PropertyName':
-                    return $this->strPropertyName = Type::cast($mixValue, Type::STRING);
+                    $this->strPropertyName = Type::cast($mixValue, Type::STRING);
+                    break;
                 case 'OppositeColumn':
-                    return $this->strOppositeColumn = Type::cast($mixValue, Type::STRING);
+                    $this->strOppositeColumn = Type::cast($mixValue, Type::STRING);
+                    break;
                 case 'OppositeVariableType':
-                    return $this->strOppositeVariableType = Type::cast($mixValue, Type::STRING);
+                    $this->strOppositeVariableType = Type::cast($mixValue, Type::STRING);
+                    break;
                 case 'OppositeDbType':
-                    return $this->strOppositeDbType = Type::cast($mixValue, Type::STRING);
+                    $this->strOppositeDbType = Type::cast($mixValue, Type::STRING);
+                    break;
                 case 'OppositeVariableName':
-                    return $this->strOppositeVariableName = Type::cast($mixValue, Type::STRING);
+                    $this->strOppositeVariableName = Type::cast($mixValue, Type::STRING);
+                    break;
                 case 'OppositePropertyName':
-                    return $this->strOppositePropertyName = Type::cast($mixValue, Type::STRING);
+                    $this->strOppositePropertyName = Type::cast($mixValue, Type::STRING);
+                    break;
                 case 'OppositeObjectDescription':
-                    return $this->strOppositeObjectDescription = Type::cast($mixValue, Type::STRING);
+                    $this->strOppositeObjectDescription = Type::cast($mixValue, Type::STRING);
+                    break;
                 case 'AssociatedTable':
-                    return $this->strAssociatedTable = Type::cast($mixValue, Type::STRING);
+                    $this->strAssociatedTable = Type::cast($mixValue, Type::STRING);
+                    break;
                 case 'VariableName':
-                    return $this->strVariableName = Type::cast($mixValue, Type::STRING);
+                    $this->strVariableName = Type::cast($mixValue, Type::STRING);
+                    break;
                 case 'VariableType':
-                    return $this->strVariableType = Type::cast($mixValue, Type::STRING);
+                    $this->strVariableType = Type::cast($mixValue, Type::STRING);
+                    break;
                 case 'ObjectDescription':
-                    return $this->strObjectDescription = Type::cast($mixValue, Type::STRING);
+                    $this->strObjectDescription = Type::cast($mixValue, Type::STRING);
+                    break;
                 case 'ObjectDescriptionPlural':
-                    return $this->strObjectDescriptionPlural = Type::cast($mixValue, Type::STRING);
+                    $this->strObjectDescriptionPlural = Type::cast($mixValue, Type::STRING);
+                    break;
                 case 'ColumnArray':
-                    return $this->objColumnArray = Type::cast($mixValue, Type::ARRAY_TYPE);
+                    $this->objColumnArray = Type::cast($mixValue, Type::ARRAY_TYPE);
+                    break;
                 case 'IsTypeAssociation':
-                    return $this->blnIsTypeAssociation = Type::cast($mixValue, Type::BOOLEAN);
+                    $this->blnIsTypeAssociation = Type::cast($mixValue, Type::BOOLEAN);
+                    break;
                 case 'Options':
-                    return $this->options = Type::cast($mixValue, Type::ARRAY_TYPE);
+                    $this->options = Type::cast($mixValue, Type::ARRAY_TYPE);
+                    break;
                 default:
-                    return parent::__set($strName, $mixValue);
+                    parent::__set($strName, $mixValue);
+                    break;
             }
         } catch (Caller $objExc) {
             $objExc->incrementOffset();
