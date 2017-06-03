@@ -3,23 +3,30 @@
 This is the central location for all included configuration files.  Feel free to include
 any new classes or include files in this directory.
 
-## Files in the configuration directory:
+## Files and Folders in the configuration directory:
 
 ### configuration.inc.php
 
-This contains server-level configuration information (e.g. database connection
-information, docroot paths (including subfoldering and virtual directories),
-etc.  A sample file is provided for you, and is used by the QCubed startup wizard
-to create an initial version. Feel free to make modifications to this file to have it reflect the
-configuration of your application, including any global defines that are particular to your application.
-
-See the inline documentation in configuration.sample.inc.php for more information.
-
+This reads configuration files out of the *active* directory. These files
+are loaded near the beginning of the application startup process, and contain
+important system-wide defines. However, they are also very flexible, and
+you can change definitions in there to suit your needs.
 
 ### codegen_settings.xml
 
 This file controls overall settings for parts of the code generation. Feel free
 to change these as needed.
+
+### *active* and *inactive*
+The active directory holds currently active system definition files. The
+inactive directory is just a placeholder to put any definition files that you
+want to save, but are not currently active.
+
+### *templates*
+This directory contains pointers to various locations where codegen template
+files can be found. This directory is populated by our composer installer, and
+allows our own libraries and 3rd party libraries to easily inject template files
+into the code generation process.
 
 
 ## Codegen Notes
