@@ -67,7 +67,7 @@ class BasicOrmTests extends \QCubed\Test\UnitTestCaseBase {
 		
 		$objItems = Milestone::QueryArray(
 			QQ::GreaterThan(QQN::Milestone()->Project->StartDate, $someDate),
-			QQ::OrderBy(QQN::Milestone()->Project->Name)
+			QQ::OrderBy(QQN::Milestone()->Project->Name, QQN::Milestone()->Name)
 		);
 		
 		$this->assertEquals(3, sizeof($objItems));
@@ -525,5 +525,15 @@ class BasicOrmTests extends \QCubed\Test\UnitTestCaseBase {
 		$this->assertEquals(3, $objProject->getProjectStatusTypeId());
 		$this->assertEquals("Completed", $objProject->getProjectStatusType());
 	}
+
+	public function testDistinct() {
+	    $objAddresses =
+            Address::queryArray(
+              QQ::equal(QQN::Address()->City, 'New York'),
+              [QQ::select([QQN::Address()->City]), QQ::distinct()]
+            );
+
+	    $this->assertEquals(1, count($objAddresses));
+    }
 }
 

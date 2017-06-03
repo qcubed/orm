@@ -121,10 +121,6 @@ trait ModelTrait
             }
         }
 
-        $objSelectClauses = QQ::extractSelectClause($objOptionalClauses);
-        if ($objSelectClauses || $blnAddAllFieldsToSelect) {
-            static::baseNode()->putSelectFields($objQueryBuilder, null, $objSelectClauses);
-        }
 
         $objQueryBuilder->addFromItem($strTableName);
 
@@ -171,6 +167,12 @@ trait ModelTrait
                     throw new Caller('Optional Clauses must be a iClause object or an array of iClause objects');
                 }
             }
+        }
+
+        // Do this here because it needs to know if distinct clause is included, and that is determined above
+        $objSelectClauses = QQ::extractSelectClause($objOptionalClauses);
+        if ($objSelectClauses || $blnAddAllFieldsToSelect) {
+            static::baseNode()->putSelectFields($objQueryBuilder, null, $objSelectClauses);
         }
 
         // Get the SQL Statement

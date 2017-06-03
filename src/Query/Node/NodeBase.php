@@ -204,7 +204,7 @@ abstract class NodeBase extends ObjectBase
         }
 
         if ($objSelect) {
-            if (!$objSelect->skipPrimaryKey()) {
+            if (!$objSelect->skipPrimaryKey() && !$objBuilder->Distinct) {
                 $strFields = $this->primaryKeyFields();
                 foreach ($strFields as $strField) {
                     $objBuilder->addSelectItem($strTableName, $strField, $strAliasPrefix . $strField);

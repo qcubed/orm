@@ -12,12 +12,14 @@ $__CONFIG_ONLY__ = true;
 
 include ($strPackagePath . '/tools/qcubed.inc.php');
 
-include ($strPackagePath . '/src/model_includes.inc.php');
+//include ($strPackagePath . '/src/model_includes.inc.php');
 
 \QCubed\AutoloaderService::instance()
 	->initialize(QCUBED_BASE_DIR . '/../autoload.php')
 	->addClassmapFile(QCUBED_PROJECT_MODEL_GEN_DIR . '/_class_paths.inc.php')
 	->addClassmapFile(QCUBED_PROJECT_MODEL_GEN_DIR . '/_type_class_paths.inc.php');
+
+require_once(QCUBED_PROJECT_MODEL_GEN_DIR . '/QQN.php');
 
 
 \QCubed\Database\Service::initializeDatabaseConnections();

@@ -23,6 +23,7 @@ use QCubed\Database;
  * @property string $RootTableName
  * @property string[] $ColumnAliasArray
  * @property Node\NodeBase $ExpandAsArrayNode
+ * @property-read boolean $Distinct true if this is has a distinct clause
  * @was QQueryBuilder
  */
 class Builder extends ObjectBase
@@ -481,6 +482,8 @@ class Builder extends ObjectBase
                 return $this->strColumnAliasArray;
             case 'ExpandAsArrayNode':
                 return $this->objExpandAsArrayNode;
+            case 'Distinct':
+                return $this->blnDistinctFlag;
 
             default:
                 try {
