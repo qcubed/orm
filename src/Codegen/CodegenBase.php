@@ -209,13 +209,9 @@ abstract class CodegenBase extends ObjectBase
         $paths = [];
 
         if ($dir !== false) {    // does the active directory exist?
-            foreach (new \DirectoryIterator($dir) as $fileInfo) {
-                if ($fileInfo->isDot()) {
-                    continue;
-                }
-                $strFileName = $fileInfo->getPathname();
+            foreach (scandir($dir) as $strFileName) {
                 if (substr($strFileName, -8) == '.inc.php') {
-                    $paths2 = include($strFileName);
+                    $paths2 = include($dir . '/' . $strFileName);
                     if ($paths2 && is_array($paths2)) {
                         $paths = array_merge($paths, $paths2);
                     }
