@@ -13,6 +13,7 @@ use QCubed\Database\DatabaseBase;
 use QCubed\Database\ForeignKey;
 use QCubed\Database\Index;
 use QCubed\Exception\Caller;
+use QCubed\QString;
 use QCubed\Type;
 
 if (!defined('MYSQLI_ON_UPDATE_NOW_FLAG')) {
@@ -523,7 +524,7 @@ class MysqliDatabase extends DatabaseBase
                         if (null === $strSubMinorVersion) {
                             return null;
                         }
-                        if (!is_integer($strSubMinorVersion)) {
+                        if (!QString::isInteger($strSubMinorVersion)) {
                             $strSubMinorVersionArray = explode("-", $strSubMinorVersion);
                             if (count($strSubMinorVersionArray) > 1) {
                                 $strSubMinorVersion = $strSubMinorVersionArray[0];

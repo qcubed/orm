@@ -319,7 +319,7 @@ WHERE
 			$changed = $changed || (isset($this->__blnDirty[self::<?= strtoupper($objColumn->Name) ?>_FIELD]) && ($this-><?= $objColumn->VariableName ?> !== $obj<?= $objTable->ClassName ?>-><?= $objColumn->VariableName ?>));
 <?php } ?>
 			if ($changed) {
-				throw new \QCubed\Exception\OptimisticLocking('<?= $objTable->ClassName ?>');
+				throw new \QCubed\Database\Exception\OptimisticLocking('<?= $objTable->ClassName ?>');
 			}
 		}
 	}
