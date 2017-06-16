@@ -20,7 +20,7 @@
 		 * @return Node<?= $objTable->ClassName ?>
 
 		 */
-		static public function <?= $objTable->ClassName ?>() {
+		static public function <?= lcfirst($objTable->ClassName) ?>() {
 			return new Node<?= $objTable->ClassName ?>('<?= $objTable->Name ?>', null, null);
 		}
 <?php } ?>
