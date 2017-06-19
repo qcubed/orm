@@ -12,7 +12,7 @@ require( __WORKING_DIR__ . '/test/travis/configuration.inc.php');
 define ('QCUBED_CONFIG_DIR', __WORKING_DIR__ . '/test/travis');
 
 \QCubed\AutoloaderService::instance()
-	->initialize('./vendor/autoload.php')
+	->initialize('./vendor')
 	->addPsr4('QCubed\\', __WORKING_DIR__ . '/src');
 
 // Codegen
