@@ -120,7 +120,7 @@
 
      * @return void
     */
-    public function Associate<?= $objManyToManyReference->ObjectDescription ?>(<?= $objManyToManyReference->VariableType ?> $<?= $objManyToManyReference->VariableName ?>) {
+    public function associate<?= $objManyToManyReference->ObjectDescription ?>(<?= $objManyToManyReference->VariableType ?> $<?= $objManyToManyReference->VariableName ?>) {
         if (<?= $objCodeGen->implodeObjectArray(' || ', '(is_null($this->', '))', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>)
             throw new \QCubed\Database\Exception\UndefinedPrimaryKey('Unable to call Associate<?= $objManyToManyReference->ObjectDescription ?> on this unsaved <?= $objTable->ClassName ?>.');
         if (<?= $objCodeGen->implodeObjectArray(' || ', '(is_null($' . $objManyToManyReference->VariableName . '->', '))', 'PropertyName', $objManyToManyReferenceTable->PrimaryKeyColumnArray) ?>)
@@ -140,6 +140,9 @@
                 ' . $objDatabase->sqlVariable($<?= $objManyToManyReference->VariableName ?>-><?= $objManyToManyReferenceTable->PrimaryKeyColumnArray[0]->PropertyName ?>) . '
             )
         ');
+
+        // Notify
+        static::broadcastAssociationAdded("<?= $objManyToManyReference->Table ?>", $this-><?= $objTable->PrimaryKeyColumnArray[0]->VariableName ?>, $<?= $objManyToManyReference->VariableName ?>-><?= $objManyToManyReferenceTable->PrimaryKeyColumnArray[0]->PropertyName ?>);
     }
 
     /**
@@ -168,7 +171,10 @@
                 ' . $objDatabase->sqlVariable($<?= $objManyToManyReference->OppositeVariableName ?>) . '
             )
         ');
-    }
+
+         // Notify
+        static::broadcastAssociationAdded("<?= $objManyToManyReference->Table ?>", $this-><?= $objTable->PrimaryKeyColumnArray[0]->VariableName ?>, $<?= $objManyToManyReference->OppositeVariableName ?>);
+   }
 
 
     /**
@@ -197,6 +203,10 @@
                 <?= $strEscapeIdentifierBegin ?><?= $objManyToManyReference->Column ?><?= $strEscapeIdentifierEnd ?> = ' . $objDatabase->sqlVariable($this-><?= $objTable->PrimaryKeyColumnArray[0]->VariableName ?>) . ' AND
                 <?= $strEscapeIdentifierBegin ?><?= $objManyToManyReference->OppositeColumn ?><?= $strEscapeIdentifierEnd ?> = ' . $objDatabase->sqlVariable($<?= $objManyToManyReference->VariableName ?>-><?= $objManyToManyReferenceTable->PrimaryKeyColumnArray[0]->PropertyName ?>) . '
         ');
+
+        // Notify
+        static::broadcastAssociationRemoved("<?= $objManyToManyReference->Table ?>", $this-><?= $objTable->PrimaryKeyColumnArray[0]->VariableName ?>, $<?= $objManyToManyReference->VariableName ?>-><?= $objManyToManyReferenceTable->PrimaryKeyColumnArray[0]->PropertyName ?>);
+
     }
 
     /**
@@ -220,4 +230,7 @@
             WHERE
                 <?= $strEscapeIdentifierBegin ?><?= $objManyToManyReference->Column ?><?= $strEscapeIdentifierEnd ?> = ' . $objDatabase->sqlVariable($this-><?= $objTable->PrimaryKeyColumnArray[0]->VariableName ?>) . '
         ');
+
+        static::broadcastAssociationRemoved("<?= $objManyToManyReference->Table ?>");
+
     }
