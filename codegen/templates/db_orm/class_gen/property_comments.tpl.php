@@ -20,10 +20,12 @@
 <?php foreach ($objTable->ManyToManyReferenceArray as $objReference) { ?>
 <?php 
 	$objAssociatedTable = $objCodeGen->GetTable($objReference->AssociatedTable);
-	$varPrefix = (is_a($objAssociatedTable, '\QCubed\Codegen\TypeTable') ? '_int' : '_obj');
+    $varPrefix = (is_a($objAssociatedTable, '\QCubed\Codegen\TypeTable') ? '_int' : '_obj');
+    $varType = (is_a($objAssociatedTable, '\QCubed\Codegen\TypeTable') ? 'integer' : $objReference->VariableType);
+
 ?>
- * @property-read <?= $objReference->VariableType ?> $_<?= $objReference->ObjectDescription ?> the value of the protected <?= $varPrefix . $objReference->ObjectDescription ?> (Read-Only) if set due to an expansion on the <?= $objReference->Table ?> association table
- * @property-read <?= $objReference->VariableType ?>[] $_<?= $objReference->ObjectDescription ?>Array the value of the protected <?= $varPrefix . $objReference->ObjectDescription ?>Array (Read-Only) if set due to an ExpandAsArray on the <?= $objReference->Table ?> association table
+ * @property-read <?= $varType ?> $_<?= $objReference->ObjectDescription ?> the value of the protected <?= $varPrefix . $objReference->ObjectDescription ?> (Read-Only) if set due to an expansion on the <?= $objReference->Table ?> association table
+ * @property-read <?= $varType ?>[] $_<?= $objReference->ObjectDescription ?>Array the value of the protected <?= $varPrefix . $objReference->ObjectDescription ?>Array (Read-Only) if set due to an ExpandAsArray on the <?= $objReference->Table ?> association table
 <?php } ?><?php foreach ($objTable->ReverseReferenceArray as $objReference) { ?><?php if (!$objReference->Unique) { ?>
  * @property-read <?= $objReference->VariableType ?> $_<?= $objReference->ObjectDescription ?> the value of the protected _obj<?= $objReference->ObjectDescription ?> (Read-Only) if set due to an expansion on the <?= $objReference->Table ?>.<?= $objReference->Column ?> reverse relationship
  * @property-read <?= $objReference->VariableType ?> $<?= $objReference->ObjectDescription ?> the value of the protected _obj<?= $objReference->ObjectDescription ?> (Read-Only) if set due to an expansion on the <?= $objReference->Table ?>.<?= $objReference->Column ?> reverse relationship
