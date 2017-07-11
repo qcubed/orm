@@ -32,7 +32,11 @@
 	* @return string
 	*/
 	public function get<?= $objColumn->Reference->PropertyName ?>() {
-		return <?= $objColumn->Reference->VariableType ?>::toString($this->get<?= $objColumn->PropertyName ?>());
+        $intId = $this->get<?= $objColumn->PropertyName ?>();
+        if ($intId === null) {
+            return "";
+        }
+		return <?= $objColumn->Reference->VariableType ?>::toString($intId);
 	}
 <?php } ?>
 
