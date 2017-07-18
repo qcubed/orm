@@ -492,10 +492,12 @@ class BasicOrmTests extends \QCubed\Test\UnitTestCaseBase {
 		$this->assertEquals("ACME Website Redesign", $objProject->Name);
 
 		// Test non-identity set and reload
+        /*
 		$objMilestone = Milestone::Load(1);
 		$objMilestone->Id = 5;	// Should be legal for non-identity PKs
 		$objMilestone->Reload();
 		$this->assertEquals(1, $objMilestone->Id, "Identity should reset to original value after a reload");
+        */
 	}
 
 	public function testSetReference() {

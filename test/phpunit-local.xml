@@ -3,8 +3,8 @@
          colors="true"
          printerClass="\QCubed\Test\HtmlReporter">
 	<testsuites>
-		<testsuite name="QCubed Common Unit Tests">
+		<testsuite name="Orm">
 			<directory>./unit</directory>
 		</testsuite>
-	</testsuites>
+    </testsuites>
 </phpunit>
