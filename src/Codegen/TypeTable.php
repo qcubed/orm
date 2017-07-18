@@ -107,10 +107,10 @@ class TypeTable extends ObjectBase
         } elseif (is_float($mixColValue)) {
             return "(float)$mixColValue";
         } elseif (is_object($mixColValue)) {
-            return "'" . $mixColValue->_toString() . "'";
+            return "t('" . $mixColValue->_toString() . "')";
         }    // whatever is suitable for the constructor of the object
         else {
-            return "'" . str_replace("'", "\\'", $mixColValue) . "'";
+            return "t('" . str_replace("'", "\\'", $mixColValue) . "')";
         }
     }
 

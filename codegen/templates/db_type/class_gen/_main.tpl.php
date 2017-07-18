@@ -69,7 +69,7 @@ abstract class <?= $objTypeTable->ClassName ?>Gen extends \QCubed\ObjectBase {
 <?php foreach ($objTypeTable->ExtraPropertyArray as $intKey=>$arrColumns) { ?>
         <?= $intKey ?> => array (
 <?php 	foreach ($arrColumns as $strColName=>$mixColValue) { ?>
-            '<?= $strColName ?>' => <?= \QCubed\Codegen\TypeTable::Literal($mixColValue) ?>,
+            '<?= $strColName ?>' => <?= \QCubed\Codegen\TypeTable::literal($mixColValue) ?>,
 <?php 	} ?><?php GO_BACK(2); ?>
 
         ),
@@ -82,7 +82,7 @@ abstract class <?= $objTypeTable->ClassName ?>Gen extends \QCubed\ObjectBase {
 <?php   foreach ($objTypeTable->ExtraFieldsArray as $colData) { ?>
     public static $<?= $colData['name'] ?>Array = array(
 <?php       foreach ($objTypeTable->ExtraPropertyArray as $intKey=>$arrColumns) { ?>
-        '<?= $intKey ?>' => <?= \QCubed\Codegen\TypeTable::Literal($arrColumns[$colData['name']]) ?>,
+        '<?= $intKey ?>' => <?= \QCubed\Codegen\TypeTable::literal($arrColumns[$colData['name']]) ?>,
 <?php       }     ?><?php GO_BACK(2); ?>
 
     );
@@ -102,7 +102,7 @@ abstract class <?= $objTypeTable->ClassName ?>Gen extends \QCubed\ObjectBase {
     public static function toString($int<?= $objTypeTable->ClassName ?>Id) {
         switch ($int<?= $objTypeTable->ClassName ?>Id) {
 <?php foreach ($objTypeTable->NameArray as $intKey=>$strValue) { ?>
-            case <?= $intKey ?>: return '<?= $strValue ?>';
+            case <?= $intKey ?>: return t('<?= $strValue ?>');
 <?php } ?>
             default:
                 throw new Caller(sprintf('Invalid int<?= $objTypeTable->ClassName ?>Id: %s', $int<?= $objTypeTable->ClassName ?>Id));
@@ -138,7 +138,7 @@ abstract class <?= $objTypeTable->ClassName ?>Gen extends \QCubed\ObjectBase {
     public static function to<?php echo $colData['name']  ?>($int<?php echo $objTypeTable->ClassName  ?>Id) {
         switch ($int<?php echo $objTypeTable->ClassName  ?>Id) {
 <?php foreach ($objTypeTable->ExtraPropertyArray as $intKey=>$arrColumns) { ?>
-            case <?php echo $intKey  ?>: return <?= \QCubed\Codegen\TypeTable::Literal($arrColumns[$colData['name']]) ?>;
+            case <?php echo $intKey  ?>: return <?= \QCubed\Codegen\TypeTable::literal($arrColumns[$colData['name']]) ?>;
 <?php } ?>
             default:
                 throw new Caller(sprintf('Invalid int<?php echo $objTypeTable->ClassName  ?>Id: %s', $int<?php echo $objTypeTable->ClassName  ?>Id));
