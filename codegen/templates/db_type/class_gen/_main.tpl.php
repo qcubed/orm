@@ -65,27 +65,31 @@ abstract class <?= $objTypeTable->ClassName ?>Gen extends \QCubed\ObjectBase {
 
     );
 
-    public static $ExtraColumnValuesArray = array(
+    public static function ExtraColumnValuesArray() {
+        return array(
 <?php foreach ($objTypeTable->ExtraPropertyArray as $intKey=>$arrColumns) { ?>
-        <?= $intKey ?> => array (
+            <?= $intKey ?> => array (
 <?php 	foreach ($arrColumns as $strColName=>$mixColValue) { ?>
-            '<?= $strColName ?>' => <?= \QCubed\Codegen\TypeTable::literal($mixColValue) ?>,
+                '<?= $strColName ?>' => <?= \QCubed\Codegen\TypeTable::literal($mixColValue) ?>,
 <?php 	} ?><?php GO_BACK(2); ?>
 
-        ),
+            ),
 <?php } ?><?php GO_BACK(2); ?>
 
-    );
+        );
+    }
 
 
 <?php if (count($objTypeTable->ExtraFieldsArray)) { ?>
 <?php   foreach ($objTypeTable->ExtraFieldsArray as $colData) { ?>
-    public static $<?= $colData['name'] ?>Array = array(
+    public static function <?= $colData['name'] ?>Array() {
+        return array(
 <?php       foreach ($objTypeTable->ExtraPropertyArray as $intKey=>$arrColumns) { ?>
-        '<?= $intKey ?>' => <?= \QCubed\Codegen\TypeTable::literal($arrColumns[$colData['name']]) ?>,
+            '<?= $intKey ?>' => <?= \QCubed\Codegen\TypeTable::literal($arrColumns[$colData['name']]) ?>,
 <?php       }     ?><?php GO_BACK(2); ?>
 
-    );
+        );
+    }
 
 <?php   } ?>
 <?php } ?>
@@ -207,7 +211,7 @@ class Node<?= $objTypeTable->ClassName ?> extends Node\Table {
 
     /**
      * @param string $strName
-     * @return bool|mixed|QQColumnNode|QQNode[]
+     * @return mixed
      * @throws Exception
      */
     public function __get($strName) {
