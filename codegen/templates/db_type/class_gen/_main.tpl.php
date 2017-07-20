@@ -45,27 +45,39 @@ abstract class <?= $objTypeTable->ClassName ?>Gen extends \QCubed\ObjectBase {
 
     const MAX_ID = <?= $intKey ?>;
 
-    public static $NameArray = array(<?php if (count($objTypeTable->NameArray)) { ?>
+    public static function nameArray() {
+        return [
+<?php if (count($objTypeTable->NameArray)) { ?>
+<?php   foreach ($objTypeTable->NameArray as $intKey=>$strValue) { ?>
+			<?= $intKey ?> => t('<?= $strValue ?>'),
+<?php   } ?><?php GO_BACK(2); ?>
+<?php }?>
 
-<?php foreach ($objTypeTable->NameArray as $intKey=>$strValue) { ?>
+        ];
+    }
+
+    public static function tokenArray() {
+        return [
+<?php if (count($objTypeTable->TokenArray)) { ?>
+<?php   foreach ($objTypeTable->TokenArray as $intKey=>$strValue) { ?>
 			<?= $intKey ?> => '<?= $strValue ?>',
-<?php } ?><?php GO_BACK(2); ?><?php }?>);
+<?php   } ?><?php GO_BACK(2); ?>
+<?php }?>
 
-    public static $TokenArray = array(<?php if (count($objTypeTable->TokenArray)) { ?>
-
-<?php foreach ($objTypeTable->TokenArray as $intKey=>$strValue) { ?>
-			<?= $intKey ?> => '<?= $strValue ?>',
-<?php } ?><?php GO_BACK(2); ?><?php }?>);
+        ];
+    }
 
 <?php if (count($objTypeTable->ExtraFieldsArray)) { ?>
-    public static $ExtraColumnNamesArray = array(
+    public static function extraColumnNamesArray() {
+        return [
 <?php foreach ($objTypeTable->ExtraFieldsArray as $colData) { ?>
-        '<?= $colData['name'] ?>',
+            '<?= $colData['name'] ?>',
 <?php } ?><?php GO_BACK(2); ?>
 
-    );
+        ];
+    }
 
-    public static function ExtraColumnValuesArray() {
+    public static function extraColumnValuesArray() {
         return array(
 <?php foreach ($objTypeTable->ExtraPropertyArray as $intKey=>$arrColumns) { ?>
             <?= $intKey ?> => array (
@@ -82,7 +94,7 @@ abstract class <?= $objTypeTable->ClassName ?>Gen extends \QCubed\ObjectBase {
 
 <?php if (count($objTypeTable->ExtraFieldsArray)) { ?>
 <?php   foreach ($objTypeTable->ExtraFieldsArray as $colData) { ?>
-    public static function <?= $colData['name'] ?>Array() {
+    public static function <?= lcfirst($colData['name']) ?>Array() {
         return array(
 <?php       foreach ($objTypeTable->ExtraPropertyArray as $intKey=>$arrColumns) { ?>
             '<?= $intKey ?>' => <?= \QCubed\Codegen\TypeTable::literal($arrColumns[$colData['name']]) ?>,
