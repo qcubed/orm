@@ -1,6 +1,6 @@
 <?php
 
-use QCubed\Project\CodeGen\CodegenBase as Codegen;
+use QCubed\Project\Codegen\CodegenBase as Codegen;
 use QCubed\QString;
 
 //$__CONFIG_ONLY__ = true;
