@@ -1,13 +1,19 @@
 language: php
 
+sudo: false
+dist: trusty
+
+git:
+    depth: 1
+
+
 php:
-    - '5.5'
     - '5.6'
     - '7.0'
     - nightly
 
 install:
-    - composer install
+    - composer update --prefer-source --no-interaction
 
 env:
     - DB=mysql
@@ -32,7 +38,6 @@ addons:
 after_script:
     - vendor/bin/test-reporter
 
-sudo: false
 
 matrix:
   include:

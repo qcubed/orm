@@ -1,11 +1,4 @@
 {
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/qcubed/common"
-    }
-  ],
-
   "name": "qcubed/orm",
   "description": "Database drivers, query support, and code generator for the object relational model for QCubed",
   "keywords": ["php", "database", "orm"],
