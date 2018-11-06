@@ -1,5 +1,5 @@
 <?php
-	$blnAutoInitialize = $objCodeGen->AutoInitialize;
+	$blnAutoInitialize = $objCodegen->AutoInitialize;
 	if ($blnAutoInitialize) {
 ?>
 

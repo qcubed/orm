@@ -30,7 +30,7 @@
      */
     public static function getDatabaseIndex()
     {
-        return <?= $objCodeGen->DatabaseIndex; ?>;
+        return <?= $objCodegen->DatabaseIndex; ?>;
     }
 
     /**

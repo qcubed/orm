@@ -3,7 +3,7 @@
 namespace QCubed\Project\Codegen;
 
 /**
- * CodeGen
+ * Codegen
  *
  * Overrides the Codegen\CodegenBase class.
  *
@@ -20,7 +20,7 @@ class CodegenBase extends \QCubed\Codegen\CodegenBase
 {
 
     /**
-     * Construct the CodeGen object.
+     * Construct the Codegen object.
      *
      * Gives you an opportunity to read your xml file and make codegen changes accordingly.
      */
@@ -34,7 +34,7 @@ class CodegenBase extends \QCubed\Codegen\CodegenBase
     }
 
     /**
-     * CodeGen::pluralize()
+     * Codegen::pluralize()
      *
      * Example: Overriding the Pluralize method
      *

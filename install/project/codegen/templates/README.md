@@ -9,7 +9,7 @@ If there are any template files in this directory in *addition* to the ones in
 `/includes/qcubed/_core/codegen/templates`, these additional template files will be
 processed as well.
 
-Feel free to add as you wish.  Just remember the naming structure for CodeGen
+Feel free to add as you wish.  Just remember the naming structure for Codegen
 template files:
 
 `/includes/qcubed/_core/codegen/templates/[TYPE]/[MODULE]/[FILE]`

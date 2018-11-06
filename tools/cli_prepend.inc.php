@@ -32,5 +32,5 @@ This needs to be fixed!
 	// Finally, turn off output buffering
 	ob_end_flush();
 
-// Include the CodeGen class library
+// Include the Codegen class library
 require(QCUBED_PROJECT_INCLUDES_DIR . '/codegen/Codegen.php');

@@ -6,7 +6,7 @@
      */
     public function delete()
     {
-        if (<?= $objCodeGen->ImplodeObjectArray(' || ', '(is_null($this->', '))', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>)
+        if (<?= $objCodegen->ImplodeObjectArray(' || ', '(is_null($this->', '))', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>)
             throw new \QCubed\Database\Exception\UndefinedPrimaryKey('Cannot delete this <?= $objTable->ClassName ?> with an unset primary key.');
 
         // Get the Database Object for this Class
@@ -15,7 +15,7 @@
 <?php foreach ($objTable->ReverseReferenceArray as $objReverseReference) { ?>
 <?php if ($objReverseReference->Unique) { ?>
 <?php if (!$objReverseReference->NotNull) { ?>
-<?php $objReverseReferenceTable = $objCodeGen->TableArray[strtolower($objReverseReference->Table)]; ?>
+<?php $objReverseReferenceTable = $objCodegen->TableArray[strtolower($objReverseReference->Table)]; ?>
 <?php $objReverseReferenceColumn = $objReverseReferenceTable->ColumnArray[strtolower($objReverseReference->Column)]; ?>
 
 
@@ -23,12 +23,12 @@
 
         // Optional -- if you **KNOW** that you do not want to EVER run any level of business logic on the disassociation,
         // you *could* override Delete() so that this step can be a single hard coded query to optimize performance.
-        if ($objAssociated = <?= $objReverseReference->VariableType ?>::LoadBy<?= $objReverseReferenceColumn->PropertyName ?>(<?= $objCodeGen->ImplodeObjectArray(', ', '$this->', '', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>)) {
+        if ($objAssociated = <?= $objReverseReference->VariableType ?>::LoadBy<?= $objReverseReferenceColumn->PropertyName ?>(<?= $objCodegen->ImplodeObjectArray(', ', '$this->', '', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>)) {
             $objAssociated-><?= $objReverseReferenceColumn->PropertyName ?> = null;
             $objAssociated->Save();
         }
 <?php } ?><?php if ($objReverseReference->NotNull) { ?>
-<?php $objReverseReferenceTable = $objCodeGen->TableArray[strtolower($objReverseReference->Table)]; ?>
+<?php $objReverseReferenceTable = $objCodegen->TableArray[strtolower($objReverseReference->Table)]; ?>
 <?php $objReverseReferenceColumn = $objReverseReferenceTable->ColumnArray[strtolower($objReverseReference->Column)]; ?>
 
 
@@ -36,7 +36,7 @@
 
         // Optional -- if you **KNOW** that you do not want to EVER run any level of business logic on the disassociation,
         // you *could* override Delete() so that this step can be a single hard coded query to optimize performance.
-        if ($objAssociated = <?= $objReverseReference->VariableType ?>::LoadBy<?= $objReverseReferenceColumn->PropertyName ?>(<?= $objCodeGen->ImplodeObjectArray(', ', '$this->', '', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>)) {
+        if ($objAssociated = <?= $objReverseReference->VariableType ?>::LoadBy<?= $objReverseReferenceColumn->PropertyName ?>(<?= $objCodegen->ImplodeObjectArray(', ', '$this->', '', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>)) {
             $objAssociated->Delete();
         }
 <?php } ?>

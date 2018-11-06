@@ -1,6 +1,6 @@
 <?php
 /**
- * QCodeGen
+ * QCodegen
  *
  * Overrides the Codegen\AbstractBase class.
  *
@@ -15,13 +15,13 @@ namespace QCubed\Project\Codegen;
  *
  * Overrides the default codegen class. Override and implement any functions here to customize the code generation process.
  * @package Project
- * @was QCodeGen
+ * @was QCodegen
  */
 class CodegenBase extends \QCubed\Codegen\CodegenBase
 {
 
     /**
-     * Construct the CodeGen object.
+     * Construct the Codegen object.
      *
      * Gives you an opportunity to read your xml file and make codegen changes accordingly.
      */
@@ -44,7 +44,7 @@ class CodegenBase extends \QCubed\Codegen\CodegenBase
     }
 
     /**
-     * QCodeGen::pluralize()
+     * QCodegen::pluralize()
      *
      * Example: Overriding the Pluralize method
      *

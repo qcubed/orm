@@ -37,7 +37,7 @@ $loader->addPsr4('QCubed\\Project\\', QCUBED_PROJECT_DIR . '/qcubed'); // make s
 
 
 /////////////////////////////////////////////////////
-// Run CodeGen, using the ./codegen_settings.xml file
+// Run Codegen, using the ./codegen_settings.xml file
 /////////////////////////////////////////////////////
 Codegen::run(QCUBED_CONFIG_DIR . '/codegen_settings.xml');
 
@@ -77,22 +77,22 @@ $strPageTitle = "QCubed Development Framework - Code Generator";
         <p><strong>The following root errors were reported:</strong></p>
         <pre><code><?php DisplayMonospacedText($strErrors); ?></code></pre>
     <?php } else { ?>
-        <p><strong>CodeGen Settings (as evaluated from <?php echo(Codegen::$SettingsFilePath); ?>):</strong></p>
+        <p><strong>Codegen Settings (as evaluated from <?php echo(Codegen::$SettingsFilePath); ?>):</strong></p>
         <pre><code><?php DisplayMonospacedText(Codegen::getSettingsXml()); ?></code></pre>
     <?php } ?>
 
-    <?php foreach (Codegen::$CodeGenArray as $objCodeGen) { ?>
-        <p><strong><?= QString::htmlEntities($objCodeGen->getTitle()); ?></strong></p>
-        <pre><code><p class="code_title"><?php QString::htmlEntities($objCodeGen->getReportLabel()); ?></p><?php
-                    DisplayMonospacedText($objCodeGen->generateAll());
+    <?php foreach (Codegen::$CodegenArray as $objCodegen) { ?>
+        <p><strong><?= QString::htmlEntities($objCodegen->getTitle()); ?></strong></p>
+        <pre><code><p class="code_title"><?php QString::htmlEntities($objCodegen->getReportLabel()); ?></p><?php
+                    DisplayMonospacedText($objCodegen->generateAll());
                 ?>
-                <?php if ($strErrors = $objCodeGen->Errors) { ?>
+                <?php if ($strErrors = $objCodegen->Errors) { ?>
                     <p class="code_title">The following errors were reported:</p>
-                    <?php DisplayMonospacedText($objCodeGen->Errors); ?>
+                    <?php DisplayMonospacedText($objCodegen->Errors); ?>
                 <?php } ?>
-                <?php if ($strWarnings = $objCodeGen->Warnings) { ?>
+                <?php if ($strWarnings = $objCodegen->Warnings) { ?>
                     <p class="code_title">The following warnings were reported:</p>
-<?php DisplayMonospacedText($objCodeGen->Warnings); ?>
+<?php DisplayMonospacedText($objCodegen->Warnings); ?>
 <?php } ?></code></pre>
     <?php } ?>
 

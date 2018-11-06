@@ -19,7 +19,7 @@ use QCubed\Project\Codegen\CodegenBase as QCodegen;
  *
  * @package Codegen
  */
-class RestServiceCodeGen extends QCodegen
+class RestServiceCodegen extends QCodegen
 {
     // REST Service-specific Attributes
     protected $strServiceUrl;

@@ -54,7 +54,7 @@ if (count($objTable->PrimaryKeyColumnArray) == 1) {
         $strAliasName = !empty($strColumnAliasArray[$strAlias]) ? $strColumnAliasArray[$strAlias] : $strAlias;
         $strColumns = $objDbRow->GetColumnNameArray();
         $mixVal = (isset ($strColumns[$strAliasName]) ? $strColumns[$strAliasName] : null);
-        <?php if ($s = \QCubed\Codegen\DatabaseCodeGen::GetCastString($objTable->PrimaryKeyColumnArray[0]))	echo $s; ?>
+        <?php if ($s = \QCubed\Codegen\DatabaseCodegen::GetCastString($objTable->PrimaryKeyColumnArray[0]))	echo $s; ?>
 
         return $mixVal;
 <?php 	} else { ?>
@@ -64,7 +64,7 @@ if (count($objTable->PrimaryKeyColumnArray) == 1) {
         $strAliasName = !empty($strColumnAliasArray[$strAlias]) ? $strColumnAliasArray[$strAlias] : $strAlias;
         $mixVal = (isset ($strColumns[$strAliasName]) ? $strColumns[$strAliasName] : null);
         if ($mixVal === null) return null;
-<?php 			if ($s = \QCubed\Codegen\DatabaseCodeGen::GetCastString($objPKColumn))	echo $s; ?>
+<?php 			if ($s = \QCubed\Codegen\DatabaseCodegen::GetCastString($objPKColumn))	echo $s; ?>
         $values[] = $mixVal;
 <?php 		} ?>
 

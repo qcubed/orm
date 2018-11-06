@@ -204,14 +204,14 @@ if ($strValues) {
 
 <?php foreach ($objTable->ReverseReferenceArray as $objReverseReference) { ?>
 <?php     if ($objReverseReference->Unique) { ?>
-<?php       $objReverseReferenceTable = $objCodeGen->TableArray[strtolower($objReverseReference->Table)]; ?>
+<?php       $objReverseReferenceTable = $objCodegen->TableArray[strtolower($objReverseReference->Table)]; ?>
 <?php       $objReverseReferenceColumn = $objReverseReferenceTable->ColumnArray[strtolower($objReverseReference->Column)]; ?>
 
 
         // Update the foreign key in the <?= $objReverseReference->ObjectDescription ?> object (if applicable)
         if ($this->blnDirty<?= $objReverseReference->ObjectPropertyName ?>) {
             // Unassociate the old one (if applicable)
-            if ($objAssociated = <?= $objReverseReference->VariableType ?>::LoadBy<?= $objReverseReferenceColumn->PropertyName ?>(<?= $objCodeGen->ImplodeObjectArray(', ', '$this->', '', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>)) {
+            if ($objAssociated = <?= $objReverseReference->VariableType ?>::LoadBy<?= $objReverseReferenceColumn->PropertyName ?>(<?= $objCodegen->ImplodeObjectArray(', ', '$this->', '', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>)) {
                 // TODO: Select and update only the foreign key rather than the whole record
                 $objAssociated-><?= $objReverseReferenceColumn->PropertyName ?> = null;
                 $objAssociated->save();

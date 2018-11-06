@@ -40,7 +40,7 @@ separate out your hand written code from the generated code, and continue to twe
 The codegen process starts at the QCubed start screen by clicking on the codegen link.
 PHP is executed to generate the files. Therefore, the target directories for codegen will need to be writable by the web server process.
 
-The codegen process works by instantiating a CodeGen object. This object then looks in the template directories and begins
+The codegen process works by instantiating a Codegen object. This object then looks in the template directories and begins
 to include the php files there that start with an underscore (_). These templates then include other files, which in turn
 may include other template files. This combination will eventually generate the forms, model connectors, and data table
 interface classes that you will base your application on.

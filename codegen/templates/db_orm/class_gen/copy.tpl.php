@@ -44,7 +44,7 @@
    		// Many-to-many references
 <?php 	foreach ($objTable->ManyToManyReferenceArray as $objReference) { ?>
 <?php
-		$objAssociatedTable = $objCodeGen->GetTable($objReference->AssociatedTable);
+		$objAssociatedTable = $objCodegen->GetTable($objReference->AssociatedTable);
 		$varPrefix = (is_a($objAssociatedTable, \QCubed\Codegen\TypeTable::class) ? '_int' : '_obj');
 ?>
 		$objCopy-><?= $varPrefix . $objReference->ObjectDescription ?> = null;

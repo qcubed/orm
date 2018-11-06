@@ -2,7 +2,7 @@
 	// Preliminary calculations and helper routines here
 
 	$blnImmediateExpansions = $objTable->HasImmediateArrayExpansions();
-	$blnExtendedExpansions = $objTable->HasExtendedArrayExpansions($objCodeGen);
+	$blnExtendedExpansions = $objTable->HasExtendedArrayExpansions($objCodegen);
 
 	if (count($objTable->PrimaryKeyColumnArray) > 1 &&
 			$blnImmediateExpansions) {
@@ -90,7 +90,7 @@ if ($blnImmediateExpansions || $blnExtendedExpansions) {
 <?php if ($objColumn->VariableType == \QCubed\Type::BOOLEAN) { ?>
                 $objToReturn-><?= $objColumn->VariableName ?> = $objDbRow->ResolveBooleanValue($mixVal);
 <?php } else { ?>
-<?php 	if ($s = $objCodeGen->getCastString($objColumn)) { ?>
+<?php 	if ($s = $objCodegen->getCastString($objColumn)) { ?>
                 if ($mixVal !== null) {
                     <?= $s ?>
 
@@ -151,7 +151,7 @@ if ($blnImmediateExpansions || $blnExtendedExpansions) {
 <?php foreach ($objTable->ColumnArray as $objColumn) { ?>
 <?php if ($objColumn->Reference && !$objColumn->Reference->IsType) { ?>
         // Check for <?= $objColumn->Reference->PropertyName ?> Early Binding
-        $strAlias = $strAliasPrefix . '<?= $objColumn->Name ?>__<?= $objCodeGen->GetTable($objColumn->Reference->Table)->PrimaryKeyColumnArray[0]->Name ?>';
+        $strAlias = $strAliasPrefix . '<?= $objColumn->Name ?>__<?= $objCodegen->GetTable($objColumn->Reference->Table)->PrimaryKeyColumnArray[0]->Name ?>';
         $strAliasName = !empty($strColumnAliasArray[$strAlias]) ? $strColumnAliasArray[$strAlias] : $strAlias;
         if (isset ($strColumns[$strAliasName])) {
             $objExpansionNode = (empty($objExpansionAliasArray['<?= $objColumn->Name ?>']) ? null : $objExpansionAliasArray['<?= $objColumn->Name ?>']);
@@ -166,7 +166,7 @@ if ($blnImmediateExpansions || $blnExtendedExpansions) {
 
 <?php foreach ($objTable->ReverseReferenceArray as $objReference) { ?><?php if ($objReference->Unique) { ?>
         // Check for <?= $objReference->ObjectDescription ?> Unique ReverseReference Binding
-        $strAlias = $strAliasPrefix . '<?= strtolower($objReference->ObjectDescription) ?>__<?= $objCodeGen->GetTable($objReference->Table)->PrimaryKeyColumnArray[0]->Name ?>';
+        $strAlias = $strAliasPrefix . '<?= strtolower($objReference->ObjectDescription) ?>__<?= $objCodegen->GetTable($objReference->Table)->PrimaryKeyColumnArray[0]->Name ?>';
         $strAliasName = !empty($strColumnAliasArray[$strAlias]) ? $strColumnAliasArray[$strAlias] : $strAlias;
         if (array_key_exists ($strAliasName, $strColumns)) {
             if (!is_null($strColumns[$strAliasName])) {
@@ -184,7 +184,7 @@ if ($blnImmediateExpansions || $blnExtendedExpansions) {
 
 <?php foreach ($objTable->ManyToManyReferenceArray as $objReference) { ?>
 <?php 
-$objAssociatedTable = $objCodeGen->GetTable($objReference->AssociatedTable);
+$objAssociatedTable = $objCodegen->GetTable($objReference->AssociatedTable);
 if (is_a($objAssociatedTable, '\QCubed\Codegen\TypeTable') ) {
     $blnIsType = true;
     $varPrefix = '_int';
@@ -194,7 +194,7 @@ if (is_a($objAssociatedTable, '\QCubed\Codegen\TypeTable') ) {
 }
 ?>
         // Check for <?= $objReference->ObjectDescription ?> Virtual Binding
-        $strAlias = $strAliasPrefix . '<?= strtolower($objReference->ObjectDescription) ?>__<?= $objReference->OppositeColumn ?>__<?= $objCodeGen->GetTable($objReference->AssociatedTable)->PrimaryKeyColumnArray[0]->Name ?>';
+        $strAlias = $strAliasPrefix . '<?= strtolower($objReference->ObjectDescription) ?>__<?= $objReference->OppositeColumn ?>__<?= $objCodegen->GetTable($objReference->AssociatedTable)->PrimaryKeyColumnArray[0]->Name ?>';
         $strAliasName = !empty($strColumnAliasArray[$strAlias]) ? $strColumnAliasArray[$strAlias] : $strAlias;
         $objExpansionNode = (empty($objExpansionAliasArray['<?= strtolower($objReference->ObjectDescription) ?>']) ? null : $objExpansionAliasArray['<?= strtolower($objReference->ObjectDescription) ?>']);
         $blnExpanded = ($objExpansionNode && $objExpansionNode->ExpandAsArray);
@@ -225,7 +225,7 @@ if (is_a($objAssociatedTable, '\QCubed\Codegen\TypeTable') ) {
 
 <?php foreach ($objTable->ReverseReferenceArray as $objReference) { ?><?php if (!$objReference->Unique) { ?>
         // Check for <?= $objReference->ObjectDescription ?> Virtual Binding
-        $strAlias = $strAliasPrefix . '<?= strtolower($objReference->ObjectDescription) ?>__<?= $objCodeGen->GetTable($objReference->Table)->PrimaryKeyColumnArray[0]->Name ?>';
+        $strAlias = $strAliasPrefix . '<?= strtolower($objReference->ObjectDescription) ?>__<?= $objCodegen->GetTable($objReference->Table)->PrimaryKeyColumnArray[0]->Name ?>';
         $strAliasName = !empty($strColumnAliasArray[$strAlias]) ? $strColumnAliasArray[$strAlias] : $strAlias;
         $objExpansionNode = (empty($objExpansionAliasArray['<?= strtolower($objReference->ObjectDescription) ?>']) ? null : $objExpansionAliasArray['<?= strtolower($objReference->ObjectDescription) ?>']);
         $blnExpanded = ($objExpansionNode && $objExpansionNode->ExpandAsArray);
