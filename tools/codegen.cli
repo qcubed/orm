@@ -2,7 +2,7 @@
 <?php
 	/**
 	 * This is a *nix/Mac-based PHP CLI (Command Line Interface) script
-	 * which is a wrapper around the CodeGen object.
+	 * which is a wrapper around the Codegen object.
 	 *
 	 * Remember: You may need to update the top line to have it point
 	 * to the php binary on your server.

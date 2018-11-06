@@ -14,7 +14,7 @@
      * @var <?= $objColumn->VariableType ?> <?= $objColumn->VariableName ?>
 
      */
-<?php if ($objCodeGen->PrivateColumnVars) { ?>
+<?php if ($objCodegen->PrivateColumnVars) { ?>
     private $<?= $objColumn->VariableName ?>;
 <?php } else { ?>
     protected $<?= $objColumn->VariableName ?>;
@@ -67,7 +67,7 @@ else {
 <?php } ?>
 <?php foreach ($objTable->ManyToManyReferenceArray as $objReference) { ?>
 <?php 
-        $objAssociatedTable = $objCodeGen->GetTable($objReference->AssociatedTable);
+        $objAssociatedTable = $objCodegen->GetTable($objReference->AssociatedTable);
         if (is_a($objAssociatedTable, '\QCubed\Codegen\TypeTable')) {
 ?>
     /**

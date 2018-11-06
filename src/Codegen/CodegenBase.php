@@ -18,7 +18,7 @@ use QCubed\Database;
 use QCubed\Project\Codegen\CodegenBase as Codegen;
 use QCubed\Type;
 
-function qcubedHandleCodeGenParseError($__exc_errno, $__exc_errstr, $__exc_errfile, $__exc_errline)
+function qcubedHandleCodegenParseError($__exc_errno, $__exc_errstr, $__exc_errfile, $__exc_errline)
 {
     $strErrorString = str_replace("SimpleXMLElement::__construct() [<a href='function.SimpleXMLElement---construct'>function.SimpleXMLElement---construct</a>]: ",
         '', $__exc_errstr);
@@ -60,7 +60,7 @@ function trimOffEnd($off, $str)
 }
 
 /**
- * This is the CodeGen class which performs the code generation
+ * This is the Codegen class which performs the code generation
  * for both the Object-Relational Model (e.g. Data Objects) as well as
  * the draft Forms, which make up simple HTML/PHP scripts to perform
  * basic CRUD functionality on each object.
@@ -110,7 +110,7 @@ abstract class CodegenBase extends ObjectBase
      *
      * @var Codegen[] array of active/executed codegen objects
      */
-    public static $CodeGenArray;
+    public static $CodegenArray;
 
     /**
      * This is the array representation of the parsed SettingsXml
@@ -130,28 +130,28 @@ abstract class CodegenBase extends ObjectBase
     public static $SettingsFilePath;
 
     /**
-     * Application Name (from CodeGen Settings)
+     * Application Name (from Codegen Settings)
      *
      * @var string $ApplicationName
      */
     public static $ApplicationName;
 
     /**
-     * Preferred Render Method (from CodeGen Settings)
+     * Preferred Render Method (from Codegen Settings)
      *
      * @var string $PreferredRenderMethod
      */
     public static $PreferredRenderMethod;
 
     /**
-     * Create Method (from CodeGen Settings)
+     * Create Method (from Codegen Settings)
      *
      * @var string $CreateMethod
      */
     public static $CreateMethod;
 
     /**
-     * Default Button Class (from CodeGen Settings)
+     * Default Button Class (from Codegen Settings)
      *
      * @var string $DefaultButtonClass
      */
@@ -236,8 +236,8 @@ abstract class CodegenBase extends ObjectBase
         $strToReturn .= sprintf('	<render preferredRenderMethod="%s"/>%s', Codegen::$PreferredRenderMethod,
             $strCrLf);
         $strToReturn .= sprintf('	<dataSources>%s', $strCrLf);
-        foreach (Codegen::$CodeGenArray as $objCodeGen) {
-            $strToReturn .= $strCrLf . $objCodeGen->getConfigXml();
+        foreach (Codegen::$CodegenArray as $objCodegen) {
+            $strToReturn .= $strCrLf . $objCodegen->getConfigXml();
         }
         $strToReturn .= sprintf('%s	</dataSources>%s', $strCrLf, $strCrLf);
         $strToReturn .= '</codegen>';
@@ -256,26 +256,26 @@ abstract class CodegenBase extends ObjectBase
             define('QCUBED_CODE_GENERATING', true);
         }
 
-        Codegen::$CodeGenArray = array();
+        Codegen::$CodegenArray = array();
         Codegen::$SettingsFilePath = $strSettingsXmlFilePath;
 
         if (!file_exists($strSettingsXmlFilePath)) {
-            Codegen::$RootErrors = 'FATAL ERROR: CodeGen Settings XML File (' . $strSettingsXmlFilePath . ') was not found.';
+            Codegen::$RootErrors = 'FATAL ERROR: Codegen Settings XML File (' . $strSettingsXmlFilePath . ') was not found.';
             return;
         }
 
         if (!is_file($strSettingsXmlFilePath)) {
-            Codegen::$RootErrors = 'FATAL ERROR: CodeGen Settings XML File (' . $strSettingsXmlFilePath . ') was not found.';
+            Codegen::$RootErrors = 'FATAL ERROR: Codegen Settings XML File (' . $strSettingsXmlFilePath . ') was not found.';
             return;
         }
 
         // Try Parsing the Xml Settings File
         try {
-            $errorHandler = new Error\Handler('\\QCubed\\Codegen\\QcubedHandleCodeGenParseError', E_ALL);
+            $errorHandler = new Error\Handler('\\QCubed\\Codegen\\QcubedHandleCodegenParseError', E_ALL);
             Codegen::$SettingsXml = new \SimpleXMLElement(file_get_contents($strSettingsXmlFilePath));
             $errorHandler->restore();
         } catch (\Exception $objExc) {
-            Codegen::$RootErrors .= 'FATAL ERROR: Unable to parse CodeGenSettings XML File: ' . $strSettingsXmlFilePath;
+            Codegen::$RootErrors .= 'FATAL ERROR: Unable to parse CodegenSettings XML File: ' . $strSettingsXmlFilePath;
             Codegen::$RootErrors .= "\r\n";
             Codegen::$RootErrors .= $objExc->getMessage();
             return;
@@ -291,7 +291,7 @@ abstract class CodegenBase extends ObjectBase
         Codegen::$DefaultButtonClass = Codegen::lookupSetting(Codegen::$SettingsXml, 'formgen', 'buttonClass');
 
         if (!Codegen::$DefaultButtonClass) {
-            Codegen::$RootErrors .= "CodeGen Settings XML Fatal Error: buttonClass was not defined\r\n";
+            Codegen::$RootErrors .= "Codegen Settings XML Fatal Error: buttonClass was not defined\r\n";
             return;
         }
 
@@ -300,13 +300,13 @@ abstract class CodegenBase extends ObjectBase
             foreach (Codegen::$SettingsXml->dataSources->children() as $objChildNode) {
                 switch (dom_import_simplexml($objChildNode)->nodeName) {
                     case 'database':
-                        Codegen::$CodeGenArray[] = new DatabaseCodeGen($objChildNode);
+                        Codegen::$CodegenArray[] = new DatabaseCodegen($objChildNode);
                         break;
                     case 'restService':
-                        Codegen::$CodeGenArray[] = new RestServiceCodeGen($objChildNode);
+                        Codegen::$CodegenArray[] = new RestServiceCodegen($objChildNode);
                         break;
                     default:
-                        Codegen::$RootErrors .= sprintf("Invalid Data Source Type in CodeGen Settings XML File (%s): %s\r\n",
+                        Codegen::$RootErrors .= sprintf("Invalid Data Source Type in Codegen Settings XML File (%s): %s\r\n",
                             $strSettingsXmlFilePath, dom_import_simplexml($objChildNode)->nodeName);
                         break;
                 }
@@ -365,21 +365,21 @@ abstract class CodegenBase extends ObjectBase
      */
     public static function generateAggregate()
     {
-        $objDbOrmCodeGen = array();
-        $objRestServiceCodeGen = array();
+        $objDbOrmCodegen = array();
+        $objRestServiceCodegen = array();
 
-        foreach (Codegen::$CodeGenArray as $objCodeGen) {
-            if ($objCodeGen instanceof DatabaseCodeGen) {
-                array_push($objDbOrmCodeGen, $objCodeGen);
+        foreach (Codegen::$CodegenArray as $objCodegen) {
+            if ($objCodegen instanceof DatabaseCodegen) {
+                array_push($objDbOrmCodegen, $objCodegen);
             }
-            if ($objCodeGen instanceof RestServiceCodeGen) {
-                array_push($objRestServiceCodeGen, $objCodeGen);
+            if ($objCodegen instanceof RestServiceCodegen) {
+                array_push($objRestServiceCodegen, $objCodegen);
             }
         }
 
         $strToReturn = array();
-        array_merge($strToReturn, DatabaseCodeGen::generateAggregateHelper($objDbOrmCodeGen));
-//			array_push($strToReturn, QRestServiceCodeGen::generateAggregateHelper($objRestServiceCodeGen));
+        array_merge($strToReturn, DatabaseCodegen::generateAggregateHelper($objDbOrmCodegen));
+//			array_push($strToReturn, QRestServiceCodegen::generateAggregateHelper($objRestServiceCodegen));
 
         return $strToReturn;
     }
@@ -623,8 +623,8 @@ abstract class CodegenBase extends ObjectBase
         unset($_TEMPLATE_SETTINGS);
         $_TEMPLATE_SETTINGS = null;
 
-        // Of course, we also need to locally allow "objCodeGen"
-        $objCodeGen = $this;
+        // Of course, we also need to locally allow "objCodegen"
+        $objCodegen = $this;
 
         // Get Database Escape Identifiers
         $strEscapeIdentifierBegin = \QCubed\Database\Service::getDatabase($this->intDatabaseIndex)->EscapeIdentifierBegin;
@@ -911,7 +911,7 @@ abstract class CodegenBase extends ObjectBase
     public function modelConnectorVariableName(ColumnInterface $objColumn)
     {
         $strPropName = static::modelConnectorPropertyName($objColumn);
-        $objControlHelper = $this->getControlCodeGenerator($objColumn);
+        $objControlHelper = $this->getControlCodegenerator($objColumn);
         return $objControlHelper->varName($strPropName);
     }
 
@@ -1034,7 +1034,7 @@ abstract class CodegenBase extends ObjectBase
     public function dataListVarName(SqlTable $objTable)
     {
         $strPropName = self::dataListPropertyNamePlural($objTable);
-        $objControlHelper = $this->getDataListCodeGenerator($objTable);
+        $objControlHelper = $this->getDataListCodegenerator($objTable);
         return $objControlHelper->varName($strPropName);
     }
 
@@ -1058,25 +1058,25 @@ abstract class CodegenBase extends ObjectBase
      * @return \QCubed\Codegen\Generator\GeneratorBase helper object
      * @throws \Exception
      */
-    public function getControlCodeGenerator($objColumn)
+    public function getControlCodegenerator($objColumn)
     {
         $strControlClass = $this->modelConnectorControlClass($objColumn);
 
-        if (method_exists($strControlClass, 'getCodeGenerator')) {
-            return $strControlClass::getCodeGenerator();
+        if (method_exists($strControlClass, 'getCodegenerator')) {
+            return $strControlClass::getCodegenerator();
         } else {
-            throw new Caller("Class " . $strControlClass . " must implement getCodeGenerator()");
+            throw new Caller("Class " . $strControlClass . " must implement getCodegenerator()");
         }
     }
 
-    public function getDataListCodeGenerator($objTable)
+    public function getDataListCodegenerator($objTable)
     {
         $strControlClass = $this->dataListControlClass($objTable);
 
-        if (method_exists($strControlClass, 'getCodeGenerator')) {
-            return $strControlClass::getCodeGenerator();
+        if (method_exists($strControlClass, 'getCodegenerator')) {
+            return $strControlClass::getCodegenerator();
         } else {
-            throw new Caller("Class " . $strControlClass . " must implement getCodeGenerator()");
+            throw new Caller("Class " . $strControlClass . " must implement getCodegenerator()");
         }
     }
 

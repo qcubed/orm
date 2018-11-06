@@ -1,4 +1,4 @@
-<?php $objManyToManyReferenceTable = $objCodeGen->TableArray[strtolower($objManyToManyReference->AssociatedTable)]; ?>
+<?php $objManyToManyReferenceTable = $objCodegen->TableArray[strtolower($objManyToManyReference->AssociatedTable)]; ?>
 
 
     // Related Many-to-Many Objects' Methods for <?= $objManyToManyReference->ObjectDescription ?>
@@ -12,7 +12,7 @@
      * @throws Caller
      */
     public function get<?= $objManyToManyReference->ObjectDescription ?>Array($objClauses = null) {
-        if (<?= $objCodeGen->implodeObjectArray(' || ', '(is_null($this->', '))', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>)
+        if (<?= $objCodegen->implodeObjectArray(' || ', '(is_null($this->', '))', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>)
             return array();
 
         try {
@@ -31,7 +31,7 @@
      */
     public function get<?= $objManyToManyReference->ObjectDescription ?>Keys()
     {
-        if (<?= $objCodeGen->implodeObjectArray(' || ', '(is_null($this->', '))', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>)
+        if (<?= $objCodegen->implodeObjectArray(' || ', '(is_null($this->', '))', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>)
             throw new \QCubed\Database\Exception\UndefinedPrimaryKey('Unable to call Get<?= $objManyToManyReference->ObjectDescription ?>Ids on this unsaved <?= $objTable->ClassName ?>.');
 
         // Get the Database Object for this Class
@@ -61,7 +61,7 @@
     */
     public function count<?= $objManyToManyReference->ObjectDescriptionPlural ?>()
     {
-        if (<?= $objCodeGen->implodeObjectArray(' || ', '(is_null($this->', '))', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>)
+        if (<?= $objCodegen->implodeObjectArray(' || ', '(is_null($this->', '))', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>)
             return 0;
 
         return <?= $objManyToManyReference->VariableType ?>::CountBy<?= $objManyToManyReference->OppositeObjectDescription ?>($this-><?= $objTable->PrimaryKeyColumnArray[0]->VariableName ?>);
@@ -76,9 +76,9 @@
     */
     public function is<?= $objManyToManyReference->ObjectDescription ?>Associated(<?= $objManyToManyReference->VariableType ?> $<?= $objManyToManyReference->VariableName ?>)
     {
-        if (<?= $objCodeGen->implodeObjectArray(' || ', '(is_null($this->', '))', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>)
+        if (<?= $objCodegen->implodeObjectArray(' || ', '(is_null($this->', '))', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>)
             throw new \QCubed\Database\Exception\UndefinedPrimaryKey('Unable to call Is<?= $objManyToManyReference->ObjectDescription ?>Associated on this unsaved <?= $objTable->ClassName ?>.');
-        if (<?= $objCodeGen->implodeObjectArray(' || ', '(is_null($' . $objManyToManyReference->VariableName . '->', '))', 'PropertyName', $objManyToManyReferenceTable->PrimaryKeyColumnArray) ?>)
+        if (<?= $objCodegen->implodeObjectArray(' || ', '(is_null($' . $objManyToManyReference->VariableName . '->', '))', 'PropertyName', $objManyToManyReferenceTable->PrimaryKeyColumnArray) ?>)
             throw new \QCubed\Database\Exception\UndefinedPrimaryKey('Unable to call Is<?= $objManyToManyReference->ObjectDescription ?>Associated on this <?= $objTable->ClassName ?> with an unsaved <?= $objManyToManyReferenceTable->ClassName ?>.');
 
         $intRowCount = <?= $objTable->ClassName ?>::queryCount(
@@ -100,7 +100,7 @@
     */
     public function is<?= $objManyToManyReference->ObjectDescription ?>AssociatedByKey($key)
     {
-        if (<?= $objCodeGen->implodeObjectArray(' || ', '(is_null($this->', '))', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>)
+        if (<?= $objCodegen->implodeObjectArray(' || ', '(is_null($this->', '))', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>)
             throw new \QCubed\Database\Exception\UndefinedPrimaryKey('Unable to call Is<?= $objManyToManyReference->ObjectDescription ?>AssociatedByKey on this unsaved <?= $objTable->ClassName ?>.');
 
         $intRowCount = <?= $objTable->ClassName ?>::queryCount(
@@ -121,9 +121,9 @@
      * @return void
     */
     public function associate<?= $objManyToManyReference->ObjectDescription ?>(<?= $objManyToManyReference->VariableType ?> $<?= $objManyToManyReference->VariableName ?>) {
-        if (<?= $objCodeGen->implodeObjectArray(' || ', '(is_null($this->', '))', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>)
+        if (<?= $objCodegen->implodeObjectArray(' || ', '(is_null($this->', '))', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>)
             throw new \QCubed\Database\Exception\UndefinedPrimaryKey('Unable to call Associate<?= $objManyToManyReference->ObjectDescription ?> on this unsaved <?= $objTable->ClassName ?>.');
-        if (<?= $objCodeGen->implodeObjectArray(' || ', '(is_null($' . $objManyToManyReference->VariableName . '->', '))', 'PropertyName', $objManyToManyReferenceTable->PrimaryKeyColumnArray) ?>)
+        if (<?= $objCodegen->implodeObjectArray(' || ', '(is_null($' . $objManyToManyReference->VariableName . '->', '))', 'PropertyName', $objManyToManyReferenceTable->PrimaryKeyColumnArray) ?>)
             throw new \QCubed\Database\Exception\UndefinedPrimaryKey('Unable to call Associate<?= $objManyToManyReference->ObjectDescription ?> on this <?= $objTable->ClassName ?> with an unsaved <?= $objManyToManyReferenceTable->ClassName ?>.');
 
         // Get the Database Object for this Class
@@ -154,7 +154,7 @@
     */
     public function associate<?= $objManyToManyReference->ObjectDescription ?>ByKey($<?= $objManyToManyReference->OppositeVariableName ?>)
     {
-        if (<?= $objCodeGen->implodeObjectArray(' || ', '(is_null($this->', '))', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>)
+        if (<?= $objCodegen->implodeObjectArray(' || ', '(is_null($this->', '))', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>)
             throw new \QCubed\Database\Exception\UndefinedPrimaryKey('Unable to call Associate<?= $objManyToManyReference->ObjectDescription ?> on this unsaved <?= $objTable->ClassName ?>.');
 
         // Get the Database Object for this Class
@@ -186,9 +186,9 @@
     */
     public function unassociate<?= $objManyToManyReference->ObjectDescription ?>(<?= $objManyToManyReference->VariableType ?> $<?= $objManyToManyReference->VariableName ?>)
     {
-        if (<?= $objCodeGen->implodeObjectArray(' || ', '(is_null($this->', '))', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>)
+        if (<?= $objCodegen->implodeObjectArray(' || ', '(is_null($this->', '))', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>)
             throw new \QCubed\Database\Exception\UndefinedPrimaryKey('Unable to call Unassociate<?= $objManyToManyReference->ObjectDescription ?> on this unsaved <?= $objTable->ClassName ?>.');
-        if (<?= $objCodeGen->implodeObjectArray(' || ', '(is_null($' . $objManyToManyReference->VariableName . '->', '))', 'PropertyName', $objManyToManyReferenceTable->PrimaryKeyColumnArray) ?>)
+        if (<?= $objCodegen->implodeObjectArray(' || ', '(is_null($' . $objManyToManyReference->VariableName . '->', '))', 'PropertyName', $objManyToManyReferenceTable->PrimaryKeyColumnArray) ?>)
             throw new \QCubed\Database\Exception\UndefinedPrimaryKey('Unable to call Unassociate<?= $objManyToManyReference->ObjectDescription ?> on this <?= $objTable->ClassName ?> with an unsaved <?= $objManyToManyReferenceTable->ClassName ?>.');
 
         // Get the Database Object for this Class
@@ -216,7 +216,7 @@
     */
     public function unassociateAll<?= $objManyToManyReference->ObjectDescriptionPlural ?>()
     {
-        if (<?= $objCodeGen->implodeObjectArray(' || ', '(is_null($this->', '))', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>)
+        if (<?= $objCodegen->implodeObjectArray(' || ', '(is_null($this->', '))', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>)
             throw new \QCubed\Database\Exception\UndefinedPrimaryKey('Unable to call UnassociateAll<?= $objManyToManyReference->ObjectDescription ?>Array on this unsaved <?= $objTable->ClassName ?>.');
 
         // Get the Database Object for this Class

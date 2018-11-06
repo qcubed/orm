@@ -154,16 +154,16 @@ class SqlTable extends ObjectBase {
 		return $intCount > 0;
 	}
 
-	public function hasExtendedArrayExpansions(DatabaseCodeGen $objCodeGen, $objCheckedTableArray = array()) {
+	public function hasExtendedArrayExpansions(DatabaseCodegen $objCodegen, $objCheckedTableArray = array()) {
 		$objCheckedTableArray[] = $this;
 		foreach ($this->ColumnArray as $objColumn) {
 			if (($objReference = $objColumn->Reference) && !$objReference->IsType) {
-				if ($objTable2 = $objCodeGen->getTable($objReference->Table)) {
+				if ($objTable2 = $objCodegen->getTable($objReference->Table)) {
 					if ($objTable2->hasImmediateArrayExpansions()) {
 						return true;
 					}
 					if (!in_array($objTable2, $objCheckedTableArray) &&	// watch out for circular references
-							$objTable2->hasExtendedArrayExpansions($objCodeGen, $objCheckedTableArray)) {
+							$objTable2->hasExtendedArrayExpansions($objCodegen, $objCheckedTableArray)) {
 						return true;
 					}
 				}

@@ -1,7 +1,7 @@
-<?php $objColumnArray = $objCodeGen->GetColumnArray($objTable, $objIndex->ColumnNameArray); ?>
+<?php $objColumnArray = $objCodegen->GetColumnArray($objTable, $objIndex->ColumnNameArray); ?>
     /**
      * Load a single <?= $objTable->ClassName ?> object,
-     * by <?= $objCodeGen->ImplodeObjectArray(', ', '', '', 'PropertyName', $objCodeGen->GetColumnArray($objTable, $objIndex->ColumnNameArray)) ?> Index(es)
+     * by <?= $objCodegen->ImplodeObjectArray(', ', '', '', 'PropertyName', $objCodegen->GetColumnArray($objTable, $objIndex->ColumnNameArray)) ?> Index(es)
 <?php foreach ($objColumnArray as $objColumn) { ?>
      * @param <?= $objColumn->VariableType ?> $<?= $objColumn->VariableName ?>
 
@@ -10,7 +10,7 @@
      * @return <?= $objTable->ClassName ?>
 
     */
-    public static function loadBy<?= $objCodeGen->ImplodeObjectArray('', '', '', 'PropertyName', $objColumnArray); ?>(<?= $objCodeGen->ParameterListFromColumnArray($objColumnArray); ?>, $objOptionalClauses = null)
+    public static function loadBy<?= $objCodegen->ImplodeObjectArray('', '', '', 'PropertyName', $objColumnArray); ?>(<?= $objCodegen->ParameterListFromColumnArray($objColumnArray); ?>, $objOptionalClauses = null)
     {
         return <?= $objTable->ClassName ?>::QuerySingle(
             QQ::AndCondition(

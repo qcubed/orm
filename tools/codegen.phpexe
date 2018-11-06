@@ -1,7 +1,7 @@
 <?php
 	/**
 	 * This is a Windows-based PHP CLI (Command Line Interface) script
-	 * which is a wrapper around the CodeGen object.
+	 * which is a wrapper around the Codegen object.
 	 *
 	 * Remember: Windows CLI must be executed by the php.exe executable (usually
 	 * installed at c:\php\php.exe).

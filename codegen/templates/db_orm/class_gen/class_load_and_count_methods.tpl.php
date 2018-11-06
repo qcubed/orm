@@ -23,7 +23,7 @@
      * @return <?= $objTable->ClassName ?>
 
      */
-    public static function load(<?= $objCodeGen->ParameterListFromColumnArray($objTable->PrimaryKeyColumnArray); ?>, $objOptionalClauses = null)
+    public static function load(<?= $objCodegen->ParameterListFromColumnArray($objTable->PrimaryKeyColumnArray); ?>, $objOptionalClauses = null)
     {
         if (!$objOptionalClauses) {
 <?php if (count ($objTable->PrimaryKeyColumnArray) == 1) { ?>

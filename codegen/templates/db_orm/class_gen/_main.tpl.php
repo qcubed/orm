@@ -1,6 +1,6 @@
 <?php
 	/** @var QSqlTable $objTable */
-	/** @var \QCubed\Codegen\DatabaseCodeGen $objCodeGen */
+	/** @var \QCubed\Codegen\DatabaseCodegen $objCodegen */
 	global $_TEMPLATE_SETTINGS;
 	$_TEMPLATE_SETTINGS = array(
 		'OverwriteFlag' => true,

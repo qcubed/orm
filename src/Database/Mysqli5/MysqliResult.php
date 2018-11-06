@@ -30,7 +30,12 @@ class MysqliResult extends ResultBase
     {
         return $this->objMySqliResult->fetch_array();
     }
-
+    
+    public function fetchAssoc()
+    {
+        return $this->objMySqliResult->fetch_assoc();
+    }
+    
     public function fetchFields()
     {
         $objArrayToReturn = array();
@@ -75,7 +80,7 @@ class MysqliResult extends ResultBase
 
     public function getNextRow()
     {
-        $strColumnArray = $this->fetchArray();
+        $strColumnArray = $this->fetchAssoc();
 
         if ($strColumnArray) {
             return new MysqliRow($strColumnArray);

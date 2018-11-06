@@ -2,10 +2,10 @@
 <codegen>
 <!--
 	This XML file defines the settings used when running the Code Generator.
-	When running CodeGen, you must specify a CodeGenSettings XML file like
+	When running Codegen, you must specify a CodegenSettings XML file like
 	this one to use.  Feel free to copy, modify, etc.
 -->
-	<!-- General CodeGen Settings -->
+	<!-- General Codegen Settings -->
 	<name application="My QCubed Application"/>
 	<templateEscape begin="&lt;%" end="%&gt;"/>
 
@@ -52,7 +52,7 @@
                     privateColumnVars="true"
             />
 
-            <!-- Specific Tables to Exclude or Include in the CodeGen process -->
+            <!-- Specific Tables to Exclude or Include in the Codegen process -->
 			<!--
 					* "include" is used to override any "exclude" patterns or lists
 					* "list" should be a  comma-separated list of table names

@@ -98,7 +98,7 @@ class Node<?= $objTable->ClassName ?> extends Node\Table {
     * @return AbstractDatabase
     */
     protected function database() {
-        return \QCubed\Database\Service::getDatabase(<?= $objCodeGen->DatabaseIndex; ?>);
+        return \QCubed\Database\Service::getDatabase(<?= $objCodegen->DatabaseIndex; ?>);
     }
 
 

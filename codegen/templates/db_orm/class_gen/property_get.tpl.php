@@ -18,7 +18,7 @@
 
 <?php foreach ($objTable->ManyToManyReferenceArray as $objReference) { ?>
 <?php 
-	$objAssociatedTable = $objCodeGen->GetTable($objReference->AssociatedTable);
+	$objAssociatedTable = $objCodegen->GetTable($objReference->AssociatedTable);
 	$varPrefix = (is_a($objAssociatedTable, '\QCubed\Codegen\TypeTable') ? '_int' : '_obj');
 	$varType = (is_a($objAssociatedTable, '\QCubed\Codegen\TypeTable') ? 'integer' : $objReference->VariableType);
 ?>

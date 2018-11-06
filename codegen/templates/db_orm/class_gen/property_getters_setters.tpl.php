@@ -119,12 +119,12 @@
             $<?= $objColumn->Reference->VariableName ?> = Type::Cast($<?= $objColumn->Reference->VariableName ?>, '<?= $objColumn->Reference->VariableType ?>');
 
             // Make sure its a SAVED <?= $objColumn->Reference->VariableType ?> object
-            if (is_null($<?= $objColumn->Reference->VariableName ?>-><?= $objCodeGen->TableArray[strtolower($objColumn->Reference->Table)]->ColumnArray[strtolower($objColumn->Reference->Column)]->PropertyName ?>)) {
+            if (is_null($<?= $objColumn->Reference->VariableName ?>-><?= $objCodegen->TableArray[strtolower($objColumn->Reference->Table)]->ColumnArray[strtolower($objColumn->Reference->Column)]->PropertyName ?>)) {
                 throw new Caller('Unable to set an unsaved <?= $objColumn->Reference->PropertyName ?> for this <?= $objTable->ClassName ?>');
             }
 
             // Update Local Member Variables
-            $this->set<?= $objColumn->PropertyName ?>($<?= $objColumn->Reference->VariableName ?>->get<?= $objCodeGen->TableArray[strtolower($objColumn->Reference->Table)]->ColumnArray[strtolower($objColumn->Reference->Column)]->PropertyName ?>());
+            $this->set<?= $objColumn->PropertyName ?>($<?= $objColumn->Reference->VariableName ?>->get<?= $objCodegen->TableArray[strtolower($objColumn->Reference->Table)]->ColumnArray[strtolower($objColumn->Reference->Column)]->PropertyName ?>());
             $this-><?= $objColumn->Reference->VariableName ?> = $<?= $objColumn->Reference->VariableName ?>;
         }
         return $this;
@@ -138,7 +138,7 @@
     // Unique reverse reference properties
 foreach ($objTable->ReverseReferenceArray as $objReverseReference) {
 	if ($objReverseReference->Unique) {
-		$objReverseReferenceTable = $objCodeGen->TableArray[strtolower($objReverseReference->Table)];
+		$objReverseReferenceTable = $objCodegen->TableArray[strtolower($objReverseReference->Table)];
 		$objReverseReferenceColumn = $objReverseReferenceTable->ColumnArray[strtolower($objReverseReference->Column)]; ?>
 
    /**
@@ -156,7 +156,7 @@ foreach ($objTable->ReverseReferenceArray as $objReverseReference) {
             return null;
         }
         if (!$this-><?= $objReverseReference->ObjectMemberVariable ?>) {
-            $this-><?= $objReverseReference->ObjectMemberVariable ?> = <?= $objReverseReference->VariableType ?>::LoadBy<?= $objReverseReferenceColumn->PropertyName ?>(<?= $objCodeGen->ImplodeObjectArray(', ', '$this->', '', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>);
+            $this-><?= $objReverseReference->ObjectMemberVariable ?> = <?= $objReverseReference->VariableType ?>::LoadBy<?= $objReverseReferenceColumn->PropertyName ?>(<?= $objCodegen->ImplodeObjectArray(', ', '$this->', '', 'VariableName', $objTable->PrimaryKeyColumnArray) ?>);
         }
         return $this-><?= $objReverseReference->ObjectMemberVariable ?>;
     }
@@ -180,7 +180,7 @@ foreach ($objTable->ReverseReferenceArray as $objReverseReference) {
             $<?= $objReverseReference->ObjectMemberVariable ?> = \QCubed\Type::Cast($<?= $objReverseReference->ObjectMemberVariable ?>, '<?= $objReverseReference->VariableType ?>');
 
             // Are we setting <?= $objReverseReference->ObjectMemberVariable ?> to a DIFFERENT $<?= $objReverseReference->ObjectMemberVariable ?>?
-            if ((!$this-><?= $objReverseReference->ObjectPropertyName ?>) || ($this-><?= $objReverseReference->ObjectPropertyName ?>-><?= $objCodeGen->GetTable($objReverseReference->Table)->PrimaryKeyColumnArray[0]->PropertyName ?> != $<?= $objReverseReference->ObjectMemberVariable ?>-><?= $objCodeGen->GetTable($objReverseReference->Table)->PrimaryKeyColumnArray[0]->PropertyName ?>)) {
+            if ((!$this-><?= $objReverseReference->ObjectPropertyName ?>) || ($this-><?= $objReverseReference->ObjectPropertyName ?>-><?= $objCodegen->GetTable($objReverseReference->Table)->PrimaryKeyColumnArray[0]->PropertyName ?> != $<?= $objReverseReference->ObjectMemberVariable ?>-><?= $objCodegen->GetTable($objReverseReference->Table)->PrimaryKeyColumnArray[0]->PropertyName ?>)) {
                 // Yes -- therefore, set the "Dirty" flag to true
                 // to make sure we update the adjoined <?= $objReverseReference->VariableType ?> object the next time we call Save()
                 $this->blnDirty<?= $objReverseReference->ObjectPropertyName ?> = true;

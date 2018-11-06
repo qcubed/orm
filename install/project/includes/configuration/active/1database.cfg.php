@@ -23,7 +23,7 @@
  *		NOTE: Profiling should only be enabled when you are actively wanting to profile a
  *		specific PHP script or scripts.  Because of SIGNIFICANT performance degradation,
  *		it should otherwise always be OFF.
- * "ScriptPath": you can have CodeGen virtually add additional FKs, even though they are
+ * "ScriptPath": you can have Codegen virtually add additional FKs, even though they are
  * 		not defined as a DB constraint in the database, by using a script to define what
  * 		those constraints are.  The path of the script can be defined here. - default is blank or none
  * Note: any option not used or set to blank will result in using the default value for that option

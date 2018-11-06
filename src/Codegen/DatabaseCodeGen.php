@@ -17,11 +17,11 @@ use QCubed\Project\Codegen\CodegenBase as QCodegen;
 //require_once QCUBED_PROJECT_DIR . '/qcubed/codegen/CodegenBase.php';
 
 /**
- * Class DatabaseCodeGen
+ * Class DatabaseCodegen
  * @package QCubed\Codegen
- * @was QDatabaseCodeGen
+ * @was QDatabaseCodegen
  */
-class DatabaseCodeGen extends QCodegen
+class DatabaseCodegen extends QCodegen
 {
     public $objSettingsXml;    // Make public so templates can use it directly.
 
@@ -257,25 +257,25 @@ class DatabaseCodeGen extends QCodegen
     }
 
     /**
-     * @param DatabaseCodeGen[] $objCodeGenArray
+     * @param DatabaseCodegen[] $objCodegenArray
      * @return array
      */
-    public static function generateAggregateHelper(array $objCodeGenArray)
+    public static function generateAggregateHelper(array $objCodegenArray)
     {
         $strToReturn = array();
 
-        if (count($objCodeGenArray)) {
+        if (count($objCodegenArray)) {
             // Standard ORM Tables
             $objTableArray = array();
-            foreach ($objCodeGenArray as $objCodeGen) {
-                $objCurrentTableArray = $objCodeGen->TableArray;
+            foreach ($objCodegenArray as $objCodegen) {
+                $objCurrentTableArray = $objCodegen->TableArray;
                 foreach ($objCurrentTableArray as $objTable) {
                     $objTableArray[$objTable->ClassName] = $objTable;
                 }
             }
 
             $mixArgumentArray = array('objTableArray' => $objTableArray);
-            if ($objCodeGenArray[0]->generateFiles('aggregate_db_orm', $mixArgumentArray)) {
+            if ($objCodegenArray[0]->generateFiles('aggregate_db_orm', $mixArgumentArray)) {
                 $strToReturn[] = 'Successfully generated Aggregate DB ORM file(s)';
             } else {
                 $strToReturn[] = 'FAILED to generate Aggregate DB ORM file(s)';
@@ -283,15 +283,15 @@ class DatabaseCodeGen extends QCodegen
 
             // Type Tables
             $objTableArray = array();
-            foreach ($objCodeGenArray as $objCodeGen) {
-                $objCurrentTableArray = $objCodeGen->TypeTableArray;
+            foreach ($objCodegenArray as $objCodegen) {
+                $objCurrentTableArray = $objCodegen->TypeTableArray;
                 foreach ($objCurrentTableArray as $objTable) {
                     $objTableArray[$objTable->ClassName] = $objTable;
                 }
             }
 
             $mixArgumentArray = array('objTableArray' => $objTableArray);
-            if ($objCodeGenArray[0]->generateFiles('aggregate_db_type', $mixArgumentArray)) {
+            if ($objCodegenArray[0]->generateFiles('aggregate_db_type', $mixArgumentArray)) {
                 $strToReturn[] = 'Successfully generated Aggregate DB Type file(s)';
             } else {
                 $strToReturn[] = 'FAILED to generate Aggregate DB Type file(s)';
@@ -360,7 +360,7 @@ class DatabaseCodeGen extends QCodegen
 
         // Check to make sure things that are required are there
         if (!$this->intDatabaseIndex) {
-            $this->strErrors .= "CodeGen Settings XML Fatal Error: databaseIndex was invalid or not set\r\n";
+            $this->strErrors .= "Codegen Settings XML Fatal Error: databaseIndex was invalid or not set\r\n";
         }
 
         // Aggregate RelationshipLinesQcubed and RelationshipLinesSql arrays
@@ -384,7 +384,7 @@ class DatabaseCodeGen extends QCodegen
 
         if ($this->strRelationshipsScriptPath) {
             if (!file_exists($this->strRelationshipsScriptPath)) {
-                $this->strErrors .= sprintf("CodeGen Settings XML Fatal Error: relationshipsScript filepath \"%s\" does not exist\r\n",
+                $this->strErrors .= sprintf("Codegen Settings XML Fatal Error: relationshipsScript filepath \"%s\" does not exist\r\n",
                     $this->strRelationshipsScriptPath);
             } else {
                 $strScript = strtolower(trim(file_get_contents($this->strRelationshipsScriptPath)));
@@ -454,7 +454,7 @@ class DatabaseCodeGen extends QCodegen
                         break;
 
                     default:
-                        $this->strErrors .= sprintf("CodeGen Settings XML Fatal Error: relationshipsScript format \"%s\" is invalid (must be either \"qcubed\" or \"sql\")\r\n",
+                        $this->strErrors .= sprintf("Codegen Settings XML Fatal Error: relationshipsScript format \"%s\" is invalid (must be either \"qcubed\" or \"sql\")\r\n",
                             $this->strRelationshipsScriptFormat);
                         break;
                 }
@@ -532,9 +532,9 @@ class DatabaseCodeGen extends QCodegen
                 }
 
                 // Check to see if this table name exists anywhere else yet, and warn if it is
-                foreach (static::$CodeGenArray as $objCodeGen) {
-                    if ($objCodeGen instanceof DatabaseCodeGen) {
-                        foreach ($objCodeGen->objTableArray as $objPossibleDuplicate) {
+                foreach (static::$CodegenArray as $objCodegen) {
+                    if ($objCodegen instanceof DatabaseCodegen) {
+                        foreach ($objCodegen->objTableArray as $objPossibleDuplicate) {
                             if (strtolower($objPossibleDuplicate->Name) == strtolower($strTableName)) {
                                 $this->strErrors .= 'Duplicate Table Name Used: ' . $strTableName . "\r\n";
                             }
@@ -867,8 +867,8 @@ class DatabaseCodeGen extends QCodegen
         $intRowWidth = count($objFieldArray);
         while ($objDbRow = $objResult->getNextRow()) {
             $strRowArray = $objDbRow->getColumnNameArray();
-            $id = $strRowArray[0];
-            $name = $strRowArray[1];
+            $id = $strRowArray['id'];
+            $name = $strRowArray['name'];
 
             $strNameArray[$id] = str_replace("'", "\\'", str_replace('\\', '\\\\', $name));
             $strTokenArray[$id] = $this->typeTokenFromTypeName($name);
