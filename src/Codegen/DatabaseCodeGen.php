@@ -867,8 +867,8 @@ class DatabaseCodeGen extends QCodegen
         $intRowWidth = count($objFieldArray);
         while ($objDbRow = $objResult->getNextRow()) {
             $strRowArray = $objDbRow->getColumnNameArray();
-            $id = $strRowArray[0];
-            $name = $strRowArray[1];
+            $id = $strRowArray['id'];
+            $name = $strRowArray['name'];
 
             $strNameArray[$id] = str_replace("'", "\\'", str_replace('\\', '\\\\', $name));
             $strTokenArray[$id] = $this->typeTokenFromTypeName($name);
